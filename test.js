@@ -5,7 +5,7 @@ var HEIGHT = 450;
 // Camera attributes
 var VIEW_ANGLE = 45;
 var ASPECT = WIDTH / HEIGHT;
-var NEAR = 0.1;
+var NEAR = 25;
 var FAR = 10000;
 
 var updater = function(texture) {
@@ -28,7 +28,8 @@ var Test3JS = function() {
   this.scene = new THREE.Scene();
 
   this.scene.add(this.camera);
-  this.camera.position.z = 400;
+  this.camera.position.z = 270;
+  this.camera.position.y = -65;
   this.renderer.setSize(WIDTH, HEIGHT);
   this.renderer.setClearColorHex(0xd0ffff, 1);
   this.container.appendChild(this.renderer.domElement);
@@ -42,6 +43,7 @@ var Test3JS = function() {
   //this.scene.add(sphere);
   
   this.texture2 = THREE.ImageUtils.loadTexture("tree.png", THREE.UVMapping);
+  this.texture2.magFilter = THREE.NearestFilter;
   var treeMaterial = new THREE.MeshBasicMaterial({ map: this.texture2, transparent: true });
   var treeGeo = new THREE.PlaneGeometry(90, 140);
 
@@ -96,6 +98,7 @@ var Test3JS = function() {
 
 Test3JS.makeVertical = function(image, width, height, transparent) {
   var texture = THREE.ImageUtils.loadTexture(image, THREE.UVMapping);
+  texture.magFilter = THREE.NearestFilter;
   var material = new THREE.MeshBasicMaterial({ map: texture, transparent: transparent });
   var geom = new THREE.PlaneGeometry(width, height);
   var mesh = new THREE.Mesh(geom, material);
