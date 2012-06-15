@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Entitymanager.h"
+#include "EntityManager.h"
 #include "Entity.h"
 #include "Transform.h"
 #include "Mobile.h"
