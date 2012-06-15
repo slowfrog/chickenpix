@@ -1,6 +1,10 @@
 #include <sstream>
 #include "Entity.h"
 
+Entity::Entity():
+  id(INVALID_ID) {
+}
+
 Entity::Entity(Id id):
   id(id) {
 }
@@ -43,6 +47,11 @@ Entity::hasComponent(Component::Type t) const {
     }
   }
   return false;
+}
+
+bool
+Entity::hasComponents(Component::Type t1, Component::Type t2) const {
+  return hasComponent(t1) && hasComponent(t2);
 }
 
 string
