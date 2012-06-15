@@ -6,6 +6,8 @@
 #include "Mobile.h"
 #include "Visual.h"
 #include "Animated.h"
+#include "Input.h"
+#include "Resource.h"
 
 using namespace std;
 
@@ -23,9 +25,13 @@ int main(int argc, char const *argv[]) {
   frames.push_back(Frame(0, 1, 2, 3, 4, 5));
   frames.push_back(Frame(12, 0, 0, 32, 32, 100));
   e.addComponent(new Animated("anim", frames));
+  e.addComponent(new Input());
+  Resource *res = new Resource();
+  res->addFrames("dummy", frames);
+  e.addComponent(res);
   Component *c2 = new Component(15);
   e.addComponent(c2);
-  cout << "Entity with 4 components: " << e.toString() << endl;
+  cout << "Entity with n components: " << e.toString() << endl;
   Component *c3 = e.getComponent(15);
   cout << "Found component: " << c3->toString() << endl;
   try {
@@ -37,7 +43,7 @@ int main(int argc, char const *argv[]) {
   }
 
   e.removeComponent(c1->getType());
-  cout << "Entity with 1 component: " << e.toString() << endl;
+  cout << "Entity with n-1 component: " << e.toString() << endl;
 
   cout << "Ending centity" << endl;
   return 0;

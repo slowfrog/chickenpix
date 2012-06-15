@@ -1,4 +1,3 @@
-#include <string>
 #include <vector>
 #include "Component.h"
 #include "Image.h"
