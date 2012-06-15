@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Transform.h"
 #include "Mobile.h"
+#include "Visual.h"
 
 using namespace std;
 
@@ -13,10 +14,12 @@ int main(int argc, char const *argv[]) {
   cout << "Component type: " << c1->getType() << endl;
   e.addComponent(c1);
   e.addComponent(new Mobile(-1, -3));
-  Component *c2 = new Component(5);
+  e.addComponent(new Visual(35));
+  e.addComponent(new Visual(12, 1, 2, 3, 4));
+  Component *c2 = new Component(15);
   e.addComponent(c2);
-  cout << "Entity with 3 components: " << e.toString() << endl;
-  Component *c3 = e.getComponent(5);
+  cout << "Entity with 4 components: " << e.toString() << endl;
+  Component *c3 = e.getComponent(15);
   cout << "Found component: " << c3->toString() << endl;
   try {
     cout << "Trying to get an absent component" << endl;
