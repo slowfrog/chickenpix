@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 #include <vector>
 #include "Component.h"
@@ -10,7 +11,7 @@ public:
   
 private:
   Id id;
-  vector<Component> comp;
+  vector<Component *> comp;
   
 public:
   explicit Entity(Id id);
@@ -21,9 +22,13 @@ public:
     return id;
   }
   
-  void addComponent(Component const &c);
+  void addComponent(Component *c);
 
   void removeComponent(Component::Type t);
+
+  Component *getComponent(Component::Type t);
+
+  bool hasComponent(Component::Type t) const;
 
   string toString() const;
 };
