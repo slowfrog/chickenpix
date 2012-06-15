@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Entity.h"
 #include "Transform.h"
+#include "Mobile.h"
 
 using namespace std;
 
@@ -10,11 +11,11 @@ int main(int argc, char const *argv[]) {
   cout << "Entity id: " << e.getId() << endl;
   Transform *c1 = new Transform(1.3f, 4.6f);
   cout << "Component type: " << c1->getType() << endl;
-  
   e.addComponent(c1);
+  e.addComponent(new Mobile(-1, -3));
   Component *c2 = new Component(5);
   e.addComponent(c2);
-  cout << "Entity with 2 components: " << e.toString() << endl;
+  cout << "Entity with 3 components: " << e.toString() << endl;
   Component *c3 = e.getComponent(5);
   cout << "Found component: " << c3->toString() << endl;
   try {
