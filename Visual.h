@@ -1,15 +1,10 @@
 #include "Component.h"
+#include "Image.h"
 
 class Visual: public Component {
-public:
-  typedef unsigned int ImgId;
   
 private:
-  ImgId img;
-  int x;
-  int y;
-  int w;
-  int h;
+  ImagePart part;
   
 public:
   static const Type TYPE = VISUAL_TYPE;

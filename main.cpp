@@ -1,8 +1,11 @@
 #include <iostream>
+#include <vector>
+
 #include "Entity.h"
 #include "Transform.h"
 #include "Mobile.h"
 #include "Visual.h"
+#include "Animated.h"
 
 using namespace std;
 
@@ -16,6 +19,10 @@ int main(int argc, char const *argv[]) {
   e.addComponent(new Mobile(-1, -3));
   e.addComponent(new Visual(35));
   e.addComponent(new Visual(12, 1, 2, 3, 4));
+  vector<Frame> frames;
+  frames.push_back(Frame(0, 1, 2, 3, 4, 5));
+  frames.push_back(Frame(12, 0, 0, 32, 32, 100));
+  e.addComponent(new Animated("anim", frames));
   Component *c2 = new Component(15);
   e.addComponent(c2);
   cout << "Entity with 4 components: " << e.toString() << endl;
