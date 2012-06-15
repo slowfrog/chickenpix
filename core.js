@@ -95,10 +95,13 @@ Visual.create = function(img, x, y, w, h) {
 //=================================================================
 var Animated = function() {};
 Animated.prototype = new Component();
-Animated.create = function(frames, index) {
+Animated.create = function(name, frames, index, pingpong) {
   var ret = new Animated();
   ret.index = index || 0;
+  ret.name = name;
   ret.frames = frames;
+  ret.pingpong = pingpong || false;
+  ret.dir = 1;
   return ret;
 };
 
@@ -112,7 +115,15 @@ Input.create = function() {
   return ret;
 };
 
-
+// The Resource component stores loaded resources
+//================================================
+var Resource = function() {};
+Resource.prototype = new Component();
+Resource.create = function() {
+  var ret = new Resource();
+  ret.resources = {};
+  return ret;
+};
 
 //===========================================
 // An entity manager keeps track of entities 
@@ -124,6 +135,7 @@ var EntityManager = function(name) {
 
 EntityManager.prototype.createEntity = function() {
   var i;
+  // scanning the whole array is not great
   for (i = 1; i < this.entities.length; ++i) {
     if (!this.entities[i]) {
       break;
@@ -138,6 +150,7 @@ EntityManager.prototype.destroyEntity = function(entity) {
   this.entities[entity.id] = null;
 };
 
+// Returns all entities containing all the requested types of components
 EntityManager.prototype.getEntities = function(compType) {
   var ret = [];
   var entity;
@@ -150,6 +163,20 @@ EntityManager.prototype.getEntities = function(compType) {
     }
   }
   return ret;
+};
+
+// Returns the first entity containing all the requested types of components
+EntityManager.prototype.getEntity = function(compType) {
+  var entity;
+  var i;
+  var compTypes = (compType instanceof Array) ? compType : [ compType ];
+  for (i = 1; i < this.entities.length; ++i) {
+    entity = this.entities[i];
+    if (entity && entity.hasComponent(compTypes)) {
+      return entity;
+    }
+  }
+  return null;
 };
 
 //======================================================
@@ -167,16 +194,52 @@ System.prototype.destroy = function() {
 //===============================================================================
 var Loader = function() {};
 Loader.prototype = new System();
+
+// Utility function to cut an image into animation frames
+Loader.getFrames = function(img, startx, starty, width, height, cols, rows, duration) {
+  var ret = [];
+  var i, j;
+  for (i = 0; i < cols; ++i) {
+    for (j = 0; j < rows; ++j) {
+      ret.push({img: img, x: startx + i * width, y: starty + j * height,
+                w: width, h: height, duration: duration});
+    }
+  }
+  return ret;
+};
+
+Loader.createAnimated = function(em, name, index, pingpong) {
+  return Animated.create(name,
+                         em.getEntity(Resource).getComponent(Resource).resources[name],
+                         index,
+                         pingpong)
+};
+
 Loader.create = function(em) {
   var ret = new Loader();
   ret._init_(em);
 
-  var i, e, img;
+
+
+  var i, e, img, res;
+  e = em.createEntity();
+  res = Resource.create();
+  e.addComponent(res);
+
+  img = document.getElementById("bat");
+  res.resources["bat_flap"] = Loader.getFrames(img, 0, 64, 32, 32, 3, 1, 100);
   
   img = document.getElementById("man");
+  res.resources["man_still"] = Loader.getFrames(img, 0, 128, 64, 64, 1, 1, 10000);
+  res.resources["man_walk_up"] = Loader.getFrames(img, 0, 0, 64, 64, 9, 1, 100);
+  res.resources["man_walk_left"] = Loader.getFrames(img, 0, 64, 64, 64, 9, 1, 100);
+  res.resources["man_walk_down"] = Loader.getFrames(img, 0, 128, 64, 64, 9, 1, 100);
+  res.resources["man_walk_right"] = Loader.getFrames(img, 0, 192, 64, 64, 9, 1, 100);
+
+  
   e = em.createEntity();
   e.addComponent(Transform.create(320, 300));
-  e.addComponent(Visual.create(img, 0, 128, 64, 64));
+  e.addComponent(Loader.createAnimated(em, "man_still"));
   e.addComponent(Input.create());
 
   for (i = 0; i < 20; ++i) {
@@ -187,15 +250,10 @@ Loader.create = function(em) {
 };
 
 Loader.createRandomBat = function(em) {
-  var img = document.getElementById("bat");
   var e = em.createEntity();
   e.addComponent(Transform.create(20 + Math.random() * 580, 20 + Math.random() * 340));
   e.addComponent(Mobile.create(Math.random() * 6 - 3, Math.random() * 6 - 3));
-  e.addComponent(Animated.create([{img: img, x: 0, y: 64, w: 32, h: 32, duration: 100},
-                                  {img: img, x: 32, y: 64, w: 32, h: 32, duration: 100},
-                                  {img: img, x: 64, y: 64, w: 32, h: 32, duration: 100},
-                                  {img: img, x: 32, y: 64, w: 32, h: 32, duration: 100}],
-                                 Math.floor(Math.random() * 4)));
+  e.addComponent(Loader.createAnimated(em, "bat_flap", Math.floor(Math.random() * 3), true));
 };
 
 
@@ -245,67 +303,88 @@ Inputs.prototype.isKeyJustDown = function(k) {
   return false;
 };
 
-var ENTER = 13;
-var ESCAPE = 27;
-var SPACE = 32;
-var UP = 38;
-var DOWN = 40;
-var LEFT = 37;
-var RIGHT = 39;
-var PAGE_UP = 33;
-var PAGE_DOWN = 34;
-var NUM_PLUS = 107;
-var NUM_MINUS = 109;
+// Constants for key codes
+var Key = {
+  ENTER: 13,
+  ESCAPE: 27,
+  SPACE: 32,
+  UP: 38,
+  DOWN: 40,
+  LEFT: 37,
+  RIGHT: 39,
+  PAGE_UP: 33,
+  PAGE_DOWN: 34,
+  NUM_PLUS: 107,
+  NUM_MINUS: 109
+};
 
 Inputs.prototype.update = function(now) {
   var ents;
   // Escape: exit
-  if (this.isKeyDown(ESCAPE)) {
+  if (this.isKeyDown(Key.ESCAPE)) {
     this.exitRequired = true;
   }
   // Space: stop one entity from moving
-  if (this.isKeyJustDown(SPACE)) {
+  if (this.isKeyJustDown(Key.SPACE)) {
     ents = this.em.getEntities(Mobile);
     if (ents.length > 0) {
       ents[0].removeComponent(Mobile);
     }
   }
   // Numpad plus: create a new bat
-  if (this.isKeyJustDown(NUM_PLUS)) {
+  if (this.isKeyJustDown(Key.NUM_PLUS)) {
     Loader.createRandomBat(this.em);
   }
   // Numpad minus: destroy a bat
-  if (this.isKeyJustDown(NUM_MINUS)) {
+  if (this.isKeyJustDown(Key.NUM_MINUS)) {
     ents = this.em.getEntities(Mobile);
     if (ents.length > 0) {
       this.em.destroyEntity(ents[0]);
     }
   }
 
+  this.moveHero();
+  this.justDown = [];
+};
+
+Inputs.prototype.moveHero = function() {
+  var ents, ent;
   var dx = 0;
   var dy = 0;
-  var i, t;
-  if (this.isKeyDown(UP)) {
+  var i, t, a;
+  var anim = "man_still";
+  if (this.isKeyDown(Key.UP)) {
     dy -= 1;
+    anim = "man_walk_up";
   }
-  if (this.isKeyDown(DOWN)) {
+  if (this.isKeyDown(Key.DOWN)) {
     dy += 1;
+    anim = "man_walk_down";
   }
-  if (this.isKeyDown(LEFT)) {
+  if (this.isKeyDown(Key.LEFT)) {
     dx -= 1;
+    anim = "man_walk_left";
   }
-  if (this.isKeyDown(RIGHT)) {
+  if (this.isKeyDown(Key.RIGHT)) {
     dx += 1;
+    anim = "man_walk_right";
   }
-  if ((dx !== 0) || (dy !== 0)) {
-    ents = this.em.getEntities([Input, Transform]);
-    for (i = 0; i < ents.length; ++i) {
-      t = ents[i].getComponent(Transform);
+  
+  ents = this.em.getEntities([Input, Transform]);
+  for (i = 0; i < ents.length; ++i) {
+    ent = ents[i];
+    if ((dx !== 0) || (dy !== 0)) {
+      t = ent.getComponent(Transform);
       t.x += dx;
       t.y += dy;
     }
+    
+    a = ent.getComponent(Animated);
+    if (a && a.name !== anim) {
+      ent.removeComponent(Animated);
+      ent.addComponent(Loader.createAnimated(this.em, anim));
+    }
   }
-  this.justDown = [];
 };
 
 Inputs.prototype.destroy = function() {
@@ -360,7 +439,24 @@ Animator.prototype.update = function(now) {
     frame = a.frames[a.index];
     if ((!a.start) || (now > a.start + frame.duration)) {
       a.start = now;
-      a.index = (a.index + 1) % a.frames.length;
+      
+      a.index += a.dir;
+      if (a.index >= a.frames.length) {
+        if (a.pingpong) {
+          a.dir = -1;
+          a.index = Math.max(0, a.frames.length - 2);
+        } else {
+          a.index = 0;
+        }
+      } else if (a.index < 0) {
+        if (a.pingpong) {
+          a.dir = 1;
+          a.index = Math.min(1, a.frames.length - 1);
+        } else {
+          a.index = a.frames.length - 1;
+        }
+      }
+      
       ent.removeComponent(Visual);
       ent.addComponent(Visual.create(frame.img, frame.x, frame.y, frame.w, frame.h));
     }
