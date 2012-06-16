@@ -10,6 +10,7 @@
 #include "Input.h"
 #include "Resource.h"
 #include "System.h"
+#include "Loader.h"
 
 using namespace std;
 
@@ -70,9 +71,8 @@ int main(int argc, char const *argv[]) {
     em.destroyEntity(e2);
     cout << em.toString() << endl;
 
-
-    System s("toto");
-    cout << s.toString() << endl;
+    Loader loader("load", em);
+    cout << loader.toString() << endl;
 
     cout << "Ending centity" << endl;
   } catch (string const &exc) {

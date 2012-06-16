@@ -1,8 +1,8 @@
 #include <sstream>
 #include "System.h"
 
-System::System(string const &name):
-  name(name) {
+System::System(string const &name, EntityManager &em):
+  name(name), em(em) {
 }
 
 System::~System() {

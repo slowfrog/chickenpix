@@ -1,3 +1,4 @@
+#pragma once
 #include "Component.h"
 
 class Mobile: public Component {
