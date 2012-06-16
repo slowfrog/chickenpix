@@ -22,11 +22,11 @@ CLLoader::init() {
   CLSprites *clsprites = new CLSprites();
   clspritesentity->addComponent(clsprites);
   
-  CL_PixelBuffer housePixBuf = CL_PNGProvider::load("house.png");
+  CL_PixelBuffer housePixBuf = CL_PNGProvider::load("img/house.png");
   CL_Image *houseImg = new CL_Image(gc, housePixBuf, housePixBuf.get_size());
   clsprites->addImage("house", houseImg);
   
-  CL_PixelBuffer maleWalkPixBuf = CL_PNGProvider::load("male_walkcycle.png");
+  CL_PixelBuffer maleWalkPixBuf = CL_PNGProvider::load("img/male_walkcycle.png");
   CL_SpriteDescription maleWalkRightDesc;
   maleWalkRightDesc.add_gridclipped_frames(maleWalkPixBuf, 0, 192, 64, 64, 9, 1);
   CL_Sprite *walkRightSprite = new CL_Sprite(gc, maleWalkRightDesc);
