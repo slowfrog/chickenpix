@@ -11,6 +11,12 @@ public:
   
   Transform(float x, float y);
   virtual ~Transform();
+  inline float getX() const {
+    return x;
+  }
+  inline float getY() const {
+    return y;
+  }
 
   virtual string toString() const;
 };

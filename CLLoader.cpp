@@ -3,6 +3,8 @@
 #include "CLLoader.h"
 #include "CLState.h"
 #include "CLSprites.h"
+#include "CLVisual.h"
+#include "Transform.h"
 
 CLLoader::CLLoader(string const &name, EntityManager &em):
   System(name, em) {
@@ -21,7 +23,8 @@ CLLoader::init() {
   clspritesentity->addComponent(clsprites);
   
   CL_PixelBuffer housePixBuf = CL_PNGProvider::load("house.png");
-  CL_Image houseImg(gc, housePixBuf, housePixBuf.get_size());
+  CL_Image *houseImg = new CL_Image(gc, housePixBuf, housePixBuf.get_size());
+  clsprites->addImage("house", houseImg);
   
   CL_PixelBuffer maleWalkPixBuf = CL_PNGProvider::load("male_walkcycle.png");
   CL_SpriteDescription maleWalkRightDesc;
@@ -37,8 +40,14 @@ CLLoader::init() {
   walkLeftSprite->set_delay(100);
   walkLeftSprite->set_play_loop(true);
   clsprites->addSprite("walk_left", walkLeftSprite);
-  
-  cout << "Everything loaded" << endl;
+
+  Entity *e = em.createEntity();
+  e->addComponent(new Transform(50, 150));
+  e->addComponent(new CLVisual(houseImg));
+
+  e = em.createEntity();
+  e->addComponent(new Transform(10, 300));
+  e->addComponent(new CLVisual(walkRightSprite));
 }
 
 void

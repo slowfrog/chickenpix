@@ -33,6 +33,9 @@ public:
 
   Component *getComponent(Component::Type t);
 
+  template<class T>
+  T *getComponent();
+
   bool hasComponent(Component::Type t) const;
 
   bool hasComponents(Component::Type t1, Component::Type t2) const;
@@ -40,4 +43,7 @@ public:
   string toString() const;
 };
 
-  
+template<class T>
+T *Entity::getComponent() {
+  return (T *)getComponent(T::TYPE);
+}

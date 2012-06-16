@@ -63,19 +63,14 @@ public:
 
 
         // Render update
+        clrender.update(now);
 
-        gc.clear(CL_Colorf::cadetblue);
-        gc.push_cliprect(ground);
-        gc.clear(CL_Colorf(0.1f, 0.4f, 0.1f));
-        gc.pop_cliprect();
- 
         font.draw_text(gc, 100, 120, "Chickenpix!", CL_Colorf(1.0f, 0.0f, 0.0, 0.0f));
-
-        houseImg.draw(gc, 50, 150);
 
         CL_Sprite &curSprite = *curSpritePtr;
         curSprite.draw(gc, x, 222.0f);
         curSprite.update();
+        
         int cur = CL_System::get_time();
         float dx = (cur - prev) * x_speed / 1000;
         prev = cur;

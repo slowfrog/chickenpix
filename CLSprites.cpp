@@ -6,22 +6,34 @@ CLSprites::CLSprites():
 }
 
 CLSprites::~CLSprites() {
-  resources.clear();
+  // Should delete all sprites and images
+  images.clear();
+  sprites.clear();
+}
+
+void
+CLSprites::addImage(string const &name, CL_Image *image) {
+  images[name] = image;
+}
+
+CL_Image *
+CLSprites::getImage(string const &name) {
+  return images[name];
 }
 
 void
 CLSprites::addSprite(string const &name, CL_Sprite *sprite) {
-  resources[name] = sprite;
+  sprites[name] = sprite;
 }
 
 CL_Sprite *
 CLSprites::getSprite(string const &name) {
-  return resources[name];
+  return sprites[name];
 }
 
 string
 CLSprites::toString() const {
   ostringstream out;
-  out << "{Sprites size=" << resources.size() << "}" << ends;
+  out << "{Sprites images=" << images.size() << " sprites=" << sprites.size() << "}" << ends;
   return out.str();
 }
