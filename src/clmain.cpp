@@ -7,7 +7,7 @@
 #include "ClanLib.h"
 #include "CLRender.h"
 #include "CLLoader.h"
-#include "CLSprites.h"
+#include "CLResources.h"
 
 class DisplayProgram
 {
@@ -35,7 +35,7 @@ public:
       CL_Font font(gc, "Tahoma", 50);
       CL_Font fontSmall(gc, "Tahoma", 12);
 
-      CLSprites *ss = em.getComponent<CLSprites>();
+      CLResources *ss = em.getComponent<CLResources>();
       CL_Sprite *walkLeftSprite = ss->getSprite("walk_left");
       CL_Sprite *walkRightSprite = ss->getSprite("walk_right");
       CL_Sprite *curSpritePtr = walkRightSprite;

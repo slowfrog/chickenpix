@@ -8,7 +8,7 @@ SOURCES=$(SRC_DIR)/Animated.cpp \
         $(SRC_DIR)/ClanLib.cpp \
         $(SRC_DIR)/CLLoader.cpp \
         $(SRC_DIR)/CLRender.cpp \
-        $(SRC_DIR)/CLSprites.cpp \
+        $(SRC_DIR)/CLResources.cpp \
         $(SRC_DIR)/CLState.cpp \
         $(SRC_DIR)/CLVisual.cpp \
         $(SRC_DIR)/Component.cpp \

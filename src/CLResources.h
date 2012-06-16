@@ -5,15 +5,15 @@
 
 #include "Component.h"
 
-class CLSprites : public Component {
+class CLResources : public Component {
 private:
   map<string, CL_Image*> images;
   map<string, CL_Sprite*> sprites;
 public:
   static const Type TYPE = CLSPRITES_TYPE;
 
-  CLSprites();
-  virtual ~CLSprites();
+  CLResources();
+  virtual ~CLResources();
 
   void addImage(string const &name, CL_Image *image);
   CL_Image *getImage(string const &name);

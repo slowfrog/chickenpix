@@ -2,7 +2,7 @@
 #include <sstream>
 #include "CLLoader.h"
 #include "CLState.h"
-#include "CLSprites.h"
+#include "CLResources.h"
 #include "CLVisual.h"
 #include "Transform.h"
 
@@ -19,7 +19,7 @@ CLLoader::init() {
   CL_GraphicContext &gc = clstate->getGC();
 
   Entity *clspritesentity = em.createEntity();
-  CLSprites *clsprites = new CLSprites();
+  CLResources *clsprites = new CLResources();
   clspritesentity->addComponent(clsprites);
   
   CL_PixelBuffer housePixBuf = CL_PNGProvider::load("img/house.png");
