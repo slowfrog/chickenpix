@@ -35,9 +35,6 @@ public:
       CL_Font font(gc, "Tahoma", 50);
       CL_Font fontSmall(gc, "Tahoma", 12);
 
-      CL_PixelBuffer housePixBuf = CL_PNGProvider::load("house.png");
-      CL_Image houseImg(gc, housePixBuf, housePixBuf.get_size());
-
       CLSprites *ss = em.getComponent<CLSprites>();
       CL_Sprite *walkLeftSprite = ss->getSprite("walk_left");
       CL_Sprite *walkRightSprite = ss->getSprite("walk_right");
