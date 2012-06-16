@@ -11,6 +11,7 @@
 #include "Resource.h"
 #include "System.h"
 #include "Loader.h"
+#include "Render.h"
 
 using namespace std;
 
@@ -73,6 +74,9 @@ int main(int argc, char const *argv[]) {
 
     Loader loader("load", em);
     cout << loader.toString() << endl;
+
+    Render render("render", em);
+    cout << render.toString() << endl;
 
     cout << "Ending centity" << endl;
   } catch (string const &exc) {
