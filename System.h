@@ -5,7 +5,7 @@
 using namespace std;
 
 class System {
-private:
+protected:
   string name;
   EntityManager &em;
   

@@ -84,6 +84,7 @@ EntityManager::getEntity(Component::Type t) {
   return NULL;
 }
 
+
 string
 EntityManager::toString() const {
   ostringstream out;
