@@ -6,6 +6,7 @@ LDFLAGS=`pkg-config --libs clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender
 SRC_DIR=src
 SOURCES=$(SRC_DIR)/Animated.cpp \
         $(SRC_DIR)/ClanLib.cpp \
+        $(SRC_DIR)/CLInputs.cpp \
         $(SRC_DIR)/CLLoader.cpp \
         $(SRC_DIR)/CLRender.cpp \
         $(SRC_DIR)/CLResources.cpp \
