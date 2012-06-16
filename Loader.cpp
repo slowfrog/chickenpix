@@ -13,6 +13,10 @@ Loader::init() {
 }
 
 void
+Loader::update(int now) {
+}
+
+void
 Loader::exit() {
 }
 

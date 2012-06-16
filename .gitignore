@@ -2,4 +2,6 @@
 *.o
 *.exe
 *.stackdump
+main
+clmain
 

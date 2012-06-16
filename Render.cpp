@@ -13,6 +13,10 @@ Render::init() {
 }
 
 void
+Render::update(int now) {
+}
+
+void
 Render::exit() {
 }
 

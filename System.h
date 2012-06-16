@@ -15,6 +15,7 @@ public:
   string const &getName() const;
 
   virtual void init() = 0;
+  virtual void update(int) = 0;
   virtual void exit() = 0;
   
   virtual string toString() const;
