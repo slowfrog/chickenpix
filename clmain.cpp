@@ -5,8 +5,9 @@
 
 #include "EntityManager.h"
 #include "ClanLib.h"
-#include "Loader.h"
-#include "Render.h"
+#include "CLRender.h"
+#include "CLLoader.h"
+#include "CLSprites.h"
 
 class DisplayProgram
 {
@@ -19,17 +20,17 @@ public:
       EntityManager em("main");
       ClanLib clanlib("ClanLib", em);
       clanlib.init();
-      Loader loader("Loader", em);
-      Render render("CLRender", em);
+      CLRender clrender("CLRender", em);
+      clrender.init();
+      CLLoader clloader("Loader", em);
+      clloader.init();
+
+      cout << em.toString() << endl;
       
       // Those should go in the CLRender System
-      //CL_SetupCore setup_core;
-      //CL_SetupDisplay setup_display;
-      //CL_SetupSWRender setup_gl;
-    
-      CL_DisplayWindow window("Hello World", 640, 480);
+      CL_DisplayWindow &window = *(clrender.window);
+      CL_GraphicContext &gc = window.get_gc();
       
-      CL_GraphicContext gc = window.get_gc();
       CL_InputDevice keyboard = window.get_ic().get_keyboard();
       CL_Font font(gc, "Tahoma", 50);
       CL_Font fontSmall(gc, "Tahoma", 12);
@@ -37,20 +38,10 @@ public:
       CL_PixelBuffer housePixBuf = CL_PNGProvider::load("house.png");
       CL_Image houseImg(gc, housePixBuf, housePixBuf.get_size());
 
-      CL_PixelBuffer maleWalkPixBuf = CL_PNGProvider::load("male_walkcycle.png");
-      CL_SpriteDescription maleWalkRightDesc;
-      maleWalkRightDesc.add_gridclipped_frames(maleWalkPixBuf, 0, 192, 64, 64, 9, 1);
-      CL_Sprite walkRightSprite(gc, maleWalkRightDesc);
-      walkRightSprite.set_delay(100);
-      walkRightSprite.set_play_loop(true);
-
-      CL_SpriteDescription maleWalkLeftDesc;
-      maleWalkLeftDesc.add_gridclipped_frames(maleWalkPixBuf, 0, 64, 64, 64, 9, 1);
-      CL_Sprite walkLeftSprite(gc, maleWalkLeftDesc);
-      walkLeftSprite.set_delay(100);
-      walkLeftSprite.set_play_loop(true);
-
-      CL_Sprite *curSpritePtr = &walkRightSprite;
+      CLSprites *ss = em.getComponent<CLSprites>();
+      CL_Sprite *walkLeftSprite = ss->getSprite("walk_left");
+      CL_Sprite *walkRightSprite = ss->getSprite("walk_right");
+      CL_Sprite *curSpritePtr = walkRightSprite;
  
       CL_Rect ground(0, 280, 640, 480);
       float x = 300.0;
@@ -92,10 +83,10 @@ public:
 
         if (x > 580) {
           x_speed = -x_speed;
-          curSpritePtr = &walkLeftSprite;
+          curSpritePtr = walkLeftSprite;
         } else if (x < 20) {
           x_speed = -x_speed;
-          curSpritePtr = &walkRightSprite;
+          curSpritePtr = walkRightSprite;
         }
 
         fontSmall.draw_text(gc, 5, 10, "Press [ESC] to exit...", CL_Colorf::white);

@@ -18,5 +18,15 @@ public:
   vector<Entity *>getEntities(Component::Type t1, Component::Type t2);
   Entity *getEntity(Component::Type t);
 
+  template<class T> T *getComponent();
+  
   string toString() const;
 };
+
+template<class T>
+T *EntityManager::getComponent() {
+  Entity *entity = getEntity(T::TYPE);
+  Component *comp = entity->getComponent(T::TYPE);
+  return (T *)comp;
+}
+
