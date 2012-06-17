@@ -1,9 +1,9 @@
+
 CC=g++ 
-#CFLAGS=`pkg-config --cflags clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3 clanGL-2.3 clanGL1-2.3` -pthread -c -Wall 
-#LDFLAGS=`pkg-config --libs clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3 clanGL-2.3 clanGL1-2.3 clanGUI-2.3 clanVorbis-2.3 ` 
 CFLAGS=`pkg-config --cflags clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` -c -g -Wall 
 LDFLAGS=`pkg-config --libs clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` -g -pthread 
 SRC_DIR=src
+OBJ_DIR=obj
 SOURCES=$(SRC_DIR)/Animated.cpp \
         $(SRC_DIR)/ClanLib.cpp \
         $(SRC_DIR)/CLInputs.cpp \
@@ -27,19 +27,20 @@ SOURCES=$(SRC_DIR)/Animated.cpp \
         $(SRC_DIR)/Transform.cpp \
         $(SRC_DIR)/Visual.cpp \
         $(SRC_DIR)/clmain.cpp
-OBJECTS=$(SOURCES:.cpp=.o) 
+OBJECTS=$(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o) 
 EXECUTABLE=clmain
 
 
 $(EXECUTABLE): $(OBJECTS) 
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@ 
 
-.cpp.o: 
-	$(CC) $(CFLAGS) $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@echo 'Building file: $<'
+	$(CC) $(CFLAGS) -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o $@ $< 
 
 src: $(OBJECTS) 
 
 clean:
 	rm $(OBJECTS)
 
-all: $(SOURCES) $(EXECUTABLE) 
+all: $(SOURCES) $(EXECUTABLE)
