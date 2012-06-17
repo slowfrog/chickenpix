@@ -6,6 +6,7 @@
 #include "CLVisualImage.h"
 #include "CLVisualSprite.h"
 #include "CLVisualText.h"
+#include "Input.h"
 #include "Transform.h"
 
 CLLoader::CLLoader(string const &name, EntityManager &em):
@@ -55,6 +56,11 @@ CLLoader::init() {
   e = em.createEntity();
   e->addComponent(new Transform(10, 300));
   e->addComponent(new CLVisualSprite(*walkRightSprite));
+
+  Entity *hero = em.createEntity();
+  hero->addComponent(new Transform(320, 200));
+  hero->addComponent(new CLVisualSprite(*walkRightSprite));
+  hero->addComponent(new Input());
 
   e = em.createEntity();
   e->addComponent(new Transform(100, 120));
