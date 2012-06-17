@@ -34,9 +34,6 @@ public:
       CL_DisplayWindow &window = *(clrender.window);
       CL_GraphicContext &gc = window.get_gc();
       
-      CL_Font font(gc, "Tahoma", 50);
-      CL_Font fontSmall(gc, "Tahoma", 12);
-
       CLResources *ss = em.getComponent<CLResources>();
       CL_Sprite *walkLeftSprite = ss->getSprite("walk_left");
       CL_Sprite *walkRightSprite = ss->getSprite("walk_right");
@@ -76,9 +73,6 @@ public:
           x_speed = -x_speed;
           curSpritePtr = walkRightSprite;
         }
-
-        font.draw_text(gc, 100, 120, "Chickenpix!", CL_Colorf(1.0f, 0.0f, 0.0, 0.0f));
-        fontSmall.draw_text(gc, 5, 10, "Press [ESC] to exit...", CL_Colorf::white);
 
         window.flip();
         

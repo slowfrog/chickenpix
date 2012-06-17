@@ -5,20 +5,15 @@
 #include "Component.h"
 
 class CLVisual: public Component {
-private:
-  bool containsSprite;
-  CL_Sprite *sprite;
-  CL_Image *image;
-
+protected:
+  CLVisual();
 public:
   static const Type TYPE = CLVISUAL_TYPE;
-  
-  CLVisual(CL_Sprite *sprite);
-  CLVisual(CL_Image *image);
+
   virtual ~CLVisual();
-  bool isSprite() const;
-  CL_Sprite *getSprite() const;
-  CL_Image *getImage() const;
+
+  virtual void render(CL_GraphicContext &gc,float x, float y) = 0;
+
   virtual string toString() const;
 };
 

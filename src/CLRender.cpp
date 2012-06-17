@@ -3,6 +3,7 @@
 #include "CLState.h"
 #include "Transform.h"
 #include "CLVisual.h"
+#include "CLVisualText.h"
 
 CLRender::CLRender(string const &name, EntityManager &em):
   System(name, em), window(NULL) {
@@ -25,7 +26,7 @@ CLRender::update(int now) {
   CLState *clstate = em.getComponent<CLState>();
   CL_GraphicContext &gc = clstate->getGC();
 
-  // Background
+  // Background -> Might be later represented as a CLShape, or something like that, with its own render function
   CL_Rect ground(0, 280, 640, 480);
   gc.clear(CL_Colorf::cadetblue);
   gc.push_cliprect(ground);
@@ -39,12 +40,7 @@ CLRender::update(int now) {
     Transform *t = entity->getComponent<Transform>();
     CLVisual *v = entity->getComponent<CLVisual>();
 
-    if (v->isSprite()) {
-      v->getSprite()->draw(gc, t->getX(), t->getY());
-      v->getSprite()->update();
-    } else {
-      v->getImage()->draw(gc, t->getX(), t->getY());
-    }
+    v->render(gc, t->getX(), t->getY());
   }
 
   // Make the stuff visible:

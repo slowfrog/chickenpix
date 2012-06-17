@@ -12,6 +12,9 @@ private:
   // I don't think it's a good idea to store CL_Sprite's because all users of a sprite will share the same state
   // (current frame, loop...). We should only store CL_SpriteDescription and create the CL_Sprite on demand
   map<string, CL_Sprite*> sprites;
+
+  map<string, CL_Font*> fonts;
+  
 public:
   static const Type TYPE = CLSPRITES_TYPE;
 
@@ -22,6 +25,8 @@ public:
   CL_Image *getImage(string const &name);
   void addSprite(string const &name, CL_Sprite *sprite);
   CL_Sprite *getSprite(string const &name);
+  void addFont(string const &name, CL_Font *font);
+  CL_Font *getFont(string const &name);
   
   
   virtual string toString() const;
