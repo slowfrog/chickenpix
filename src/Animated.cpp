@@ -3,6 +3,8 @@
 
 Animated::Animated(string const &name, vector<Frame> const &frames):
   Component(TYPE), name(name), frames(frames) {
+
+
 }
 
 Animated::~Animated() {
