@@ -1,7 +1,7 @@
 
 CC=g++ 
-CFLAGS=`pkg-config --cflags clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` -c -Wall 
-LDFLAGS=`pkg-config --libs clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` -pthread 
+CFLAGS=`pkg-config --cflags clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` -c -g -Wall 
+LDFLAGS=`pkg-config --libs clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` -g -pthread 
 SRC_DIR=src
 OBJ_DIR=obj
 SOURCES=$(SRC_DIR)/Animated.cpp \
@@ -12,6 +12,9 @@ SOURCES=$(SRC_DIR)/Animated.cpp \
         $(SRC_DIR)/CLResources.cpp \
         $(SRC_DIR)/CLState.cpp \
         $(SRC_DIR)/CLVisual.cpp \
+        $(SRC_DIR)/CLVisualImage.cpp \
+        $(SRC_DIR)/CLVisualSprite.cpp \
+        $(SRC_DIR)/CLVisualText.cpp \
         $(SRC_DIR)/Component.cpp \
         $(SRC_DIR)/Entity.cpp \
         $(SRC_DIR)/EntityManager.cpp \
