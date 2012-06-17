@@ -11,3 +11,5 @@
 #define CLSPRITES_TYPE    102
 #define CLVISUAL_TYPE     103
 
+
+#define SFMLVISUAL_TYPE   201
