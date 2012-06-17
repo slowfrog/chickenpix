@@ -30,17 +30,20 @@ SOURCES=$(SRC_DIR)/Animated.cpp \
 OBJECTS=$(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o) 
 EXECUTABLE=clmain
 
-
 $(EXECUTABLE): $(OBJECTS) 
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@ 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@echo 'Building file: $<'
+	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o $@ $< 
 
 src: $(OBJECTS) 
 
 clean:
-	rm $(OBJECTS)
+	-rm $(OBJECTS)
+
+purge:
+	-rm -rf $(OBJ_DIR) $(EXECUTABLE) *~ $(SRC_DIR)/*~ 
 
 all: $(SOURCES) $(EXECUTABLE) 
