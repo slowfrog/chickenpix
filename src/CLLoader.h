@@ -1,5 +1,8 @@
 #pragma once
+#include <ClanLib/core.h>
+#include <ClanLib/display.h>
 #include "System.h"
+#include "CLResources.h"
 
 class CLLoader: public System {
 private:
@@ -12,4 +15,8 @@ public:
   virtual void exit();
 
   virtual string toString() const;
+
+private:
+  void addSprite(CL_GraphicContext &gc, string const &path, CL_ResourceManager *clresources,
+                 CLResources *resources, string const &name);
 };

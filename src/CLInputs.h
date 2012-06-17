@@ -18,4 +18,7 @@ public:
   bool isExitRequested() const;
   
   virtual string toString() const;
+
+private:
+  void moveHero(int now);
 };

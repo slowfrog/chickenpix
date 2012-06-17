@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Messages -->
+    <section name="messages">
+      <const name="top" value="Press arrows to move, [ESC] to quit." />
+      <const name="title" value="Chickenpix!!!" />
+    </section>
+  
+    <!-- Sprites -->
+    <section name="sprites">
+    <const name="horizontal-speed" value="43" />
+    <const name="vertical-speed" value="43" />
+    <sprite name="walk_up">
+      <image file="img/male_walkcycle.png">
+        <grid pos="0,0"
+              size="64,64"
+              array="9,1" />
+      </image>
+      <animation loop="yes"
+                 speed="100" />
+    </sprite>
+    <sprite name="walk_left">
+      <image file="img/male_walkcycle.png">
+        <grid pos="0,64"
+              size="64,64"
+              array="9,1" />
+      </image>
+      <animation loop="yes"
+                 speed="100" />
+    </sprite>
+    <sprite name="walk_down">
+      <image file="img/male_walkcycle.png">
+        <grid pos="0,128"
+              size="64,64"
+              array="9,1" />
+      </image>
+      <animation loop="yes"
+                 speed="100" />
+    </sprite>
+    <sprite name="walk_right">
+      <image file="img/male_walkcycle.png">
+        <grid pos="0,192"
+              size="64,64"
+              array="9,1" />
+      </image>
+      <animation loop="yes"
+                 speed="100" />
+    </sprite>
+    <sprite name="wait">
+      <image file="img/male_blur.png">
+        <grid pos="0,0"
+              size="64,64"
+              array="14,1" />
+      </image>
+      <animation loop="yes"
+                 pingpong="yes"
+                 speed="100"/>
+      <frame nr="0"
+             speed="4000" />
+      <frame nr="13"
+             speed="1000" />
+    </sprite>
+  </section>
+</resources>

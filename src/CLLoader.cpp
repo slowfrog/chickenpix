@@ -6,6 +6,7 @@
 #include "CLVisualImage.h"
 #include "CLVisualSprite.h"
 #include "CLVisualText.h"
+#include "Input.h"
 #include "Transform.h"
 
 CLLoader::CLLoader(string const &name, EntityManager &em):
@@ -13,6 +14,13 @@ CLLoader::CLLoader(string const &name, EntityManager &em):
 }
 
 CLLoader::~CLLoader() {
+}
+
+void
+CLLoader::addSprite(CL_GraphicContext &gc, string const &path, CL_ResourceManager *clresources,
+                    CLResources *resources, string const &name) {
+  CL_Sprite *sprite = new CL_Sprite(gc, path, clresources);
+  resources->addSprite(name, sprite);
 }
 
 void
@@ -24,29 +32,19 @@ CLLoader::init() {
   CLResources *resources = new CLResources();
   resourcesentity->addComponent(resources);
   
-  CL_PixelBuffer housePixBuf = CL_PNGProvider::load("img/house.png");
+  CL_PixelBuffer housePixBuf = CL_PNGProvider::load("resources/img/house.png");
   CL_Image *houseImg = new CL_Image(gc, housePixBuf, housePixBuf.get_size());
   resources->addImage("house", houseImg);
   
-  CL_PixelBuffer maleWalkPixBuf = CL_PNGProvider::load("img/male_walkcycle.png");
-  CL_SpriteDescription maleWalkRightDesc;
-  maleWalkRightDesc.add_gridclipped_frames(maleWalkPixBuf, 0, 192, 64, 64, 9, 1);
-  CL_Sprite *walkRightSprite = new CL_Sprite(gc, maleWalkRightDesc);
-  walkRightSprite->set_delay(100);
-  walkRightSprite->set_play_loop(true);
-  resources->addSprite("walk_right", walkRightSprite);
-  
-  CL_SpriteDescription maleWalkLeftDesc;
-  maleWalkLeftDesc.add_gridclipped_frames(maleWalkPixBuf, 0, 64, 64, 64, 9, 1);
-  CL_Sprite *walkLeftSprite = new CL_Sprite(gc, maleWalkLeftDesc);
-  walkLeftSprite->set_delay(100);
-  walkLeftSprite->set_play_loop(true);
-  resources->addSprite("walk_left", walkLeftSprite);
+  CL_ResourceManager clresources("resources/resources.xml");
+  addSprite(gc, "sprites/walk_left", &clresources, resources, "walk_left");
+  addSprite(gc, "sprites/walk_right", &clresources, resources, "walk_right");
+  addSprite(gc, "sprites/walk_up", &clresources, resources, "walk_up");
+  addSprite(gc, "sprites/walk_down", &clresources, resources, "walk_down");
+  addSprite(gc, "sprites/wait", &clresources, resources, "wait");
 
   resources->addFont("sans_big", new CL_Font(gc, "Tahoma", 50));
   resources->addFont("sans_small", new CL_Font(gc, "Tahoma", 12));
-
-
   
   Entity *e = em.createEntity();
   e->addComponent(new Transform(50, 150));
@@ -54,7 +52,12 @@ CLLoader::init() {
 
   e = em.createEntity();
   e->addComponent(new Transform(10, 300));
-  e->addComponent(new CLVisualSprite(*walkRightSprite));
+  e->addComponent(new CLVisualSprite(*resources->getSprite("walk_left")));
+
+  Entity *hero = em.createEntity();
+  hero->addComponent(new Transform(320, 222));
+  hero->addComponent(new CLVisualSprite(*resources->getSprite("walk_right")));
+  hero->addComponent(new Input());
 
   e = em.createEntity();
   e->addComponent(new Transform(100, 120));

@@ -30,20 +30,7 @@ public:
 
       cout << em.toString() << endl;
       
-      // Those should go in the CLRender System
-      CL_DisplayWindow &window = *(clrender.window);
-      CL_GraphicContext &gc = window.get_gc();
-      
-      CLResources *ss = em.getComponent<CLResources>();
-      CL_Sprite *walkLeftSprite = ss->getSprite("walk_left");
-      CL_Sprite *walkRightSprite = ss->getSprite("walk_right");
-      CL_Sprite *curSpritePtr = walkRightSprite;
- 
-      float x = 300.0;
-      float x_speed = 43.0; // pixels/s
       int prev = CL_System::get_time();
-
-
 
       // One step
       while (true) {
@@ -58,23 +45,7 @@ public:
         // Render update
         clrender.update(now);
         
-        CL_Sprite &curSprite = *curSpritePtr;
-        curSprite.draw(gc, x, 222.0f);
-        curSprite.update();
-        
-        float dx = (now - prev) * x_speed / 1000;
         prev = now;
-        x += dx;
-
-        if (x > 580) {
-          x_speed = -x_speed;
-          curSpritePtr = walkLeftSprite;
-        } else if (x < 20) {
-          x_speed = -x_speed;
-          curSpritePtr = walkRightSprite;
-        }
-
-        window.flip();
         
         // Do ~60FPS
         CL_System::sleep(15);
