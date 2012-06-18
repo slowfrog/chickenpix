@@ -20,6 +20,7 @@ SFMLLoader::init() {
     cerr << "Error loading resources/img/house.png" << endl;
     return;
   }
+  houseimg.SetSmooth(false);
   sf::Sprite housesprite(houseimg);
 
   Entity *house = em.createEntity();
@@ -29,7 +30,8 @@ SFMLLoader::init() {
 
 
   sf::Font *font = new sf::Font(); // Another memory leak
-  font->LoadFromFile("resources/fonts/BerkshireSwash-Regular.ttf", 25);
+  font->LoadFromFile("resources/fonts/BerkshireSwash-Regular.ttf", 30);
+  ((sf::Image &)(font->GetImage())).SetSmooth(false);
   Entity *text = em.createEntity();
   text->addComponent(new Transform(20, 40));
   text->addComponent(new SFMLVisualText("Press [ESC] to quit...", *font, sf::Color(255, 255, 0)));

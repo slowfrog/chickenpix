@@ -13,6 +13,7 @@ void
 SFMLVisualText::render(sf::RenderTarget &rt, float x, float y) {
   sf::String line;
   line.SetText(text);
+  line.SetSize(30);
   line.SetFont(font);
   line.SetColor(color);
   line.SetPosition(x, y);
