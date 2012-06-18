@@ -13,8 +13,8 @@ int main(int argc, char const *argv[]) {
   EntityManager em("main");
   SFMLRender sfrender("SFMLRender", em);
   sfrender.init();
-  SFMLInputs sfinput("SFMLInput", em);
-  sfinput.init();
+  SFMLInputs sfinputs("SFMLInput", em);
+  sfinputs.init();
   SFMLLoader sfloader("SFMLLoader", em);
   sfloader.init();
 
@@ -25,17 +25,21 @@ int main(int argc, char const *argv[]) {
   int prev = floor(1000 * clock.GetElapsedTime());
   while (true) {
     int now = floor(1000 * clock.GetElapsedTime());
-    if (now > 5000) {
+    
+    // Process inputs
+    sfinputs.update(now);
+    if (sfinputs.isExitRequested()) {
       break;
     }
-    sfinput.update(now);
+        
     sfrender.update(now);
 
     prev = now;
     // Do ~60FPS
     sf::Sleep(0.015f);
   }
-
+  sfloader.exit();
+  sfinputs.exit();
   sfrender.exit();
 
   // Exit

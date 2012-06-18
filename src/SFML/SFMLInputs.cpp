@@ -25,17 +25,18 @@ SFMLInputs::init() {
 void
 SFMLInputs::update(int now) {
   sf::Event event;
-  while (window->GetEvent(event)) { // Should go into SFMLInputs
+  while (window->GetEvent(event)) {
     if (event.Type == sf::Event::Closed) {
-      //exitRequested = true;
+      exitRequested = true;
+      return;
     }
-    cout << "Event received" << endl;
   }
 
-  //bool escape_down = keyboard->get_keycode(SFML_KEY_ESCAPE);
-  //if (escape_down) {
-  //  exitRequested = true;
-  //}
+  sf::Input const &input = window->GetInput();
+  bool escape_down = input.IsKeyDown(sf::Key::Escape);
+  if (escape_down) {
+    exitRequested = true;
+  }
 
   moveHero(now);
 }
