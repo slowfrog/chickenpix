@@ -46,6 +46,7 @@ SOURCES2=$(SRC_DIR2)/SFMLInputs.cpp \
          $(SRC_DIR2)/SFMLState.cpp \
          $(SRC_DIR2)/SFMLVisual.cpp \
          $(SRC_DIR2)/SFMLVisualImage.cpp \
+         $(SRC_DIR2)/SFMLVisualText.cpp \
          $(SRC_DIR2)/smain.cpp
 
 OBJECTS=$(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o) 

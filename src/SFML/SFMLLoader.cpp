@@ -4,6 +4,7 @@
 #include "SFMLLoader.h"
 #include "Transform.h"
 #include "SFMLVisualImage.h"
+#include "SFMLVisualText.h"
 
 SFMLLoader::SFMLLoader(string const &name, EntityManager &em):
   System(name, em) {
@@ -25,6 +26,13 @@ SFMLLoader::init() {
 
   house->addComponent(new Transform(50, 150));
   house->addComponent(new SFMLVisualImage(housesprite));
+
+
+  sf::Font *font = new sf::Font(); // Another memory leak
+  font->LoadFromFile("resources/fonts/BerkshireSwash-Regular.ttf", 25);
+  Entity *text = em.createEntity();
+  text->addComponent(new Transform(20, 40));
+  text->addComponent(new SFMLVisualText("Press [ESC] to quit...", *font, sf::Color(255, 255, 0)));
 }
 
 void
