@@ -6,5 +6,4 @@ obj
 main
 clmain
 smain
-*.pbx*
 *.DS_*
