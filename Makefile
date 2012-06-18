@@ -40,8 +40,10 @@ SOURCES1=$(SRC_DIR1)/ClanLib.cpp \
          $(SRC_DIR1)/CLVisualText.cpp \
          $(SRC_DIR1)/clmain.cpp
 
-SOURCES2=$(SRC_DIR2)/SFMLLoader.cpp \
+SOURCES2=$(SRC_DIR2)/SFMLInputs.cpp \
+         $(SRC_DIR2)/SFMLLoader.cpp \
          $(SRC_DIR2)/SFMLRender.cpp \
+         $(SRC_DIR2)/SFMLState.cpp \
          $(SRC_DIR2)/SFMLVisual.cpp \
          $(SRC_DIR2)/SFMLVisualImage.cpp \
          $(SRC_DIR2)/smain.cpp

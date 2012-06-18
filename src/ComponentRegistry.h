@@ -13,3 +13,4 @@
 
 
 #define SFMLVISUAL_TYPE   201
+#define SFMLSTATE_TYPE    202

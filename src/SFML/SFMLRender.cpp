@@ -1,8 +1,9 @@
 #include <iostream>
 #include <sstream>
 #include <SFML/Window.hpp>
-#include "SFMLRender.h"
 #include "Transform.h"
+#include "SFMLRender.h"
+#include "SFMLState.h"
 #include "SFMLVisual.h"
 
 SFMLRender::SFMLRender(string const &name, EntityManager &em):
@@ -16,17 +17,12 @@ void
 SFMLRender::init() {
   window = new sf::RenderWindow(sf::VideoMode(640, 400, 32), "SFML chickenpix",
                                 sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close);
+  Entity *clstate = em.createEntity();
+  clstate->addComponent(new SFMLState(*window));
 }
 
 void
 SFMLRender::update(int now) {
-  sf::Event event;
-  while (window->GetEvent(event)) { // Should go into SFMLInputs
-    if (event.Type == sf::Event::Closed) {
-      //exitRequested = true;
-    }
-  }
-
   window->Clear(sf::Color(0, 100, 0));
   
   // CLVisual

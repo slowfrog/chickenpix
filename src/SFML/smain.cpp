@@ -1,8 +1,9 @@
 #include <iostream>
 #include <SFML/System.hpp>
 #include "EntityManager.h"
-#include "SFML/SFMLRender.h"
+#include "SFML/SFMLInputs.h"
 #include "SFML/SFMLLoader.h"
+#include "SFML/SFMLRender.h"
 
 using namespace std;
 
@@ -12,6 +13,8 @@ int main(int argc, char const *argv[]) {
   EntityManager em("main");
   SFMLRender sfrender("SFMLRender", em);
   sfrender.init();
+  SFMLInputs sfinput("SFMLInput", em);
+  sfinput.init();
   SFMLLoader sfloader("SFMLLoader", em);
   sfloader.init();
 
@@ -25,6 +28,7 @@ int main(int argc, char const *argv[]) {
     if (now > 5000) {
       break;
     }
+    sfinput.update(now);
     sfrender.update(now);
 
     prev = now;
