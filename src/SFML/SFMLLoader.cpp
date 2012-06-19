@@ -2,6 +2,7 @@
 #include <sstream>
 
 #include "SFMLLoader.h"
+#include "Input.h"
 #include "Resources.h"
 #include "Transform.h"
 #include "SFMLResources.h"
@@ -43,6 +44,10 @@ SFMLLoader::init() {
     frames.push_back(Frame(i * 64, 64, 64, 64, 100));
   }
   resources->setSprite("walk_left", new SFMLResSprite(maleimg, frames));
+  for (int i = 0; i < 9; ++i) {
+    frames[i] = Frame(i * 64, 192, 64, 64, 100);
+  }
+  resources->setSprite("walk_right", new SFMLResSprite(maleimg, frames));
 
     
   sf::Font *font = new sf::Font();
@@ -62,6 +67,10 @@ SFMLLoader::init() {
   male->addComponent(new Transform(10, 300));
   male->addComponent(resources->makeSprite(vc, "walk_left"));
 
+  Entity *hero = em.createEntity();
+  hero->addComponent(new Transform(320, 222));
+  hero->addComponent(resources->makeSprite(vc, "walk_right"));
+  hero->addComponent(new Input());
   
   Entity *text = em.createEntity();
   text->addComponent(new Transform(20, 40));

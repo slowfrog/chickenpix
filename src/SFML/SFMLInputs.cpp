@@ -43,36 +43,37 @@ SFMLInputs::update(int now) {
 
 void
 SFMLInputs::moveHero(int now) {
-  // int dx = 0;
-  // int dy = 0;
-  // string anim = "man_still";
-  // if (keyboard->get_keycode(SFML_KEY_UP)) {
-  //   dy -= 1;
-  //   anim = "man_walk_up";
-  // }
-  // if (keyboard->get_keycode(SFML_KEY_DOWN)) {
-  //   dy += 1;
-  //   anim = "man_walk_down";
-  // }
-  // if (keyboard->get_keycode(SFML_KEY_LEFT)) {
-  //   dx -= 1;
-  //   anim = "man_walk_left";
-  // }
-  // if (keyboard->get_keycode(SFML_KEY_RIGHT)) {
-  //   dx += 1;
-  //   anim = "man_walk_right";
-  // }
+  int dx = 0;
+  int dy = 0;
+  string anim = "man_still";
+  sf::Input const &input = window->GetInput();
+  if (input.IsKeyDown(sf::Key::Up)) {
+    dy -= 1;
+    anim = "man_walk_up";
+  }
+  if (input.IsKeyDown(sf::Key::Down)) {
+    dy += 1;
+    anim = "man_walk_down";
+  }
+  if (input.IsKeyDown(sf::Key::Left)) {
+    dx -= 1;
+    anim = "man_walk_left";
+  }
+  if (input.IsKeyDown(sf::Key::Right)) {
+    dx += 1;
+    anim = "man_walk_right";
+  }
   
-  // vector<Entity *> ents = em.getEntities(Input::TYPE, Transform::TYPE);
-  // for (vector<Entity *>::iterator it = ents.begin(); it < ents.end(); it++) {
-  //   Entity *ent = *it;
-  //   if ((dx != 0) || (dy != 0)) {
-  //     Transform *t = ent->getComponent<Transform>();
-  //     t->moveBy(dx, dy);
-  //   }
+  vector<Entity *> ents = em.getEntities(Input::TYPE, Transform::TYPE);
+  for (vector<Entity *>::iterator it = ents.begin(); it < ents.end(); it++) {
+    Entity *ent = *it;
+    if ((dx != 0) || (dy != 0)) {
+      Transform *t = ent->getComponent<Transform>();
+      t->moveBy(dx, dy);
+    }
 
-  //   // Apply animation if possible...
-  // }
+    // Apply animation if possible...
+  }
   
 };
 
