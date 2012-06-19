@@ -24,6 +24,7 @@ SOURCES=$(SRC_DIR)/Animated.cpp \
         $(SRC_DIR)/Mobile.cpp \
         $(SRC_DIR)/Render.cpp \
         $(SRC_DIR)/Resource.cpp \
+        $(SRC_DIR)/Resources.cpp \
         $(SRC_DIR)/System.cpp \
         $(SRC_DIR)/Transform.cpp \
         $(SRC_DIR)/Visual.cpp

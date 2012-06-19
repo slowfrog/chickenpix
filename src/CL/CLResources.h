@@ -3,31 +3,31 @@
 
 #include <ClanLib/display.h>
 
-#include "Component.h"
+#include "Resources.h"
 
-class CLResources : public Component {
-private:
-  map<string, CL_Image*> images;
-
-  // I don't think it's a good idea to store CL_Sprite's because all users of a sprite will share the same state
-  // (current frame, loop...). We should only store CL_SpriteDescription and create the CL_Sprite on demand
-  map<string, CL_Sprite*> sprites;
-
-  map<string, CL_Font*> fonts;
-  
+class CLResources : public Resources {
 public:
-  static const Type TYPE = CLSPRITES_TYPE;
-
   CLResources();
   virtual ~CLResources();
 
-  void addImage(string const &name, CL_Image *image);
-  CL_Image *getImage(string const &name);
-  void addSprite(string const &name, CL_Sprite *sprite);
-  CL_Sprite *getSprite(string const &name);
-  void addFont(string const &name, CL_Font *font);
-  CL_Font *getFont(string const &name);
-  
+  inline void setImage(string const &name, CL_Image *image) {
+    setObject(Image, name, image);
+  }
+  inline CL_Image *getImage(string const &name) {
+    return (CL_Image *) getObject(Image, name);
+  }
+  inline void setSprite(string const &name, CL_Sprite *sprite) {
+    setObject(Sprite, name, sprite);
+  }
+  inline CL_Sprite *getSprite(string const &name) {
+    return (CL_Sprite *) getObject(Sprite, name);
+  }
+  inline void setFont(string const &name, CL_Font *font) {
+    setObject(Font, name, font);
+  }
+  inline CL_Font *getFont(string const &name) {
+    return (CL_Font *) getObject(Font, name);
+  }
   
   virtual string toString() const;
 };

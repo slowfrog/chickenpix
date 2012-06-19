@@ -5,6 +5,7 @@
 #define ANIMATED_TYPE  4
 #define INPUT_TYPE     5
 #define RESOURCE_TYPE  6
+#define RESOURCES_TYPE 7
 
 
 #define CLSTATE_TYPE      101
