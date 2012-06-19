@@ -30,11 +30,17 @@ SFMLLoader::init() {
 
 
   sf::Font *font = new sf::Font(); // Another memory leak
-  font->LoadFromFile("resources/fonts/BerkshireSwash-Regular.ttf", 30);
-  ((sf::Image &)(font->GetImage())).SetSmooth(false);
+  if ( !font->LoadFromFile("resources/fonts/BerkshireSwash-Regular.ttf", 30) ){
+		*font = sf::Font::GetDefaultFont();
+	}
+	else {
+		((sf::Image &)(font->GetImage())).SetSmooth(false);
+	}
+
+  
   Entity *text = em.createEntity();
   text->addComponent(new Transform(20, 40));
-  text->addComponent(new SFMLVisualText("Press [ESC] to quit...", *font, sf::Color(255, 255, 0)));
+  text->addComponent(new SFMLVisualText("Press [ESC] to quit...",  *font, sf::Color(255, 255, 0)));
 }
 
 void
