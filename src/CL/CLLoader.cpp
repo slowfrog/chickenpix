@@ -20,7 +20,7 @@ void
 CLLoader::addSprite(CL_GraphicContext &gc, string const &path, CL_ResourceManager *clresources,
                     CLResources *resources, string const &name) {
   CL_Sprite *sprite = new CL_Sprite(gc, path, clresources);
-  resources->addSprite(name, sprite);
+  resources->setSprite(name, sprite);
 }
 
 void
@@ -34,7 +34,7 @@ CLLoader::init() {
   
   CL_PixelBuffer housePixBuf = CL_PNGProvider::load("resources/img/house.png");
   CL_Image *houseImg = new CL_Image(gc, housePixBuf, housePixBuf.get_size());
-  resources->addImage("house", houseImg);
+  resources->setImage("house", houseImg);
   
   CL_ResourceManager clresources("resources/resources.xml");
   addSprite(gc, "sprites/walk_left", &clresources, resources, "walk_left");
@@ -43,8 +43,8 @@ CLLoader::init() {
   addSprite(gc, "sprites/walk_down", &clresources, resources, "walk_down");
   addSprite(gc, "sprites/wait", &clresources, resources, "wait");
 
-  resources->addFont("sans_big", new CL_Font(gc, "Tahoma", 50));
-  resources->addFont("sans_small", new CL_Font(gc, "Tahoma", 12));
+  resources->setFont("sans_big", new CL_Font(gc, "Tahoma", 50));
+  resources->setFont("sans_small", new CL_Font(gc, "Tahoma", 12));
   
   Entity *e = em.createEntity();
   e->addComponent(new Transform(50, 150));
