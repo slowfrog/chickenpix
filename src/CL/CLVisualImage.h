@@ -1,8 +1,10 @@
 #pragma once
 
-#include "CLVisual.h"
+#include <ClanLib/display.h>
+#include "BVisual.h"
 
-class CLVisualImage: public CLVisual {
+
+class CLVisualImage: public BVisual {
 private:
   CL_Image &image;
   
@@ -10,7 +12,7 @@ public:
   CLVisualImage(CL_Image &image);
   virtual ~CLVisualImage();
 
-  virtual void render(CL_GraphicContext &gc, float x, float y);
+  virtual void draw(VisualContext &vc, float x, float y);
   
   virtual string toString() const;
 };

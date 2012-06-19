@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+using namespace std;
+
 typedef unsigned int ImgId;
 
 class ImagePart {

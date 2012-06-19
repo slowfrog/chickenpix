@@ -1,16 +1,18 @@
 #include <sstream>
 
+#include "CLVisualContext.h"
 #include "CLVisualText.h"
 
 CLVisualText::CLVisualText(string const &text, CL_Font &font, CL_Colorf const &color):
-  text(text), font(font), color(color) {
+  BVisual(4), text(text), font(font), color(color) {
 }
 
 CLVisualText::~CLVisualText() {
 }
 
 void
-CLVisualText::render(CL_GraphicContext &gc, float x, float y) {
+CLVisualText::draw(VisualContext &vc, float x, float y) {
+  CL_GraphicContext &gc = ((CLVisualContext &)vc).getGraphicContext();
   font.draw_text(gc, x, y, text, color);
 }
 

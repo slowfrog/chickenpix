@@ -2,8 +2,8 @@
 #include "CLRender.h"
 #include "CLState.h"
 #include "Transform.h"
-#include "CLVisual.h"
-#include "CLVisualText.h"
+#include "BVisual.h"
+#include "CLVisualContext.h"
 
 CLRender::CLRender(string const &name, EntityManager &em):
   System(name, em), window(NULL) {
@@ -25,6 +25,7 @@ void
 CLRender::update(int now) {
   CLState *clstate = em.getComponent<CLState>();
   CL_GraphicContext &gc = clstate->getGC();
+  CLVisualContext vc(gc);
 
   // Background -> Might be later represented as a CLShape, or something like that, with its own render function
   CL_Rect ground(0, 280, 640, 480);
@@ -34,13 +35,13 @@ CLRender::update(int now) {
   gc.pop_cliprect();
 
   // CLVisual
-  vector<Entity *> visuals = em.getEntities(CLVisual::TYPE, Transform::TYPE);
+  vector<Entity *> visuals = em.getEntities(BVisual::TYPE, Transform::TYPE);
   for (vector<Entity *>::iterator it = visuals.begin(); it < visuals.end(); it++) {
     Entity *entity = *it;
     Transform *t = entity->getComponent<Transform>();
-    CLVisual *v = entity->getComponent<CLVisual>();
+    BVisual *v = entity->getComponent<BVisual>();
 
-    v->render(gc, t->getX(), t->getY());
+    v->draw(vc, t->getX(), t->getY());
   }
 
   // Make the stuff visible:

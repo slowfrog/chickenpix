@@ -27,7 +27,7 @@ SOURCES=$(SRC_DIR)/Animated.cpp \
         $(SRC_DIR)/Resources.cpp \
         $(SRC_DIR)/System.cpp \
         $(SRC_DIR)/Transform.cpp \
-        $(SRC_DIR)/Visual.cpp
+        $(SRC_DIR)/BVisual.cpp
 
 SOURCES1=$(SRC_DIR1)/ClanLib.cpp \
          $(SRC_DIR1)/CLInputs.cpp \
@@ -35,7 +35,6 @@ SOURCES1=$(SRC_DIR1)/ClanLib.cpp \
          $(SRC_DIR1)/CLRender.cpp \
          $(SRC_DIR1)/CLResources.cpp \
          $(SRC_DIR1)/CLState.cpp \
-         $(SRC_DIR1)/CLVisual.cpp \
          $(SRC_DIR1)/CLVisualImage.cpp \
          $(SRC_DIR1)/CLVisualSprite.cpp \
          $(SRC_DIR1)/CLVisualText.cpp \
@@ -86,5 +85,5 @@ clean:
 	-rm $(OBJECTS) $(OBJECTS1) $(OBJECTS2)
 
 purge:
-	-rm -rf $(OBJ_DIR1) $(OBJ_DIR2) $(OBJ_DIR) $(EXECUTABLE1) $(EXECUTABLE2) *~ */*~ 
+	-rm -rf $(OBJ_DIR1) $(OBJ_DIR2) $(OBJ_DIR) $(EXECUTABLE1) $(EXECUTABLE2) *~ */*~ */*/*~
 

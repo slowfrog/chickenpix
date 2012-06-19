@@ -1,14 +1,16 @@
+#include "CLVisualContext.h"
 #include "CLVisualImage.h"
 
 CLVisualImage::CLVisualImage(CL_Image &image):
-  image(image) {
+  BVisual(2), image(image) {
 }
 
 CLVisualImage::~CLVisualImage() {
 }
 
 void
-CLVisualImage::render(CL_GraphicContext &gc, float x, float y) {
+CLVisualImage::draw(VisualContext &vc, float x, float y) {
+  CL_GraphicContext &gc = ((CLVisualContext &)vc).getGraphicContext();
   image.draw(gc, x, y);
 }
 
