@@ -4,9 +4,9 @@
 
 class SFMLVisualText: public SFMLVisual {
 private:
-  string text;
-  sf::Font &font;
-  sf::Color color;
+  sf::String	text;
+  sf::Font		&font;
+  sf::Color		color;
   
 public:
   SFMLVisualText(string const &text, sf::Font &font, sf::Color const &color);

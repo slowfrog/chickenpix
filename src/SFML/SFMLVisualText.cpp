@@ -11,18 +11,18 @@ SFMLVisualText::~SFMLVisualText() {
 
 void
 SFMLVisualText::render(sf::RenderTarget &rt, float x, float y) {
-  sf::String line;
-  line.SetText(text);
-  line.SetSize(30);
-  line.SetFont(font);
-  line.SetColor(color);
-  line.SetPosition(x, y);
-  rt.Draw(line);
+  //sf::String line;
+  //line.SetText(text);
+  text.SetSize(30);
+  text.SetFont(font);
+  text.SetColor(color);
+  text.SetPosition(x, y);
+  rt.Draw(text);
 }
 
 string
 SFMLVisualText::toString() const {
   ostringstream out;
-  out << "{SFMLVisualText text=" << text << "}" << ends;
+  out << "{SFMLVisualText text=" << (string)text.GetText() << "}" << ends;
   return out.str();
 }
