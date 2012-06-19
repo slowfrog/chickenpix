@@ -48,6 +48,14 @@ SFMLLoader::init() {
     frames[i] = Frame(i * 64, 192, 64, 64, 100);
   }
   resources->setSprite("walk_right", new SFMLResSprite(maleimg, frames));
+  for (int i = 0; i < 9; ++i) {
+    frames[i] = Frame(i * 64, 0, 64, 64, 100);
+  }
+  resources->setSprite("walk_up", new SFMLResSprite(maleimg, frames));
+  for (int i = 0; i < 9; ++i) {
+    frames[i] = Frame(i * 64, 128, 64, 64, 100);
+  }
+  resources->setSprite("walk_down", new SFMLResSprite(maleimg, frames));
 
     
   sf::Font *font = new sf::Font();
