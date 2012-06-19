@@ -4,7 +4,8 @@
 #include "Transform.h"
 #include "SFMLRender.h"
 #include "SFMLState.h"
-#include "SFMLVisual.h"
+#include "BVisual.h"
+#include "SFMLVisualContext.h"
 
 SFMLRender::SFMLRender(string const &name, EntityManager &em):
   System(name, em), window(NULL) {
@@ -24,15 +25,17 @@ SFMLRender::init() {
 void
 SFMLRender::update(int now) {
   window->Clear(sf::Color(0, 100, 0));
+
+  SFMLVisualContext vc(*window);
   
-  // CLVisual
-  vector<Entity *> visuals = em.getEntities(SFMLVisual::TYPE, Transform::TYPE);
+  // Visual
+  vector<Entity *> visuals = em.getEntities(BVisual::TYPE, Transform::TYPE);
   for (vector<Entity *>::iterator it = visuals.begin(); it < visuals.end(); it++) {
     Entity *entity = *it;
     Transform *t = entity->getComponent<Transform>();
-    SFMLVisual *v = entity->getComponent<SFMLVisual>();
+    BVisual *v = entity->getComponent<BVisual>();
 
-    v->render(*window, t->getX(), t->getY());
+    v->draw(vc, t->getX(), t->getY());
   }
   
   window->Display();

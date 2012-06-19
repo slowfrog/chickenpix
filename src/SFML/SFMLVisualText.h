@@ -1,10 +1,12 @@
 #pragma once
 
-#include "SFMLVisual.h"
+#include <SFML/Graphics.hpp>
 
-class SFMLVisualText: public SFMLVisual {
+#include "BVisual.h"
+
+class SFMLVisualText: public BVisual {
 private:
-  sf::String	text;
+  sf::String	str;
   sf::Font		&font;
   sf::Color		color;
   
@@ -12,7 +14,7 @@ public:
   SFMLVisualText(string const &text, sf::Font &font, sf::Color const &color);
   virtual ~SFMLVisualText();
 
-  virtual void render(sf::RenderTarget &rt, float x, float y);
+  virtual void draw(VisualContext &vc, float x, float y);
   
   virtual string toString() const;
 };

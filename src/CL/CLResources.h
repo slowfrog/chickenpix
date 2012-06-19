@@ -1,5 +1,4 @@
 #pragma once
-#include <map>
 
 #include <ClanLib/display.h>
 
@@ -72,10 +71,6 @@ public:
   CLResources();
   virtual ~CLResources();
 
-  // CLResImage *getCLImage(string const &name);
-  // CLResSprite *getCLSprite(string const &name);
-  // CLResFont *getCLFont(string const &name);
-  
   virtual BVisual *makeImage(VisualContext &vc, string const &name) ;
   virtual BVisual *makeSprite(VisualContext &vc, string const &name);
   virtual BVisual *makeText(VisualContext &vc, string const &text, string const &font);

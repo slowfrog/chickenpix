@@ -1,14 +1,16 @@
 #include "SFMLVisualImage.h"
+#include "SFMLVisualContext.h"
 
-SFMLVisualImage::SFMLVisualImage(sf::Sprite const &sprite):
-  sprite(sprite) {
+SFMLVisualImage::SFMLVisualImage(sf::Image const &image):
+  sprite(image) {
 }
 
 SFMLVisualImage::~SFMLVisualImage() {
 }
 
 void
-SFMLVisualImage::render(sf::RenderTarget &rt, float x, float y) {
+SFMLVisualImage::draw(VisualContext &vc, float x, float y) {
+  sf::RenderTarget &rt = ((SFMLVisualContext &)vc).getRenderTarget();
   sprite.SetPosition(x, y);
   rt.Draw(sprite);
 }

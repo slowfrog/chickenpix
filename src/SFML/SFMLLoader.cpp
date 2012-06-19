@@ -2,7 +2,11 @@
 #include <sstream>
 
 #include "SFMLLoader.h"
+#include "Resources.h"
 #include "Transform.h"
+#include "SFMLResources.h"
+#include "SFMLState.h"
+#include "SFMLVisualContext.h"
 #include "SFMLVisualImage.h"
 #include "SFMLVisualText.h"
 
@@ -15,32 +19,53 @@ SFMLLoader::~SFMLLoader() {
 
 void
 SFMLLoader::init() {
-  sf::Image &houseimg = *(new sf::Image()); // I know this is a memory leak. I'll put that in resources later
-  if (!houseimg.LoadFromFile("resources/img/house.png")) {
+  SFMLState *sfmlstate = em.getComponent<SFMLState>();
+  sf::RenderTarget &rt = sfmlstate->getWindow();
+  SFMLVisualContext vc(rt);
+  
+  Entity *resourcesentity = em.createEntity();
+  Resources *resources = new SFMLResources();
+  resourcesentity->addComponent(resources);
+  
+  sf::Image *houseimg = new sf::Image();
+  if (!houseimg->LoadFromFile("resources/img/house.png")) {
     cerr << "Error loading resources/img/house.png" << endl;
     return;
   }
-  houseimg.SetSmooth(false);
-  sf::Sprite housesprite(houseimg);
+  houseimg->SetSmooth(false);
+  resources->setImage("house", new SFMLResImage(houseimg));
 
-  Entity *house = em.createEntity();
+  sf::Image *maleimg = new sf::Image();
+  maleimg->LoadFromFile("resources/img/male_walkcycle.png");
+  maleimg->SetSmooth(false);
+  vector<Frame> frames;
+  for (int i = 0; i < 9; ++i) {
+    frames.push_back(Frame(i * 64, 64, 64, 64, 100));
+  }
+  resources->setSprite("walk_left", new SFMLResSprite(maleimg, frames));
 
-  house->addComponent(new Transform(50, 150));
-  house->addComponent(new SFMLVisualImage(housesprite));
-
-
-  sf::Font *font = new sf::Font(); // Another memory leak
+    
+  sf::Font *font = new sf::Font();
   if ( !font->LoadFromFile("resources/fonts/BerkshireSwash-Regular.ttf", 30) ){
 		*font = sf::Font::GetDefaultFont();
 	}
-	else {
-		((sf::Image &)(font->GetImage())).SetSmooth(false);
-	}
+  ((sf::Image &)(font->GetImage())).SetSmooth(false);
+  resources->setFont("sans_big", new SFMLResFont(font));
+
+
+  
+  Entity *house = em.createEntity();
+  house->addComponent(new Transform(50, 150));
+  house->addComponent(resources->makeImage(vc, "house"));
+
+  Entity *male = em.createEntity();
+  male->addComponent(new Transform(10, 300));
+  male->addComponent(resources->makeSprite(vc, "walk_left"));
 
   
   Entity *text = em.createEntity();
   text->addComponent(new Transform(20, 40));
-  text->addComponent(new SFMLVisualText("Press [ESC] to quit...",  *font, sf::Color(255, 255, 0)));
+  text->addComponent(resources->makeText(vc, "Press [ESC] to quit...", "sans_big"));
 }
 
 void

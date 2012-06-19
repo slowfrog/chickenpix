@@ -48,7 +48,7 @@ CLLoader::init() {
   
   Entity *e = em.createEntity();
   e->addComponent(new Transform(50, 150));
-  e->addComponent(new CLVisualImage(*houseImg));
+  e->addComponent(resources->makeImage(vc, "house"));
 
   e = em.createEntity();
   e->addComponent(new Transform(10, 300));

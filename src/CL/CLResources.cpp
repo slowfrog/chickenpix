@@ -11,11 +11,6 @@ CLResources::CLResources():
 CLResources::~CLResources() {
 }
 
-// CLResImage *
-// CLResources::getCLImage(string const &name) {
-//   return (CLResImage *) getImage(name);
-// }
-
 
 BVisual *
 CLResources::makeImage(VisualContext &vc, string const &name) {
