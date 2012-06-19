@@ -18,5 +18,5 @@ public:
 
 private:
   void addSprite(CL_GraphicContext &gc, string const &path, CL_ResourceManager *clresources,
-                 CLResources *resources, string const &name);
+                 Resources *resources, string const &name);
 };

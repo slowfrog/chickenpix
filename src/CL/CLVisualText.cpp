@@ -4,7 +4,7 @@
 #include "CLVisualText.h"
 
 CLVisualText::CLVisualText(string const &text, CL_Font &font, CL_Colorf const &color):
-  BVisual(4), text(text), font(font), color(color) {
+  text(text), font(font), color(color) {
 }
 
 CLVisualText::~CLVisualText() {

@@ -3,6 +3,7 @@
 #include "Image.h"
 #include "VisualContext.h"
 
+// This class is called BVisual, because Visual is already used in XWindows
 class BVisual: public Component {
   
 private:
@@ -11,8 +12,8 @@ private:
 public:
   static const Type TYPE = VISUAL_TYPE;
   
-  BVisual(ImgId img);
-  BVisual(ImgId img, int x, int y, int w, int h);
+  BVisual();
+  BVisual(int x, int y, int w, int h);
   virtual ~BVisual();
 
   virtual void draw(VisualContext &vc, float x, float y) = 0;

@@ -34,7 +34,7 @@ CLRender::update(int now) {
   gc.clear(CL_Colorf(0.1f, 0.4f, 0.1f));
   gc.pop_cliprect();
 
-  // CLVisual
+  // Visual: this part is no longer CL-specific...
   vector<Entity *> visuals = em.getEntities(BVisual::TYPE, Transform::TYPE);
   for (vector<Entity *>::iterator it = visuals.begin(); it < visuals.end(); it++) {
     Entity *entity = *it;

@@ -1,14 +1,14 @@
 #pragma once
 
-#include <ClanLib/display.h>
 #include "BVisual.h"
+#include "CLResources.h"
 
 class CLVisualSprite: public BVisual {
 private:
-  CL_Sprite &sprite;
+  CL_Sprite *sprite;
   
 public:
-  CLVisualSprite(CL_Sprite &sprite);
+  CLVisualSprite(CL_Sprite *sprite);
   virtual ~CLVisualSprite();
 
   virtual void draw(VisualContext &vc, float x, float y);

@@ -9,11 +9,11 @@ Resources::~Resources() {
 }
 
 void
-Resources::setObject(Kind kind, string const &name, void *object) {
+Resources::setObject(Kind kind, string const &name, ResBase *object) {
   store[kind][name] = object;
 }
 
-void *
+ResBase *
 Resources::getObject(Kind kind, string const &name) {
   return store[kind][name];
 }

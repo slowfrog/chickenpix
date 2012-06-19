@@ -18,23 +18,23 @@ CLLoader::~CLLoader() {
 
 void
 CLLoader::addSprite(CL_GraphicContext &gc, string const &path, CL_ResourceManager *clresources,
-                    CLResources *resources, string const &name) {
-  CL_Sprite *sprite = new CL_Sprite(gc, path, clresources);
-  resources->setSprite(name, sprite);
+                    Resources *resources, string const &name) {
+  resources->setSprite(name, new CLResSprite(new CL_SpriteDescription(gc, path, clresources)));;
 }
 
 void
 CLLoader::init() {
   CLState *clstate = em.getComponent<CLState>();
   CL_GraphicContext &gc = clstate->getGC();
+  CLVisualContext vc(gc);
 
   Entity *resourcesentity = em.createEntity();
-  CLResources *resources = new CLResources();
+  Resources *resources = new CLResources();
   resourcesentity->addComponent(resources);
   
   CL_PixelBuffer housePixBuf = CL_PNGProvider::load("resources/img/house.png");
   CL_Image *houseImg = new CL_Image(gc, housePixBuf, housePixBuf.get_size());
-  resources->setImage("house", houseImg);
+  resources->setImage("house", new CLResImage(houseImg));
   
   CL_ResourceManager clresources("resources/resources.xml");
   addSprite(gc, "sprites/walk_left", &clresources, resources, "walk_left");
@@ -43,8 +43,8 @@ CLLoader::init() {
   addSprite(gc, "sprites/walk_down", &clresources, resources, "walk_down");
   addSprite(gc, "sprites/wait", &clresources, resources, "wait");
 
-  resources->setFont("sans_big", new CL_Font(gc, "Tahoma", 50));
-  resources->setFont("sans_small", new CL_Font(gc, "Tahoma", 12));
+  resources->setFont("sans_big", new CLResFont(new CL_Font(gc, "Tahoma", 50)));
+  resources->setFont("sans_small", new CLResFont(new CL_Font(gc, "Tahoma", 12)));
   
   Entity *e = em.createEntity();
   e->addComponent(new Transform(50, 150));
@@ -52,23 +52,21 @@ CLLoader::init() {
 
   e = em.createEntity();
   e->addComponent(new Transform(10, 300));
-  e->addComponent(new CLVisualSprite(*resources->getSprite("walk_left")));
+  e->addComponent(resources->makeSprite(vc, "walk_left"));
 
   Entity *hero = em.createEntity();
   hero->addComponent(new Transform(320, 222));
-  hero->addComponent(new CLVisualSprite(*resources->getSprite("walk_right")));
+  hero->addComponent(resources->makeSprite(vc, "walk_right"));
   hero->addComponent(new Input());
 
   e = em.createEntity();
   e->addComponent(new Transform(100, 120));
-  e->addComponent(new CLVisualText("Chickenpix!",
-                                   *resources->getFont("sans_big"),
-                                   CL_Colorf(1.0f, 0.0f, 0.0f, 1.0f)));
+  e->addComponent(resources->makeText(vc, "Chickenpix!", "sans_big"));
+  //CL_Colorf(1.0f, 0.0f, 0.0f, 1.0f)));
   e = em.createEntity();
   e->addComponent(new Transform(5, 10));
-  e->addComponent(new CLVisualText("Press [ESC] to exit...",
-                                   *resources->getFont("sans_small"),
-                                   CL_Colorf::white));
+  e->addComponent(resources->makeText(vc, "Press [ESC] to exit...", "sans_small"));
+  //                                   CL_Colorf::white));
 }
 
 void

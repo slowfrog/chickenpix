@@ -4,30 +4,82 @@
 #include <ClanLib/display.h>
 
 #include "Resources.h"
+#include "CLVisualContext.h"
 
-class CLResources : public Resources {
+// Concrete ClanLib resources
+class CLResImage: public ResImage {
+private:
+  CL_Image *image;
+public:
+  CLResImage(CL_Image *image);
+  virtual ~CLResImage();
+  CL_Image &get();
+};
+inline CLResImage::CLResImage(CL_Image *image):
+  image(image) {
+}
+inline CLResImage::~CLResImage() {
+  delete image;
+}
+inline CL_Image &CLResImage::get() {
+  return *image;
+}
+
+
+
+class CLResSprite: public ResSprite {
+private:
+  CL_SpriteDescription *sprite;
+public:
+  CLResSprite(CL_SpriteDescription *sprite);
+  virtual ~CLResSprite();
+  CL_SpriteDescription &get();
+};
+inline CLResSprite::CLResSprite(CL_SpriteDescription *sprite):
+  sprite(sprite) {
+}
+inline CLResSprite::~CLResSprite() {
+  delete sprite;
+}
+inline CL_SpriteDescription &CLResSprite::get() {
+  return *sprite;
+}
+
+
+class CLResFont: public ResFont {
+private:
+  CL_Font *font;
+public:
+  CLResFont(CL_Font *font);
+  virtual ~CLResFont();
+  CL_Font &get();
+};
+inline CLResFont::CLResFont(CL_Font *font):
+  font(font) {
+}
+inline CLResFont::~CLResFont() {
+  delete font;
+}
+inline CL_Font &CLResFont::get() {
+  return *font;
+}
+
+
+
+//
+class CLResources: public Resources {
 public:
   CLResources();
   virtual ~CLResources();
 
-  inline void setImage(string const &name, CL_Image *image) {
-    setObject(Image, name, image);
-  }
-  inline CL_Image *getImage(string const &name) {
-    return (CL_Image *) getObject(Image, name);
-  }
-  inline void setSprite(string const &name, CL_Sprite *sprite) {
-    setObject(Sprite, name, sprite);
-  }
-  inline CL_Sprite *getSprite(string const &name) {
-    return (CL_Sprite *) getObject(Sprite, name);
-  }
-  inline void setFont(string const &name, CL_Font *font) {
-    setObject(Font, name, font);
-  }
-  inline CL_Font *getFont(string const &name) {
-    return (CL_Font *) getObject(Font, name);
-  }
+  // CLResImage *getCLImage(string const &name);
+  // CLResSprite *getCLSprite(string const &name);
+  // CLResFont *getCLFont(string const &name);
   
+  virtual BVisual *makeImage(VisualContext &vc, string const &name) ;
+  virtual BVisual *makeSprite(VisualContext &vc, string const &name);
+  virtual BVisual *makeText(VisualContext &vc, string const &text, string const &font);
+
   virtual string toString() const;
 };
+

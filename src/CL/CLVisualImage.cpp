@@ -2,7 +2,7 @@
 #include "CLVisualImage.h"
 
 CLVisualImage::CLVisualImage(CL_Image &image):
-  BVisual(2), image(image) {
+  image(image) {
 }
 
 CLVisualImage::~CLVisualImage() {
