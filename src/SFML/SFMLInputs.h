@@ -1,24 +1,20 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-#include "System.h"
+#include "Inputs.h"
 
-class SFMLInputs: public System {
+class SFMLInputs: public Inputs {
 private:
   sf::RenderWindow *window;
-  bool exitRequested;
 public:
   SFMLInputs(string const &name, EntityManager &em);
   virtual ~SFMLInputs();
 
+  virtual bool isKeyDown(Key key) const;
+  
   virtual void init();
-  virtual void update(int now);
+  virtual void pumpEvents();
   virtual void exit();
 
-  bool isExitRequested() const;
-  
   virtual string toString() const;
-
-private:
-  void moveHero(int now);
 };

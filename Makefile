@@ -20,6 +20,7 @@ SOURCES=$(SRC_DIR)/Animated.cpp \
         $(SRC_DIR)/Entity.cpp \
         $(SRC_DIR)/EntityManager.cpp \
         $(SRC_DIR)/Input.cpp \
+        $(SRC_DIR)/Inputs.cpp \
         $(SRC_DIR)/Loader.cpp \
         $(SRC_DIR)/Mobile.cpp \
         $(SRC_DIR)/Render.cpp \

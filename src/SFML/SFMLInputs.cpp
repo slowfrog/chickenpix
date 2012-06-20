@@ -8,8 +8,28 @@
 #include "Input.h"
 #include "Transform.h"
 
+sf::Key::Code KEYMAP[] = {
+  sf::Key::Num0,
+  sf::Key::Num1,
+  sf::Key::Num2,
+  sf::Key::Num3,
+  sf::Key::Num4,
+  sf::Key::Num5,
+  sf::Key::Num6,
+  sf::Key::Num7,
+  sf::Key::Num8,
+  sf::Key::Num9,
+  sf::Key::Space,
+  sf::Key::Up,
+  sf::Key::Down,
+  sf::Key::Left,
+  sf::Key::Right,
+  sf::Key::Escape,
+};
+
+
 SFMLInputs::SFMLInputs(string const &name, EntityManager &em):
-  System(name, em), window(NULL), exitRequested(false) {
+  Inputs(name, em), window(NULL) {
 }
 
 SFMLInputs::~SFMLInputs() {
@@ -19,11 +39,10 @@ void
 SFMLInputs::init() {
   SFMLState *state = em.getComponent<SFMLState>();
   window = &state->getWindow();
-  //keyboard = &(clstate->getWindow().get_ic().get_keyboard());
 }
 
 void
-SFMLInputs::update(int now) {
+SFMLInputs::pumpEvents() {
   sf::Event event;
   while (window->GetEvent(event)) {
     if (event.Type == sf::Event::Closed) {
@@ -31,59 +50,15 @@ SFMLInputs::update(int now) {
       return;
     }
   }
-
-  sf::Input const &input = window->GetInput();
-  bool escape_down = input.IsKeyDown(sf::Key::Escape);
-  if (escape_down) {
-    exitRequested = true;
-  }
-
-  moveHero(now);
-}
-
-void
-SFMLInputs::moveHero(int now) {
-  int dx = 0;
-  int dy = 0;
-  string anim = "man_still";
-  sf::Input const &input = window->GetInput();
-  if (input.IsKeyDown(sf::Key::Up)) {
-    dy -= 1;
-    anim = "man_walk_up";
-  }
-  if (input.IsKeyDown(sf::Key::Down)) {
-    dy += 1;
-    anim = "man_walk_down";
-  }
-  if (input.IsKeyDown(sf::Key::Left)) {
-    dx -= 1;
-    anim = "man_walk_left";
-  }
-  if (input.IsKeyDown(sf::Key::Right)) {
-    dx += 1;
-    anim = "man_walk_right";
-  }
-  
-  vector<Entity *> ents = em.getEntities(Input::TYPE, Transform::TYPE);
-  for (vector<Entity *>::iterator it = ents.begin(); it < ents.end(); it++) {
-    Entity *ent = *it;
-    if ((dx != 0) || (dy != 0)) {
-      Transform *t = ent->getComponent<Transform>();
-      t->moveBy(dx, dy);
-    }
-
-    // Apply animation if possible...
-  }
-  
-};
-
-void
-SFMLInputs::exit() {
 }
 
 bool
-SFMLInputs::isExitRequested() const {
-  return exitRequested;
+SFMLInputs::isKeyDown(Key key) const {
+  return window->GetInput().IsKeyDown(KEYMAP[key]);
+}
+
+void
+SFMLInputs::exit() {
 }
 
 string

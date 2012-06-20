@@ -1,24 +1,20 @@
 #pragma once
 
 #include <ClanLib/display.h>
-#include "System.h"
+#include "Inputs.h"
 
-class CLInputs: public System {
+class CLInputs: public Inputs {
 private:
-  bool exitRequested;
   CL_InputDevice *keyboard;
 public:
   CLInputs(string const &name, EntityManager &em);
   virtual ~CLInputs();
 
+  virtual bool isKeyDown(Key key) const;
+  
   virtual void init();
-  virtual void update(int now);
+  virtual void pumpEvents();
   virtual void exit();
 
-  bool isExitRequested() const;
-  
   virtual string toString() const;
-
-private:
-  void moveHero(int now);
 };
