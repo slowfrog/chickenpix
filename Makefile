@@ -8,8 +8,8 @@ OBJ_DIR1=$(OBJ_DIR)/CL
 SRC_DIR2=$(SRC_DIR)/SFML
 OBJ_DIR2=$(OBJ_DIR)/SFML
 
-CFLAGS=-c -g -Wall 
-LDFLAGS=-g -pthread 
+CFLAGS=-c -g -Wall -I/usr/include/python2.6
+LDFLAGS=-g -pthread -lpython2.6
 CFLAGS1=`pkg-config --cflags clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` -I$(SRC_DIR) $(CFLAGS) 
 LDFLAGS1=`pkg-config --libs clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` $(LDFLAGS)
 CFLAGS2=-I$(SFML_DIR)/include -I$(SRC_DIR) $(CFLAGS) 
@@ -26,6 +26,8 @@ SOURCES=$(SRC_DIR)/Animated.cpp \
         $(SRC_DIR)/Render.cpp \
         $(SRC_DIR)/Resource.cpp \
         $(SRC_DIR)/Resources.cpp \
+        $(SRC_DIR)/Scriptable.cpp \
+        $(SRC_DIR)/Scripting.cpp \
         $(SRC_DIR)/System.cpp \
         $(SRC_DIR)/Transform.cpp \
         $(SRC_DIR)/BVisual.cpp
@@ -58,13 +60,16 @@ OBJECTS2=$(SOURCES2:$(SRC_DIR2)/%.cpp=$(OBJ_DIR2)/%.o)
 EXECUTABLE1=clmain
 EXECUTABLE2=smain
 
-all: $(SOURCES) $(SOURCES1) $(SOURCE2) $(EXECUTABLE1) $(EXECUTABLE2)
+all: $(SOURCES) $(SOURCES1) $(SOURCE2) $(EXECUTABLE1) $(EXECUTABLE2) embedpython
 
 $(EXECUTABLE1): $(OBJECTS) $(OBJECTS1) 
 	$(CC) $(LDFLAGS1) $(OBJECTS) $(OBJECTS1) -o $@ 
 
 $(EXECUTABLE2): $(OBJECTS) $(OBJECTS2) 
 	$(CC) $(LDFLAGS2) $(OBJECTS) $(OBJECTS2) -o $@ 
+
+embedpython: src/embedpython.cpp
+	$(CC) -I/usr/include/python2.6 -lpython2.6 src/embedpython.cpp -o $@
 
 $(OBJ_DIR1)/%.o: $(SRC_DIR1)/%.cpp
 	@echo 'Building file: $<'

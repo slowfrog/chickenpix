@@ -9,6 +9,7 @@
 #include "CLLoader.h"
 #include "CLResources.h"
 #include "CLInputs.h"
+#include "Scripting.h"
 
 class DisplayProgram
 {
@@ -27,6 +28,8 @@ public:
       clloader.init();
       CLInputs clinputs("Inputs", em);
       clinputs.init();
+      Scripting scripting("Scripting", em);
+      scripting.init();
 
       cout << em.toString() << endl;
       
@@ -41,7 +44,9 @@ public:
         if (clinputs.isExitRequested()) {
           break;
         }
-        
+
+        // Execute scripts
+        scripting.update(now);
         // Render update
         clrender.update(now);
         
@@ -50,6 +55,12 @@ public:
         // Do ~60FPS
         CL_System::sleep(15);
       }
+
+      scripting.exit();
+      clinputs.exit();
+      clloader.exit();
+      clrender.exit();
+      clanlib.exit();
     }
     catch(CL_Exception &exception)
     {
