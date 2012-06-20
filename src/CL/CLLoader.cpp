@@ -26,7 +26,7 @@ void
 CLLoader::init() {
   CLState *clstate = em.getComponent<CLState>();
   CL_GraphicContext &gc = clstate->getGC();
-  CLVisualContext vc(gc);
+  CLVisualContext vc(clstate->getWindow());
 
   Entity *resourcesentity = em.createEntity();
   Resources *resources = new CLResources();

@@ -8,7 +8,7 @@
 #include "SFMLVisualContext.h"
 
 SFMLRender::SFMLRender(string const &name, EntityManager &em):
-  System(name, em), window(NULL) {
+  Render(name, em), window(NULL) {
 }
 
 SFMLRender::~SFMLRender() {
@@ -16,28 +16,24 @@ SFMLRender::~SFMLRender() {
 
 void
 SFMLRender::init() {
-  window = new sf::RenderWindow(sf::VideoMode(640, 400, 32), "SFML chickenpix",
+  window = new sf::RenderWindow(sf::VideoMode(640, 480, 32), "SFML chickenpix",
                                 sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close);
   Entity *clstate = em.createEntity();
   clstate->addComponent(new SFMLState(*window));
 }
 
+VisualContext *
+SFMLRender::getVisualContext() {
+  return new SFMLVisualContext(*window);
+}
+
 void
-SFMLRender::update(int now) {
+SFMLRender::clear(VisualContext &vc) {
   window->Clear(sf::Color(0, 100, 0));
+}
 
-  SFMLVisualContext vc(*window);
-  
-  // Visual
-  vector<Entity *> visuals = em.getEntities(BVisual::TYPE, Transform::TYPE);
-  for (vector<Entity *>::iterator it = visuals.begin(); it < visuals.end(); it++) {
-    Entity *entity = *it;
-    Transform *t = entity->getComponent<Transform>();
-    BVisual *v = entity->getComponent<BVisual>();
-
-    v->draw(vc, t->getX(), t->getY());
-  }
-  
+void
+SFMLRender::paint(VisualContext &vc) {
   window->Display();
 }
 

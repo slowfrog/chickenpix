@@ -16,7 +16,7 @@ public:
   virtual ~SFMLVisualContext() {}
 
   inline
-  sf::RenderTarget &getRenderTarget() {
+  sf::RenderTarget &getRenderTarget() const {
     return rt;
   }
   

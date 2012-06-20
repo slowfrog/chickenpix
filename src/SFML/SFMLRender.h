@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
-#include "System.h"
+#include "Render.h"
 
-class SFMLRender: public System {
+class SFMLRender: public Render {
 public:
   sf::RenderWindow *window;
   
@@ -10,7 +10,9 @@ public:
   virtual ~SFMLRender();
 
   virtual void init();
-  virtual void update(int now);
+  virtual VisualContext *getVisualContext();
+  virtual void clear(VisualContext &vc);
+  virtual void paint(VisualContext &vc);
   virtual void exit();
 
   virtual string toString() const;

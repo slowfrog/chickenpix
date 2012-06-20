@@ -1,8 +1,8 @@
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
-#include "System.h"
+#include "Render.h"
 
-class CLRender: public System {
+class CLRender: public Render {
 public:
   CL_DisplayWindow *window;
   
@@ -11,7 +11,9 @@ public:
   virtual ~CLRender();
 
   virtual void init();
-  virtual void update(int now);
+  virtual VisualContext *getVisualContext();
+  virtual void clear(VisualContext &vc);
+  virtual void paint(VisualContext &vc);
   virtual void exit();
 
   virtual string toString() const;

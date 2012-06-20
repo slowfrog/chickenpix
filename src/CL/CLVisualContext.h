@@ -6,18 +6,23 @@
 
 class CLVisualContext: public VisualContext {
 private:
-  CL_GraphicContext &gc;
+  CL_DisplayWindow &window;
 
 public:
-  CLVisualContext(CL_GraphicContext &gc):
-    gc(gc) {
+  CLVisualContext(CL_DisplayWindow &window):
+    window(window) {
   }
 
   virtual ~CLVisualContext() {}
 
   inline
+  CL_DisplayWindow &getWindow() {
+    return window;
+  }
+  
+  inline
   CL_GraphicContext &getGraphicContext() {
-    return gc;
+    return window.get_gc();
   }
   
 };
