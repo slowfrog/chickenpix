@@ -1,7 +1,6 @@
 #pragma once
-
-#include <ClanLib/display.h>
-#include "BVisual.h"
+#include "CL.h"
+#include "../BVisual.h"
 
 
 class CLVisualImage: public BVisual {

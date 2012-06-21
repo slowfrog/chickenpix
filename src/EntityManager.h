@@ -10,6 +10,9 @@ public:
   EntityManager(string const &name);
   ~EntityManager();
 
+  string getName() const;
+  int getSize() const;
+  
   Entity *createEntity();
   Entity *getEntity(Entity::Id id);
   void destroyEntity(Entity::Id id);

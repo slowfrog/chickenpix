@@ -1,8 +1,6 @@
 #pragma once
-
-#include <ClanLib/display.h>
-
-#include "Resources.h"
+#include "CL.h"
+#include "../Resources.h"
 #include "CLVisualContext.h"
 
 // Concrete ClanLib resources

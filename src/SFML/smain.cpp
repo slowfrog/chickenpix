@@ -1,23 +1,25 @@
 #include <iostream>
 #include <SFML/System.hpp>
-#include "EntityManager.h"
-#include "SFML/SFMLInputs.h"
-#include "SFML/SFMLLoader.h"
-#include "SFML/SFMLRender.h"
+#include "../EntityManager.h"
+#include "../Scripting.h"
+#include "SFMLInputs.h"
+#include "SFMLLoader.h"
+#include "SFMLRender.h"
 
 using namespace std;
 
 int main(int argc, char const *argv[]) {
 
   // Init
-  EntityManager em("main");
+  EntityManager em("SFML-main");
   SFMLRender sfrender("SFMLRender", em);
   sfrender.init();
   SFMLInputs sfinputs("SFMLInput", em);
   sfinputs.init();
   SFMLLoader sfloader("SFMLLoader", em);
   sfloader.init();
-
+  Scripting scripting("Scripting", em);
+  scripting.init();
   cout << em.toString() << endl;
 
   // One step
@@ -31,13 +33,15 @@ int main(int argc, char const *argv[]) {
     if (sfinputs.isExitRequested()) {
       break;
     }
-        
+
+    scripting.update(now);
     sfrender.update(now);
 
     prev = now;
     // Do ~60FPS
     sf::Sleep(0.015f);
   }
+  scripting.exit();
   sfloader.exit();
   sfinputs.exit();
   sfrender.exit();

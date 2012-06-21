@@ -1,5 +1,5 @@
 #pragma once
-#include "System.h"
+#include "../System.h"
 
 class SFMLLoader: public System {
 private:

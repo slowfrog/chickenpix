@@ -5,8 +5,8 @@
 
 #include "SFMLInputs.h"
 #include "SFMLState.h"
-#include "Input.h"
-#include "Transform.h"
+#include "../Input.h"
+#include "../Transform.h"
 
 sf::Key::Code KEYMAP[] = {
   sf::Key::Num0,

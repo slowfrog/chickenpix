@@ -2,8 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Image.h"
-#include "Resources.h"
+#include "../Image.h"
+#include "../Resources.h"
 #include "SFMLVisualContext.h"
 
 class SFMLResImage: public ResImage {

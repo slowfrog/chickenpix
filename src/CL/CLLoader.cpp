@@ -6,8 +6,9 @@
 #include "CLVisualImage.h"
 #include "CLVisualSprite.h"
 #include "CLVisualText.h"
-#include "Input.h"
-#include "Transform.h"
+#include "../Input.h"
+#include "../Scriptable.h"
+#include "../Transform.h"
 
 CLLoader::CLLoader(string const &name, EntityManager &em):
   System(name, em) {
@@ -58,6 +59,7 @@ CLLoader::init() {
   hero->addComponent(new Transform(320, 222));
   hero->addComponent(resources->makeSprite(vc, "walk_right"));
   hero->addComponent(new Input());
+  hero->addComponent(new Scriptable("toto"));
 
   e = em.createEntity();
   e->addComponent(new Transform(100, 120));

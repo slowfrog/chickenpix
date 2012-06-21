@@ -1,9 +1,19 @@
 *~
 *.o
 *.exe
+*.pyc
 *.stackdump
 obj
 main
 clmain
 smain
 *.DS_*
+
+# Visual Studio generated files
+Release/
+Debug/
+ipch/
+*.sdf
+*.suo
+*.user
+*.opensdf

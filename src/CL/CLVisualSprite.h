@@ -1,7 +1,5 @@
 #pragma once
-
-#include "BVisual.h"
-#include "CLResources.h"
+#include "../BVisual.h"
 
 class CLVisualSprite: public BVisual {
 private:

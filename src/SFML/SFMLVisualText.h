@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "BVisual.h"
+#include "../BVisual.h"
 
 class SFMLVisualText: public BVisual {
 private:

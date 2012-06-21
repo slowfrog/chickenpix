@@ -2,9 +2,9 @@
 #include <sstream>
 
 #include "SFMLLoader.h"
-#include "Input.h"
-#include "Resources.h"
-#include "Transform.h"
+#include "../Input.h"
+#include "../Resources.h"
+#include "../Transform.h"
 #include "SFMLResources.h"
 #include "SFMLState.h"
 #include "SFMLVisualContext.h"

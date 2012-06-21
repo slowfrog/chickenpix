@@ -1,8 +1,8 @@
 #include <sstream>
 #include "CLRender.h"
 #include "CLState.h"
-#include "Transform.h"
-#include "BVisual.h"
+#include "../Transform.h"
+#include "../BVisual.h"
 #include "CLVisualContext.h"
 
 CLRender::CLRender(string const &name, EntityManager &em):

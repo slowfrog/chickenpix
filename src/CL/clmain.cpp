@@ -1,14 +1,12 @@
-#include <ClanLib/core.h>
-#include <ClanLib/display.h>
-#include <ClanLib/swrender.h>
-#include <ClanLib/application.h>
+#include "CL.h"
 
-#include "EntityManager.h"
+#include "../EntityManager.h"
 #include "ClanLib.h"
 #include "CLRender.h"
 #include "CLLoader.h"
 #include "CLResources.h"
 #include "CLInputs.h"
+#include "../Scripting.h"
 
 class DisplayProgram
 {
@@ -18,7 +16,7 @@ public:
     try
     {
       // Init
-      EntityManager em("main");
+      EntityManager em("CL-main");
       ClanLib clanlib("ClanLib", em);
       clanlib.init();
       CLRender clrender("CLRender", em);
@@ -27,6 +25,8 @@ public:
       clloader.init();
       CLInputs clinputs("Inputs", em);
       clinputs.init();
+      Scripting scripting("Scripting", em);
+      scripting.init();
 
       cout << em.toString() << endl;
       
@@ -41,7 +41,9 @@ public:
         if (clinputs.isExitRequested()) {
           break;
         }
-        
+
+        // Execute scripts
+        scripting.update(now);
         // Render update
         clrender.update(now);
         
@@ -50,6 +52,12 @@ public:
         // Do ~60FPS
         CL_System::sleep(15);
       }
+
+      scripting.exit();
+      clinputs.exit();
+      clloader.exit();
+      clrender.exit();
+      clanlib.exit();
     }
     catch(CL_Exception &exception)
     {

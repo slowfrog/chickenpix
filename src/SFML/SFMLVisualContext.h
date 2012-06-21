@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "VisualContext.h"
+#include "../VisualContext.h"
 
 class SFMLVisualContext: public VisualContext {
 private:

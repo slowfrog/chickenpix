@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-#include "Inputs.h"
+#include "../Inputs.h"
 
 class SFMLInputs: public Inputs {
 private:

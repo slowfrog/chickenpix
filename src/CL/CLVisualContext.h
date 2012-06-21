@@ -1,8 +1,6 @@
 #pragma once
-
-#include <ClanLib/display.h>
-
-#include "VisualContext.h"
+#include "CL.h"
+#include "../VisualContext.h"
 
 class CLVisualContext: public VisualContext {
 private:
