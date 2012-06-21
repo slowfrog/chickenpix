@@ -10,9 +10,9 @@ OBJ_DIR2=$(OBJ_DIR)/SFML
 
 CFLAGS=-c -g -Wall -I/usr/include/python2.6
 LDFLAGS=-g -pthread -lpython2.6
-CFLAGS1=`pkg-config --cflags clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` -I$(SRC_DIR) $(CFLAGS) 
+CFLAGS1=`pkg-config --cflags clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` $(CFLAGS) 
 LDFLAGS1=`pkg-config --libs clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` $(LDFLAGS)
-CFLAGS2=-I$(SFML_DIR)/include -I$(SRC_DIR) $(CFLAGS) 
+CFLAGS2=-I$(SFML_DIR)/include $(CFLAGS) 
 LDFLAGS2=-L$(SFML_DIR)/lib $(LDFLAGS) -lsfml-window -lsfml-graphics -lsfml-system 
 
 SOURCES=$(SRC_DIR)/Animated.cpp \
