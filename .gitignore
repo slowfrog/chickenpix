@@ -8,3 +8,11 @@ main
 clmain
 smain
 *.DS_*
+
+# Visual Studio generated files
+Release/
+Debug/
+ipch/
+*.sdf
+*.suo
+*.user
