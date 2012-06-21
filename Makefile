@@ -32,7 +32,8 @@ SOURCES=$(SRC_DIR)/Animated.cpp \
         $(SRC_DIR)/Scripting.cpp \
         $(SRC_DIR)/System.cpp \
         $(SRC_DIR)/Transform.cpp \
-        $(SRC_DIR)/BVisual.cpp
+        $(SRC_DIR)/BVisual.cpp \
+        $(SRC_DIR)/PythonTypes.cpp
 
 TMX_SOURCES=$(TMX_SRC_DIR)/TmxImage.cpp \
             $(TMX_SRC_DIR)/TmxLayer.cpp \

@@ -9,6 +9,11 @@ EntityManager::~EntityManager() {
   entities.clear();
 }
 
+string
+EntityManager::getName() const {
+  return name;
+}
+
 Entity *
 EntityManager::createEntity() {
   unsigned int i;

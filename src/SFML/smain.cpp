@@ -11,7 +11,7 @@ using namespace std;
 int main(int argc, char const *argv[]) {
 
   // Init
-  EntityManager em("main");
+  EntityManager em("SFML-main");
   SFMLRender sfrender("SFMLRender", em);
   sfrender.init();
   SFMLInputs sfinputs("SFMLInput", em);

@@ -16,7 +16,7 @@ public:
     try
     {
       // Init
-      EntityManager em("main");
+      EntityManager em("CL-main");
       ClanLib clanlib("ClanLib", em);
       clanlib.init();
       CLRender clrender("CLRender", em);

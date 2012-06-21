@@ -4,6 +4,7 @@
 
 #include "Scripting.h"
 #include "Scriptable.h"
+#include "PythonTypes.h"
 
 Scripting::Scripting(string const &name, EntityManager &em):
   System(name, em) {
@@ -12,25 +13,25 @@ Scripting::Scripting(string const &name, EntityManager &em):
 Scripting::~Scripting() {
 }
 
-static PyObject *
-ss(PyObject *self, PyObject *args) {
-  PyObject *obj;
-  if (!PyArg_ParseTuple(args, "O", &obj)) {
-    cout << "Error parsing arguments." << endl;
-    return Py_None;
-  }
-  EntityManager *em = (EntityManager *) PyCObject_AsVoidPtr(obj);
-  cout << em->toString() << endl;
-  return Py_None;
-}
+// static PyObject *
+// ss(PyObject *self, PyObject *args) {
+//   PyObject *obj;
+//   if (!PyArg_ParseTuple(args, "O", &obj)) {
+//     cout << "Error parsing arguments." << endl;
+//     return Py_None;
+//   }
+//   EntityManager *em = (EntityManager *) PyCObject_AsVoidPtr(obj);
+//   cout << em->toString() << endl;
+//   return Py_None;
+// }
 
-static PyMethodDef EmbeddedMethods[] = {
-  {"ss", ss, METH_VARARGS, "Get something"},
-  {NULL, NULL, 0, NULL}
-};
+// static PyMethodDef EmbeddedMethods[] = {
+//   {"ss", ss, METH_VARARGS, "Get something"},
+//   {NULL, NULL, 0, NULL}
+// };
 
-static PyObject *EmCapsule;
-static PyObject *CPModule;
+// static PyObject *EmCapsule;
+// static PyObject *CPModule;
 
 void
 Scripting::init() {
@@ -47,8 +48,9 @@ Scripting::init() {
     }
     Py_DECREF(path);
   }
+  initcp(&em);
   
-  CPModule = Py_InitModule("cp", EmbeddedMethods);
+  /*CPModule = Py_InitModule("cp0", EmbeddedMethods);
   if (!CPModule) {
     cout << "Could not create module" << endl;
     return;
@@ -64,7 +66,7 @@ Scripting::init() {
     cout << "Error adding \"em\" to module" << endl;
   } else {
     cout << "Module ok and \"em\" available" << endl;
-  }
+    }*/
 }
 
 void
@@ -89,8 +91,15 @@ Scripting::update(int now) {
   if ((!pFunc) || (!PyCallable_Check(pFunc))) {
     cout << "pFunc is not callable" << endl;
   } else {
-    cout << "Capsule ok with " << PyCObject_AsVoidPtr(EmCapsule) << endl;
-    PyObject *ret = PyObject_CallObject(pFunc, NULL);
+    //cout << "Capsule ok with " << PyCObject_AsVoidPtr(EmCapsule) << endl;
+
+    
+    PyObject *pyem = wrapEntityManager(&em);
+    PyObject *arglist = Py_BuildValue("(O)", pyem);
+    PyObject *ret = PyObject_CallObject(pFunc, arglist);
+    Py_DECREF(arglist);
+    Py_DECREF(pyem);
+    
     if (PyErr_Occurred()) {
       PyErr_Print();
     } else if ((!ret) || (!PyString_Check(ret))) {
