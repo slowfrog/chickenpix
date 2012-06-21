@@ -6,9 +6,9 @@
 #include "CLVisualImage.h"
 #include "CLVisualSprite.h"
 #include "CLVisualText.h"
-#include "Input.h"
-#include "Scriptable.h"
-#include "Transform.h"
+#include "../Input.h"
+#include "../Scriptable.h"
+#include "../Transform.h"
 
 CLLoader::CLLoader(string const &name, EntityManager &em):
   System(name, em) {

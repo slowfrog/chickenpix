@@ -1,10 +1,5 @@
 #include <sstream>
 
-#include <ClanLib/core.h>
-#include <ClanLib/display.h>
-#include <ClanLib/swrender.h>
-//#include <ClanLib/application.h>
-
 #include "ClanLib.h"
 
 ClanLib::ClanLib(string const &name, EntityManager &em):

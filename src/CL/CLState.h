@@ -1,6 +1,6 @@
 #pragma once
-#include <ClanLib/display.h>
-#include "Component.h"
+#include "CL.h"
+#include "../Component.h"
 
 class CLState: public Component {
 private:

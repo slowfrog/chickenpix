@@ -1,4 +1,6 @@
-#include "System.h"
+#pragma once
+#include "CL.h"
+#include "../System.h"
 
 class ClanLib: public System {
 private:

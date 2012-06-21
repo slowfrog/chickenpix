@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Component.h"
+#include "../Component.h"
 
 class SFMLState: public Component {
 private:

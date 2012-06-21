@@ -1,6 +1,6 @@
-#include <ClanLib/core.h>
-#include <ClanLib/display.h>
-#include "Render.h"
+#pragma once
+#include "CL.h"
+#include "../Render.h"
 
 class CLRender: public Render {
 public:

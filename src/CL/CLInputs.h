@@ -1,7 +1,6 @@
 #pragma once
-
-#include <ClanLib/display.h>
-#include "Inputs.h"
+#include "CL.h"
+#include "../Inputs.h"
 
 class CLInputs: public Inputs {
 private:

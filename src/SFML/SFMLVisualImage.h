@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "BVisual.h"
+#include "../BVisual.h"
 
 class SFMLVisualImage: public BVisual {
 private:

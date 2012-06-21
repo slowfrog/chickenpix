@@ -1,10 +1,10 @@
 #include <iostream>
 #include <SFML/System.hpp>
-#include "EntityManager.h"
-#include "Scripting.h"
-#include "SFML/SFMLInputs.h"
-#include "SFML/SFMLLoader.h"
-#include "SFML/SFMLRender.h"
+#include "../EntityManager.h"
+#include "../Scripting.h"
+#include "SFMLInputs.h"
+#include "SFMLLoader.h"
+#include "SFMLRender.h"
 
 using namespace std;
 

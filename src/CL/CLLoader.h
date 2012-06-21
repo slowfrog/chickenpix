@@ -1,8 +1,7 @@
 #pragma once
-#include <ClanLib/core.h>
-#include <ClanLib/display.h>
-#include "System.h"
-#include "CLResources.h"
+#include "CL.h"
+#include "../System.h"
+#include "../Resources.h"
 
 class CLLoader: public System {
 private:

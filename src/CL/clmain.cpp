@@ -1,15 +1,12 @@
-#include <ClanLib/core.h>
-#include <ClanLib/display.h>
-#include <ClanLib/swrender.h>
-#include <ClanLib/application.h>
+#include "CL.h"
 
-#include "EntityManager.h"
+#include "../EntityManager.h"
 #include "ClanLib.h"
 #include "CLRender.h"
 #include "CLLoader.h"
 #include "CLResources.h"
 #include "CLInputs.h"
-#include "Scripting.h"
+#include "../Scripting.h"
 
 class DisplayProgram
 {

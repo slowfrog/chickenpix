@@ -1,6 +1,7 @@
 *~
 *.o
 *.exe
+*.pyc
 *.stackdump
 obj
 main

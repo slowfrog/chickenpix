@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "BVisual.h"
+#include "../BVisual.h"
 
 class SFMLVisualSprite: public BVisual {
 private:

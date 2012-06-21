@@ -1,10 +1,10 @@
 #include <iostream>
 #include <sstream>
 #include <SFML/Window.hpp>
-#include "Transform.h"
+#include "../Transform.h"
 #include "SFMLRender.h"
 #include "SFMLState.h"
-#include "BVisual.h"
+#include "../BVisual.h"
 #include "SFMLVisualContext.h"
 
 SFMLRender::SFMLRender(string const &name, EntityManager &em):

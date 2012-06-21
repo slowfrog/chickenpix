@@ -1,11 +1,9 @@
 #include <sstream>
 
-#include <ClanLib/core.h>
-
 #include "CLInputs.h"
 #include "CLState.h"
-#include "Input.h"
-#include "Transform.h"
+#include "../Input.h"
+#include "../Transform.h"
 
 int KEYMAP[] = {
   CL_KEY_0,
