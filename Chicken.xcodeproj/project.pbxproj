@@ -25,6 +25,13 @@
 		5A0035C7158FCF6D00B483F8 /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035B9158FCF6D00B483F8 /* Transform.cpp */; };
 		5A0035EB158FD2A300B483F8 /* smain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035EA158FD2A300B483F8 /* smain.cpp */; };
 		5A00361B158FE10900B483F8 /* SFMLVisualText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A003619158FE10900B483F8 /* SFMLVisualText.cpp */; };
+		5A22FC4315938DA100745D05 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A22FC4215938DA100745D05 /* Python.framework */; };
+		5A22FC551593902600745D05 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC4F1593902600745D05 /* tinystr.cpp */; };
+		5A22FC561593902600745D05 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC511593902600745D05 /* tinyxml.cpp */; };
+		5A22FC571593902600745D05 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC531593902600745D05 /* tinyxmlerror.cpp */; };
+		5A22FC581593902600745D05 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC541593902600745D05 /* tinyxmlparser.cpp */; };
+		5A89202C1592817A0088CDE0 /* Scriptable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A8920281592817A0088CDE0 /* Scriptable.cpp */; };
+		5A89202D1592817A0088CDE0 /* Scripting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A89202A1592817A0088CDE0 /* Scripting.cpp */; };
 		5ADCACF11592692300E29849 /* SFMLResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACEC1592692300E29849 /* SFMLResources.cpp */; };
 		5ADCACF21592692300E29849 /* SFMLVisualSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACEF1592692300E29849 /* SFMLVisualSprite.cpp */; };
 		5ADCACFA1592693A00E29849 /* BVisual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACF31592693A00E29849 /* BVisual.cpp */; };
@@ -92,6 +99,17 @@
 		5A0035EA158FD2A300B483F8 /* smain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = smain.cpp; path = src/SFML/smain.cpp; sourceTree = "<group>"; };
 		5A003619158FE10900B483F8 /* SFMLVisualText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SFMLVisualText.cpp; path = src/SFML/SFMLVisualText.cpp; sourceTree = "<group>"; };
 		5A00361A158FE10900B483F8 /* SFMLVisualText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLVisualText.h; path = src/SFML/SFMLVisualText.h; sourceTree = "<group>"; };
+		5A22FC4215938DA100745D05 /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /System/Library/Frameworks/Python.framework; sourceTree = "<absolute>"; };
+		5A22FC4F1593902600745D05 /* tinystr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinystr.cpp; path = src/tinyxml/tinystr.cpp; sourceTree = "<group>"; };
+		5A22FC501593902600745D05 /* tinystr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinystr.h; path = src/tinyxml/tinystr.h; sourceTree = "<group>"; };
+		5A22FC511593902600745D05 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxml.cpp; path = src/tinyxml/tinyxml.cpp; sourceTree = "<group>"; };
+		5A22FC521593902600745D05 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml.h; path = src/tinyxml/tinyxml.h; sourceTree = "<group>"; };
+		5A22FC531593902600745D05 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlerror.cpp; path = src/tinyxml/tinyxmlerror.cpp; sourceTree = "<group>"; };
+		5A22FC541593902600745D05 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = src/tinyxml/tinyxmlparser.cpp; sourceTree = "<group>"; };
+		5A8920281592817A0088CDE0 /* Scriptable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scriptable.cpp; path = src/Scriptable.cpp; sourceTree = "<group>"; };
+		5A8920291592817A0088CDE0 /* Scriptable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scriptable.h; path = src/Scriptable.h; sourceTree = "<group>"; };
+		5A89202A1592817A0088CDE0 /* Scripting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scripting.cpp; path = src/Scripting.cpp; sourceTree = "<group>"; };
+		5A89202B1592817A0088CDE0 /* Scripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scripting.h; path = src/Scripting.h; sourceTree = "<group>"; };
 		5ADCACEC1592692300E29849 /* SFMLResources.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SFMLResources.cpp; path = src/SFML/SFMLResources.cpp; sourceTree = "<group>"; };
 		5ADCACED1592692300E29849 /* SFMLResources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLResources.h; path = src/SFML/SFMLResources.h; sourceTree = "<group>"; };
 		5ADCACEE1592692300E29849 /* SFMLVisualContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLVisualContext.h; path = src/SFML/SFMLVisualContext.h; sourceTree = "<group>"; };
@@ -120,6 +138,7 @@
 				A01FB6CE0F07CFF2000AAC7B /* sfml-graphics.framework in Frameworks */,
 				A01FB6CF0F07CFF2000AAC7B /* sfml-system.framework in Frameworks */,
 				A01FB6D00F07CFF2000AAC7B /* sfml-window.framework in Frameworks */,
+				5A22FC4315938DA100745D05 /* Python.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +148,10 @@
 		5A00358D158FCF3900B483F8 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				5A8920281592817A0088CDE0 /* Scriptable.cpp */,
+				5A8920291592817A0088CDE0 /* Scriptable.h */,
+				5A89202A1592817A0088CDE0 /* Scripting.cpp */,
+				5A89202B1592817A0088CDE0 /* Scripting.h */,
 				5ADCACF31592693A00E29849 /* BVisual.cpp */,
 				5ADCACF41592693A00E29849 /* BVisual.h */,
 				5ADCACF51592693A00E29849 /* Inputs.cpp */,
@@ -189,6 +212,19 @@
 			name = SFML;
 			sourceTree = "<group>";
 		};
+		5A8920141592805C0088CDE0 /* TinyXml */ = {
+			isa = PBXGroup;
+			children = (
+				5A22FC4F1593902600745D05 /* tinystr.cpp */,
+				5A22FC501593902600745D05 /* tinystr.h */,
+				5A22FC511593902600745D05 /* tinyxml.cpp */,
+				5A22FC521593902600745D05 /* tinyxml.h */,
+				5A22FC531593902600745D05 /* tinyxmlerror.cpp */,
+				5A22FC541593902600745D05 /* tinyxmlparser.cpp */,
+			);
+			name = TinyXml;
+			sourceTree = "<group>";
+		};
 		A01FB69A0F07CF63000AAC7B = {
 			isa = PBXGroup;
 			children = (
@@ -196,6 +232,7 @@
 				A01FB6B10F07CF7C000AAC7B /* Resources */,
 				A01FB6B00F07CF75000AAC7B /* Frameworks */,
 				A01FB6AA0F07CF6E000AAC7B /* Products */,
+				5A22FC4215938DA100745D05 /* Python.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -229,6 +266,7 @@
 		A01FB6B20F07CF80000AAC7B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5A8920141592805C0088CDE0 /* TinyXml */,
 				5A00358E158FCF3F00B483F8 /* SFML */,
 				5A00358D158FCF3900B483F8 /* Engine */,
 			);
@@ -319,6 +357,12 @@
 				5ADCACFA1592693A00E29849 /* BVisual.cpp in Sources */,
 				5ADCACFB1592693A00E29849 /* Inputs.cpp in Sources */,
 				5ADCACFC1592693A00E29849 /* Resources.cpp in Sources */,
+				5A89202C1592817A0088CDE0 /* Scriptable.cpp in Sources */,
+				5A89202D1592817A0088CDE0 /* Scripting.cpp in Sources */,
+				5A22FC551593902600745D05 /* tinystr.cpp in Sources */,
+				5A22FC561593902600745D05 /* tinyxml.cpp in Sources */,
+				5A22FC571593902600745D05 /* tinyxmlerror.cpp in Sources */,
+				5A22FC581593902600745D05 /* tinyxmlparser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,8 +374,14 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = ./src;
-				HEADER_SEARCH_PATHS = ./src;
-				LIBRARY_SEARCH_PATHS = ./src;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/python2.6,
+					./src,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/lib/python2.6,
+					./src,
+				);
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				REZ_SEARCH_PATHS = ./src;
