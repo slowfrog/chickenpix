@@ -23,6 +23,18 @@ EntityManager_name(PyEntityManager *self) {
   return ret;
 }
 
+static PyObject *
+EntityManager_size(PyEntityManager *self) {
+  PyObject *ret = PyInt_FromLong(self->em->getSize());
+  return ret;
+}
+
+static PyMethodDef EntityManager_methods[] = {
+  {"name", (PyCFunction) EntityManager_name, METH_NOARGS, "Name of the EntityManager" },
+  {"size", (PyCFunction) EntityManager_size, METH_NOARGS, "Number of entities" },
+  {NULL} /* End of list */
+};
+
 // Entity wrapper
 typedef struct {
   PyObject_HEAD
@@ -36,16 +48,23 @@ static PyTypeObject PyEntityType = {
   sizeof(PyEntity),
 };
 
+static PyObject *
+Entity_id(PyEntity *self) {
+  PyObject *ret = PyInt_FromLong(self->entity->getId());
+  return ret;
+};
 
+static PyMethodDef Entity_methods[] = {
+  {"id", (PyCFunction) Entity_id, METH_NOARGS, "Id of the entity" },
+  {NULL} /* End of list */
+};
 
+//////
 static PyMethodDef module_Methods[] = {
   {NULL} /* End of list */
 };
 
-static PyMethodDef EntityManager_methods[] = {
-  {"name", (PyCFunction)EntityManager_name, METH_NOARGS, "Name of the EntityManager" },
-  {NULL} /* End of list */
-};
+
 
 void
 initcp(EntityManager *em) {
@@ -53,14 +72,15 @@ initcp(EntityManager *em) {
   
   PyEntityManagerType.tp_flags = Py_TPFLAGS_DEFAULT;
   PyEntityManagerType.tp_doc = "Type of entity managers";
-  PyEntityManagerType.tp_new = PyType_GenericNew;
+  PyEntityManagerType.tp_new = PyType_GenericNew; // Remove ?
   PyEntityManagerType.tp_methods = EntityManager_methods;
   if (PyType_Ready(&PyEntityManagerType) < 0)
     return;
 
   PyEntityType.tp_flags = Py_TPFLAGS_DEFAULT;
   PyEntityType.tp_doc = "Type of entities";
-  PyEntityType.tp_new = PyType_GenericNew;
+  PyEntityType.tp_new = PyType_GenericNew; // Remove ?
+  PyEntityType.tp_methods = Entity_methods;
   if (PyType_Ready(&PyEntityType) < 0)
     return;
 
@@ -81,4 +101,10 @@ PyObject *wrapEntityManager(EntityManager *em) {
   PyEntityManager *pyem = (PyEntityManager *) PyEntityManagerType.tp_alloc(&PyEntityManagerType, 0);
   pyem->em = em;
   return (PyObject *) pyem;
+}
+
+PyObject *wrapEntity(Entity *e) {
+  PyEntity *pye = (PyEntity *) PyEntityType.tp_alloc(&PyEntityType, 0);
+  pye->entity = e;
+  return (PyObject *) pye;
 }

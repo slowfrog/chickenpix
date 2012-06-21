@@ -71,13 +71,6 @@ Scripting::init() {
 
 void
 Scripting::update(int now) {
-  // Visual
-  vector<Entity *> scripts = em.getEntities(Scriptable::TYPE);
-  for (vector<Entity *>::iterator it = scripts.begin(); it < scripts.end(); it++) {
-    Entity *entity = *it;
-    Scriptable *s = entity->getComponent<Scriptable>();
-    s->update(now);
-  }
 
 
   PyObject *pName = PyString_FromString("toby");
@@ -85,6 +78,9 @@ Scripting::update(int now) {
   Py_DECREF(pName);
   if (!pModule) {
     cout << "Could not load module" << endl;
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
     return;
   }
   PyObject *pFunc = PyObject_GetAttrString(pModule, "run");
@@ -95,19 +91,26 @@ Scripting::update(int now) {
 
     
     PyObject *pyem = wrapEntityManager(&em);
-    PyObject *arglist = Py_BuildValue("(O)", pyem);
-    PyObject *ret = PyObject_CallObject(pFunc, arglist);
-    Py_DECREF(arglist);
-    Py_DECREF(pyem);
-    
-    if (PyErr_Occurred()) {
-      PyErr_Print();
-    } else if ((!ret) || (!PyString_Check(ret))) {
-      cout << "Return is not a string" << endl;
-    } else {
-      cout << "+" << PyString_AsString(ret);
-      Py_DECREF(ret);
+
+    vector<Entity *> scripts = em.getEntities(Scriptable::TYPE);
+    for (vector<Entity *>::iterator it = scripts.begin(); it < scripts.end(); it++) {
+      Entity *entity = *it;
+      Scriptable *s = entity->getComponent<Scriptable>();
+      s->update(now); // ??
+
+      PyObject *pye = wrapEntity(entity);
+      PyObject *arglist = Py_BuildValue("(OO)", pye, pyem);
+      PyObject *ret = PyObject_CallObject(pFunc, arglist);
+      Py_DECREF(arglist);
+      Py_DECREF(pye);
+      if (PyErr_Occurred()) {
+        PyErr_Print();
+      }
+      if (ret) {
+        Py_DECREF(ret);
+      }
     }
+    Py_DECREF(pyem);
   }
 }
 

@@ -1,6 +1,7 @@
 import cp
 
 # Nothing
-def run(em):
-    print("EntityManager is called: %s" % em.name())
+def run(self, manager):
+    print("My id is %d" % self.id())
+    print("EntityManager is called %s and has %d entities" % (manager.name(), manager.size()))
     return "5"

@@ -14,6 +14,11 @@ EntityManager::getName() const {
   return name;
 }
 
+int
+EntityManager::getSize() const {
+  return entities.size();
+}
+
 Entity *
 EntityManager::createEntity() {
   unsigned int i;

@@ -12,7 +12,6 @@ Scriptable::~Scriptable() {
 
 void
 Scriptable::update(int now) {
-  cout << "." << flush;
 }
 
 string

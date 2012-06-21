@@ -11,6 +11,7 @@ public:
   ~EntityManager();
 
   string getName() const;
+  int getSize() const;
   
   Entity *createEntity();
   Entity *getEntity(Entity::Id id);
