@@ -68,12 +68,14 @@
     <ClCompile Include="..\src\Animated.cpp" />
     <ClCompile Include="..\src\BVisual.cpp" />
     <ClCompile Include="..\src\Component.cpp" />
+    <ClCompile Include="..\src\ComponentRegistry.cpp" />
     <ClCompile Include="..\src\Entity.cpp" />
     <ClCompile Include="..\src\EntityManager.cpp" />
     <ClCompile Include="..\src\Input.cpp" />
     <ClCompile Include="..\src\Inputs.cpp" />
     <ClCompile Include="..\src\Loader.cpp" />
     <ClCompile Include="..\src\Mobile.cpp" />
+    <ClCompile Include="..\src\PythonTypes.cpp" />
     <ClCompile Include="..\src\Render.cpp" />
     <ClCompile Include="..\src\Resource.cpp" />
     <ClCompile Include="..\src\Resources.cpp" />
@@ -94,6 +96,7 @@
     <ClInclude Include="..\src\Inputs.h" />
     <ClInclude Include="..\src\Loader.h" />
     <ClInclude Include="..\src\Mobile.h" />
+    <ClInclude Include="..\src\PythonTypes.h" />
     <ClInclude Include="..\src\Render.h" />
     <ClInclude Include="..\src\Resource.h" />
     <ClInclude Include="..\src\Resources.h" />
