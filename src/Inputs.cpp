@@ -1,7 +1,9 @@
 #include <sstream>
 
+#include "Animated.h"
 #include "Inputs.h"
 #include "Input.h"
+#include "Resources.h"
 #include "Transform.h"
 
 Inputs::Inputs(string const &name, EntityManager &em):
@@ -44,7 +46,7 @@ Inputs::moveHero(int now) {
     dx += 1;
     anim = "man_walk_right";
   }
-  
+
   vector<Entity *> ents = em.getEntities(Input::TYPE, Transform::TYPE);
   for (vector<Entity *>::iterator it = ents.begin(); it < ents.end(); it++) {
     Entity *ent = *it;
@@ -53,7 +55,10 @@ Inputs::moveHero(int now) {
       t->moveBy(dx, dy);
     }
 
-    // Apply animation if possible...
+    if (ent->hasComponent(Animated::TYPE)) {
+      Animated *animated = ent->getComponent<Animated>();
+      animated->setAnimation(anim);
+    }
   }
   
 };

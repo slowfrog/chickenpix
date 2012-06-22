@@ -1,8 +1,9 @@
 #include <sstream>
 
 #include "CLInputs.h"
-#include "CLState.h"
+#include "CLVisualContext.h"
 #include "../Input.h"
+#include "../Resources.h"
 #include "../Transform.h"
 
 int KEYMAP[] = {
@@ -34,8 +35,9 @@ CLInputs::~CLInputs() {
 
 void
 CLInputs::init() {
-  CLState *clstate = em.getComponent<CLState>();
-  keyboard = &(clstate->getWindow().get_ic().get_keyboard());
+  Resources *resources = em.getComponent<Resources>();
+  CLVisualContext &vc = (CLVisualContext &) resources->getVisualContext();
+  keyboard = &(vc.getWindow().get_ic().get_keyboard());
 }
 
 void

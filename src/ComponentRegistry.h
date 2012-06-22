@@ -9,9 +9,4 @@
 #define RESOURCES_TYPE  7
 #define SCRIPTABLE_TYPE 8
 
-
-#define CLSTATE_TYPE      9
-
-#define SFMLSTATE_TYPE    10
-
 extern const char *ComponentName[];

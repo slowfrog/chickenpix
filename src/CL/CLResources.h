@@ -65,13 +65,16 @@ inline CL_Font &CLResFont::get() {
 
 //
 class CLResources: public Resources {
+private:
+  CLVisualContext vc;
 public:
-  CLResources();
+  CLResources(CL_DisplayWindow &window);
   virtual ~CLResources();
 
-  virtual BVisual *makeImage(VisualContext &vc, string const &name) ;
-  virtual BVisual *makeSprite(VisualContext &vc, string const &name);
-  virtual BVisual *makeText(VisualContext &vc, string const &text, string const &font);
+  virtual VisualContext &getVisualContext();
+  virtual BVisual *makeImage(string const &name) ;
+  virtual BVisual *makeSprite(string const &name);
+  virtual BVisual *makeText(string const &text, string const &font);
 
   virtual string toString() const;
 };

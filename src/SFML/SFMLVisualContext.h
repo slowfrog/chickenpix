@@ -6,18 +6,23 @@
 
 class SFMLVisualContext: public VisualContext {
 private:
-  sf::RenderTarget &rt;
+  sf::RenderWindow &rw;
 
 public:
-  SFMLVisualContext(sf::RenderTarget &rt):
-    rt(rt) {
+  SFMLVisualContext(sf::RenderWindow &rw):
+    rw(rw) {
   }
 
   virtual ~SFMLVisualContext() {}
 
   inline
   sf::RenderTarget &getRenderTarget() const {
-    return rt;
+    return rw;
+  }
+  
+  inline
+  sf::RenderWindow &getRenderWindow() const {
+    return rw;
   }
   
 };

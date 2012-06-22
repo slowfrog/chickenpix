@@ -6,13 +6,18 @@
 class Animated: public Component {
 private:
   string name;
-  vector<Frame> frames;
+  bool changed;
   
 public:
   static const Type TYPE = ANIMATED_TYPE;
 
-  Animated(string const &name, vector<Frame> const &frames);
+  Animated(string const &name);
   virtual ~Animated();
 
+  string const &getAnimation() const;
+  void setAnimation(string const &anim);
+  bool hasChanged() const;
+  void setChanged(bool changed);
+  
   virtual string toString() const;
 };

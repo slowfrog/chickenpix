@@ -4,9 +4,10 @@
 #include <SFML/Window.hpp>
 
 #include "SFMLInputs.h"
-#include "SFMLState.h"
+#include "SFMLVisualContext.h"
 #include "../Input.h"
 #include "../Transform.h"
+#include "../Resources.h"
 
 sf::Key::Code KEYMAP[] = {
   sf::Key::Num0,
@@ -37,8 +38,9 @@ SFMLInputs::~SFMLInputs() {
 
 void
 SFMLInputs::init() {
-  SFMLState *state = em.getComponent<SFMLState>();
-  window = &state->getWindow();
+  Resources *resources = em.getComponent<Resources>();
+  SFMLVisualContext &vc = (SFMLVisualContext &) resources->getVisualContext();
+  window = &vc.getRenderWindow();
 }
 
 void

@@ -46,6 +46,8 @@ public:
   Resources();
   virtual ~Resources();
 
+  virtual VisualContext &getVisualContext() = 0;
+  
   void setImage(string const &name, ResImage *image);
   ResImage *getImage(string const &name);
   void setSprite(string const &name, ResSprite *sprite);
@@ -54,9 +56,9 @@ public:
   ResFont *getFont(string const &name);
 
   // Factory methods to be implemented in specific implementations
-  virtual BVisual *makeImage(VisualContext &vc, string const &name) = 0;
-  virtual BVisual *makeSprite(VisualContext &vc, string const &name) = 0;
-  virtual BVisual *makeText(VisualContext &vc, string const &text, string const &font) = 0;
+  virtual BVisual *makeImage(string const &name) = 0;
+  virtual BVisual *makeSprite(string const &name) = 0;
+  virtual BVisual *makeText(string const &text, string const &font) = 0;
   
   virtual string toString() const;
 };

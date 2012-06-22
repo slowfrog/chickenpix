@@ -6,6 +6,7 @@
 #include "CLLoader.h"
 #include "CLResources.h"
 #include "CLInputs.h"
+#include "../Animation.h"
 #include "../Scripting.h"
 
 class DisplayProgram
@@ -21,6 +22,8 @@ public:
       clanlib.init();
       CLRender clrender("CLRender", em);
       clrender.init();
+      Animation anim("Animation", em);
+      anim.init();
       CLLoader clloader("Loader", em);
       clloader.init();
       CLInputs clinputs("Inputs", em);
@@ -44,6 +47,8 @@ public:
 
         // Execute scripts
         scripting.update(now);
+        // Update animations
+        anim.update(now);
         // Render update
         clrender.update(now);
         
@@ -57,6 +62,7 @@ public:
       clinputs.exit();
       clloader.exit();
       clrender.exit();
+      anim.exit();
       clanlib.exit();
     }
     catch(CL_Exception &exception)

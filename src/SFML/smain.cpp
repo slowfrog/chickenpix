@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/System.hpp>
+#include "../Animation.h"
 #include "../EntityManager.h"
 #include "../Scripting.h"
 #include "SFMLInputs.h"
@@ -14,6 +15,8 @@ int main(int argc, char const *argv[]) {
   EntityManager em("SFML-main");
   SFMLRender sfrender("SFMLRender", em);
   sfrender.init();
+  Animation anim("Animation", em);
+  anim.init();
   SFMLInputs sfinputs("SFMLInput", em);
   sfinputs.init();
   SFMLLoader sfloader("SFMLLoader", em);
@@ -35,6 +38,7 @@ int main(int argc, char const *argv[]) {
     }
 
     scripting.update(now);
+    anim.update(now);
     sfrender.update(now);
 
     prev = now;
@@ -44,6 +48,7 @@ int main(int argc, char const *argv[]) {
   scripting.exit();
   sfloader.exit();
   sfinputs.exit();
+  anim.exit();
   sfrender.exit();
 
   // Exit

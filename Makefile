@@ -18,6 +18,7 @@ SF_CFLAGS=-I$(SFML_DIR)/include $(CFLAGS)
 SF_LDFLAGS=-L$(SFML_DIR)/lib $(LDFLAGS) -lsfml-window -lsfml-graphics -lsfml-system 
 
 SOURCES=$(SRC_DIR)/Animated.cpp \
+        $(SRC_DIR)/Animation.cpp \
         $(SRC_DIR)/Component.cpp \
         $(SRC_DIR)/ComponentRegistry.cpp \
         $(SRC_DIR)/Entity.cpp \
@@ -54,7 +55,6 @@ CL_SOURCES=$(CL_SRC_DIR)/ClanLib.cpp \
          $(CL_SRC_DIR)/CLLoader.cpp \
          $(CL_SRC_DIR)/CLRender.cpp \
          $(CL_SRC_DIR)/CLResources.cpp \
-         $(CL_SRC_DIR)/CLState.cpp \
          $(CL_SRC_DIR)/CLVisualImage.cpp \
          $(CL_SRC_DIR)/CLVisualSprite.cpp \
          $(CL_SRC_DIR)/CLVisualText.cpp \
@@ -64,7 +64,6 @@ SF_SOURCES=$(SF_SRC_DIR)/SFMLInputs.cpp \
          $(SF_SRC_DIR)/SFMLLoader.cpp \
          $(SF_SRC_DIR)/SFMLRender.cpp \
          $(SF_SRC_DIR)/SFMLResources.cpp \
-         $(SF_SRC_DIR)/SFMLState.cpp \
          $(SF_SRC_DIR)/SFMLVisualImage.cpp \
          $(SF_SRC_DIR)/SFMLVisualSprite.cpp \
          $(SF_SRC_DIR)/SFMLVisualText.cpp \

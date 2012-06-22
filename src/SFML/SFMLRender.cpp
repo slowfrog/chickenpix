@@ -3,8 +3,8 @@
 #include <SFML/Window.hpp>
 #include "../Transform.h"
 #include "SFMLRender.h"
-#include "SFMLState.h"
 #include "../BVisual.h"
+#include "SFMLResources.h"
 #include "SFMLVisualContext.h"
 
 SFMLRender::SFMLRender(string const &name, EntityManager &em):
@@ -19,7 +19,7 @@ SFMLRender::init() {
   window = new sf::RenderWindow(sf::VideoMode(640, 480, 32), "SFML chickenpix",
                                 sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close);
   Entity *clstate = em.createEntity();
-  clstate->addComponent(new SFMLState(*window));
+  clstate->addComponent(new SFMLResources(*window));
 }
 
 VisualContext *

@@ -1,6 +1,6 @@
 #include <sstream>
 #include "CLRender.h"
-#include "CLState.h"
+#include "CLResources.h"
 #include "../Transform.h"
 #include "../BVisual.h"
 #include "CLVisualContext.h"
@@ -16,7 +16,7 @@ void
 CLRender::init() {
   window = new CL_DisplayWindow("Hello World", 640, 480);
   Entity *clstate = em.createEntity();
-  clstate->addComponent(new CLState(*window));
+  clstate->addComponent(new CLResources(*window));
 }
 
 VisualContext *

@@ -9,9 +9,7 @@ const char *ComponentName[] = {
   "Input",
   "Resource",
   "Resources",
-  "Scriptable",
-  "CLState",
-  "SFMLState"
+  "Scriptable"
 };
 
   
