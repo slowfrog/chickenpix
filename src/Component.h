@@ -18,6 +18,9 @@ public:
   inline Type getType() const {
     return type;
   }
+  inline const char *getTypeName() const {
+    return ComponentName[type];
+  }
 
   virtual string toString() const;
 };

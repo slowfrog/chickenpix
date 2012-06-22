@@ -27,6 +27,10 @@ public:
     return id;
   }
 
+  inline vector<Component *> const &getComponents() const {
+    return comp;
+  }
+  
   void addComponent(Component *c);
 
   void removeComponent(Component::Type t);

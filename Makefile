@@ -19,6 +19,7 @@ SF_LDFLAGS=-L$(SFML_DIR)/lib $(LDFLAGS) -lsfml-window -lsfml-graphics -lsfml-sys
 
 SOURCES=$(SRC_DIR)/Animated.cpp \
         $(SRC_DIR)/Component.cpp \
+        $(SRC_DIR)/ComponentRegistry.cpp \
         $(SRC_DIR)/Entity.cpp \
         $(SRC_DIR)/EntityManager.cpp \
         $(SRC_DIR)/Input.cpp \

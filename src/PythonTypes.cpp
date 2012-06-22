@@ -68,10 +68,56 @@ static PyObject *
 Entity_id(PyEntity *self) {
   PyObject *ret = PyInt_FromLong(self->entity->getId());
   return ret;
-};
+}
+
+static PyObject *
+Entity_getComponents(PyEntity *self) {
+  Entity *entity = self->entity;
+  vector<Component *> const &components = entity->getComponents();
+  int size = components.size();
+  PyObject *ret = PyList_New(size);
+  for (int i = 0; i < size; ++i) {
+    Component *compo = components[i];
+    PyObject *pcompo = wrapComponent(compo);
+    PyList_SetItem(ret, i, pcompo);
+  }
+  return ret;
+}
 
 static PyMethodDef Entity_methods[] = {
   {"id", (PyCFunction) Entity_id, METH_NOARGS, "Id of the entity" },
+  {"getComponents", (PyCFunction) Entity_getComponents, METH_NOARGS, "Get all components of the entity" },
+  {NULL} /* End of list */
+};
+
+// Component wrapper
+typedef struct {
+  PyObject_HEAD
+  Component *component;
+} PyComponent;
+
+static PyTypeObject PyComponentType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Component",
+  sizeof(PyComponent),
+};
+
+static PyObject *
+Component_type(PyComponent *self) {
+  PyObject *ret = PyInt_FromLong(self->component->getType());
+  return ret;
+}
+
+static PyObject *
+Component_typeName(PyComponent *self) {
+  PyObject *ret = PyString_FromString(self->component->getTypeName());
+  return ret;
+}
+
+static PyMethodDef Component_methods[] = {
+  {"type", (PyCFunction) Component_type, METH_NOARGS, "Type of the component" },
+  {"typeName", (PyCFunction) Component_typeName, METH_NOARGS, "Name of the type of the component" },
   {NULL} /* End of list */
 };
 
@@ -90,15 +136,28 @@ initcp(EntityManager *em) {
   PyEntityManagerType.tp_doc = "Type of entity managers";
   PyEntityManagerType.tp_new = PyType_GenericNew; // Remove ?
   PyEntityManagerType.tp_methods = EntityManager_methods;
-  if (PyType_Ready(&PyEntityManagerType) < 0)
+  if (PyType_Ready(&PyEntityManagerType) < 0) {
+    cout << "Cannot create EntityManager type" << endl;
     return;
+  }
 
   PyEntityType.tp_flags = Py_TPFLAGS_DEFAULT;
   PyEntityType.tp_doc = "Type of entities";
   PyEntityType.tp_new = PyType_GenericNew; // Remove ?
   PyEntityType.tp_methods = Entity_methods;
-  if (PyType_Ready(&PyEntityType) < 0)
+  if (PyType_Ready(&PyEntityType) < 0) {
+    cout << "Cannot create Entity type" << endl;
     return;
+  }
+
+  PyComponentType.tp_flags = Py_TPFLAGS_DEFAULT;
+  PyComponentType.tp_doc = "Type of components";
+  PyComponentType.tp_new = PyType_GenericNew;
+  PyComponentType.tp_methods = Component_methods;
+  if (PyType_Ready(&PyComponentType) < 0) {
+    cout << "Cannot create Component type" << endl;
+    return;
+  }
 
   m = Py_InitModule3("cp", module_Methods,
                      "Chickenpix extension module.");
@@ -107,10 +166,8 @@ initcp(EntityManager *em) {
   PyModule_AddObject(m, "EntityManager", (PyObject *) &PyEntityManagerType);
   Py_INCREF(&PyEntityType);
   PyModule_AddObject(m, "Entity", (PyObject *) &PyEntityType);
-
-  PyEntityManager *pyem = (PyEntityManager *) PyEntityManagerType.tp_alloc(&PyEntityManagerType, 0);
-  pyem->em = em;
-  PyModule_AddObject(m, "em", (PyObject *) pyem);
+  Py_INCREF(&PyComponentType);
+  PyModule_AddObject(m, "Component", (PyObject *) &PyComponentType);
 }
 
 PyObject *wrapEntityManager(EntityManager *em) {
@@ -123,4 +180,10 @@ PyObject *wrapEntity(Entity *e) {
   PyEntity *pye = (PyEntity *) PyEntityType.tp_alloc(&PyEntityType, 0);
   pye->entity = e;
   return (PyObject *) pye;
+}
+
+PyObject *wrapComponent(Component *c) {
+  PyComponent *pc = (PyComponent *) PyComponentType.tp_alloc(&PyComponentType, 0);
+  pc->component = c;
+  return (PyObject *) pc;
 }

@@ -1,4 +1,5 @@
 #pragma once
+
 #define TRANSFORM_TYPE  1
 #define MOBILE_TYPE     2
 #define VISUAL_TYPE     3
@@ -9,7 +10,8 @@
 #define SCRIPTABLE_TYPE 8
 
 
-#define CLSTATE_TYPE      101
+#define CLSTATE_TYPE      9
 
-#define SFMLSTATE_TYPE    201
+#define SFMLSTATE_TYPE    10
 
+extern const char *ComponentName[];
