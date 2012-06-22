@@ -18,4 +18,6 @@ public:
 private:
   void addSprite(CL_GraphicContext &gc, string const &path, CL_ResourceManager *clresources,
                  Resources *resources, string const &name);
+  void addFont(string const &path, CL_ResourceManager *clresources, Resources *resources,
+               string const &name);
 };

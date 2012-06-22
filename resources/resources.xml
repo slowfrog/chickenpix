@@ -5,7 +5,19 @@
       <const name="top" value="Press arrows to move, [ESC] to quit." />
       <const name="title" value="Chickenpix!!!" />
     </section>
-  
+
+    <!-- Fonts -->
+    <section name="fonts">
+      <font name="sans_big">
+        <freetype file="fonts/BerkshireSwash-Regular.ttf" height="40"
+                  anti_alias="true" subpixel="false" />
+      </font>
+      <font name="sans_small">
+        <freetype file="fonts/BerkshireSwash-Regular.ttf" height="11"
+                  anti_alias="true" subpixel="true" />
+      </font>
+    </section>
+    
     <!-- Sprites -->
     <section name="sprites">
     <const name="horizontal-speed" value="43" />

@@ -24,6 +24,12 @@ CLLoader::addSprite(CL_GraphicContext &gc, string const &path, CL_ResourceManage
 }
 
 void
+CLLoader::addFont(string const &path, CL_ResourceManager *clresources,
+                  Resources *resources, string const &name) {
+  resources->setFont(name, new CLResFont(new CL_Font_Freetype(path, clresources)));
+}
+
+void
 CLLoader::init() {
   Resources *resources = em.getComponent<Resources>();
   CLVisualContext &vc = (CLVisualContext &) resources->getVisualContext();
@@ -40,8 +46,8 @@ CLLoader::init() {
   addSprite(gc, "sprites/walk_down", &clresources, resources, "man_walk_down");
   addSprite(gc, "sprites/wait", &clresources, resources, "man_still");
 
-  resources->setFont("sans_big", new CLResFont(new CL_Font(gc, "Tahoma", 50)));
-  resources->setFont("sans_small", new CLResFont(new CL_Font(gc, "Tahoma", 12)));
+  addFont("fonts/sans_big", &clresources, resources, "sans_big");
+  addFont("fonts/sans_small", &clresources, resources, "sans_small");
   
   Entity *e = em.createEntity();
   e->addComponent(new Transform(50, 150));
