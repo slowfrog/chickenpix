@@ -59,7 +59,7 @@ CLLoader::init() {
   hero->addComponent(new Transform(320, 222));
   hero->addComponent(resources->makeSprite(vc, "walk_right"));
   hero->addComponent(new Input());
-  hero->addComponent(new Scriptable("toto"));
+  hero->addComponent(new Scriptable("toby"));
 
   e = em.createEntity();
   e->addComponent(new Transform(100, 120));

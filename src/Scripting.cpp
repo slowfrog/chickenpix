@@ -1,8 +1,9 @@
 #include <Python.h>
+
 #include <iostream>
 #include <sstream>
 
-#include "Scripting.h"
+#include "Scripting.h" // Must include Python.h before standard includes...
 #include "Scriptable.h"
 #include "PythonTypes.h"
 
@@ -11,27 +12,13 @@ Scripting::Scripting(string const &name, EntityManager &em):
 }
 
 Scripting::~Scripting() {
+  for (map<string, ScriptInfo>::iterator it = scriptCache.begin(); it != scriptCache.end(); it++) {
+    ScriptInfo &info = it->second;
+    Py_DECREF(info.func);
+    Py_DECREF(info.module);
+  }
+  scriptCache.clear();
 }
-
-// static PyObject *
-// ss(PyObject *self, PyObject *args) {
-//   PyObject *obj;
-//   if (!PyArg_ParseTuple(args, "O", &obj)) {
-//     cout << "Error parsing arguments." << endl;
-//     return Py_None;
-//   }
-//   EntityManager *em = (EntityManager *) PyCObject_AsVoidPtr(obj);
-//   cout << em->toString() << endl;
-//   return Py_None;
-// }
-
-// static PyMethodDef EmbeddedMethods[] = {
-//   {"ss", ss, METH_VARARGS, "Get something"},
-//   {NULL, NULL, 0, NULL}
-// };
-
-// static PyObject *EmCapsule;
-// static PyObject *CPModule;
 
 void
 Scripting::init() {
@@ -49,56 +36,56 @@ Scripting::init() {
     Py_DECREF(path);
   }
   initcp(&em);
-  
-  /*CPModule = Py_InitModule("cp0", EmbeddedMethods);
-  if (!CPModule) {
-    cout << "Could not create module" << endl;
-    return;
+}
+
+ScriptInfo *
+Scripting::getScript(string const &name) {
+  // If we want dynamic reloading of scripts, we should check here
+  if (scriptCache.find(name) == scriptCache.end()) {
+    PyObject *pName = PyString_FromString(name.c_str());
+    PyObject *pModule = PyImport_Import(pName);
+    Py_DECREF(pName);
+    if (!pModule) {
+      cout << "Could not load module " << name << endl;
+      if (PyErr_Occurred()) {
+        PyErr_Print();
+      }
+      return NULL;
+    }
+    PyObject *pFunc = PyObject_GetAttrString(pModule, "run");
+    if (!pFunc) {
+      cout << "'" << "run" << "' is not found in module " << name << endl;
+      Py_DECREF(pModule);
+      return NULL;
+    } else if (!PyCallable_Check(pFunc)) {
+      cout << "'" << "run" << "' is not callable in module " << name << endl;
+      Py_DECREF(pModule);
+      return NULL;
+      
+    } else {
+      ScriptInfo info = {pModule, pFunc};
+      scriptCache[name] = info;
+    }
   }
-  EmCapsule = PyCObject_FromVoidPtr(&em, NULL);
-  if (!EmCapsule) {
-    cout << "Could not create Capsule" << endl;
-    return;
-  } else {
-    cout << "Capsule created with " << PyCObject_AsVoidPtr(EmCapsule) << endl;
-  }
-  if (PyModule_AddObject(CPModule, "em", EmCapsule)) {
-    cout << "Error adding \"em\" to module" << endl;
-  } else {
-    cout << "Module ok and \"em\" available" << endl;
-    }*/
+  return &scriptCache[name];
 }
 
 void
 Scripting::update(int now) {
-  PyObject *pName = PyString_FromString("toby");
-  PyObject *pModule = PyImport_Import(pName);
-  Py_DECREF(pName);
-  if (!pModule) {
-    cout << "Could not load module" << endl;
-    if (PyErr_Occurred()) {
-      PyErr_Print();
-    }
-    return;
-  }
-  PyObject *pFunc = PyObject_GetAttrString(pModule, "run");
-  if ((!pFunc) || (!PyCallable_Check(pFunc))) {
-    cout << "pFunc is not callable" << endl;
-  } else {
-    //cout << "Capsule ok with " << PyCObject_AsVoidPtr(EmCapsule) << endl;
+  PyObject *pyem = wrapEntityManager(&em);
 
-    
-    PyObject *pyem = wrapEntityManager(&em);
+  vector<Entity *> scripts = em.getEntities(Scriptable::TYPE);
+  for (vector<Entity *>::iterator it = scripts.begin(); it < scripts.end(); it++) {
 
-    vector<Entity *> scripts = em.getEntities(Scriptable::TYPE);
-    for (vector<Entity *>::iterator it = scripts.begin(); it < scripts.end(); it++) {
-      Entity *entity = *it;
-      Scriptable *s = entity->getComponent<Scriptable>();
-      s->update(now); // ??
-
+    Entity *entity = *it;
+    Scriptable *scriptable = entity->getComponent<Scriptable>();
+    ScriptInfo *info = getScript(scriptable->getName());
+    if (info) {
+      scriptable->update(now); // ??
+        
       PyObject *pye = wrapEntity(entity);
       PyObject *arglist = Py_BuildValue("(OO)", pye, pyem);
-      PyObject *ret = PyObject_CallObject(pFunc, arglist);
+      PyObject *ret = PyObject_CallObject(info->func, arglist);
       Py_DECREF(arglist);
       Py_DECREF(pye);
       if (PyErr_Occurred()) {

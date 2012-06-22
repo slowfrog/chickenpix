@@ -12,6 +12,9 @@ public:
   Scriptable(string const &name);
   virtual ~Scriptable();
 
+  inline string const &getName() const {
+    return name;
+  }
   virtual void update(int now);
 
   virtual string toString() const;
