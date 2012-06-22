@@ -112,5 +112,5 @@ clean:
 	-rm $(OBJECTS) $(TMX_OBJECTS) $(CL_OBJECTS) $(SF_OBJECTS)
 
 purge:
-	-rm -rf $(CL_OBJ_DIR) $(SF_OBJ_DIR) $(TMX_OBJ_DIR) $(OBJ_DIR) $(CL_EXECUTABLE) $(SF_EXECUTABLE) *~ */*~ */*/*~
+	-rm -rf $(CL_OBJ_DIR) $(SF_OBJ_DIR) $(TMX_OBJ_DIR) $(OBJ_DIR) $(CL_EXECUTABLE) $(SF_EXECUTABLE) $(shell find . -name '*~') $(shell find . -name '*.pyc')
 
