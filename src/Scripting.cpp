@@ -71,8 +71,6 @@ Scripting::init() {
 
 void
 Scripting::update(int now) {
-
-
   PyObject *pName = PyString_FromString("toby");
   PyObject *pModule = PyImport_Import(pName);
   Py_DECREF(pName);

@@ -72,6 +72,18 @@ EntityManager::getEntities(Component::Type t) {
 }
 
 vector<Entity *>
+EntityManager::getEntities() const {
+  vector<Entity *> ret;
+  for (unsigned int i = 1; i < entities.size(); ++i) {
+    Entity *ent = entities[i];
+    if (ent != NULL) {
+      ret.push_back(ent);
+    }
+  }
+  return ret;
+}
+
+vector<Entity *>
 EntityManager::getEntities(Component::Type t1, Component::Type t2) {
   vector<Entity *> ret;
   for (unsigned int i = 1; i < entities.size(); ++i) {

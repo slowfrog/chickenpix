@@ -4,6 +4,7 @@
 #include "SFMLLoader.h"
 #include "../Input.h"
 #include "../Resources.h"
+#include "../Scriptable.h"
 #include "../Transform.h"
 #include "SFMLResources.h"
 #include "SFMLState.h"
@@ -79,6 +80,7 @@ SFMLLoader::init() {
   hero->addComponent(new Transform(320, 222));
   hero->addComponent(resources->makeSprite(vc, "walk_right"));
   hero->addComponent(new Input());
+  hero->addComponent(new Scriptable("toto"));
   
   Entity *text = em.createEntity();
   text->addComponent(new Transform(20, 40));

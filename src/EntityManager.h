@@ -17,8 +17,9 @@ public:
   Entity *getEntity(Entity::Id id);
   void destroyEntity(Entity::Id id);
   void destroyEntity(Entity *entity);
-  vector<Entity *>getEntities(Component::Type t);
-  vector<Entity *>getEntities(Component::Type t1, Component::Type t2);
+  vector<Entity *> getEntities() const;
+  vector<Entity *> getEntities(Component::Type t);
+  vector<Entity *> getEntities(Component::Type t1, Component::Type t2);
   Entity *getEntity(Component::Type t);
 
   template<class T> T *getComponent();

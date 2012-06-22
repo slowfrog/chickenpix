@@ -1,5 +1,6 @@
 #include <Python.h>
 
+#include <iostream>
 #include "PythonTypes.h"
 
 // EntityManager wrapper
@@ -15,8 +16,6 @@ static PyTypeObject PyEntityManagerType = {
   sizeof(PyEntityManager), /*tp_basicsize*/
 };
 
-
-
 static PyObject *
 EntityManager_name(PyEntityManager *self) {
   PyObject *ret = PyString_FromString(self->em->getName().c_str());
@@ -29,9 +28,26 @@ EntityManager_size(PyEntityManager *self) {
   return ret;
 }
 
+static PyObject *
+
+
+EntityManager_getEntities(PyEntityManager *self) {
+  EntityManager *em = self->em;
+  vector<Entity *> const &entities = em->getEntities();
+  int size = entities.size();
+  PyObject *ret = PyList_New(size);
+  for (int i = 0; i < size; ++i) {
+    Entity *entity = entities[i];
+    PyObject *pentity = wrapEntity(entity);
+    PyList_SetItem(ret, i, pentity);
+  }
+  return ret;
+}
+
 static PyMethodDef EntityManager_methods[] = {
   {"name", (PyCFunction) EntityManager_name, METH_NOARGS, "Name of the EntityManager" },
   {"size", (PyCFunction) EntityManager_size, METH_NOARGS, "Number of entities" },
+  {"getEntities", (PyCFunction) EntityManager_getEntities, METH_NOARGS, "List of all entities" },
   {NULL} /* End of list */
 };
 
