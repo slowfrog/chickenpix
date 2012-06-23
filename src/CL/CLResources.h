@@ -26,19 +26,19 @@ inline CL_Image &CLResImage::get() {
 
 class CLResSprite: public ResSprite {
 private:
-  CL_SpriteDescription *sprite;
+  CL_Sprite *sprite;
 public:
-  CLResSprite(CL_SpriteDescription *sprite);
+  CLResSprite(CL_Sprite *sprite);
   virtual ~CLResSprite();
-  CL_SpriteDescription &get();
+  CL_Sprite &get();
 };
-inline CLResSprite::CLResSprite(CL_SpriteDescription *sprite):
+inline CLResSprite::CLResSprite(CL_Sprite *sprite):
   sprite(sprite) {
 }
 inline CLResSprite::~CLResSprite() {
   delete sprite;
 }
-inline CL_SpriteDescription &CLResSprite::get() {
+inline CL_Sprite &CLResSprite::get() {
   return *sprite;
 }
 

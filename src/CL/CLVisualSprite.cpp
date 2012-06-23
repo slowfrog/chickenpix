@@ -13,7 +13,7 @@ void
 CLVisualSprite::draw(VisualContext &vc, float x, float y) {
   CL_GraphicContext &gc = ((CLVisualContext &)vc).getGraphicContext();
   sprite->draw(gc, x, y);
-  sprite->update();
+  sprite->update(-1);
 }
 
 string

@@ -20,7 +20,7 @@ CLLoader::~CLLoader() {
 void
 CLLoader::addSprite(CL_GraphicContext &gc, string const &path, CL_ResourceManager *clresources,
                     Resources *resources, string const &name) {
-  resources->setSprite(name, new CLResSprite(new CL_SpriteDescription(gc, path, clresources)));;
+  resources->setSprite(name, new CLResSprite(new CL_Sprite(gc, path, clresources)));;
 }
 
 void
@@ -61,7 +61,7 @@ CLLoader::init() {
   hero->addComponent(new Transform(320, 222));
   hero->addComponent(new Animated("man_still"));
   hero->addComponent(new Input());
-  hero->addComponent(new Scriptable("toby"));
+  hero->addComponent(new Scriptable("toto"));
 
   e = em.createEntity();
   e->addComponent(new Transform(100, 120));

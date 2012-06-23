@@ -26,7 +26,9 @@ CLResources::makeImage(string const &name) {
 BVisual *
 CLResources::makeSprite(string const &name) {
   CLResSprite *resSprite = (CLResSprite *) getSprite(name);
-  return new CLVisualSprite(new CL_Sprite(vc.getGraphicContext(), resSprite->get()));
+  CL_Sprite *ret = new CL_Sprite();
+  ret->clone(resSprite->get());
+  return new CLVisualSprite(ret);
 }
 
 BVisual *
