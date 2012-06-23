@@ -3,6 +3,8 @@
 #include "VisualContext.h"
 
 class Render: public System {
+private:
+  int last;
 public:
   Render(string const &name, EntityManager &em);
   virtual ~Render();

@@ -9,7 +9,7 @@ CLVisualImage::~CLVisualImage() {
 }
 
 void
-CLVisualImage::draw(VisualContext &vc, float x, float y) {
+CLVisualImage::draw(VisualContext &vc, float x, float y, int delta) {
   CL_GraphicContext &gc = ((CLVisualContext &)vc).getGraphicContext();
   image.draw(gc, x, y);
 }

@@ -25,7 +25,8 @@ SFMLResources::makeImage(string const &name) {
 BVisual *
 SFMLResources::makeSprite(string const &name) {
   SFMLResSprite *resSprite = (SFMLResSprite *) getSprite(name);
-  return new SFMLVisualSprite(resSprite->getImage(), resSprite->getFrames());
+  return new SFMLVisualSprite(resSprite->getImage(), resSprite->getFrames(),
+                              resSprite->isPingPong());
 }
 
 BVisual *

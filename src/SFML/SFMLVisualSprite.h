@@ -8,12 +8,15 @@ class SFMLVisualSprite: public BVisual {
 private:
   sf::Sprite sprite;
   vector<Frame> frames;
-  unsigned int frame;
+  bool pingpong;
+  int frame;
+  int dir;
+  int timeLeft;
 
 public:
-  SFMLVisualSprite(sf::Image &image, vector<Frame> const &frames);
+  SFMLVisualSprite(sf::Image &image, vector<Frame> const &frames, bool pingpong);
   virtual ~SFMLVisualSprite();
 
-  virtual void draw(VisualContext &vc, float x, float y);
+  virtual void draw(VisualContext &vc, float x, float y, int delta=-1);
   virtual string toString() const;
 };

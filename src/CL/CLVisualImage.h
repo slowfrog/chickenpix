@@ -11,7 +11,7 @@ public:
   CLVisualImage(CL_Image &image);
   virtual ~CLVisualImage();
 
-  virtual void draw(VisualContext &vc, float x, float y);
+  virtual void draw(VisualContext &vc, float x, float y, int delta=-1);
   
   virtual string toString() const;
 };

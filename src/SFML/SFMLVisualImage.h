@@ -10,7 +10,7 @@ public:
   SFMLVisualImage(sf::Image const &image);
   virtual ~SFMLVisualImage();
 
-  virtual void draw(VisualContext &vc, float x, float y);
+  virtual void draw(VisualContext &vc, float x, float y, int delta=-1);
   
   virtual string toString() const;
 };

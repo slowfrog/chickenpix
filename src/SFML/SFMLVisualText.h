@@ -14,7 +14,7 @@ public:
   SFMLVisualText(string const &text, sf::Font &font, sf::Color const &color);
   virtual ~SFMLVisualText();
 
-  virtual void draw(VisualContext &vc, float x, float y);
+  virtual void draw(VisualContext &vc, float x, float y, int delta=-1);
   
   virtual string toString() const;
 };

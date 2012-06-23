@@ -16,7 +16,7 @@ public:
   BVisual(int x, int y, int w, int h);
   virtual ~BVisual();
 
-  virtual void draw(VisualContext &vc, float x, float y) = 0;
+  virtual void draw(VisualContext &vc, float x, float y, int delta=-1) = 0;
 
   virtual string toString() const;
 };

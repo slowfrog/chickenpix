@@ -6,7 +6,7 @@
 #include "VisualContext.h"
 
 Render::Render(string const &name, EntityManager &em):
-  System(name, em) {
+  System(name, em), last(-1) {
 }
 
 Render::~Render() {
@@ -14,6 +14,9 @@ Render::~Render() {
 
 void
 Render::update(int now) {
+  int delta = (last == -1) ? 0 : (now - last);
+  last = now;
+  
   VisualContext *vc = getVisualContext();
 
   clear(*vc);
@@ -25,7 +28,7 @@ Render::update(int now) {
     Transform *t = entity->getComponent<Transform>();
     BVisual *v = entity->getComponent<BVisual>();
 
-    v->draw(*vc, t->getX(), t->getY());
+    v->draw(*vc, t->getX(), t->getY(), delta);
   }
 
   paint(*vc);

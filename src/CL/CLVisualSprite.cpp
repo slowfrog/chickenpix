@@ -10,10 +10,10 @@ CLVisualSprite::~CLVisualSprite() {
 }
 
 void
-CLVisualSprite::draw(VisualContext &vc, float x, float y) {
+CLVisualSprite::draw(VisualContext &vc, float x, float y, int delta) {
   CL_GraphicContext &gc = ((CLVisualContext &)vc).getGraphicContext();
   sprite->draw(gc, x, y);
-  sprite->update(-1);
+  sprite->update(delta);
 }
 
 string

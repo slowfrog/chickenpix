@@ -5,7 +5,7 @@
 
 SFMLVisualText::SFMLVisualText(string const &text, sf::Font &font, sf::Color const &color):
   str(text), font(font), color(color) {
-  str.SetSize(30);
+  str.SetSize(font.GetCharacterSize());
   str.SetFont(font);
   str.SetColor(color);
 }
@@ -14,7 +14,7 @@ SFMLVisualText::~SFMLVisualText() {
 }
 
 void
-SFMLVisualText::draw(VisualContext &vc, float x, float y) {
+SFMLVisualText::draw(VisualContext &vc, float x, float y, int delta) {
   //sf::String line;
   //line.SetText(text);
   sf::RenderTarget &rt = ((SFMLVisualContext &)vc).getRenderTarget();

@@ -12,7 +12,7 @@ public:
   CLVisualText(string const &text, CL_Font &font, CL_Colorf const &color);
   virtual ~CLVisualText();
 
-  virtual void draw(VisualContext &vc, float x, float y);
+  virtual void draw(VisualContext &vc, float x, float y, int delta=-1);
   
   virtual string toString() const;
 };

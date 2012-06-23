@@ -30,14 +30,17 @@ class SFMLResSprite: public ResSprite {
 private:
   sf::Image *image;
   vector<Frame> frames;
+  bool pingpong;
 public:
-  SFMLResSprite(sf::Image *image, vector<Frame> const &frames);
+  SFMLResSprite(sf::Image *image, vector<Frame> const &frames, bool pingpong);
   virtual ~SFMLResSprite();
   sf::Image &getImage();
   vector<Frame> &getFrames();
+  bool isPingPong() const;
 };
-inline SFMLResSprite::SFMLResSprite(sf::Image *image, vector<Frame> const &frames):
-  image(image), frames(frames) {
+inline SFMLResSprite::SFMLResSprite(sf::Image *image, vector<Frame> const &frames,
+                                    bool pingpong=false):
+  image(image), frames(frames), pingpong(pingpong) {
 }
 inline SFMLResSprite::~SFMLResSprite() {
   delete image;
@@ -48,7 +51,9 @@ inline sf::Image &SFMLResSprite::getImage() {
 inline vector<Frame> &SFMLResSprite::getFrames() {
   return frames;
 }
-
+inline bool SFMLResSprite::isPingPong() const {
+  return pingpong;
+}
 
 
 class SFMLResFont: public ResFont {
