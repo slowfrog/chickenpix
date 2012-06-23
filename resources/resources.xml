@@ -17,6 +17,12 @@
                   anti_alias="true" subpixel="true" />
       </font>
     </section>
+
+    <!-- Images -->
+    <section name="images">
+      <image name="house"><image file="img/house.png"/></image>
+      <image name="map"><image file="img/map.png" /></image>
+    </section>
     
     <!-- Sprites -->
     <section name="sprites">

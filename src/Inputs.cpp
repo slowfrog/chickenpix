@@ -31,28 +31,30 @@ Inputs::moveHero(int now) {
   int dy = 0;
   string anim = "man_still";
   if (isKeyDown(Up)) {
-    dy -= 1;
+    dy -= 2;
     anim = "man_walk_up";
   }
   if (isKeyDown(Down)) {
-    dy += 1;
+    dy += 2;
     anim = "man_walk_down";
   }
   if (isKeyDown(Left)) {
-    dx -= 1;
+    dx -= 2;
     anim = "man_walk_left";
   }
   if (isKeyDown(Right)) {
-    dx += 1;
+    dx += 2;
     anim = "man_walk_right";
   }
 
-  vector<Entity *> ents = em.getEntities(Input::TYPE, Transform::TYPE);
+  vector<Entity *> ents = em.getEntities(Transform::TYPE);
   for (vector<Entity *>::iterator it = ents.begin(); it < ents.end(); it++) {
     Entity *ent = *it;
     if ((dx != 0) || (dy != 0)) {
-      Transform *t = ent->getComponent<Transform>();
-      t->moveBy((float) dx, (float) dy);
+      if (!ent->hasComponent(Input::TYPE)) {
+        Transform *t = ent->getComponent<Transform>();
+        t->moveBy((float) -dx, (float) -dy);
+      }
     }
 
     if (ent->hasComponent(Animated::TYPE)) {

@@ -20,19 +20,25 @@ SFMLLoader::~SFMLLoader() {
 }
 
 void
+SFMLLoader::loadImage(string const &name, string const &path, Resources *resources) {
+  sf::Image *img = new sf::Image();
+  if (!img->LoadFromFile(path)) {
+    cerr << "Error loading " << path << endl;
+    return;
+  }
+  img->SetSmooth(false);
+  resources->setImage(name, new SFMLResImage(img));
+}
+
+void
 SFMLLoader::init() {
   Resources *resources = em.getComponent<Resources>();
   
   Entity *resourcesentity = em.createEntity();
   resourcesentity->addComponent(resources);
-  
-  sf::Image *houseimg = new sf::Image();
-  if (!houseimg->LoadFromFile("resources/img/house.png")) {
-    cerr << "Error loading resources/img/house.png" << endl;
-    return;
-  }
-  houseimg->SetSmooth(false);
-  resources->setImage("house", new SFMLResImage(houseimg));
+
+  loadImage("house", "resources/img/house.png", resources);
+  loadImage("map", "resources/img/map.png", resources);
 
   sf::Image *maleimg = new sf::Image();
   maleimg->LoadFromFile("resources/img/male_walkcycle.png");
@@ -85,6 +91,10 @@ SFMLLoader::init() {
   Entity *house = em.createEntity();
   house->addComponent(new Transform(50, 150));
   house->addComponent(resources->makeImage("house"));
+
+  Entity *map = em.createEntity();
+  map->addComponent(new Transform(-50, -50));
+  map->addComponent(resources->makeImage("map"));
 
   Entity *male = em.createEntity();
   male->addComponent(new Transform(10, 300));

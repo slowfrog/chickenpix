@@ -1,8 +1,11 @@
 #pragma once
+#include "../Resources.h"
 #include "../System.h"
 
 class SFMLLoader: public System {
 private:
+  void loadImage(string const &name, string const &path, Resources *resources);
+
 public:
   SFMLLoader(string const &name, EntityManager &em);
   virtual ~SFMLLoader();

@@ -18,9 +18,15 @@ CLLoader::~CLLoader() {
 }
 
 void
+CLLoader::addImage(CL_GraphicContext &gc, string const &path, CL_ResourceManager *clresources,
+                   Resources *resources, string const &name) {
+  resources->setImage(name, new CLResImage(new CL_Image(gc, path, clresources)));
+}
+
+void
 CLLoader::addSprite(CL_GraphicContext &gc, string const &path, CL_ResourceManager *clresources,
                     Resources *resources, string const &name) {
-  resources->setSprite(name, new CLResSprite(new CL_Sprite(gc, path, clresources)));;
+  resources->setSprite(name, new CLResSprite(new CL_Sprite(gc, path, clresources)));
 }
 
 void
@@ -35,11 +41,14 @@ CLLoader::init() {
   CLVisualContext &vc = (CLVisualContext &) resources->getVisualContext();
   CL_GraphicContext &gc = vc.getGraphicContext();
 
-  CL_PixelBuffer housePixBuf = CL_PNGProvider::load("resources/img/house.png");
-  CL_Image *houseImg = new CL_Image(gc, housePixBuf, housePixBuf.get_size());
-  resources->setImage("house", new CLResImage(houseImg));
+  // CL_PixelBuffer housePixBuf = CL_PNGProvider::load("resources/img/house.png");
+  // CL_Image *houseImg = new CL_Image(gc, housePixBuf, housePixBuf.get_size());
+  // resources->setImage("house", new CLResImage(houseImg));
   
   CL_ResourceManager clresources("resources/resources.xml");
+  addImage(gc, "images/house", &clresources, resources, "house");
+  addImage(gc, "images/map", &clresources, resources, "map");
+  
   addSprite(gc, "sprites/walk_left", &clresources, resources, "man_walk_left");
   addSprite(gc, "sprites/walk_right", &clresources, resources, "man_walk_right");
   addSprite(gc, "sprites/walk_up", &clresources, resources, "man_walk_up");
@@ -48,10 +57,15 @@ CLLoader::init() {
 
   addFont("fonts/sans_big", &clresources, resources, "sans_big");
   addFont("fonts/sans_small", &clresources, resources, "sans_small");
-  
+
+  // Entity creation.
   Entity *e = em.createEntity();
   e->addComponent(new Transform(50, 150));
   e->addComponent(resources->makeImage("house"));
+
+  e = em.createEntity();
+  e->addComponent(new Transform(-50, -50));
+  e->addComponent(resources->makeImage("map"));
 
   e = em.createEntity();
   e->addComponent(new Transform(10, 300));
