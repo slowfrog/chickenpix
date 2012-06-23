@@ -13,7 +13,9 @@ CLVisualText::~CLVisualText() {
 void
 CLVisualText::draw(VisualContext &vc, float x, float y, int delta) {
   CL_GraphicContext &gc = ((CLVisualContext &)vc).getGraphicContext();
-  font.draw_text(gc, x, y, text, color);
+  CL_FontMetrics fm = font.get_font_metrics();
+  float dy = fm.get_ascent();
+  font.draw_text(gc, x, y + dy, text, color);
 }
 
 string
