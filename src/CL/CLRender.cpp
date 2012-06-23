@@ -14,7 +14,9 @@ CLRender::~CLRender() {
 
 void
 CLRender::init() {
-  window = new CL_DisplayWindow("Hello World", 640, 480);
+  window = new CL_DisplayWindow("CL chickenpix", 640, 480);
+  window->set_size(640, 480, true); // Must re-set the size on Linux, otherwise the window
+                                    // frame eats some client area
   Entity *clstate = em.createEntity();
   clstate->addComponent(new CLResources(*window));
 }
