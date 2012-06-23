@@ -66,6 +66,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Animated.cpp" />
+    <ClCompile Include="..\src\Animation.cpp" />
     <ClCompile Include="..\src\BVisual.cpp" />
     <ClCompile Include="..\src\Component.cpp" />
     <ClCompile Include="..\src\ComponentRegistry.cpp" />
@@ -86,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Animated.h" />
+    <ClInclude Include="..\src\Animation.h" />
     <ClInclude Include="..\src\BVisual.h" />
     <ClInclude Include="..\src\Component.h" />
     <ClInclude Include="..\src\ComponentRegistry.h" />

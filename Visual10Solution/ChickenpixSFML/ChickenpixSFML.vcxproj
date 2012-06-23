@@ -93,7 +93,6 @@
     <ClCompile Include="..\..\src\SFML\SFMLLoader.cpp" />
     <ClCompile Include="..\..\src\SFML\SFMLRender.cpp" />
     <ClCompile Include="..\..\src\SFML\SFMLResources.cpp" />
-    <ClCompile Include="..\..\src\SFML\SFMLState.cpp" />
     <ClCompile Include="..\..\src\SFML\SFMLVisualImage.cpp" />
     <ClCompile Include="..\..\src\SFML\SFMLVisualSprite.cpp" />
     <ClCompile Include="..\..\src\SFML\SFMLVisualText.cpp" />
@@ -104,7 +103,6 @@
     <ClInclude Include="..\..\src\SFML\SFMLLoader.h" />
     <ClInclude Include="..\..\src\SFML\SFMLRender.h" />
     <ClInclude Include="..\..\src\SFML\SFMLResources.h" />
-    <ClInclude Include="..\..\src\SFML\SFMLState.h" />
     <ClInclude Include="..\..\src\SFML\SFMLVisualContext.h" />
     <ClInclude Include="..\..\src\SFML\SFMLVisualImage.h" />
     <ClInclude Include="..\..\src\SFML\SFMLVisualSprite.h" />

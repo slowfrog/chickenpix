@@ -52,7 +52,7 @@ Inputs::moveHero(int now) {
     Entity *ent = *it;
     if ((dx != 0) || (dy != 0)) {
       Transform *t = ent->getComponent<Transform>();
-      t->moveBy(dx, dy);
+      t->moveBy((float) dx, (float) dy);
     }
 
     if (ent->hasComponent(Animated::TYPE)) {

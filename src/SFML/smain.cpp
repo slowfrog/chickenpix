@@ -27,9 +27,9 @@ int main(int argc, char const *argv[]) {
 
   // One step
   sf::Clock clock;
-  int prev = floor(1000 * clock.GetElapsedTime());
+  int prev = (int) floor(1000 * clock.GetElapsedTime());
   while (true) {
-    int now = floor(1000 * clock.GetElapsedTime());
+    int now = (int) floor(1000 * clock.GetElapsedTime());
     
     // Process inputs
     sfinputs.update(now);
