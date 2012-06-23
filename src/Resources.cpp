@@ -1,5 +1,8 @@
 #include "Resources.h"
 
+CPColor
+CPColor::White(255, 255, 255);
+
 Resources::Resources():
   Component(TYPE) {
 }

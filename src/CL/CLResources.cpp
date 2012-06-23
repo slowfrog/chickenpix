@@ -32,9 +32,9 @@ CLResources::makeSprite(string const &name) {
 }
 
 BVisual *
-CLResources::makeText(string const &text, string const &font) {
+CLResources::makeText(string const &text, string const &font, CPColor const &color) {
   CLResFont *resFont = (CLResFont *) getFont(font);
-  return new CLVisualText(text, resFont->get(), CL_Colorf::white);
+  return new CLVisualText(text, resFont->get(), CL_Colorf(color.r, color.g, color.b, color.a));
 }
 
 string

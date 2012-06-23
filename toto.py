@@ -10,7 +10,7 @@ def run(self, manager):
               (self.id(),
                len(self.getComponents()),
                ", ".join(c.typeName() for c in self.getComponents())))
-        entities = manager.getEntities(1, 2, 3)
+        entities = manager.getEntities(cp.Transform, cp.Visual)
         print("There are %d Transform entities" % len(entities))
         once = True
 

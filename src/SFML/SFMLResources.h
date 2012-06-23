@@ -86,13 +86,10 @@ public:
   virtual VisualContext &getVisualContext();
   virtual BVisual *makeImage(string const &name) ;
   virtual BVisual *makeSprite(string const &name);
-  virtual BVisual *makeText(string const &text, string const &font);
+  virtual BVisual *makeText(string const &text, string const &font,
+                            CPColor const &color=CPColor::White);
 
   virtual string toString() const;
 };
-
-
-
-
 
 

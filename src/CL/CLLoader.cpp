@@ -64,13 +64,12 @@ CLLoader::init() {
   hero->addComponent(new Scriptable("toto"));
 
   e = em.createEntity();
-  e->addComponent(new Transform(100, 120));
-  e->addComponent(resources->makeText("Chickenpix!", "sans_big"));
-  //CL_Colorf(1.0f, 0.0f, 0.0f, 1.0f)));
+  e->addComponent(new Transform(100, 160));
+  e->addComponent(resources->makeText("Chickenpix!", "sans_big", CPColor(255, 255, 0, 128)));
+  
   e = em.createEntity();
   e->addComponent(new Transform(5, 10));
   e->addComponent(resources->makeText("Press [ESC] to exit...", "sans_small"));
-  //                                   CL_Colorf::white));
 }
 
 void

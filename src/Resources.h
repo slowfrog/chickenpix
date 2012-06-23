@@ -22,6 +22,20 @@ class ResFont: public ResBase {
 public:
   virtual ~ResFont() {}
 };
+class CPColor {
+public:
+  unsigned char r;
+  unsigned char g;
+  unsigned char b;
+  unsigned char a;
+
+  CPColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a=255):
+    r(r), g(g), b(b), a(a) {
+  }
+
+  static CPColor White;
+};
+
 
 // Resource 'repository'
 class Resources : public Component {
@@ -58,7 +72,8 @@ public:
   // Factory methods to be implemented in specific implementations
   virtual BVisual *makeImage(string const &name) = 0;
   virtual BVisual *makeSprite(string const &name) = 0;
-  virtual BVisual *makeText(string const &text, string const &font) = 0;
+  virtual BVisual *makeText(string const &text, string const &font,
+                            CPColor const &color=CPColor::White) = 0;
   
   virtual string toString() const;
 };

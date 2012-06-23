@@ -30,9 +30,9 @@ SFMLResources::makeSprite(string const &name) {
 }
 
 BVisual *
-SFMLResources::makeText(string const &text, string const &font) {
+SFMLResources::makeText(string const &text, string const &font, CPColor const &color) {
   SFMLResFont *resFont = (SFMLResFont *) getFont(font);
-  return new SFMLVisualText(text, resFont->get(), sf::Color(255, 255, 255));
+  return new SFMLVisualText(text, resFont->get(), sf::Color(color.r, color.g, color.b, color.a));
 }
 
 string
