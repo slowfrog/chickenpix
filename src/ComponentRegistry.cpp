@@ -9,7 +9,8 @@ const char *ComponentName[] = {
   "Input",
   "Resource",
   "Resources",
-  "Scriptable"
+  "Scriptable",
+  0
 };
 
   

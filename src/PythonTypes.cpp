@@ -29,11 +29,22 @@ EntityManager_size(PyEntityManager *self) {
 }
 
 static PyObject *
-
-
-EntityManager_getEntities(PyEntityManager *self) {
+EntityManager_getEntities(PyEntityManager *self, PyObject *args) {
   EntityManager *em = self->em;
-  vector<Entity *> const &entities = em->getEntities();
+
+  int type1 = 0;
+  int type2 = 0;
+  if (!PyArg_ParseTuple(args, "|ii", &type1, &type2)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    return Py_None;
+  }
+  vector<Entity *> const &entities =
+    (type1 == 0) ? em->getEntities() :
+    (type2 == 0) ? em->getEntities(type1) :
+    em->getEntities(type1, type2);
+
   int size = entities.size();
   PyObject *ret = PyList_New(size);
   for (int i = 0; i < size; ++i) {
@@ -44,10 +55,11 @@ EntityManager_getEntities(PyEntityManager *self) {
   return ret;
 }
 
+
 static PyMethodDef EntityManager_methods[] = {
   {"name", (PyCFunction) EntityManager_name, METH_NOARGS, "Name of the EntityManager" },
   {"size", (PyCFunction) EntityManager_size, METH_NOARGS, "Number of entities" },
-  {"getEntities", (PyCFunction) EntityManager_getEntities, METH_NOARGS, "List of all entities" },
+  {"getEntities", (PyCFunction) EntityManager_getEntities, METH_VARARGS, "List of all entities" },
   {NULL} /* End of list */
 };
 
@@ -121,7 +133,7 @@ static PyMethodDef Component_methods[] = {
   {NULL} /* End of list */
 };
 
-//////
+////// Module methods
 static PyMethodDef module_Methods[] = {
   {NULL} /* End of list */
 };
@@ -161,13 +173,19 @@ initcp(EntityManager *em) {
 
   m = Py_InitModule3("cp", module_Methods,
                      "Chickenpix extension module.");
-  
+
+  // Create Type objects
   Py_INCREF(&PyEntityManagerType);
   PyModule_AddObject(m, "EntityManager", (PyObject *) &PyEntityManagerType);
   Py_INCREF(&PyEntityType);
   PyModule_AddObject(m, "Entity", (PyObject *) &PyEntityType);
   Py_INCREF(&PyComponentType);
   PyModule_AddObject(m, "Component", (PyObject *) &PyComponentType);
+
+  // Constants
+  for (int i = 1; ComponentName[i] != NULL; ++i) {
+    PyModule_AddObject(m, ComponentName[i], PyInt_FromLong(i));
+  }
 }
 
 PyObject *wrapEntityManager(EntityManager *em) {
