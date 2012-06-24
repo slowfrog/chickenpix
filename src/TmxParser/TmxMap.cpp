@@ -196,7 +196,14 @@ namespace Tmx
 		{
 			// Allocate a new tileset and parse it.
 			Tileset *tileset = new Tileset();
-			tileset->Parse(tilesetNode->ToElement());
+			tileset->Parse(tilesetNode->ToElement(), file_path);
+            if (tileset->HasError())
+            {
+				has_error = true;
+				error_code = 1;
+				error_text = tileset->GetErrorText();
+				return;
+			}
 
 			// Add the tileset to the list.
 			tilesets.push_back(tileset);

@@ -49,7 +49,7 @@ namespace Tmx
 		// There was an error in parsing the TMX file.
 		// This is being caused by TinyXML parsing problems.
 		TMX_PARSING_ERROR = 0x02,
-	};
+    };
 
 	//-------------------------------------------------------------------------
 	// The way the map is viewed.

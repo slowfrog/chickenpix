@@ -49,7 +49,13 @@ namespace Tmx
 		~Tileset();
 
 		// Parse a tileset element.
-		void Parse(const TiXmlNode *tilesetNode);
+		void Parse(const TiXmlNode *tilesetNode, const std::string &filePath);
+
+		// Parse a complete tileset element (no TSX reference)
+		void ParseElement(const TiXmlElement *tilesetElem);
+
+		// Parse a tileset element from a tsx file.
+		void ParseTsxFile(const std::string &filename);
 
 		// Returns the global id of the first tile.
 		int GetFirstGid() const { return first_gid; }
@@ -79,6 +85,15 @@ namespace Tmx
 		// Returns the whole tile collection.
 		const std::vector< Tmx::Tile *> &GetTiles() const { return tiles; } 
 
+		// Get whether there was an error or not.
+		bool HasError() const { return has_error; }
+
+		// Get an error string containing the error in text format.
+		const std::string &GetErrorText() const { return error_text; }
+
+		// Get a number that identifies the error. (TMX_ preceded constants)
+		unsigned char GetErrorCode() const { return error_code; }
+
 	private:
 		int first_gid;
 		
@@ -92,5 +107,9 @@ namespace Tmx
 		Tmx::Image* image;
 
 		std::vector< Tmx::Tile* > tiles;
+      
+		bool has_error;
+		unsigned char error_code;
+		std::string error_text;
 	};
 };

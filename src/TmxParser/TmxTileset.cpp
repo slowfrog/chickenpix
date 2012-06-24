@@ -27,6 +27,7 @@
 //-----------------------------------------------------------------------------
 #include <tinyxml.h>
 
+#include "TmxMap.h"
 #include "TmxTileset.h"
 #include "TmxImage.h"
 #include "TmxTile.h"
@@ -45,6 +46,9 @@ namespace Tmx
 		, spacing(0)
 		, image(NULL)
 		, tiles()
+		, has_error(false)
+		, error_code(0)
+		, error_text()
 	{
 	}
 
@@ -71,21 +75,33 @@ namespace Tmx
 		}
 	}
 
-	void Tileset::Parse(const TiXmlNode *tilesetNode) 
+	void Tileset::Parse(const TiXmlNode *tilesetNode, const std::string &filePath) 
 	{
 		const TiXmlElement *tilesetElem = tilesetNode->ToElement();
-
-		// Read all the attributes into local variables.
 		tilesetElem->Attribute("firstgid", &first_gid);
+ 		if (tilesetElem->Attribute("source"))
+        {
+			ParseTsxFile(filePath + tilesetElem->Attribute("source"));
+        }
+        else
+        {
+			ParseElement(tilesetElem);
+        }
+    }
+
+	void Tileset::ParseElement(const TiXmlElement *tilesetElem)
+	{
+		// Read all the attributes into local variables.
 		tilesetElem->Attribute("tilewidth", &tile_width);
 		tilesetElem->Attribute("tileheight", &tile_height);
 		tilesetElem->Attribute("margin", &margin);
 		tilesetElem->Attribute("spacing", &spacing);
 
-		name = tilesetElem->Attribute("name");
+        char const *rawName = tilesetElem->Attribute("name");
+		name = (rawName == NULL) ? "" : rawName;
 
 		// Parse the image.
-		const TiXmlNode *imageNode = tilesetNode->FirstChild("image");
+		const TiXmlNode *imageNode = tilesetElem->FirstChild("image");
 		
 		if (imageNode) 
 		{
@@ -94,7 +110,7 @@ namespace Tmx
 		}
 
 		// Iterate through all of the tile elements and parse each.
-		const TiXmlNode *tileNode = tilesetNode->FirstChild("tile");
+		const TiXmlNode *tileNode = tilesetElem->FirstChild("tile");
 		while (tileNode)
 		{
 			// Allocate a new tile and parse it.
@@ -104,10 +120,59 @@ namespace Tmx
 			// Add the tile to the collection.
 			tiles.push_back(tile);
 
-			tileNode = tilesetNode->IterateChildren("tile", tileNode);
+			tileNode = tilesetElem->IterateChildren("tile", tileNode);
 		}
 	}
 
+	void Tileset::ParseTsxFile(const std::string &fileName) 
+	{
+        // Most of this is copy-pasted from Map::ParseFile()
+		char* fileText;
+		int fileSize;
+
+		// Open the file for reading.
+		FILE *file = fopen(fileName.c_str(), "rb");
+
+		// Check if the file could not be opened.
+		if (!file) 
+		{
+			has_error = true;
+			error_code = TMX_COULDNT_OPEN;
+			error_text = "Could not open the file " + fileName;
+			return;
+		}
+		
+		// Find out the file size.
+		fseek(file, 0, SEEK_END);
+		fileSize = ftell(file);
+		fseek(file, 0, SEEK_SET);
+
+		// Allocate memory for the file and read it into the memory.
+		fileText = new char[fileSize];
+		fread(fileText, 1, fileSize, file);
+
+		fclose(file);
+
+		// Copy the contents into a C++ string and delete it from memory.
+		std::string text(fileText, fileText+fileSize);
+		delete [] fileText;
+
+		// Create a tiny xml document and use it to parse the text.
+		TiXmlDocument doc;
+		doc.Parse(text.c_str());
+        if (doc.Error())
+        {
+			has_error = true;
+			error_code = TMX_PARSING_ERROR;
+			error_text = doc.ErrorDesc();
+			return;
+        }
+        else
+        {
+            ParseElement(doc.FirstChild("tileset")->ToElement());
+        }
+	}
+    
 	const Tile *Tileset::GetTile(int index) const 
 	{
 		for (unsigned int i = 0; i < tiles.size(); ++i) 
