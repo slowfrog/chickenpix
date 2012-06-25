@@ -13,6 +13,10 @@ public:
   virtual void update(int now);
   virtual void exit();
 
+  virtual void addImage(VisualContext &vc, string const &path, Resources *resources,
+                        string const &alias="");
+  virtual void addFont(VisualContext &vc, string const &path, int size, Resources *resources,
+                       string const &alias="");
   virtual string toString() const;
 
 private:

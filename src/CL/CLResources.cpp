@@ -1,3 +1,4 @@
+#include <cassert>
 #include <sstream>
 #include "CLResources.h"
 #include "CLVisualImage.h"
@@ -19,6 +20,10 @@ CLResources::getVisualContext() {
 BVisual *
 CLResources::makeImage(string const &name) {
   CLResImage *resImage = (CLResImage *) getImage(name);
+  if (resImage == NULL) {
+    cerr << "Cannot find image: " << name << endl;
+    assert(!(resImage == NULL));
+  }
   return new CLVisualImage(resImage->get());
 }
 
@@ -26,6 +31,10 @@ CLResources::makeImage(string const &name) {
 BVisual *
 CLResources::makeSprite(string const &name) {
   CLResSprite *resSprite = (CLResSprite *) getSprite(name);
+  if (resSprite == NULL) {
+    cerr << "Cannot find sprite: " << name << endl;
+    assert(!(resSprite == NULL));
+  }
   CL_Sprite *ret = new CL_Sprite();
   ret->clone(resSprite->get());
   return new CLVisualSprite(ret);
@@ -34,6 +43,10 @@ CLResources::makeSprite(string const &name) {
 BVisual *
 CLResources::makeText(string const &text, string const &font, CPColor const &color) {
   CLResFont *resFont = (CLResFont *) getFont(font);
+  if (resFont == NULL) {
+    cerr << "Cannot find font: " << font << endl;
+    assert(!(resFont == NULL));
+  }
   return new CLVisualText(text, resFont->get(), CL_Colorf(color.r, color.g, color.b, color.a));
 }
 

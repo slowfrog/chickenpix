@@ -20,25 +20,43 @@ SFMLLoader::~SFMLLoader() {
 }
 
 void
-SFMLLoader::loadImage(string const &name, string const &path, Resources *resources) {
+SFMLLoader::addImage(VisualContext &vc, string const &path, Resources *resources,
+                     string const &alias) {
   sf::Image *img = new sf::Image();
   if (!img->LoadFromFile(path)) {
-    cerr << "Error loading " << path << endl;
+    cerr << "Error loading image: " << path << endl;
     return;
   }
   img->SetSmooth(false);
-  resources->setImage(name, new SFMLResImage(img));
+  resources->setImage(path, new SFMLResImage(img));
+  if (alias.length() > 0) {
+    resources->setImage(alias, new SFMLResImage(img));
+  }
+}
+
+void
+SFMLLoader::addFont(VisualContext &vc, string const &path, int size, Resources *resources,
+                     string const &alias) {
+  sf::Font *font = new sf::Font();
+  if (!font->LoadFromFile("resources/fonts/BerkshireSwash-Regular.ttf", size)) {
+    cerr << "Error loading font: " << path << endl;
+    *font = sf::Font::GetDefaultFont();
+  }
+  ((sf::Image &)(font->GetImage())).SetSmooth(false);
+  resources->setFont(path, new SFMLResFont(font));
+  if (alias.length() > 0) {
+    resources->setFont(alias, new SFMLResFont(font));
+  }
 }
 
 void
 SFMLLoader::init() {
+  Loader::init();
+  
   Resources *resources = em.getComponent<Resources>();
   
   Entity *resourcesentity = em.createEntity();
   resourcesentity->addComponent(resources);
-
-  loadImage("house", "resources/img/house.png", resources);
-  loadImage("map", "resources/img/map.png", resources);
 
   sf::Image *maleimg = new sf::Image();
   maleimg->LoadFromFile("resources/img/male_walkcycle.png");
@@ -71,20 +89,6 @@ SFMLLoader::init() {
   frames[0].duration = 4000;
   frames[13].duration = 1000;
   resources->setSprite("man_still", new SFMLResSprite(blurimg, frames, true));
-
-    
-  sf::Font *font = new sf::Font();
-  if (!font->LoadFromFile("resources/fonts/BerkshireSwash-Regular.ttf", 30)) {
-    *font = sf::Font::GetDefaultFont();
-  }
-  ((sf::Image &)(font->GetImage())).SetSmooth(false);
-  resources->setFont("sans_big", new SFMLResFont(font));
-  font = new sf::Font();
-  if (!font->LoadFromFile("resources/fonts/BerkshireSwash-Regular.ttf", 8)) {
-    *font = sf::Font::GetDefaultFont();
-  }
-  ((sf::Image &)(font->GetImage())).SetSmooth(false);
-  resources->setFont("sans_small", new SFMLResFont(font));
 
   loadLevel("start");
 }

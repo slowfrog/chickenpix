@@ -16,6 +16,12 @@ Loader::~Loader() {
 
 void
 Loader::init() {
+  Resources *resources = em.getComponent<Resources>();
+  VisualContext &vc = resources->getVisualContext();
+  addImage(vc, "resources/img/map.png", resources, "map");
+
+  addFont(vc, "resources/fonts/BerkshireSwash-Regular.ttf", 30, resources, "sans_big");
+  addFont(vc, "resources/fonts/BerkshireSwash-Regular.ttf", 8, resources, "sans_small");
 }
 
 void
@@ -30,10 +36,6 @@ void
 Loader::loadLevel(string const &name) {
   Resources *resources = em.getComponent<Resources>();
   // Hard coded start level
-  Entity *house = em.createEntity();
-  house->addComponent(new Transform(50, 150));
-  house->addComponent(resources->makeImage("house"));
-
   Entity *map = em.createEntity();
   map->addComponent(new Transform(-50, -50));
   map->addComponent(resources->makeImage("map"));
