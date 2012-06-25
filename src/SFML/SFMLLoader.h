@@ -1,8 +1,8 @@
 #pragma once
 #include "../Resources.h"
-#include "../System.h"
+#include "../Loader.h"
 
-class SFMLLoader: public System {
+class SFMLLoader: public Loader {
 private:
   void loadImage(string const &name, string const &path, Resources *resources);
 

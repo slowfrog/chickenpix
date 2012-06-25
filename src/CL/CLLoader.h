@@ -1,9 +1,9 @@
 #pragma once
 #include "CL.h"
-#include "../System.h"
+#include "../Loader.h"
 #include "../Resources.h"
 
-class CLLoader: public System {
+class CLLoader: public Loader {
 private:
 public:
   CLLoader(string const &name, EntityManager &em);

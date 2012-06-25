@@ -11,7 +11,7 @@
 #include "../Transform.h"
 
 CLLoader::CLLoader(string const &name, EntityManager &em):
-  System(name, em) {
+  Loader(name, em) {
 }
 
 CLLoader::~CLLoader() {
@@ -41,10 +41,6 @@ CLLoader::init() {
   CLVisualContext &vc = (CLVisualContext &) resources->getVisualContext();
   CL_GraphicContext &gc = vc.getGraphicContext();
 
-  // CL_PixelBuffer housePixBuf = CL_PNGProvider::load("resources/img/house.png");
-  // CL_Image *houseImg = new CL_Image(gc, housePixBuf, housePixBuf.get_size());
-  // resources->setImage("house", new CLResImage(houseImg));
-  
   CL_ResourceManager clresources("resources/resources.xml");
   addImage(gc, "images/house", &clresources, resources, "house");
   addImage(gc, "images/map", &clresources, resources, "map");
@@ -58,32 +54,7 @@ CLLoader::init() {
   addFont("fonts/sans_big", &clresources, resources, "sans_big");
   addFont("fonts/sans_small", &clresources, resources, "sans_small");
 
-  // Entity creation.
-  Entity *e = em.createEntity();
-  e->addComponent(new Transform(50, 150));
-  e->addComponent(resources->makeImage("house"));
-
-  e = em.createEntity();
-  e->addComponent(new Transform(-50, -50));
-  e->addComponent(resources->makeImage("map"));
-
-  e = em.createEntity();
-  e->addComponent(new Transform(10, 300));
-  e->addComponent(resources->makeSprite("man_walk_left"));
-
-  Entity *hero = em.createEntity();
-  hero->addComponent(new Transform(320, 222));
-  hero->addComponent(new Animated("man_still"));
-  hero->addComponent(new Input());
-  hero->addComponent(new Scriptable("toto"));
-
-  e = em.createEntity();
-  e->addComponent(new Transform(100, 160));
-  e->addComponent(resources->makeText("Chickenpix!", "sans_big", CPColor(255, 255, 0, 128)));
-  
-  e = em.createEntity();
-  e->addComponent(new Transform(5, 10));
-  e->addComponent(resources->makeText("Press [ESC] to exit...", "sans_small"));
+  loadLevel("start");
 }
 
 void

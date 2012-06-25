@@ -9,5 +9,6 @@ public:
   virtual void init();
   virtual void update(int now);
   virtual void exit();
+  virtual void loadLevel(string const &name);
   virtual string toString() const;
 };
