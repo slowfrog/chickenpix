@@ -30,6 +30,7 @@
 #include <string>
 #include <vector>
 
+class TiXmlElement;
 class TiXmlNode;
 
 namespace Tmx 
