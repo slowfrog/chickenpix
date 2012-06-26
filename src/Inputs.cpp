@@ -59,8 +59,10 @@ Inputs::moveHero(int now) {
   }
 
   Entity *hero = em.getFirstByTag("HERO");
-  Animated *animated = hero->getComponent<Animated>();
-  animated->setAnimation(anim);
+  if (hero) {
+    Animated *animated = hero->getComponent<Animated>();
+    animated->setAnimation(anim);
+  }
 };
 
 bool

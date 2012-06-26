@@ -16,6 +16,21 @@ static PyTypeObject PyEntityManagerType = {
   sizeof(PyEntityManager), /*tp_basicsize*/
 };
 
+// Entity wrapper
+typedef struct {
+  PyObject_HEAD
+  Entity *entity;
+} PyEntity;
+
+static PyTypeObject PyEntityType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Entity",
+  sizeof(PyEntity),
+};
+
+
+// EntityManager methods
 static PyObject *
 EntityManager_name(PyEntityManager *self) {
   PyObject *ret = PyString_FromString(self->em->getName().c_str());
@@ -56,6 +71,38 @@ EntityManager_getEntities(PyEntityManager *self, PyObject *args) {
 }
 
 static PyObject *
+EntityManager_tagEntity(PyEntityManager *self, PyObject *args) {
+  EntityManager *em = self->em;
+
+  PyEntity *entity;
+  const char *tag;
+  if (!PyArg_ParseTuple(args, "O!s", &PyEntityType, &entity, &tag)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    return Py_None;
+  }
+  em->tagEntity(entity->entity, tag);
+  return Py_None;
+}
+
+static PyObject *
+EntityManager_untagEntity(PyEntityManager *self, PyObject *args) {
+  EntityManager *em = self->em;
+
+  PyEntity *entity;
+  const char *tag;
+  if (!PyArg_ParseTuple(args, "O!s", &PyEntityType, &entity, &tag)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    return Py_None;
+  }
+  em->untagEntity(entity->entity, tag);
+  return Py_None;
+}
+
+static PyObject *
 EntityManager_getByTag(PyEntityManager *self, PyObject *args) {
   EntityManager *em = self->em;
 
@@ -83,22 +130,12 @@ static PyMethodDef EntityManager_methods[] = {
   {"size", (PyCFunction) EntityManager_size, METH_NOARGS, "Number of entities" },
   {"getEntities", (PyCFunction) EntityManager_getEntities, METH_VARARGS, "List of all entities" },
   {"getByTag", (PyCFunction) EntityManager_getByTag, METH_VARARGS, "List entities with the given tag" },
+  {"tagEntity", (PyCFunction) EntityManager_tagEntity, METH_VARARGS, "Tag an existing entity" },
+  {"untagEntity", (PyCFunction) EntityManager_untagEntity, METH_VARARGS, "Remove tag from existing entity" },
   {NULL} /* End of list */
 };
 
-// Entity wrapper
-typedef struct {
-  PyObject_HEAD
-  Entity *entity;
-} PyEntity;
-
-static PyTypeObject PyEntityType = {
-  PyObject_HEAD_INIT(NULL)
-  0,
-  "cp.Entity",
-  sizeof(PyEntity),
-};
-
+// Entity methods
 static PyObject *
 Entity_id(PyEntity *self) {
   PyObject *ret = PyInt_FromLong(self->entity->getId());
