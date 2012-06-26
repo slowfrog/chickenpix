@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\tinyxml">
+      <UniqueIdentifier>{84c6130b-5609-4906-940a-0c1281c6d608}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tinyxml">
+      <UniqueIdentifier>{713ff4b8-a9df-4f6f-92bd-b10a2dc264a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TmxParser">
+      <UniqueIdentifier>{634f19cc-e40d-437e-af86-e0dc743e1189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TmxParser">
+      <UniqueIdentifier>{088f5fd3-3d41-4e12-b181-fe0d72c9962e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Animated.cpp">
@@ -71,6 +83,54 @@
     </ClCompile>
     <ClCompile Include="..\src\Animation.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tinyxml\tinystr.cpp">
+      <Filter>Source Files\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tinyxml\tinyxml.cpp">
+      <Filter>Source Files\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tinyxml\tinyxmlerror.cpp">
+      <Filter>Source Files\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tinyxml\tinyxmlparser.cpp">
+      <Filter>Source Files\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TmxParser\base64.cpp">
+      <Filter>Source Files\TmxParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TmxParser\TmxImage.cpp">
+      <Filter>Source Files\TmxParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TmxParser\TmxLayer.cpp">
+      <Filter>Source Files\TmxParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TmxParser\TmxMap.cpp">
+      <Filter>Source Files\TmxParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TmxParser\TmxObject.cpp">
+      <Filter>Source Files\TmxParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TmxParser\TmxObjectGroup.cpp">
+      <Filter>Source Files\TmxParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TmxParser\TmxPolygon.cpp">
+      <Filter>Source Files\TmxParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TmxParser\TmxPolyline.cpp">
+      <Filter>Source Files\TmxParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TmxParser\TmxPropertySet.cpp">
+      <Filter>Source Files\TmxParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TmxParser\TmxTile.cpp">
+      <Filter>Source Files\TmxParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TmxParser\TmxTileset.cpp">
+      <Filter>Source Files\TmxParser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TmxParser\TmxUtil.cpp">
+      <Filter>Source Files\TmxParser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +196,57 @@
     </ClInclude>
     <ClInclude Include="..\src\Animation.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\tinyxml\tinystr.h">
+      <Filter>Header Files\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\tinyxml\tinyxml.h">
+      <Filter>Header Files\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\base64.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\Tmx.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxImage.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxLayer.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxMap.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxMapTile.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxObject.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxObjectGroup.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxPoint.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxPolygon.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxPolyline.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxPropertySet.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxTile.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxTileset.h">
+      <Filter>Header Files\TmxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TmxParser\TmxUtil.h">
+      <Filter>Header Files\TmxParser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

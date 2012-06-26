@@ -44,6 +44,7 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(PYTHON_DIR)/include;$(CLANLIB_DIR)/include;$(CLANLIB_DIR)/ext/include;$(DXSDK_DIR)/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>TIXML_USE_STL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -57,6 +58,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(PYTHON_DIR)/include;$(CLANLIB_DIR)/include;$(CLANLIB_DIR)/ext/include;$(DXSDK_DIR)/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>TIXML_USE_STL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -83,6 +85,22 @@
     <ClCompile Include="..\src\Scriptable.cpp" />
     <ClCompile Include="..\src\Scripting.cpp" />
     <ClCompile Include="..\src\System.cpp" />
+    <ClCompile Include="..\src\tinyxml\tinystr.cpp" />
+    <ClCompile Include="..\src\tinyxml\tinyxml.cpp" />
+    <ClCompile Include="..\src\tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="..\src\tinyxml\tinyxmlparser.cpp" />
+    <ClCompile Include="..\src\TmxParser\base64.cpp" />
+    <ClCompile Include="..\src\TmxParser\TmxImage.cpp" />
+    <ClCompile Include="..\src\TmxParser\TmxLayer.cpp" />
+    <ClCompile Include="..\src\TmxParser\TmxMap.cpp" />
+    <ClCompile Include="..\src\TmxParser\TmxObject.cpp" />
+    <ClCompile Include="..\src\TmxParser\TmxObjectGroup.cpp" />
+    <ClCompile Include="..\src\TmxParser\TmxPolygon.cpp" />
+    <ClCompile Include="..\src\TmxParser\TmxPolyline.cpp" />
+    <ClCompile Include="..\src\TmxParser\TmxPropertySet.cpp" />
+    <ClCompile Include="..\src\TmxParser\TmxTile.cpp" />
+    <ClCompile Include="..\src\TmxParser\TmxTileset.cpp" />
+    <ClCompile Include="..\src\TmxParser\TmxUtil.cpp" />
     <ClCompile Include="..\src\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +123,23 @@
     <ClInclude Include="..\src\Scriptable.h" />
     <ClInclude Include="..\src\Scripting.h" />
     <ClInclude Include="..\src\System.h" />
+    <ClInclude Include="..\src\tinyxml\tinystr.h" />
+    <ClInclude Include="..\src\tinyxml\tinyxml.h" />
+    <ClInclude Include="..\src\TmxParser\base64.h" />
+    <ClInclude Include="..\src\TmxParser\Tmx.h" />
+    <ClInclude Include="..\src\TmxParser\TmxImage.h" />
+    <ClInclude Include="..\src\TmxParser\TmxLayer.h" />
+    <ClInclude Include="..\src\TmxParser\TmxMap.h" />
+    <ClInclude Include="..\src\TmxParser\TmxMapTile.h" />
+    <ClInclude Include="..\src\TmxParser\TmxObject.h" />
+    <ClInclude Include="..\src\TmxParser\TmxObjectGroup.h" />
+    <ClInclude Include="..\src\TmxParser\TmxPoint.h" />
+    <ClInclude Include="..\src\TmxParser\TmxPolygon.h" />
+    <ClInclude Include="..\src\TmxParser\TmxPolyline.h" />
+    <ClInclude Include="..\src\TmxParser\TmxPropertySet.h" />
+    <ClInclude Include="..\src\TmxParser\TmxTile.h" />
+    <ClInclude Include="..\src\TmxParser\TmxTileset.h" />
+    <ClInclude Include="..\src\TmxParser\TmxUtil.h" />
     <ClInclude Include="..\src\Transform.h" />
     <ClInclude Include="..\src\VisualContext.h" />
   </ItemGroup>
