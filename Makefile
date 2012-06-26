@@ -5,85 +5,42 @@ SRC_DIR=src
 OBJ_DIR=obj
 TMX_SRC_DIR=$(SRC_DIR)/TmxParser
 TMX_OBJ_DIR=$(OBJ_DIR)/TmxParser
+TIX_SRC_DIR=$(SRC_DIR)/tinyxml
+TIX_OBJ_DIR=$(OBJ_DIR)/tinyxml
 CL_SRC_DIR=$(SRC_DIR)/CL
 CL_OBJ_DIR=$(OBJ_DIR)/CL
 SF_SRC_DIR=$(SRC_DIR)/SFML
 SF_OBJ_DIR=$(OBJ_DIR)/SFML
 
-CFLAGS=-c -g -Wall -I/usr/include/python2.6
-LDFLAGS=-g -pthread -lpython2.6 -lz -ltinyxml
+CFLAGS=-c -g -Wall -DTIXML_USE_STL -I/usr/include/python2.6
+LDFLAGS=-g -pthread -lpython2.6 -lz
 CL_CFLAGS=`pkg-config --cflags clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` $(CFLAGS) 
 CL_LDFLAGS=`pkg-config --libs clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` $(LDFLAGS)
 SF_CFLAGS=-I$(SFML_DIR)/include $(CFLAGS) 
 SF_LDFLAGS=-L$(SFML_DIR)/lib $(LDFLAGS) -lsfml-window -lsfml-graphics -lsfml-system 
 
-SOURCES=$(SRC_DIR)/Animated.cpp \
-        $(SRC_DIR)/Animation.cpp \
-        $(SRC_DIR)/Component.cpp \
-        $(SRC_DIR)/ComponentRegistry.cpp \
-        $(SRC_DIR)/Entity.cpp \
-        $(SRC_DIR)/EntityManager.cpp \
-        $(SRC_DIR)/Input.cpp \
-        $(SRC_DIR)/Inputs.cpp \
-        $(SRC_DIR)/Loader.cpp \
-        $(SRC_DIR)/Mobile.cpp \
-        $(SRC_DIR)/Render.cpp \
-        $(SRC_DIR)/Resource.cpp \
-        $(SRC_DIR)/Resources.cpp \
-        $(SRC_DIR)/Scriptable.cpp \
-        $(SRC_DIR)/Scripting.cpp \
-        $(SRC_DIR)/System.cpp \
-        $(SRC_DIR)/Transform.cpp \
-        $(SRC_DIR)/BVisual.cpp \
-        $(SRC_DIR)/PythonTypes.cpp
-
-TMX_SOURCES=$(TMX_SRC_DIR)/TmxImage.cpp \
-            $(TMX_SRC_DIR)/TmxLayer.cpp \
-            $(TMX_SRC_DIR)/TmxMap.cpp \
-            $(TMX_SRC_DIR)/TmxObject.cpp \
-            $(TMX_SRC_DIR)/TmxObjectGroup.cpp \
-            $(TMX_SRC_DIR)/TmxPolygon.cpp \
-            $(TMX_SRC_DIR)/TmxPolyline.cpp \
-            $(TMX_SRC_DIR)/TmxPropertySet.cpp \
-            $(TMX_SRC_DIR)/TmxTile.cpp \
-            $(TMX_SRC_DIR)/TmxTileset.cpp \
-            $(TMX_SRC_DIR)/TmxUtil.cpp \
-            $(TMX_SRC_DIR)/base64.cpp
-
-CL_SOURCES=$(CL_SRC_DIR)/ClanLib.cpp \
-         $(CL_SRC_DIR)/CLInputs.cpp \
-         $(CL_SRC_DIR)/CLLoader.cpp \
-         $(CL_SRC_DIR)/CLRender.cpp \
-         $(CL_SRC_DIR)/CLResources.cpp \
-         $(CL_SRC_DIR)/CLVisualImage.cpp \
-         $(CL_SRC_DIR)/CLVisualSprite.cpp \
-         $(CL_SRC_DIR)/CLVisualText.cpp \
-         $(CL_SRC_DIR)/clmain.cpp
-
-SF_SOURCES=$(SF_SRC_DIR)/SFMLInputs.cpp \
-         $(SF_SRC_DIR)/SFMLLoader.cpp \
-         $(SF_SRC_DIR)/SFMLRender.cpp \
-         $(SF_SRC_DIR)/SFMLResources.cpp \
-         $(SF_SRC_DIR)/SFMLVisualImage.cpp \
-         $(SF_SRC_DIR)/SFMLVisualSprite.cpp \
-         $(SF_SRC_DIR)/SFMLVisualText.cpp \
-         $(SF_SRC_DIR)/smain.cpp
+SOURCES:=$(shell ls $(SRC_DIR)/*.cpp)
+TIX_SOURCES:=$(shell ls $(TIX_SRC_DIR)/*.cpp)
+TMX_SOURCES:=$(shell ls $(TMX_SRC_DIR)/*.cpp)
+CL_SOURCES=$(shell ls $(CL_SRC_DIR)/*.cpp)
+SF_SOURCES=$(shell ls $(SF_SRC_DIR)/*.cpp)
 
 OBJECTS=$(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o) 
 TMX_OBJECTS=$(TMX_SOURCES:$(TMX_SRC_DIR)/%.cpp=$(TMX_OBJ_DIR)/%.o) 
+TIX_OBJECTS=$(TIX_SOURCES:$(TIX_SRC_DIR)/%.cpp=$(TIX_OBJ_DIR)/%.o) 
 CL_OBJECTS=$(CL_SOURCES:$(CL_SRC_DIR)/%.cpp=$(CL_OBJ_DIR)/%.o)
 SF_OBJECTS=$(SF_SOURCES:$(SF_SRC_DIR)/%.cpp=$(SF_OBJ_DIR)/%.o)
 
 CL_EXECUTABLE=clmain
 SF_EXECUTABLE=smain
 
-all: $(SOURCES) $(TMX_SOURCES) $(CL_SOURCES) $(SF_SOURCES) $(CL_EXECUTABLE) $(SF_EXECUTABLE)
+all: $(SOURCES) $(TMX_SOURCES) $(TIX_SOURCES) $(CL_SOURCES) $(SF_SOURCES) $(CL_EXECUTABLE) $(SF_EXECUTABLE)
 
-$(CL_EXECUTABLE): $(OBJECTS) $(TMX_OBJECTS) $(CL_OBJECTS) 
-	$(CC) $(CL_LDFLAGS) $(OBJECTS) $(TMX_OBJECTS) $(CL_OBJECTS) -o $@ 
+$(CL_EXECUTABLE): $(OBJECTS) $(TMX_OBJECTS) $(TIX_OBJECTS) $(CL_OBJECTS)
+	$(CC) $(CL_LDFLAGS) $(OBJECTS) $(TMX_OBJECTS) $(TIX_OBJECTS) $(CL_OBJECTS) -o $@ 
 
-$(SF_EXECUTABLE): $(OBJECTS) $(TMX_OBJECTS) $(SF_OBJECTS) 
-	$(CC) $(SF_LDFLAGS) $(OBJECTS) $(TMX_OBJECTS) $(SF_OBJECTS) -o $@ 
+$(SF_EXECUTABLE): $(OBJECTS) $(TMX_OBJECTS) $(TIX_OBJECTS) $(SF_OBJECTS) 
+	$(CC) $(SF_LDFLAGS) $(OBJECTS) $(TMX_OBJECTS) $(TIX_OBJECTS) $(SF_OBJECTS) -o $@ 
 
 $(CL_OBJ_DIR)/%.o: $(CL_SRC_DIR)/%.cpp
 	@echo 'Building file: $<'
@@ -100,16 +57,21 @@ $(TMX_OBJ_DIR)/%.o: $(TMX_SRC_DIR)/%.cpp
 	@mkdir -p $(TMX_OBJ_DIR)
 	$(CC) $(CFLAGS) -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o $@ $< 
 
+$(TIX_OBJ_DIR)/%.o: $(TIX_SRC_DIR)/%.cpp
+	@echo 'Building file: $<'
+	@mkdir -p $(TIX_OBJ_DIR)
+	$(CC) $(CFLAGS) -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o $@ $< 
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@echo 'Building file: $<'
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o $@ $< 
 
-src: $(OBJECTS) $(TMX_OBJECTS) $(CL_OBJECTS) $(SF_OBJECTS)
+src: $(OBJECTS) $(TMX_OBJECTS) $(TIX_OBJECTS) $(CL_OBJECTS) $(SF_OBJECTS)
 
 clean:
-	-rm $(OBJECTS) $(TMX_OBJECTS) $(CL_OBJECTS) $(SF_OBJECTS)
+	-rm $(OBJECTS) $(TMX_OBJECTS) $(TIX_OBJECTS) $(CL_OBJECTS) $(SF_OBJECTS)
 
 purge:
-	-rm -rf $(CL_OBJ_DIR) $(SF_OBJ_DIR) $(TMX_OBJ_DIR) $(OBJ_DIR) $(CL_EXECUTABLE) $(SF_EXECUTABLE) $(shell find . -name '*~') $(shell find . -name '*.pyc')
+	-rm -rf $(CL_OBJ_DIR) $(SF_OBJ_DIR) $(TMX_OBJ_DIR) $(TIX_OBJ_DIR) $(OBJ_DIR) $(CL_EXECUTABLE) $(SF_EXECUTABLE) $(shell find . -name '*~') $(shell find . -name '*.pyc')
 
