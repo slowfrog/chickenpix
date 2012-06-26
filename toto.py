@@ -13,6 +13,8 @@ def run(self, manager):
         entities = manager.getEntities(cp.Transform, cp.Visual)
         print("My tags are [%s]" % ", ".join(self.getTags()))
         print("There are %d Transform entities" % len(entities))
+        labels = manager.getByTag("LABEL")
+        print("There are %d entities tagged LABEL" % len(labels))
         once = True
 
     return "1"

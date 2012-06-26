@@ -66,9 +66,11 @@ Loader::loadLevel(string const &name) {
   Entity *text = em.createEntity();
   text->addComponent(new Transform(100, 160));
   text->addComponent(resources->makeText("Chickenpix!", "sans_big", CPColor(255, 255, 0, 128)));
+  em.tagEntity(text, "LABEL");
   text = em.createEntity();
   text->addComponent(new Transform(5, 10));
   text->addComponent(resources->makeText("Press [ESC] to quit...", "sans_small"));
+  em.tagEntity(text, "LABEL");
 }
 
 string

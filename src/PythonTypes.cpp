@@ -55,11 +55,34 @@ EntityManager_getEntities(PyEntityManager *self, PyObject *args) {
   return ret;
 }
 
+static PyObject *
+EntityManager_getByTag(PyEntityManager *self, PyObject *args) {
+  EntityManager *em = self->em;
+
+  const char *tag;
+  if (!PyArg_ParseTuple(args, "s", &tag)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    return Py_None;
+  }
+
+  vector<Entity *> const &entities = em->getByTag(tag);
+  int size = entities.size();
+  PyObject *ret = PyList_New(size);
+  for (int i = 0; i < size; ++i) {
+    Entity *entity = entities[i];
+    PyObject *pentity = wrapEntity(entity);
+    PyList_SetItem(ret, i, pentity);
+  }
+  return ret;
+}
 
 static PyMethodDef EntityManager_methods[] = {
   {"name", (PyCFunction) EntityManager_name, METH_NOARGS, "Name of the EntityManager" },
   {"size", (PyCFunction) EntityManager_size, METH_NOARGS, "Number of entities" },
   {"getEntities", (PyCFunction) EntityManager_getEntities, METH_VARARGS, "List of all entities" },
+  {"getByTag", (PyCFunction) EntityManager_getByTag, METH_VARARGS, "List entities with the given tag" },
   {NULL} /* End of list */
 };
 
