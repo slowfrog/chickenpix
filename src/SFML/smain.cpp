@@ -19,7 +19,7 @@ int main(int argc, char const *argv[]) {
   anim.init();
   SFMLInputs sfinputs("SFMLInput", em);
   sfinputs.init();
-  SFMLLoader sfloader("SFMLLoader", em);
+  SFMLLoader sfloader("SFMLLoader", em, "resources/resources.xml");
   sfloader.init();
   Scripting scripting("Scripting", em);
   scripting.init();

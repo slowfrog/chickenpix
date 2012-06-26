@@ -24,7 +24,7 @@ public:
       clrender.init();
       Animation anim("Animation", em);
       anim.init();
-      CLLoader clloader("Loader", em);
+      CLLoader clloader("Loader", em, "resources/resources.xml");
       clloader.init();
       CLInputs clinputs("Inputs", em);
       clinputs.init();

@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -15,11 +16,41 @@
 #include "SFMLVisualImage.h"
 #include "SFMLVisualText.h"
 
-SFMLLoader::SFMLLoader(string const &name, EntityManager &em):
-  Loader(name, em) {
+static void
+splitXY(string const &str, int *res) {
+  size_t pos = str.find(",");
+  res[0] = atoi(str.substr(0, pos).c_str());
+  res[1] = atoi(str.substr(pos + 1).c_str());
+}
+
+static string
+getDirectory(string const &str) {
+  size_t pos = str.rfind("/");
+  if (pos == string::npos) {
+    return str;
+  } else {
+    return str.substr(0, pos);
+  }
+}
+
+static string YES = "yes";
+SFMLLoader::SFMLLoader(string const &name, EntityManager &em, string const &resourceFile):
+  Loader(name, em, resourceFile), doc(NULL) {
 }
 
 SFMLLoader::~SFMLLoader() {
+  if (doc) {
+    delete doc;
+  }
+}
+
+void
+SFMLLoader::initResources() {
+  doc = new TiXmlDocument(resourceFile);
+  doc->LoadFile();
+  if (doc->Error()) {
+    cerr << "Error parsing file: " << resourceFile << ", " << doc->ErrorDesc() << endl;
+  }
 }
 
 void
@@ -61,25 +92,6 @@ findChild(const TiXmlElement *parent, string const &name) {
   }
   return NULL;
 }
-
-void
-splitXY(string const &str, int *res) {
-  size_t pos = str.find(",");
-  res[0] = atoi(str.substr(0, pos).c_str());
-  res[1] = atoi(str.substr(pos + 1).c_str());
-}
-
-string
-getDirectory(string const &str) {
-  size_t pos = str.rfind("/");
-  if (pos == string::npos) {
-    return str;
-  } else {
-    return str.substr(0, pos);
-  }
-}
-
-static string YES = "yes";
 
 void
 SFMLLoader::loadSpriteFromXML(string const &directory, TiXmlDocument *doc, string const &path,
@@ -165,18 +177,13 @@ SFMLLoader::loadSpriteFromXML(string const &directory, TiXmlDocument *doc, strin
 }
 
 void
-SFMLLoader::addSprite(string const &resourceFile, string const &path, Resources *resources,
-                      string const &name) {
-  // Load and parse
-  string directory = getDirectory(resourceFile);
-  TiXmlDocument doc(resourceFile);
-  doc.LoadFile();
-  if (doc.Error()) {
-    cerr << "Error parsing file: " << resourceFile << ", " << doc.ErrorDesc() << endl;
-    return;
-  } else {
-    loadSpriteFromXML(directory, &doc, path, resources, name);
+SFMLLoader::addSprite(string const &path, Resources *resources, string const &name) {
+  if (doc == NULL) {
+    cerr << "Resource file not loaded: " << resourceFile << endl;
+    assert(!(doc == NULL));
   }
+  // Load and parse
+  loadSpriteFromXML(getDirectory(doc->Value()), doc, path, resources, name);
 }
 
 string

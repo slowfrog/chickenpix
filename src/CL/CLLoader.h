@@ -4,14 +4,16 @@
 #include "../Resources.h"
 
 class CLLoader: public Loader {
+private:
+  CL_ResourceManager *clresources;
 public:
-  CLLoader(string const &name, EntityManager &em);
+  CLLoader(string const &name, EntityManager &em, string const &resourceFile);
   virtual ~CLLoader();
 
+  virtual void initResources();
   virtual void addImage(string const &path, Resources *resources, string const &alias="");
   virtual void addFont(string const &path, int size, Resources *resources, string const &alias="");
-  virtual void addSprite(string const &resourceFile, string const &path, Resources *resources,
-                         string const &name);
+  virtual void addSprite(string const &path, Resources *resources, string const &name);
   virtual string toString() const;
 
 private:

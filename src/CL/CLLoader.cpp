@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 #include <sstream>
 #include "CLLoader.h"
@@ -10,11 +11,19 @@
 #include "../Scriptable.h"
 #include "../Transform.h"
 
-CLLoader::CLLoader(string const &name, EntityManager &em):
-  Loader(name, em) {
+CLLoader::CLLoader(string const &name, EntityManager &em, string const &resourceFile):
+  Loader(name, em, resourceFile), clresources(NULL) {
 }
 
 CLLoader::~CLLoader() {
+  if (clresources) {
+    delete clresources;
+  }
+}
+
+void
+CLLoader::initResources() {
+  clresources = new CL_ResourceManager(resourceFile);
 }
 
 void
@@ -62,12 +71,14 @@ CLLoader::addFont(string const &path, CL_ResourceManager *clresources,
 }
 
 void
-CLLoader::addSprite(string const &resourceFile, string const &path, Resources *resources,
-                    string const &name) {
-  CL_ResourceManager clresources(resourceFile);
+CLLoader::addSprite(string const &path, Resources *resources, string const &name) {
+  if (clresources == NULL) {
+    cerr << "Resource file not loaded: " << resourceFile << endl;
+    assert(!(clresources == NULL));
+  }
   CLVisualContext &vc = (CLVisualContext &) resources->getVisualContext();
   CL_GraphicContext &gc = vc.getGraphicContext();
-  addSprite(gc, path, &clresources, resources, name);
+  addSprite(gc, path, clresources, resources, name);
 }
 
 string
@@ -76,3 +87,4 @@ CLLoader::toString() const {
   out << "{CLLoader-System name=" << getName() << "}" << ends;
   return out.str();
 }
+

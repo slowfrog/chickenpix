@@ -7,8 +7,8 @@
 #include "Scriptable.h"
 
 
-Loader::Loader(string const &name, EntityManager &em):
-  System(name, em) {
+Loader::Loader(string const &name, EntityManager &em, string const &resourceFile):
+  System(name, em), resourceFile(resourceFile) {
 }
 
 Loader::~Loader() {
@@ -17,17 +17,19 @@ Loader::~Loader() {
 void
 Loader::init() {
   // Load resources
+  initResources();
+  
   Resources *resources = em.getComponent<Resources>();
   addImage("resources/img/map.png", resources, "map");
 
   addFont("resources/fonts/BerkshireSwash-Regular.ttf", 30, resources, "sans_big");
   addFont("resources/fonts/BerkshireSwash-Regular.ttf", 8, resources, "sans_small");
 
-  addSprite("resources/resources.xml", "sprites/walk_up", resources, "man_walk_up");
-  addSprite("resources/resources.xml", "sprites/walk_left", resources, "man_walk_left");
-  addSprite("resources/resources.xml", "sprites/walk_down", resources, "man_walk_down");
-  addSprite("resources/resources.xml", "sprites/walk_right", resources, "man_walk_right");
-  addSprite("resources/resources.xml", "sprites/wait", resources, "man_still");
+  addSprite("sprites/walk_up", resources, "man_walk_up");
+  addSprite("sprites/walk_left", resources, "man_walk_left");
+  addSprite("sprites/walk_down", resources, "man_walk_down");
+  addSprite("sprites/walk_right", resources, "man_walk_right");
+  addSprite("sprites/wait", resources, "man_still");
 
   // Load start level
   loadLevel("start");
