@@ -29,12 +29,7 @@ CLRender::getVisualContext() {
 void
 CLRender::clear(VisualContext &vc) {
   CL_GraphicContext &gc = ((CLVisualContext &)vc).getGraphicContext();
-  // Background -> Might be later represented as a CLShape, or something like that, with its own render function
-  CL_Rect ground(0, 280, 640, 480);
-  gc.clear(CL_Colorf::cadetblue);
-  gc.push_cliprect(ground);
-  gc.clear(CL_Colorf(0.1f, 0.4f, 0.1f));
-  gc.pop_cliprect();
+  gc.clear(CL_Colorf::black);
 }
 
 void

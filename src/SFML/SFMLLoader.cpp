@@ -1,5 +1,8 @@
 #include <iostream>
+#include <fstream>
 #include <sstream>
+
+#include "../tinyxml/tinyxml.h"
 
 #include "SFMLLoader.h"
 #include "../Animated.h"
@@ -49,6 +52,120 @@ SFMLLoader::addFont(VisualContext &vc, string const &path, int size, Resources *
   }
 }
 
+const TiXmlElement *
+findChild(const TiXmlElement *parent, string const &name) {
+  for (const TiXmlElement *elem = parent->FirstChildElement();
+       elem != NULL;
+       elem = elem->NextSiblingElement()) {
+    if (elem && elem->Attribute("name") && (name == elem->Attribute("name"))) {
+      return elem;
+    }
+  }
+  return NULL;
+}
+
+void
+splitXY(string const &str, int *res) {
+  size_t pos = str.find(",");
+  res[0] = atoi(str.substr(0, pos).c_str());
+  res[1] = atoi(str.substr(pos + 1).c_str());
+}
+
+string
+getDirectory(string const &str) {
+  size_t pos = str.rfind("/");
+  if (pos == string::npos) {
+    return str;
+  } else {
+    return str.substr(0, pos);
+  }
+}
+
+static string YES = "yes";
+
+void
+SFMLLoader::loadSpriteFromXML(string const &directory, TiXmlDocument *doc, string const &path,
+                              Resources *resources, string const &name) {
+  
+  const TiXmlElement *curElem = doc->FirstChildElement("resources");
+  size_t prev = 0;
+  while(true) {
+    size_t pos = path.find("/", prev);
+    string part = path.substr(prev, pos);
+    curElem = findChild(curElem, part);
+    if (!curElem) {
+      cerr << "No matching node found for: " << part << endl;
+      return;
+    }
+
+    if (pos == string::npos) {
+      break;
+    }
+    prev = pos + 1;
+  }
+  if (curElem->ValueStr() == "sprite") {
+    // Look for whole animation parameters
+    bool pingpong = false;
+    bool loop = true;
+    int speed = 100;
+    const TiXmlElement *anim = curElem->FirstChildElement("animation");
+    if (anim) {
+      if (anim->Attribute("loop") && (YES == anim->Attribute("loop"))) {
+        loop = true;
+      }
+      if (anim->Attribute("pingpong") && (YES == anim->Attribute("pingpong"))) {
+        pingpong = true;
+      }
+      if (anim->Attribute("speed")) {
+        anim->Attribute("speed", &speed);
+      }
+    }
+
+    // Find the image and the grid to cut the pieces
+    const TiXmlElement *image = curElem->FirstChildElement("image");
+    string imageFile = directory + "/" + image->Attribute("file");
+    const TiXmlElement *grid = image->FirstChildElement("grid");
+    string const &posStr = grid->Attribute("pos");
+    string const &sizeStr = grid->Attribute("size");
+    string const &arrayStr = grid->Attribute("array");
+    int pos[2], size[2], array[2];
+    splitXY(posStr, pos);
+    splitXY(sizeStr, size);
+    splitXY(arrayStr, array);
+    int count = array[0] * array[1];
+    vector<Frame> frames(count, Frame(0, 0, size[0], size[1], speed));
+    int i = 0;
+    for (int y = 0; y < array[1]; ++y) {
+      for (int x = 0; x < array[0]; ++x) {
+        frames[i].part.x = pos[0] + size[0] * x;
+        frames[i].part.y = pos[1] + size[1] * y;
+        ++i;
+      }
+    }
+
+    // Look for specific frame instructions
+    for (const TiXmlElement *frame = curElem->FirstChildElement("frame");
+         frame != NULL; frame = frame->NextSiblingElement("frame")) {
+      int findex = -1;
+      int fspeed = -1;
+      frame->Attribute("nr", &findex);
+      frame->Attribute("speed", &fspeed);
+      if ((findex >= 0) && (findex < (int) frames.size()) && (fspeed > 0)) {
+        frames[findex].duration = fspeed;
+      }
+    }
+
+    // Look for the image in image resources to avoid allocating several times
+    ResImage *cached = resources->getImage(imageFile);
+    if (!cached) {
+      addImage(resources->getVisualContext(), imageFile, resources);
+      cached = resources->getImage(imageFile);
+    }
+    resources->setSprite(name, new SFMLResSprite(&((SFMLResImage *) cached)->get(),
+                                                 frames, pingpong));
+  }
+}
+
 void
 SFMLLoader::init() {
   Loader::init();
@@ -58,37 +175,21 @@ SFMLLoader::init() {
   Entity *resourcesentity = em.createEntity();
   resourcesentity->addComponent(resources);
 
-  sf::Image *maleimg = new sf::Image();
-  maleimg->LoadFromFile("resources/img/male_walkcycle.png");
-  maleimg->SetSmooth(false);
-  vector<Frame> frames;
-  for (int i = 0; i < 9; ++i) {
-    frames.push_back(Frame(i * 64, 64, 64, 64, 100));
+  // Load and parse
+  string filename("resources/resources.xml");
+  string directory = getDirectory(filename);
+  TiXmlDocument doc(filename);
+  doc.LoadFile();
+  if (doc.Error()) {
+    cerr << "Error parsing file: " << filename << ", " << doc.ErrorDesc() << endl;
+    return;
+  } else {
+    loadSpriteFromXML(directory, &doc, "sprites/walk_up", resources, "man_walk_up");
+    loadSpriteFromXML(directory, &doc, "sprites/walk_right", resources, "man_walk_right");
+    loadSpriteFromXML(directory, &doc, "sprites/walk_down", resources, "man_walk_down");
+    loadSpriteFromXML(directory, &doc, "sprites/walk_left", resources, "man_walk_left");
+    loadSpriteFromXML(directory, &doc, "sprites/wait", resources, "man_still");
   }
-  resources->setSprite("man_walk_left", new SFMLResSprite(maleimg, frames));
-  for (int i = 0; i < 9; ++i) {
-    frames[i] = Frame(i * 64, 192, 64, 64, 100);
-  }
-  resources->setSprite("man_walk_right", new SFMLResSprite(maleimg, frames));
-  for (int i = 0; i < 9; ++i) {
-    frames[i] = Frame(i * 64, 0, 64, 64, 100);
-  }
-  resources->setSprite("man_walk_up", new SFMLResSprite(maleimg, frames));
-  for (int i = 0; i < 9; ++i) {
-    frames[i] = Frame(i * 64, 128, 64, 64, 100);
-  }
-  resources->setSprite("man_walk_down", new SFMLResSprite(maleimg, frames));
-
-  sf::Image *blurimg = new sf::Image();
-  blurimg->LoadFromFile("resources/img/male_blur.png");
-  blurimg->SetSmooth(false);
-  frames.clear();
-  for (int i = 0; i < 14; ++i) {
-    frames.push_back(Frame(i * 64, 0, 64, 64, 100));
-  }
-  frames[0].duration = 4000;
-  frames[13].duration = 1000;
-  resources->setSprite("man_still", new SFMLResSprite(blurimg, frames, true));
 
   loadLevel("start");
 }

@@ -29,9 +29,7 @@ SFMLRender::getVisualContext() {
 
 void
 SFMLRender::clear(VisualContext &vc) {
-  window->Clear(sf::Color(25, 100, 25));
-  sf::Shape rect = sf::Shape::Rectangle(0, 0, 640, 280, sf::Color(95, 158, 160));
-  window->Draw(rect);
+  window->Clear(sf::Color::Black);
 }
 
 void

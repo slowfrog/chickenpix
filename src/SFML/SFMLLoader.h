@@ -2,6 +2,8 @@
 #include "../Resources.h"
 #include "../Loader.h"
 
+class TiXmlDocument;
+
 class SFMLLoader: public Loader {
 public:
   SFMLLoader(string const &name, EntityManager &em);
@@ -16,4 +18,9 @@ public:
                        string const &alias="");
 
   virtual string toString() const;
+
+private:
+  void loadSpriteFromXML(string const &filename, TiXmlDocument *doc, string const &path,
+                         Resources *resources, string const &name);
+
 };
