@@ -6,6 +6,8 @@
 using namespace std;
 
 class Entity {
+  friend class EntityManager;
+  
 public:
   typedef unsigned int Id;
   
@@ -14,6 +16,7 @@ private:
   
   Id id;
   vector<Component *> comp;
+  vector<string> tags;
   
 public:
 
@@ -32,19 +35,23 @@ public:
   }
   
   void addComponent(Component *c);
-
   void removeComponent(Component::Type t);
-
   Component *getComponent(Component::Type t);
-
-  template<class T>
-  T *getComponent();
-
+  template<class T>  T *getComponent();
   bool hasComponent(Component::Type t) const;
-
   bool hasComponents(Component::Type t1, Component::Type t2) const;
 
+  bool hasTag(string const &tag) const;
+  inline
+  vector<string> const &getTags() const {
+    return tags;
+  }
+
   string toString() const;
+
+protected:
+  void addTag(string const &tag);
+  void removeTag(string const &tag);
 };
 
 template<class T>

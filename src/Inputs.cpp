@@ -56,13 +56,11 @@ Inputs::moveHero(int now) {
         t->moveBy((float) -dx, (float) -dy);
       }
     }
-
-    if (ent->hasComponent(Animated::TYPE)) {
-      Animated *animated = ent->getComponent<Animated>();
-      animated->setAnimation(anim);
-    }
   }
-  
+
+  Entity *hero = em.getFirstByTag("HERO");
+  Animated *animated = hero->getComponent<Animated>();
+  animated->setAnimation(anim);
 };
 
 bool

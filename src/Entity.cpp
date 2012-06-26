@@ -54,6 +54,34 @@ Entity::hasComponents(Component::Type t1, Component::Type t2) const {
   return hasComponent(t1) && hasComponent(t2);
 }
 
+
+bool
+Entity::hasTag(string const &tag) const {
+  for (vector<string>::const_iterator it = tags.begin(); it < tags.end(); it++) {
+    if (tag == *it) {
+      return true;
+    }
+  }
+  return false;
+}
+
+void
+Entity::addTag(string const &tag) {
+  if (!hasTag(tag)) {
+    tags.push_back(tag);
+  }
+}
+
+void
+Entity::removeTag(string const &tag) {
+  for (vector<string>::iterator it = tags.begin(); it < tags.end(); it++) {
+    if (tag == *it) {
+      tags.erase(it);
+      return;
+    }
+  }
+}
+
 string
 Entity::toString() const {
   ostringstream out;

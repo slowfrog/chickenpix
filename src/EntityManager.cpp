@@ -59,6 +59,28 @@ EntityManager::destroyEntity(Entity *entity) {
   destroyEntity(entity->getId());
 }
 
+void
+EntityManager::tagEntity(Entity *entity, string const &tag) {
+  if (!entity->hasTag(tag)) {
+    tags[tag].push_back(entity);
+    entity->addTag(tag);
+  }
+}
+
+void
+EntityManager::untagEntity(Entity *entity, string const &tag) {
+  if (entity->hasTag(tag)) {
+    entity->removeTag(tag);
+    vector<Entity *> *etags = &tags[tag];
+    for (vector<Entity *>::iterator it = etags->begin(); it < etags->end(); it++) {
+      if (entity == *it) {
+        etags->erase(it);
+        return;
+      }
+    }
+  }
+}
+
 vector<Entity *>
 EntityManager::getEntities(Component::Type t) {
   vector<Entity *> ret;
@@ -106,6 +128,16 @@ EntityManager::getEntity(Component::Type t) {
   return NULL;
 }
 
+vector<Entity *> const &
+EntityManager::getByTag(string const &tag) {
+  return tags[tag];
+}
+
+Entity *
+EntityManager::getFirstByTag(string const &tag) {
+  vector<Entity *> const &allByTag = getByTag(tag);
+  return allByTag.empty() ? NULL : allByTag[0];
+}
 
 string
 EntityManager::toString() const {

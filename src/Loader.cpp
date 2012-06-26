@@ -60,6 +60,7 @@ Loader::loadLevel(string const &name) {
   hero->addComponent(new Animated("man_still"));
   hero->addComponent(new Input());
   hero->addComponent(new Scriptable("toto"));
+  em.tagEntity(hero, "HERO");
   
   Entity *text = em.createEntity();
   text->addComponent(new Transform(100, 160));
