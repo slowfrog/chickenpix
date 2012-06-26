@@ -61,6 +61,7 @@ Loader::loadLevel(string const &name) {
   hero->addComponent(new Input());
   hero->addComponent(new Scriptable("toto"));
   em.tagEntity(hero, "HERO");
+  em.tagEntity(hero, "DummyTag");
   
   Entity *text = em.createEntity();
   text->addComponent(new Transform(100, 160));

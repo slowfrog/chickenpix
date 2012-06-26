@@ -11,6 +11,7 @@ def run(self, manager):
                len(self.getComponents()),
                ", ".join(c.typeName() for c in self.getComponents())))
         entities = manager.getEntities(cp.Transform, cp.Visual)
+        print("My tags are [%s]" % ", ".join(self.getTags()))
         print("There are %d Transform entities" % len(entities))
         once = True
 

@@ -96,9 +96,24 @@ Entity_getComponents(PyEntity *self) {
   return ret;
 }
 
+static PyObject *
+Entity_getTags(PyEntity *self) {
+  Entity *entity = self->entity;
+  vector<string> const &tags = entity->getTags();
+  int size = tags.size();
+  PyObject *ret = PyList_New(size);
+  for (int i = 0; i < size; ++i) {
+    string const &tag = tags[i];
+    PyObject *ptag = PyString_FromString(tag.c_str());
+    PyList_SetItem(ret, i, ptag);
+  }
+  return ret;
+}
+
 static PyMethodDef Entity_methods[] = {
   {"id", (PyCFunction) Entity_id, METH_NOARGS, "Id of the entity" },
   {"getComponents", (PyCFunction) Entity_getComponents, METH_NOARGS, "Get all components of the entity" },
+  {"getTags", (PyCFunction) Entity_getTags, METH_NOARGS, "Get all tags on the entity" },
   {NULL} /* End of list */
 };
 
