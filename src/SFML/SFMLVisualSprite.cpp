@@ -25,7 +25,7 @@ SFMLVisualSprite::draw(VisualContext &vc, float x, float y, int delta) {
     if (!pingpong) {
       frame = (frame + 1) % frames.size();
     } else {
-      if ((frame + dir < 0) || (frame + dir >= frames.size())) {
+      if ((frame + dir < 0) || (frame + dir >= (int) frames.size())) {
         dir = -dir;
       }
       frame = frame + dir;

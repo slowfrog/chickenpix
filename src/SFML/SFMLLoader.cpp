@@ -23,8 +23,7 @@ SFMLLoader::~SFMLLoader() {
 }
 
 void
-SFMLLoader::addImage(VisualContext &vc, string const &path, Resources *resources,
-                     string const &alias) {
+SFMLLoader::addImage(string const &path, Resources *resources, string const &alias) {
   sf::Image *img = new sf::Image();
   if (!img->LoadFromFile(path)) {
     cerr << "Error loading image: " << path << endl;
@@ -38,8 +37,7 @@ SFMLLoader::addImage(VisualContext &vc, string const &path, Resources *resources
 }
 
 void
-SFMLLoader::addFont(VisualContext &vc, string const &path, int size, Resources *resources,
-                     string const &alias) {
+SFMLLoader::addFont(string const &path, int size, Resources *resources, string const &alias) {
   sf::Font *font = new sf::Font();
   if (!font->LoadFromFile("resources/fonts/BerkshireSwash-Regular.ttf", size)) {
     cerr << "Error loading font: " << path << endl;
@@ -158,7 +156,7 @@ SFMLLoader::loadSpriteFromXML(string const &directory, TiXmlDocument *doc, strin
     // Look for the image in image resources to avoid allocating several times
     ResImage *cached = resources->getImage(imageFile);
     if (!cached) {
-      addImage(resources->getVisualContext(), imageFile, resources);
+      addImage(imageFile, resources);
       cached = resources->getImage(imageFile);
     }
     resources->setSprite(name, new SFMLResSprite(&((SFMLResImage *) cached)->get(),
@@ -167,39 +165,18 @@ SFMLLoader::loadSpriteFromXML(string const &directory, TiXmlDocument *doc, strin
 }
 
 void
-SFMLLoader::init() {
-  Loader::init();
-  
-  Resources *resources = em.getComponent<Resources>();
-  
-  Entity *resourcesentity = em.createEntity();
-  resourcesentity->addComponent(resources);
-
+SFMLLoader::addSprite(string const &resourceFile, string const &path, Resources *resources,
+                      string const &name) {
   // Load and parse
-  string filename("resources/resources.xml");
-  string directory = getDirectory(filename);
-  TiXmlDocument doc(filename);
+  string directory = getDirectory(resourceFile);
+  TiXmlDocument doc(resourceFile);
   doc.LoadFile();
   if (doc.Error()) {
-    cerr << "Error parsing file: " << filename << ", " << doc.ErrorDesc() << endl;
+    cerr << "Error parsing file: " << resourceFile << ", " << doc.ErrorDesc() << endl;
     return;
   } else {
-    loadSpriteFromXML(directory, &doc, "sprites/walk_up", resources, "man_walk_up");
-    loadSpriteFromXML(directory, &doc, "sprites/walk_right", resources, "man_walk_right");
-    loadSpriteFromXML(directory, &doc, "sprites/walk_down", resources, "man_walk_down");
-    loadSpriteFromXML(directory, &doc, "sprites/walk_left", resources, "man_walk_left");
-    loadSpriteFromXML(directory, &doc, "sprites/wait", resources, "man_still");
+    loadSpriteFromXML(directory, &doc, path, resources, name);
   }
-
-  loadLevel("start");
-}
-
-void
-SFMLLoader::update(int now) {
-}
-
-void
-SFMLLoader::exit() {
 }
 
 string

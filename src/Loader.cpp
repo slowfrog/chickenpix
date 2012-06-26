@@ -16,12 +16,21 @@ Loader::~Loader() {
 
 void
 Loader::init() {
+  // Load resources
   Resources *resources = em.getComponent<Resources>();
-  VisualContext &vc = resources->getVisualContext();
-  addImage(vc, "resources/img/map.png", resources, "map");
+  addImage("resources/img/map.png", resources, "map");
 
-  addFont(vc, "resources/fonts/BerkshireSwash-Regular.ttf", 30, resources, "sans_big");
-  addFont(vc, "resources/fonts/BerkshireSwash-Regular.ttf", 8, resources, "sans_small");
+  addFont("resources/fonts/BerkshireSwash-Regular.ttf", 30, resources, "sans_big");
+  addFont("resources/fonts/BerkshireSwash-Regular.ttf", 8, resources, "sans_small");
+
+  addSprite("resources/resources.xml", "sprites/walk_up", resources, "man_walk_up");
+  addSprite("resources/resources.xml", "sprites/walk_left", resources, "man_walk_left");
+  addSprite("resources/resources.xml", "sprites/walk_down", resources, "man_walk_down");
+  addSprite("resources/resources.xml", "sprites/walk_right", resources, "man_walk_right");
+  addSprite("resources/resources.xml", "sprites/wait", resources, "man_still");
+
+  // Load start level
+  loadLevel("start");
 }
 
 void
