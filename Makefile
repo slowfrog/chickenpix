@@ -12,8 +12,8 @@ CL_OBJ_DIR=$(OBJ_DIR)/CL
 SF_SRC_DIR=$(SRC_DIR)/SFML
 SF_OBJ_DIR=$(OBJ_DIR)/SFML
 
-CFLAGS=-c -g -Wall -DTIXML_USE_STL -I/usr/include/python2.6
-LDFLAGS=-g -pthread -lpython2.6 -lz
+CFLAGS=-c -g -Wall -DTIXML_USE_STL  `pkg-config --cflags python`
+LDFLAGS=-g -pthread `pkg-config --libs python` -lz
 CL_CFLAGS=`pkg-config --cflags clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` $(CFLAGS) 
 CL_LDFLAGS=`pkg-config --libs clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3` $(LDFLAGS)
 SF_CFLAGS=-I$(SFML_DIR)/include $(CFLAGS) 
