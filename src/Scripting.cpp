@@ -78,19 +78,17 @@ Scripting::update(int now) {
   vector<Entity *> scripts = em.getEntities(Scriptable::TYPE);
   for (vector<Entity *>::iterator it = scripts.begin(); it < scripts.end(); it++) {
 
-    Entity *wentity = *it;
-    //WrappedEntity *wentity = WrappedEntity::wrap(em, *it);
+    WrappedEntity *wentity = WrappedEntity::wrap(em, *it);
     Scriptable *scriptable = wentity->getComponent<Scriptable>();
     ScriptInfo *info = getScript(scriptable->getName());
     if (info) {
       scriptable->update(now); // ??
         
-      //PyObject *pye = wentity->getWrapper();
-      PyObject *pye = wrapEntity(wentity);
+      PyObject *pye = wentity->getWrapper();
       PyObject *arglist = Py_BuildValue("(OO)", pye, pyem);
       PyObject *ret = PyObject_CallObject(info->func, arglist);
       Py_DECREF(arglist);
-      Py_DECREF(pye);
+
       if (PyErr_Occurred()) {
         PyErr_Print();
       }
@@ -98,8 +96,8 @@ Scripting::update(int now) {
         Py_DECREF(ret);
       }
     }
-    Py_DECREF(pyem);
   }
+  Py_DECREF(pyem);
 }
 
 void

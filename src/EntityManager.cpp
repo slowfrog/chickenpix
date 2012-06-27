@@ -62,6 +62,15 @@ EntityManager::destroyEntity(Entity *entity) {
 void
 EntityManager::replaceEntity(Entity::Id id, Entity *replacement) {
   // Could add some asserts to check the replacement is valid (good id, same tags). At least in debug.
+  vector<string> etags = replacement->getTags();
+  for (vector<string>::iterator it = etags.begin(); it < etags.end(); it++) {
+    vector<Entity *> &tagged = tags[*it];
+    for (unsigned int i = 0; i < tagged.size(); ++i) {
+      if (tagged[i]->getId() == id) {
+        tagged[i] = replacement;
+      }
+    }
+  }
   delete entities[id];
   entities[id] = replacement;
 }
