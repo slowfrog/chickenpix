@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "PythonTypes.h"
+#include "WrappedEntity.h"
 
 // EntityManager wrapper
 typedef struct {
@@ -114,12 +115,12 @@ EntityManager_getByTag(PyEntityManager *self, PyObject *args) {
     return Py_None;
   }
 
-  vector<Entity *> const &entities = em->getByTag(tag);
+  vector<Entity::Id> const &entities = em->getByTag(tag);
   int size = entities.size();
   PyObject *ret = PyList_New(size);
   for (int i = 0; i < size; ++i) {
-    Entity *entity = entities[i];
-    PyObject *pentity = wrapEntity(entity);
+    WrappedEntity *wentity = WrappedEntity::wrap(*em, em->getEntity(entities[i]));
+    PyObject *pentity = wentity->getWrapper();
     PyList_SetItem(ret, i, pentity);
   }
   return ret;

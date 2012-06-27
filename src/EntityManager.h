@@ -16,7 +16,7 @@ private:
   /** Currently owned entities. Some entries might be NULL. */
   vector<Entity *> entities;
   /** Entities grouped by tags. */
-  map<string, vector<Entity *> > tags;
+  map<string, vector<Entity::Id> > tags;
 
 public:
   EntityManager(string const &name);
@@ -46,8 +46,8 @@ public:
   vector<Entity *> getEntities(Component::Type t1, Component::Type t2);
   Entity *getEntity(Component::Type t);
 
-  vector<Entity *> const &getByTag(const string &tag);
-  Entity *getFirstByTag(const string &tag);
+  vector<Entity::Id> const &getByTag(const string &tag);
+  Entity::Id getFirstByTag(const string &tag);
 
   template<class T> T *getComponent();
   
