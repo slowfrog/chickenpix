@@ -1,15 +1,30 @@
 #include <sstream>
 #include "Entity.h"
 
+
+const Entity::Type Entity::TYPE = 1;
+
 Entity::Entity():
-  id(INVALID_ID) {
+  id(INVALID_ID), type(TYPE) {
 }
 
 Entity::Entity(Id id):
-  id(id) {
+  id(id), type(TYPE) {
+}
+
+Entity::Entity(Entity const &src):
+  id(src.id), type(src.type), comp(src.comp), tags(src.tags) {
+}
+
+Entity::Entity(Entity const &src, Type type):
+  id(src.id), type(type), comp(src.comp), tags(src.tags) {
 }
 
 Entity::~Entity() {
+  for (vector<Component *>::iterator it = comp.begin(); it < comp.end(); it++) {
+    delete *it;
+  }
+  comp.clear();
 }
 
 void
@@ -80,6 +95,11 @@ Entity::removeTag(string const &tag) {
       return;
     }
   }
+}
+
+void
+Entity::releaseComponents() {
+  comp.clear();
 }
 
 string

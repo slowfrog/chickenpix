@@ -10,11 +10,15 @@ class Entity {
   
 public:
   typedef unsigned int Id;
+  typedef unsigned int Type;
+  
+  static const Type TYPE; // = 1
   
 private:
   static const Id INVALID_ID = 0;
   
   Id id;
+  Type type;
   vector<Component *> comp;
   vector<string> tags;
   
@@ -23,11 +27,16 @@ public:
   Entity();
   
   explicit Entity(Id id);
+  Entity(Entity const &src);
   
-  ~Entity();
+  virtual ~Entity();
 
   inline Id getId() const {
     return id;
+  }
+
+  inline Type getType() const {
+    return type;
   }
 
   inline vector<Component *> const &getComponents() const {
@@ -47,9 +56,17 @@ public:
     return tags;
   }
 
+  inline
+  static bool isInstance(Entity *entity) {
+    return entity->getType() == TYPE;
+  }
+  
   string toString() const;
 
+  void releaseComponents();
+  
 protected:
+  Entity(Entity const &src, Type type);
   void addTag(string const &tag);
   void removeTag(string const &tag);
 };

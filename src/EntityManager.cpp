@@ -60,6 +60,13 @@ EntityManager::destroyEntity(Entity *entity) {
 }
 
 void
+EntityManager::replaceEntity(Entity::Id id, Entity *replacement) {
+  // Could add some asserts to check the replacement is valid (good id, same tags). At least in debug.
+  delete entities[id];
+  entities[id] = replacement;
+}
+
+void
 EntityManager::tagEntity(Entity *entity, string const &tag) {
   if (!entity->hasTag(tag)) {
     tags[tag].push_back(entity);

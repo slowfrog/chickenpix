@@ -3,10 +3,19 @@
 #include <map>
 #include "Entity.h"
 
+/**
+ * An EntityManager manages entities (obviously). This means that Entity objects should only be created
+ * by a manager (calling createEntity) and should only be deleted by calling destroyEntity().
+ * Also tagging and un-tagging entities should be done through the manager, because it keeps track of
+ * groups of entities by tag.
+ */
 class EntityManager {
 private:
+  /** Name of the manager. Mostly useless. */
   string name;
+  /** Currently owned entities. Some entries might be NULL. */
   vector<Entity *> entities;
+  /** Entities grouped by tags. */
   map<string, vector<Entity *> > tags;
 
 public:
@@ -20,6 +29,14 @@ public:
   Entity *getEntity(Entity::Id id);
   void destroyEntity(Entity::Id id);
   void destroyEntity(Entity *entity);
+  
+  /**
+   * When you need to store entities of a more specific type, you should call replaceEntity to notify
+   * the manager that it has changed. The caller is responsible for copying all the contents of the
+   * entity that is replaced. Don't keep a reference to the previous entity: the manager will destroy
+   * it in this function.
+   */
+  void replaceEntity(Entity::Id id, Entity *replacement);
   
   void tagEntity(Entity *entity, string const &tag);
   void untagEntity(Entity *entity, string const &tag);

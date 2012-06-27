@@ -3,9 +3,10 @@
 #include <iostream>
 #include <sstream>
 
-#include "Scripting.h" // Must include Python.h before standard includes...
+#include "Scripting.h"
 #include "Scriptable.h"
 #include "PythonTypes.h"
+#include "WrappedEntity.h"
 
 Scripting::Scripting(string const &name, EntityManager &em):
   System(name, em) {
@@ -77,13 +78,15 @@ Scripting::update(int now) {
   vector<Entity *> scripts = em.getEntities(Scriptable::TYPE);
   for (vector<Entity *>::iterator it = scripts.begin(); it < scripts.end(); it++) {
 
-    Entity *entity = *it;
-    Scriptable *scriptable = entity->getComponent<Scriptable>();
+    Entity *wentity = *it;
+    //WrappedEntity *wentity = WrappedEntity::wrap(em, *it);
+    Scriptable *scriptable = wentity->getComponent<Scriptable>();
     ScriptInfo *info = getScript(scriptable->getName());
     if (info) {
       scriptable->update(now); // ??
         
-      PyObject *pye = wrapEntity(entity);
+      //PyObject *pye = wentity->getWrapper();
+      PyObject *pye = wrapEntity(wentity);
       PyObject *arglist = Py_BuildValue("(OO)", pye, pyem);
       PyObject *ret = PyObject_CallObject(info->func, arglist);
       Py_DECREF(arglist);
