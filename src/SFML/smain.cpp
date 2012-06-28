@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SFML/System.hpp>
-#include "log.h"
+#include "../log.h"
 #include "../Animation.h"
 #include "../EntityManager.h"
 #include "../Scripting.h"
