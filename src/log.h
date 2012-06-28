@@ -9,6 +9,7 @@
 #define LOG2                  (ILog::Log())
 #define LOG2DBG               if ( LEVEL_DEBUG == ILog::Level() ) ILog::Log()
 #define LOG2MAIN              if ( LEVEL_MAIN == ILog::Level() ) ILog::Log()
+#define LOG2ERR               if ( LEVEL_DEBUG == ILog::Level() ) ILog::Log()<<__FILE__<<"("<<__LINE__<<"):"
 
 // Forward
 class CLogOutput;

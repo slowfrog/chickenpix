@@ -4,10 +4,10 @@
 #include "../Animation.h"
 #include "../EntityManager.h"
 #include "../Scripting.h"
+#include "../TagEntityManager.h"
 #include "SFMLInputs.h"
 #include "SFMLLoader.h"
 #include "SFMLRender.h"
-
 
 
 using namespace std;
@@ -15,6 +15,25 @@ using namespace std;
 int main(int argc, char const *argv[]) {
   // init log
   ILog::setLogger( new CLogOutput, LEVEL_DEBUG);
+  
+  // Test tag => to remove
+  CTagEntityMng::get()->resetTagCollection();
+  CTagEntityMng::get()->registerTag(1, "Hero", true); // you can not have another tag hero
+  CTagEntityMng::get()->registerTag(1, "Kindly");
+  
+  CTagEntityMng::get()->registerTag(10, "Bat");
+  CTagEntityMng::get()->registerTag(11, "Bat");
+  CTagEntityMng::get()->registerTag(12, "Bat");
+  
+  CTagEntityMng::get()->registerTag(20, "Frog");
+  CTagEntityMng::get()->registerTag(20, "little");
+  
+  LOG2<< "Entity: "<<CTagEntityMng::get()->getEntityByTag( "Hero") <<"\n";
+  LOG2<< "Entity: "<<CTagEntityMng::get()->getFirstEntitiesByTag( "Bat") <<"\n";
+  
+  CTagEntityMng::TCollectionIdEntity v = CTagEntityMng::get()->getEntitiesByTag("Bat");
+  for(int i=0; i< v.size(); i++)
+    LOG2<<"Entity : "<<v[i]<<"\n";
   
   // Init
   EntityManager em("SFML-main");

@@ -48,6 +48,7 @@
 		5A22FC831593BA5F00745D05 /* TmxTileset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC741593BA5F00745D05 /* TmxTileset.cpp */; };
 		5A22FC841593BA5F00745D05 /* TmxUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC761593BA5F00745D05 /* TmxUtil.cpp */; };
 		5A22FCA21593CD9000745D05 /* PythonTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FCA01593CD9000745D05 /* PythonTypes.cpp */; };
+		5A255475159CF3DC0032BBF8 /* TagEntityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A255473159CF3DC0032BBF8 /* TagEntityManager.cpp */; };
 		5A89202C1592817A0088CDE0 /* Scriptable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A8920281592817A0088CDE0 /* Scriptable.cpp */; };
 		5A89202D1592817A0088CDE0 /* Scripting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A89202A1592817A0088CDE0 /* Scripting.cpp */; };
 		5ADCACF11592692300E29849 /* SFMLResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACEC1592692300E29849 /* SFMLResources.cpp */; };
@@ -162,6 +163,9 @@
 		5A22FC771593BA5F00745D05 /* TmxUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TmxUtil.h; path = src/TmxParser/TmxUtil.h; sourceTree = "<group>"; };
 		5A22FCA01593CD9000745D05 /* PythonTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PythonTypes.cpp; path = src/PythonTypes.cpp; sourceTree = "<group>"; };
 		5A22FCA11593CD9000745D05 /* PythonTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PythonTypes.h; path = src/PythonTypes.h; sourceTree = "<group>"; };
+		5A255473159CF3DC0032BBF8 /* TagEntityManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TagEntityManager.cpp; path = src/TagEntityManager.cpp; sourceTree = "<group>"; };
+		5A255474159CF3DC0032BBF8 /* TagEntityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TagEntityManager.h; path = src/TagEntityManager.h; sourceTree = "<group>"; };
+		5A255486159CF55B0032BBF8 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Singleton.h; path = src/Singleton.h; sourceTree = "<group>"; };
 		5A2A2E851598DD8C009389E6 /* Stats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stats.h; path = src/Stats.h; sourceTree = "<group>"; };
 		5A8920281592817A0088CDE0 /* Scriptable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scriptable.cpp; path = src/Scriptable.cpp; sourceTree = "<group>"; };
 		5A8920291592817A0088CDE0 /* Scriptable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scriptable.h; path = src/Scriptable.h; sourceTree = "<group>"; };
@@ -205,6 +209,8 @@
 		5A00358D158FCF3900B483F8 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				5A255474159CF3DC0032BBF8 /* TagEntityManager.h */,
+				5A255473159CF3DC0032BBF8 /* TagEntityManager.cpp */,
 				5A0E14BB159BC3B800B253AB /* WrappedEntity.cpp */,
 				5A0E14BC159BC3B800B253AB /* WrappedEntity.h */,
 				5A0E1131159B72C700B253AB /* Animation.cpp */,
@@ -311,15 +317,23 @@
 		5A22FC9C1593BC8200745D05 /* RoundFight */ = {
 			isa = PBXGroup;
 			children = (
-				5A0E14B8159BC3A900B253AB /* log.cpp */,
-				5A0E14B9159BC3A900B253AB /* log.h */,
-				5A0E1311159BA1A100B253AB /* Stats.cpp */,
-				5A0584FE1593D357003C67F6 /* FightSystem.cpp */,
-				5A0584FF1593D357003C67F6 /* FightSystem.h */,
-				5A2186B115977D4F00FF7E57 /* variant.h */,
 				5A2A2E851598DD8C009389E6 /* Stats.h */,
+				5A0E1311159BA1A100B253AB /* Stats.cpp */,
+				5A0584FF1593D357003C67F6 /* FightSystem.h */,
+				5A0584FE1593D357003C67F6 /* FightSystem.cpp */,
 			);
 			name = RoundFight;
+			sourceTree = "<group>";
+		};
+		5A25546C159CF3150032BBF8 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				5A2186B115977D4F00FF7E57 /* variant.h */,
+				5A0E14B9159BC3A900B253AB /* log.h */,
+				5A0E14B8159BC3A900B253AB /* log.cpp */,
+				5A255486159CF55B0032BBF8 /* Singleton.h */,
+			);
+			name = Tools;
 			sourceTree = "<group>";
 		};
 		5A8920141592805C0088CDE0 /* TinyXml */ = {
@@ -376,6 +390,7 @@
 		A01FB6B20F07CF80000AAC7B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5A25546C159CF3150032BBF8 /* Tools */,
 				5A22FC9C1593BC8200745D05 /* RoundFight */,
 				5A22FC5B1593BA4000745D05 /* Tmx */,
 				5A8920141592805C0088CDE0 /* TinyXml */,
@@ -510,6 +525,7 @@
 				5A0E1312159BA1A100B253AB /* Stats.cpp in Sources */,
 				5A0E14BA159BC3A900B253AB /* log.cpp in Sources */,
 				5A0E14BD159BC3B800B253AB /* WrappedEntity.cpp in Sources */,
+				5A255475159CF3DC0032BBF8 /* TagEntityManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

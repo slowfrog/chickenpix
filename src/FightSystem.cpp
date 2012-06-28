@@ -198,7 +198,7 @@ bool
 CFightEngine::curFight(){
   // Get CA  
   long ca = CDice<8>::rolled(); // die 6 faces
-  std::cout<< "CA : "<< ca << std::endl;
+  LOG2DBG << "CA : "<< ca << "\n";
   
   if ( qDef.front().get( ARMOR_CLASS) < ca ) {
     // Get damage    
