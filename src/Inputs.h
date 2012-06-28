@@ -5,6 +5,8 @@
 class Inputs: public System {
 protected:
   bool exitRequested;
+  // Game state
+  bool  fightMode;
 public:
   enum Key {
     Num0 = 0,
@@ -41,4 +43,6 @@ public:
 
 private:
   void moveHero(int now);
+  // Round fight
+  void initiateFight(int now);
 };

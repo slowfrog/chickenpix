@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/System.hpp>
+#include "log.h"
 #include "../Animation.h"
 #include "../EntityManager.h"
 #include "../Scripting.h"
@@ -7,10 +8,18 @@
 #include "SFMLLoader.h"
 #include "SFMLRender.h"
 
+#include <unistd.h>
+
 using namespace std;
 
 int main(int argc, char const *argv[]) {
-
+  // init log
+  ILog::setLogger( new CLogOutput, LEVEL_DEBUG);
+  
+  char buffer[528];
+  /* Get the current working directory: */
+  if( getcwd( buffer, 527 ) == NULL ){}
+  
   // Init
   EntityManager em("SFML-main");
   SFMLRender sfrender("SFMLRender", em);
@@ -24,6 +33,9 @@ int main(int argc, char const *argv[]) {
   Scripting scripting("Scripting", em);
   scripting.init();
   cout << em.toString() << endl;
+  //LOG( em.toString() );
+  LOG2DBG << em.toString() << "\n"; // (exemple dutilisation)
+  LOG2MAIN<< em.toString() << "\n"; // pas affiché
 
   // One step
   sf::Clock clock;

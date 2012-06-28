@@ -10,7 +10,6 @@
 		5A00359C158FCF5800B483F8 /* SFMLInputs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A00358F158FCF5800B483F8 /* SFMLInputs.cpp */; };
 		5A00359D158FCF5800B483F8 /* SFMLLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A003591158FCF5800B483F8 /* SFMLLoader.cpp */; };
 		5A00359E158FCF5800B483F8 /* SFMLRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A003593158FCF5800B483F8 /* SFMLRender.cpp */; };
-		5A00359F158FCF5800B483F8 /* SFMLState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A003595158FCF5800B483F8 /* SFMLState.cpp */; };
 		5A0035A1158FCF5800B483F8 /* SFMLVisualImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A003599158FCF5800B483F8 /* SFMLVisualImage.cpp */; };
 		5A0035BD158FCF6D00B483F8 /* Animated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035A3158FCF6D00B483F8 /* Animated.cpp */; };
 		5A0035BE158FCF6D00B483F8 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035A5158FCF6D00B483F8 /* Component.cpp */; };
@@ -25,6 +24,12 @@
 		5A0035C7158FCF6D00B483F8 /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035B9158FCF6D00B483F8 /* Transform.cpp */; };
 		5A0035EB158FD2A300B483F8 /* smain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035EA158FD2A300B483F8 /* smain.cpp */; };
 		5A00361B158FE10900B483F8 /* SFMLVisualText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A003619158FE10900B483F8 /* SFMLVisualText.cpp */; };
+		5A0585001593D357003C67F6 /* FightSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0584FE1593D357003C67F6 /* FightSystem.cpp */; };
+		5A0E1134159B72C700B253AB /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E1131159B72C700B253AB /* Animation.cpp */; };
+		5A0E1135159B72C700B253AB /* ComponentRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E1133159B72C700B253AB /* ComponentRegistry.cpp */; };
+		5A0E1312159BA1A100B253AB /* Stats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E1311159BA1A100B253AB /* Stats.cpp */; };
+		5A0E14BA159BC3A900B253AB /* log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E14B8159BC3A900B253AB /* log.cpp */; };
+		5A0E14BD159BC3B800B253AB /* WrappedEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E14BB159BC3B800B253AB /* WrappedEntity.cpp */; };
 		5A22FC4315938DA100745D05 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A22FC4215938DA100745D05 /* Python.framework */; };
 		5A22FC551593902600745D05 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC4F1593902600745D05 /* tinystr.cpp */; };
 		5A22FC561593902600745D05 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC511593902600745D05 /* tinyxml.cpp */; };
@@ -36,13 +41,13 @@
 		5A22FC7B1593BA5F00745D05 /* TmxMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC631593BA5F00745D05 /* TmxMap.cpp */; };
 		5A22FC7C1593BA5F00745D05 /* TmxObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC661593BA5F00745D05 /* TmxObject.cpp */; };
 		5A22FC7D1593BA5F00745D05 /* TmxObjectGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC681593BA5F00745D05 /* TmxObjectGroup.cpp */; };
-		5A22FC7E1593BA5F00745D05 /* TmxParser.vcproj in Resources */ = {isa = PBXBuildFile; fileRef = 5A22FC6A1593BA5F00745D05 /* TmxParser.vcproj */; };
 		5A22FC7F1593BA5F00745D05 /* TmxPolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC6C1593BA5F00745D05 /* TmxPolygon.cpp */; };
 		5A22FC801593BA5F00745D05 /* TmxPolyline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC6E1593BA5F00745D05 /* TmxPolyline.cpp */; };
 		5A22FC811593BA5F00745D05 /* TmxPropertySet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC701593BA5F00745D05 /* TmxPropertySet.cpp */; };
 		5A22FC821593BA5F00745D05 /* TmxTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC721593BA5F00745D05 /* TmxTile.cpp */; };
 		5A22FC831593BA5F00745D05 /* TmxTileset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC741593BA5F00745D05 /* TmxTileset.cpp */; };
 		5A22FC841593BA5F00745D05 /* TmxUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC761593BA5F00745D05 /* TmxUtil.cpp */; };
+		5A22FCA21593CD9000745D05 /* PythonTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FCA01593CD9000745D05 /* PythonTypes.cpp */; };
 		5A89202C1592817A0088CDE0 /* Scriptable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A8920281592817A0088CDE0 /* Scriptable.cpp */; };
 		5A89202D1592817A0088CDE0 /* Scripting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A89202A1592817A0088CDE0 /* Scripting.cpp */; };
 		5ADCACF11592692300E29849 /* SFMLResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACEC1592692300E29849 /* SFMLResources.cpp */; };
@@ -81,8 +86,6 @@
 		5A003592158FCF5800B483F8 /* SFMLLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLLoader.h; path = src/SFML/SFMLLoader.h; sourceTree = "<group>"; };
 		5A003593158FCF5800B483F8 /* SFMLRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SFMLRender.cpp; path = src/SFML/SFMLRender.cpp; sourceTree = "<group>"; };
 		5A003594158FCF5800B483F8 /* SFMLRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLRender.h; path = src/SFML/SFMLRender.h; sourceTree = "<group>"; };
-		5A003595158FCF5800B483F8 /* SFMLState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SFMLState.cpp; path = src/SFML/SFMLState.cpp; sourceTree = "<group>"; };
-		5A003596158FCF5800B483F8 /* SFMLState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLState.h; path = src/SFML/SFMLState.h; sourceTree = "<group>"; };
 		5A003599158FCF5800B483F8 /* SFMLVisualImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SFMLVisualImage.cpp; path = src/SFML/SFMLVisualImage.cpp; sourceTree = "<group>"; };
 		5A00359A158FCF5800B483F8 /* SFMLVisualImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLVisualImage.h; path = src/SFML/SFMLVisualImage.h; sourceTree = "<group>"; };
 		5A0035A3158FCF6D00B483F8 /* Animated.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Animated.cpp; path = src/Animated.cpp; sourceTree = "<group>"; };
@@ -112,6 +115,17 @@
 		5A0035EA158FD2A300B483F8 /* smain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = smain.cpp; path = src/SFML/smain.cpp; sourceTree = "<group>"; };
 		5A003619158FE10900B483F8 /* SFMLVisualText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SFMLVisualText.cpp; path = src/SFML/SFMLVisualText.cpp; sourceTree = "<group>"; };
 		5A00361A158FE10900B483F8 /* SFMLVisualText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLVisualText.h; path = src/SFML/SFMLVisualText.h; sourceTree = "<group>"; };
+		5A0584FE1593D357003C67F6 /* FightSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FightSystem.cpp; path = src/FightSystem.cpp; sourceTree = "<group>"; };
+		5A0584FF1593D357003C67F6 /* FightSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FightSystem.h; path = src/FightSystem.h; sourceTree = "<group>"; };
+		5A0E1131159B72C700B253AB /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Animation.cpp; path = src/Animation.cpp; sourceTree = "<group>"; };
+		5A0E1132159B72C700B253AB /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Animation.h; path = src/Animation.h; sourceTree = "<group>"; };
+		5A0E1133159B72C700B253AB /* ComponentRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ComponentRegistry.cpp; path = src/ComponentRegistry.cpp; sourceTree = "<group>"; };
+		5A0E1311159BA1A100B253AB /* Stats.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Stats.cpp; path = src/Stats.cpp; sourceTree = "<group>"; };
+		5A0E14B8159BC3A900B253AB /* log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = log.cpp; path = src/log.cpp; sourceTree = "<group>"; };
+		5A0E14B9159BC3A900B253AB /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = log.h; path = src/log.h; sourceTree = "<group>"; };
+		5A0E14BB159BC3B800B253AB /* WrappedEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WrappedEntity.cpp; path = src/WrappedEntity.cpp; sourceTree = "<group>"; };
+		5A0E14BC159BC3B800B253AB /* WrappedEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WrappedEntity.h; path = src/WrappedEntity.h; sourceTree = "<group>"; };
+		5A2186B115977D4F00FF7E57 /* variant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = variant.h; path = src/variant.h; sourceTree = "<group>"; };
 		5A22FC4215938DA100745D05 /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /System/Library/Frameworks/Python.framework; sourceTree = "<absolute>"; };
 		5A22FC4F1593902600745D05 /* tinystr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinystr.cpp; path = src/tinyxml/tinystr.cpp; sourceTree = "<group>"; };
 		5A22FC501593902600745D05 /* tinystr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinystr.h; path = src/tinyxml/tinystr.h; sourceTree = "<group>"; };
@@ -133,7 +147,6 @@
 		5A22FC671593BA5F00745D05 /* TmxObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TmxObject.h; path = src/TmxParser/TmxObject.h; sourceTree = "<group>"; };
 		5A22FC681593BA5F00745D05 /* TmxObjectGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TmxObjectGroup.cpp; path = src/TmxParser/TmxObjectGroup.cpp; sourceTree = "<group>"; };
 		5A22FC691593BA5F00745D05 /* TmxObjectGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TmxObjectGroup.h; path = src/TmxParser/TmxObjectGroup.h; sourceTree = "<group>"; };
-		5A22FC6A1593BA5F00745D05 /* TmxParser.vcproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TmxParser.vcproj; path = src/TmxParser/TmxParser.vcproj; sourceTree = "<group>"; };
 		5A22FC6B1593BA5F00745D05 /* TmxPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TmxPoint.h; path = src/TmxParser/TmxPoint.h; sourceTree = "<group>"; };
 		5A22FC6C1593BA5F00745D05 /* TmxPolygon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TmxPolygon.cpp; path = src/TmxParser/TmxPolygon.cpp; sourceTree = "<group>"; };
 		5A22FC6D1593BA5F00745D05 /* TmxPolygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TmxPolygon.h; path = src/TmxParser/TmxPolygon.h; sourceTree = "<group>"; };
@@ -147,6 +160,9 @@
 		5A22FC751593BA5F00745D05 /* TmxTileset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TmxTileset.h; path = src/TmxParser/TmxTileset.h; sourceTree = "<group>"; };
 		5A22FC761593BA5F00745D05 /* TmxUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TmxUtil.cpp; path = src/TmxParser/TmxUtil.cpp; sourceTree = "<group>"; };
 		5A22FC771593BA5F00745D05 /* TmxUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TmxUtil.h; path = src/TmxParser/TmxUtil.h; sourceTree = "<group>"; };
+		5A22FCA01593CD9000745D05 /* PythonTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PythonTypes.cpp; path = src/PythonTypes.cpp; sourceTree = "<group>"; };
+		5A22FCA11593CD9000745D05 /* PythonTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PythonTypes.h; path = src/PythonTypes.h; sourceTree = "<group>"; };
+		5A2A2E851598DD8C009389E6 /* Stats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stats.h; path = src/Stats.h; sourceTree = "<group>"; };
 		5A8920281592817A0088CDE0 /* Scriptable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scriptable.cpp; path = src/Scriptable.cpp; sourceTree = "<group>"; };
 		5A8920291592817A0088CDE0 /* Scriptable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scriptable.h; path = src/Scriptable.h; sourceTree = "<group>"; };
 		5A89202A1592817A0088CDE0 /* Scripting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scripting.cpp; path = src/Scripting.cpp; sourceTree = "<group>"; };
@@ -189,6 +205,13 @@
 		5A00358D158FCF3900B483F8 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				5A0E14BB159BC3B800B253AB /* WrappedEntity.cpp */,
+				5A0E14BC159BC3B800B253AB /* WrappedEntity.h */,
+				5A0E1131159B72C700B253AB /* Animation.cpp */,
+				5A0E1132159B72C700B253AB /* Animation.h */,
+				5A0E1133159B72C700B253AB /* ComponentRegistry.cpp */,
+				5A22FCA01593CD9000745D05 /* PythonTypes.cpp */,
+				5A22FCA11593CD9000745D05 /* PythonTypes.h */,
 				5A8920281592817A0088CDE0 /* Scriptable.cpp */,
 				5A8920291592817A0088CDE0 /* Scriptable.h */,
 				5A89202A1592817A0088CDE0 /* Scripting.cpp */,
@@ -245,8 +268,6 @@
 				5A003592158FCF5800B483F8 /* SFMLLoader.h */,
 				5A003593158FCF5800B483F8 /* SFMLRender.cpp */,
 				5A003594158FCF5800B483F8 /* SFMLRender.h */,
-				5A003595158FCF5800B483F8 /* SFMLState.cpp */,
-				5A003596158FCF5800B483F8 /* SFMLState.h */,
 				5A003599158FCF5800B483F8 /* SFMLVisualImage.cpp */,
 				5A00359A158FCF5800B483F8 /* SFMLVisualImage.h */,
 			);
@@ -270,7 +291,6 @@
 				5A22FC671593BA5F00745D05 /* TmxObject.h */,
 				5A22FC681593BA5F00745D05 /* TmxObjectGroup.cpp */,
 				5A22FC691593BA5F00745D05 /* TmxObjectGroup.h */,
-				5A22FC6A1593BA5F00745D05 /* TmxParser.vcproj */,
 				5A22FC6B1593BA5F00745D05 /* TmxPoint.h */,
 				5A22FC6C1593BA5F00745D05 /* TmxPolygon.cpp */,
 				5A22FC6D1593BA5F00745D05 /* TmxPolygon.h */,
@@ -286,6 +306,20 @@
 				5A22FC771593BA5F00745D05 /* TmxUtil.h */,
 			);
 			name = Tmx;
+			sourceTree = "<group>";
+		};
+		5A22FC9C1593BC8200745D05 /* RoundFight */ = {
+			isa = PBXGroup;
+			children = (
+				5A0E14B8159BC3A900B253AB /* log.cpp */,
+				5A0E14B9159BC3A900B253AB /* log.h */,
+				5A0E1311159BA1A100B253AB /* Stats.cpp */,
+				5A0584FE1593D357003C67F6 /* FightSystem.cpp */,
+				5A0584FF1593D357003C67F6 /* FightSystem.h */,
+				5A2186B115977D4F00FF7E57 /* variant.h */,
+				5A2A2E851598DD8C009389E6 /* Stats.h */,
+			);
+			name = RoundFight;
 			sourceTree = "<group>";
 		};
 		5A8920141592805C0088CDE0 /* TinyXml */ = {
@@ -308,7 +342,6 @@
 				A01FB6B10F07CF7C000AAC7B /* Resources */,
 				A01FB6B00F07CF75000AAC7B /* Frameworks */,
 				A01FB6AA0F07CF6E000AAC7B /* Products */,
-				5A22FC4215938DA100745D05 /* Python.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -323,6 +356,7 @@
 		A01FB6B00F07CF75000AAC7B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5A22FC4215938DA100745D05 /* Python.framework */,
 				A01FB6CD0F07CFF2000AAC7B /* SFML.framework */,
 				A01FB6CB0F07CFF2000AAC7B /* sfml-system.framework */,
 				A01FB6CC0F07CFF2000AAC7B /* sfml-window.framework */,
@@ -342,6 +376,7 @@
 		A01FB6B20F07CF80000AAC7B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5A22FC9C1593BC8200745D05 /* RoundFight */,
 				5A22FC5B1593BA4000745D05 /* Tmx */,
 				5A8920141592805C0088CDE0 /* TinyXml */,
 				5A00358E158FCF3F00B483F8 /* SFML */,
@@ -361,6 +396,7 @@
 				A01FB6A60F07CF6E000AAC7B /* Sources */,
 				A01FB6A70F07CF6E000AAC7B /* Frameworks */,
 				A0072AF00F1D0EDD00B4A594 /* Copy Frameworks */,
+				5A0E14E4159BC72C00B253AB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -401,11 +437,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A22FC7E1593BA5F00745D05 /* TmxParser.vcproj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5A0E14E4159BC72C00B253AB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo delete ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\nif [ -d ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources ]; then   \n\trm -r ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources\nfi\n\necho create ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\nmkdir ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources \nmkdir ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\n\necho copy resources\ncp -R ./resources/* ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\n\n\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A01FB6A60F07CF6E000AAC7B /* Sources */ = {
@@ -415,7 +466,6 @@
 				5A00359C158FCF5800B483F8 /* SFMLInputs.cpp in Sources */,
 				5A00359D158FCF5800B483F8 /* SFMLLoader.cpp in Sources */,
 				5A00359E158FCF5800B483F8 /* SFMLRender.cpp in Sources */,
-				5A00359F158FCF5800B483F8 /* SFMLState.cpp in Sources */,
 				5A0035A1158FCF5800B483F8 /* SFMLVisualImage.cpp in Sources */,
 				5A0035BD158FCF6D00B483F8 /* Animated.cpp in Sources */,
 				5A0035BE158FCF6D00B483F8 /* Component.cpp in Sources */,
@@ -453,6 +503,13 @@
 				5A22FC821593BA5F00745D05 /* TmxTile.cpp in Sources */,
 				5A22FC831593BA5F00745D05 /* TmxTileset.cpp in Sources */,
 				5A22FC841593BA5F00745D05 /* TmxUtil.cpp in Sources */,
+				5A22FCA21593CD9000745D05 /* PythonTypes.cpp in Sources */,
+				5A0585001593D357003C67F6 /* FightSystem.cpp in Sources */,
+				5A0E1134159B72C700B253AB /* Animation.cpp in Sources */,
+				5A0E1135159B72C700B253AB /* ComponentRegistry.cpp in Sources */,
+				5A0E1312159BA1A100B253AB /* Stats.cpp in Sources */,
+				5A0E14BA159BC3A900B253AB /* log.cpp in Sources */,
+				5A0E14BD159BC3B800B253AB /* WrappedEntity.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +521,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = ./src;
+				GCC_PREPROCESSOR_DEFINITIONS = TIXML_USE_STL;
 				HEADER_SEARCH_PATHS = (
 					./src/tinyxml,
 					/usr/include/python2.6,
@@ -502,6 +560,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				PREBINDING = NO;
 				PRODUCT_NAME = Chicken;
+				SYMROOT = ../Bin/build;
 			};
 			name = Debug;
 		};

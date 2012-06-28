@@ -46,7 +46,7 @@ SFMLLoader::~SFMLLoader() {
 
 void
 SFMLLoader::initResources() {
-  doc = new TiXmlDocument(resourceFile);
+  doc = new TiXmlDocument( resourceFile);
   doc->LoadFile();
   if (doc->Error()) {
     cerr << "Error parsing file: " << resourceFile << ", " << doc->ErrorDesc() << endl;
