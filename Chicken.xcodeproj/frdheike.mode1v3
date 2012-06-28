@@ -304,7 +304,7 @@
 							<real>241</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>231 -33 1501 768 0 0 1920 1058 </string>
+						<string>207 192 1501 768 0 0 1920 1058 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -315,6 +315,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -332,7 +334,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>5A0E15A7159BD4AE00B253AB</string>
+										<string>5A0E15B4159BD5A100B253AB</string>
 										<key>history</key>
 										<array>
 											<string>5A003625158FE16A00B483F8</string>
@@ -386,7 +388,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1238, 455}}</string>
 								<key>RubberWindowFrame</key>
-								<string>231 -33 1501 768 0 0 1920 1058 </string>
+								<string>207 192 1501 768 0 0 1920 1058 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -394,8 +396,6 @@
 							<string>455pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -408,7 +408,7 @@
 								<key>Frame</key>
 								<string>{{0, 460}, {1238, 267}}</string>
 								<key>RubberWindowFrame</key>
-								<string>231 -33 1501 768 0 0 1920 1058 </string>
+								<string>207 192 1501 768 0 0 1920 1058 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -576,11 +576,11 @@
 		<string>5A0E1169159B757300B253AB</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>/Volumes/Data HD/Work/Chicken/Chicken.xcodeproj</string>
 		<string>5A003588158FCEB600B483F8</string>
+		<string>/Volumes/Data HD/Work/Chicken/Chicken.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>231 -33 1501 768 0 0 1920 1058 </string>
+	<string>207 192 1501 768 0 0 1920 1058 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

@@ -8,17 +8,13 @@
 #include "SFMLLoader.h"
 #include "SFMLRender.h"
 
-#include <unistd.h>
+
 
 using namespace std;
 
 int main(int argc, char const *argv[]) {
   // init log
   ILog::setLogger( new CLogOutput, LEVEL_DEBUG);
-  
-  char buffer[528];
-  /* Get the current working directory: */
-  if( getcwd( buffer, 527 ) == NULL ){}
   
   // Init
   EntityManager em("SFML-main");
