@@ -2,53 +2,53 @@
 #include "EntityManager.h"
 
 EntityManager::EntityManager(string const &name):
-  name(name), entities(1) {
+  _name(name), _entities(1) {
 }
 
 EntityManager::~EntityManager() {
-  entities.clear();
+  _entities.clear();
 }
 
 string
 EntityManager::getName() const {
-  return name;
+  return _name;
 }
 
 int
 EntityManager::getSize() const {
-  return entities.size();
+  return _entities.size();
 }
 
 Entity *
 EntityManager::createEntity() {
   unsigned int i;
   Entity *ent;
-  for (i = 1; i < entities.size(); ++i) {
-    ent = entities[i];
+  for (i = 1; i < _entities.size(); ++i) {
+    ent = _entities[i];
     if (ent == NULL) {
       ent = new Entity(i);
-      entities[i] = ent;
+      _entities[i] = ent;
       return ent;
     }
   }
   ent = new Entity(i);
-  entities.push_back(ent);
+  _entities.push_back(ent);
   return ent;
 }
 
 Entity *
 EntityManager::getEntity(Entity::Id id) {
-  if ((id > 0) && (id < entities.size())) {
-    return entities[id];
+  if ((id > 0) && (id < _entities.size())) {
+    return _entities[id];
   }
   throw string("No such entity to get");
 }
 
 void
 EntityManager::destroyEntity(Entity::Id id) {
-  if ((id > 0) && (id < entities.size())) {
-    delete entities[id];
-    entities[id] = NULL;
+  if ((id > 0) && (id < _entities.size())) {
+    delete _entities[id];
+    _entities[id] = NULL;
   } else {
     throw string("No such entity to destroy");
   }
@@ -62,14 +62,14 @@ EntityManager::destroyEntity(Entity *entity) {
 void
 EntityManager::replaceEntity(Entity::Id id, Entity *replacement) {
   // Could add some asserts to check the replacement is valid (good id, same tags). At least in debug.
-  delete entities[id];
-  entities[id] = replacement;
+  delete _entities[id];
+  _entities[id] = replacement;
 }
 
 void
 EntityManager::tagEntity(Entity *entity, string const &tag) {
   if (!entity->hasTag(tag)) {
-    tags[tag].push_back(entity->getId());
+    _tags[tag].push_back(entity->getId());
     entity->addTag(tag);
   }
 }
@@ -78,7 +78,7 @@ void
 EntityManager::untagEntity(Entity *entity, string const &tag) {
   if (entity->hasTag(tag)) {
     entity->removeTag(tag);
-    vector<Entity::Id> *etags = &tags[tag];
+    vector<Entity::Id> *etags = &_tags[tag];
     for (vector<Entity::Id>::iterator it = etags->begin(); it < etags->end(); it++) {
       if (entity->getId() == *it) {
         etags->erase(it);
@@ -91,8 +91,8 @@ EntityManager::untagEntity(Entity *entity, string const &tag) {
 vector<Entity *>
 EntityManager::getEntities(Component::Type t) {
   vector<Entity *> ret;
-  for (unsigned int i = 1; i < entities.size(); ++i) {
-    Entity *ent = entities[i];
+  for (unsigned int i = 1; i < _entities.size(); ++i) {
+    Entity *ent = _entities[i];
     if ((ent != NULL) && (ent->hasComponent(t))) {
       ret.push_back(ent);
     }
@@ -103,8 +103,8 @@ EntityManager::getEntities(Component::Type t) {
 vector<Entity *>
 EntityManager::getEntities() const {
   vector<Entity *> ret;
-  for (unsigned int i = 1; i < entities.size(); ++i) {
-    Entity *ent = entities[i];
+  for (unsigned int i = 1; i < _entities.size(); ++i) {
+    Entity *ent = _entities[i];
     if (ent != NULL) {
       ret.push_back(ent);
     }
@@ -115,8 +115,8 @@ EntityManager::getEntities() const {
 vector<Entity *>
 EntityManager::getEntities(Component::Type t1, Component::Type t2) {
   vector<Entity *> ret;
-  for (unsigned int i = 1; i < entities.size(); ++i) {
-    Entity *ent = entities[i];
+  for (unsigned int i = 1; i < _entities.size(); ++i) {
+    Entity *ent = _entities[i];
     if ((ent != NULL) && (ent->hasComponents(t1, t2))) {
       ret.push_back(ent);
     }
@@ -126,8 +126,8 @@ EntityManager::getEntities(Component::Type t1, Component::Type t2) {
 
 Entity *
 EntityManager::getEntity(Component::Type t) {
-  for (unsigned int i = 1; i < entities.size(); ++i) {
-    Entity *ent = entities[i];
+  for (unsigned int i = 1; i < _entities.size(); ++i) {
+    Entity *ent = _entities[i];
     if ((ent != NULL) && (ent->hasComponent(t))) {
       return ent;
     }
@@ -137,7 +137,7 @@ EntityManager::getEntity(Component::Type t) {
 
 vector<Entity::Id> const &
 EntityManager::getByTag(string const &tag) {
-  return tags[tag];
+  return _tags[tag];
 }
 
 Entity::Id
@@ -149,13 +149,18 @@ EntityManager::getFirstByTag(string const &tag) {
 string
 EntityManager::toString() const {
   ostringstream out;
-  out << "{EntityManager name=" << name << ", entities[";
-  for (unsigned int i = 1; i < entities.size(); ++i) {
-    if (entities[i] != NULL) {
+  out << "{EntityManager name=" << _name << ", entities[";
+  for (unsigned int i = 1; i < _entities.size(); ++i) {
+    if (_entities[i] != NULL) {
       out << "@";
     } else {
       out << ".";
     }
+  }
+  out << "] tags[ ";
+  for (map<string, vector<Entity::Id> >::const_iterator it = _tags.begin();
+       it != _tags.end(); it++) {
+    out << it->first << " ";
   }
   out << "]}" << ends;
   return out.str();

@@ -6,8 +6,8 @@ using namespace std;
 
 class System {
 protected:
-  string name;
-  EntityManager &em;
+  string _name;
+  EntityManager &_em;
   
 public:
   System(string const &name, EntityManager &em);

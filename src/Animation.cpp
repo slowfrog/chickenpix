@@ -17,9 +17,9 @@ Animation::init() {
 
 void
 Animation::update(int now) {
-  Resources *resources = em.getComponent<Resources>();
+  Resources *resources = _em.getComponent<Resources>();
   
-  vector<Entity *> anims = em.getEntities(Animated::TYPE);
+  vector<Entity *> anims = _em.getEntities(Animated::TYPE);
   for (vector<Entity *>::iterator it = anims.begin(); it < anims.end(); it++) {
     Entity *entity = *it;
     Animated *anim = entity->getComponent<Animated>();

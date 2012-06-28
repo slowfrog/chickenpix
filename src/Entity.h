@@ -17,8 +17,8 @@ public:
 private:
   static const Id INVALID_ID = 0;
   
-  Id id;
-  Type type;
+  Id _id;
+  Type _type;
   vector<Component *> comp;
   vector<string> tags;
   
@@ -32,11 +32,11 @@ public:
   virtual ~Entity();
 
   inline Id getId() const {
-    return id;
+    return _id;
   }
 
   inline Type getType() const {
-    return type;
+    return _type;
   }
 
   inline vector<Component *> const &getComponents() const {

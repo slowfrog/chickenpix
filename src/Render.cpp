@@ -22,7 +22,7 @@ Render::update(int now) {
   clear(*vc);
   
   // Visual
-  vector<Entity *> visuals = em.getEntities(BVisual::TYPE, Transform::TYPE);
+  vector<Entity *> visuals = _em.getEntities(BVisual::TYPE, Transform::TYPE);
   for (vector<Entity *>::iterator it = visuals.begin(); it < visuals.end(); it++) {
     Entity *entity = *it;
     Transform *t = entity->getComponent<Transform>();

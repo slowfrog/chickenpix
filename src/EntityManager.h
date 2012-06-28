@@ -12,11 +12,11 @@
 class EntityManager {
 private:
   /** Name of the manager. Mostly useless. */
-  string name;
+  string _name;
   /** Currently owned entities. Some entries might be NULL. */
-  vector<Entity *> entities;
+  vector<Entity *> _entities;
   /** Entities grouped by tags. */
-  map<string, vector<Entity::Id> > tags;
+  map<string, vector<Entity::Id> > _tags;
 
 public:
   EntityManager(string const &name);

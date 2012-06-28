@@ -2,7 +2,7 @@
 #include "System.h"
 
 System::System(string const &name, EntityManager &em):
-  name(name), em(em) {
+  _name(name), _em(em) {
 }
 
 System::~System() {
@@ -10,12 +10,12 @@ System::~System() {
 
 string const &
 System::getName() const {
-  return name;
+  return _name;
 }
 
 string
 System::toString() const {
   ostringstream out;
-  out << "{System name=" << name << "}" << ends;
+  out << "{System name=" << _name << "}" << ends;
   return out.str();
 }

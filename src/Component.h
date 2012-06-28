@@ -9,17 +9,17 @@ public:
   typedef unsigned short Type;
   
 private:
-  Type type;
+  Type _type;
 
 public:
   explicit Component(Type type);
   virtual ~Component();
 
   inline Type getType() const {
-    return type;
+    return _type;
   }
   inline const char *getTypeName() const {
-    return ComponentName[type];
+    return ComponentName[_type];
   }
 
   virtual string toString() const;

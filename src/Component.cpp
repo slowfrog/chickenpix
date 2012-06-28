@@ -2,7 +2,7 @@
 #include "Component.h"
 
 Component::Component(Type type):
-  type(type) {
+  _type(type) {
 }
 
 Component::~Component() {
@@ -11,6 +11,6 @@ Component::~Component() {
 string
 Component::toString() const {
   ostringstream out;
-  out << "{type=" << type << "}" << ends;
+  out << "{type=" << _type << "}" << ends;
   return out.str();
 }

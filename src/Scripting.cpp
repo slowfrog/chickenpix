@@ -13,12 +13,12 @@ Scripting::Scripting(string const &name, EntityManager &em):
 }
 
 Scripting::~Scripting() {
-  for (map<string, ScriptInfo>::iterator it = scriptCache.begin(); it != scriptCache.end(); it++) {
+  for (map<string, ScriptInfo>::iterator it = _scriptCache.begin(); it != _scriptCache.end(); it++) {
     ScriptInfo &info = it->second;
     Py_DECREF(info.func);
     Py_DECREF(info.module);
   }
-  scriptCache.clear();
+  _scriptCache.clear();
 }
 
 void
@@ -36,13 +36,13 @@ Scripting::init() {
     }
     Py_DECREF(path);
   }
-  initcp(&em);
+  initcp(&_em);
 }
 
 ScriptInfo *
 Scripting::getScript(string const &name) {
   // If we want dynamic reloading of scripts, we should check here
-  if (scriptCache.find(name) == scriptCache.end()) {
+  if (_scriptCache.find(name) == _scriptCache.end()) {
     PyObject *pName = PyString_FromString(name.c_str());
     PyObject *pModule = PyImport_Import(pName);
     Py_DECREF(pName);
@@ -65,20 +65,20 @@ Scripting::getScript(string const &name) {
       
     } else {
       ScriptInfo info = {pModule, pFunc};
-      scriptCache[name] = info;
+      _scriptCache[name] = info;
     }
   }
-  return &scriptCache[name];
+  return &_scriptCache[name];
 }
 
 void
 Scripting::update(int now) {
-  PyObject *pyem = wrapEntityManager(&em);
+  PyObject *pyem = wrapEntityManager(&_em);
 
-  vector<Entity *> scripts = em.getEntities(Scriptable::TYPE);
+  vector<Entity *> scripts = _em.getEntities(Scriptable::TYPE);
   for (vector<Entity *>::iterator it = scripts.begin(); it < scripts.end(); it++) {
 
-    WrappedEntity *wentity = WrappedEntity::wrap(em, *it);
+    WrappedEntity *wentity = WrappedEntity::wrap(_em, *it);
     Scriptable *scriptable = wentity->getComponent<Scriptable>();
     ScriptInfo *info = getScript(scriptable->getName());
     if (info) {
@@ -108,6 +108,6 @@ Scripting::exit() {
 string
 Scripting::toString() const {
   ostringstream out;
-  out << "{Scripting-System name=" << name << "}" << ends;
+  out << "{Scripting-System name=" << getName() << "}" << ends;
   return out.str();
 }

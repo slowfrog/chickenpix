@@ -13,7 +13,7 @@ typedef struct {
 
 class Scripting: public System {
 private:
-  map<string, ScriptInfo> scriptCache;
+  map<string, ScriptInfo> _scriptCache;
 
   ScriptInfo *getScript(string const &name);
   

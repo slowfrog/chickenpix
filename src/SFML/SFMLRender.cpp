@@ -18,7 +18,7 @@ void
 SFMLRender::init() {
   window = new sf::RenderWindow(sf::VideoMode(640, 480, 32), "SFML chickenpix",
                                 sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close);
-  Entity *clstate = em.createEntity();
+  Entity *clstate = _em.createEntity();
   clstate->addComponent(new SFMLResources(*window));
 }
 

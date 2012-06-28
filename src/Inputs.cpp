@@ -47,7 +47,7 @@ Inputs::moveHero(int now) {
     anim = "man_walk_right";
   }
 
-  vector<Entity *> ents = em.getEntities(Transform::TYPE);
+  vector<Entity *> ents = _em.getEntities(Transform::TYPE);
   for (vector<Entity *>::iterator it = ents.begin(); it < ents.end(); it++) {
     Entity *ent = *it;
     if ((dx != 0) || (dy != 0)) {
@@ -58,7 +58,7 @@ Inputs::moveHero(int now) {
     }
   }
 
-  Entity *hero = em.getEntity(em.getFirstByTag("HERO"));
+  Entity *hero = _em.getEntity(_em.getFirstByTag("HERO"));
   if (hero) {
     Animated *animated = hero->getComponent<Animated>();
     animated->setAnimation(anim);

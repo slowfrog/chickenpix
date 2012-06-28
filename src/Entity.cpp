@@ -5,19 +5,19 @@
 const Entity::Type Entity::TYPE = 1;
 
 Entity::Entity():
-  id(INVALID_ID), type(TYPE) {
+  _id(INVALID_ID), _type(TYPE) {
 }
 
 Entity::Entity(Id id):
-  id(id), type(TYPE) {
+  _id(id), _type(TYPE) {
 }
 
 Entity::Entity(Entity const &src):
-  id(src.id), type(src.type), comp(src.comp), tags(src.tags) {
+  _id(src._id), _type(src._type), comp(src.comp), tags(src.tags) {
 }
 
 Entity::Entity(Entity const &src, Type type):
-  id(src.id), type(type), comp(src.comp), tags(src.tags) {
+  _id(src._id), _type(type), comp(src.comp), tags(src.tags) {
 }
 
 Entity::~Entity() {
@@ -105,7 +105,7 @@ Entity::releaseComponents() {
 string
 Entity::toString() const {
   ostringstream out;
-  out << "<Entity id=" << id << " comp=[";
+  out << "<Entity id=" << _id << " comp=[";
   for (vector<Component *>::const_iterator it = comp.begin(); it < comp.end(); it++) {
     if (it != comp.begin()) {
       out << ", ";
