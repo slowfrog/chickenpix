@@ -8,13 +8,16 @@ typedef struct _object PyObject; // Copied from python/object.h, to avoid inclus
 
 typedef struct {
   PyObject *module;
-  PyObject *func;
+  PyObject *initFunc;
+  PyObject *updateFunc;
+  PyObject *exitFunc;
 } ScriptInfo;
 
 class Scripting: public System {
 private:
   map<string, ScriptInfo> _scriptCache;
 
+  static PyObject *getFunction(PyObject *module, char const *func, string const &moduleName);
   ScriptInfo *getScript(string const &name);
   
 public:
