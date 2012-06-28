@@ -83,13 +83,14 @@ Scripting::update(int now) {
     ScriptInfo *info = getScript(scriptable->getName());
     if (info) {
       scriptable->update(now); // ??
-        
+
       PyObject *pye = wentity->getWrapper();
       PyObject *arglist = Py_BuildValue("(OO)", pye, pyem);
       PyObject *ret = PyObject_CallObject(info->func, arglist);
-      Py_DECREF(arglist);
 
+      Py_DECREF(arglist);
       if (PyErr_Occurred()) {
+        cout << "#Error from CallObject" << endl;
         PyErr_Print();
       }
       if (ret) {

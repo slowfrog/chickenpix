@@ -1,8 +1,10 @@
 #include <Python.h>
 
 #include <iostream>
+#include <sstream>
 #include "PythonTypes.h"
 #include "WrappedEntity.h"
+#include "EntityManager.h"
 
 // EntityManager wrapper
 typedef struct {
@@ -20,7 +22,7 @@ static PyTypeObject PyEntityManagerType = {
 // Entity wrapper
 typedef struct {
   PyObject_HEAD
-  Entity *entity;
+  WrappedEntity *wentity;
 } PyEntity;
 
 static PyTypeObject PyEntityType = {
@@ -65,7 +67,8 @@ EntityManager_getEntities(PyEntityManager *self, PyObject *args) {
   PyObject *ret = PyList_New(size);
   for (int i = 0; i < size; ++i) {
     Entity *entity = entities[i];
-    PyObject *pentity = wrapEntity(entity);
+    PyObject *pentity = WrappedEntity::wrap(*em, entity)->getWrapper();
+    Py_INCREF(pentity); // Because PyList_SetItem steals the reference
     PyList_SetItem(ret, i, pentity);
   }
   return ret;
@@ -83,7 +86,7 @@ EntityManager_tagEntity(PyEntityManager *self, PyObject *args) {
     }
     return Py_None;
   }
-  em->tagEntity(entity->entity, tag);
+  em->tagEntity(entity->wentity, tag);
   return Py_None;
 }
 
@@ -99,7 +102,7 @@ EntityManager_untagEntity(PyEntityManager *self, PyObject *args) {
     }
     return Py_None;
   }
-  em->untagEntity(entity->entity, tag);
+  em->untagEntity(entity->wentity, tag);
   return Py_None;
 }
 
@@ -121,6 +124,7 @@ EntityManager_getByTag(PyEntityManager *self, PyObject *args) {
   for (int i = 0; i < size; ++i) {
     WrappedEntity *wentity = WrappedEntity::wrap(*em, em->getEntity(entities[i]));
     PyObject *pentity = wentity->getWrapper();
+    Py_INCREF(pentity); // Because PyList_SetItem steals the reference
     PyList_SetItem(ret, i, pentity);
   }
   return ret;
@@ -139,19 +143,20 @@ static PyMethodDef EntityManager_methods[] = {
 // Entity methods
 static PyObject *
 Entity_id(PyEntity *self) {
-  PyObject *ret = PyInt_FromLong(self->entity->getId());
+  PyObject *ret = PyInt_FromLong(self->wentity->getId());
   return ret;
 }
 
 static PyObject *
 Entity_getComponents(PyEntity *self) {
-  Entity *entity = self->entity;
+  Entity *entity = self->wentity;
   vector<Component *> const &components = entity->getComponents();
   int size = components.size();
   PyObject *ret = PyList_New(size);
   for (int i = 0; i < size; ++i) {
     Component *compo = components[i];
     PyObject *pcompo = wrapComponent(compo);
+    Py_INCREF(pcompo); // Because PyList_SetItem steals the reference
     PyList_SetItem(ret, i, pcompo);
   }
   return ret;
@@ -159,24 +164,60 @@ Entity_getComponents(PyEntity *self) {
 
 static PyObject *
 Entity_getTags(PyEntity *self) {
-  Entity *entity = self->entity;
+  Entity *entity = self->wentity;
   vector<string> const &tags = entity->getTags();
   int size = tags.size();
   PyObject *ret = PyList_New(size);
   for (int i = 0; i < size; ++i) {
     string const &tag = tags[i];
     PyObject *ptag = PyString_FromString(tag.c_str());
+    Py_INCREF(ptag); // Because PyList_SetItem steals the reference
     PyList_SetItem(ret, i, ptag);
   }
   return ret;
+}
+
+static PyObject *
+Entity_getDict(PyEntity *self) {
+  WrappedEntity *wentity = self->wentity;
+  return wentity->getOrCreateDict();
 }
 
 static PyMethodDef Entity_methods[] = {
   {"id", (PyCFunction) Entity_id, METH_NOARGS, "Id of the entity" },
   {"getComponents", (PyCFunction) Entity_getComponents, METH_NOARGS, "Get all components of the entity" },
   {"getTags", (PyCFunction) Entity_getTags, METH_NOARGS, "Get all tags on the entity" },
+  {"getDict", (PyCFunction) Entity_getDict, METH_NOARGS, "Get the dictionary of values associated to the entity" },
   {NULL} /* End of list */
 };
+
+static int
+Entity_setAttr(PyObject *self, PyObject *key, PyObject *val) {
+  PyObject *method = Py_FindMethod(Entity_methods, self, PyString_AsString(key));
+  if (method != NULL) {
+    ostringstream out;
+    out << "Trying to override method: '" << PyString_AsString(key) << "'" << ends;
+    PyErr_SetString(PyExc_RuntimeError, out.str().c_str());
+    return -1;
+  } else {
+    PyErr_Clear();
+    WrappedEntity *wentity = ((PyEntity *) self)->wentity;
+    int ret = wentity->setItem(key, val);
+    return ret;
+  }
+}
+
+static PyObject *
+Entity_getAttr(PyObject *self, PyObject *key) {
+  PyObject *method = Py_FindMethod(Entity_methods, self, PyString_AsString(key));
+  if (method != NULL) {
+    return method;
+  } else {
+    PyErr_Clear();
+    WrappedEntity *wentity = ((PyEntity *) self)->wentity;
+    return wentity->getItem(key);
+  }
+}
 
 // Component wrapper
 typedef struct {
@@ -233,6 +274,8 @@ initcp(EntityManager *em) {
   PyEntityType.tp_doc = "Type of entities";
   PyEntityType.tp_new = PyType_GenericNew; // Remove ?
   PyEntityType.tp_methods = Entity_methods;
+  PyEntityType.tp_getattro = Entity_getAttr;
+  PyEntityType.tp_setattro = Entity_setAttr;
   if (PyType_Ready(&PyEntityType) < 0) {
     cout << "Cannot create Entity type" << endl;
     return;
@@ -270,9 +313,9 @@ PyObject *wrapEntityManager(EntityManager *em) {
   return (PyObject *) pyem;
 }
 
-PyObject *wrapEntity(Entity *e) {
+PyObject *wrapEntity(WrappedEntity *e) {
   PyEntity *pye = (PyEntity *) PyEntityType.tp_alloc(&PyEntityType, 0);
-  pye->entity = e;
+  pye->wentity = e;
   return (PyObject *) pye;
 }
 

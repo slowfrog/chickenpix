@@ -5,7 +5,8 @@
 
 class WrappedEntity: public Entity {
 private:
-  PyObject *wrapper;
+  PyObject *_wrapper;
+  PyObject *_dict;
 public:
   static const Type TYPE; // = 2
   
@@ -20,4 +21,12 @@ public:
   }
   
   PyObject *getWrapper() const;
+
+  // Free dictionary of values used by scripts
+  PyObject *getDict() const;
+  PyObject *getOrCreateDict();
+  int setItem(PyObject *key, PyObject *val);
+  int delItem(PyObject *key);
+  int contains(PyObject *key);
+  PyObject *getItem(PyObject *key);
 };
