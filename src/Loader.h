@@ -14,7 +14,7 @@ public:
   virtual void update(int now);
   virtual void exit();
   virtual void initResources() = 0;
-  virtual void addImage(string const &path, Resources *resources, string const &alias="") = 0;
+  virtual void addImage(string const &path, Resources *resources, string const &alias="") const = 0;
   virtual void addFont(string const &path, int size, Resources *resources, string const &alias="") = 0;
   virtual void addSprite(string const &path, Resources *resources, string const &name) = 0;
   virtual void loadLevel(string const &name);

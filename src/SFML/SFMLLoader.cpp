@@ -45,7 +45,7 @@ SFMLLoader::initResources() {
 }
 
 void
-SFMLLoader::addImage(string const &path, Resources *resources, string const &alias) {
+SFMLLoader::addImage(string const &path, Resources *resources, string const &alias) const {
   sf::Image *img = new sf::Image();
   if (!img->LoadFromFile(path)) {
     cerr << "Error loading image: " << path << endl;

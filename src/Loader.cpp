@@ -94,6 +94,8 @@ Loader::loadLevel(string const &name) {
 
 void
 Loader::loadTmxMap(string const &name) const {
+  Resources *resources = _em.getComponent<Resources>();
+  
   // Tmx Parser
   Tmx::Map map;
   map.ParseFile(name);
@@ -102,9 +104,18 @@ Loader::loadTmxMap(string const &name) const {
   } else {
     cout << "Map: " << map.GetWidth() << "x" << map.GetTileWidth() << "px - " <<
       map.GetHeight() << "x" << map.GetTileHeight() << "px" << endl;
+
+    // Load tilesets
     for (int i = 0; i < map.GetNumTilesets(); ++i) {
       Tmx::Tileset const *tileset = map.GetTileset(i);
-      string imageFile = joinPaths(getDirectory(name), tileset->GetImage()->GetSource());
+      string imageFile;
+      if (tileset->GetSource().length() == 0) {
+        imageFile = joinPaths(getDirectory(name), tileset->GetImage()->GetSource());
+      } else {
+        string tsxFile = joinPaths(getDirectory(name), tileset->GetSource());
+        imageFile = joinPaths(getDirectory(tsxFile), tileset->GetImage()->GetSource());
+      }
+      addImage(imageFile, resources); // Make sure to load the tileset image
       cout << "Tileset #" << i << " name='" << tileset->GetName() << "' " <<
         imageFile << " " << tileset->GetTileWidth() << "x" << tileset->GetTileHeight() << endl;
     }

@@ -11,7 +11,7 @@ public:
   virtual ~SFMLLoader();
 
   virtual void initResources();
-  virtual void addImage(string const &path, Resources *resources, string const &alias="");
+  virtual void addImage(string const &path, Resources *resources, string const &alias="") const;
   virtual void addFont(string const &path, int size, Resources *resources, string const &alias="");
   virtual void addSprite(string const &path, Resources *resources, string const &name);
   virtual string toString() const;
