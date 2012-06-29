@@ -27,6 +27,15 @@ CLResources::makeImage(string const &name) {
   return new CLVisualImage(resImage->get());
 }
 
+BVisual *
+CLResources::makeImage(ImagePart const part) {
+  CLResImage *resImage = (CLResImage *) getImage(part.name);
+  if (resImage == NULL) {
+    cerr << "Cannot find image: " << part.name << endl;
+    assert(!(resImage == NULL));
+  }
+  return new CLVisualImage(resImage->get(), part.rect);
+}
 
 BVisual *
 CLResources::makeSprite(string const &name) {

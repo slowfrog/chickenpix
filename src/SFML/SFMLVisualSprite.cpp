@@ -15,7 +15,7 @@ SFMLVisualSprite::draw(VisualContext &vc, float x, float y, int delta) {
   sf::RenderTarget &rt = ((SFMLVisualContext &)vc).getRenderTarget();
   sprite.SetPosition(x, y);
   Frame &f = frames[frame];
-  ImagePart &p = f.part;
+  ImageRect &p = f.rect;
   sprite.SetSubRect(sf::IntRect(p.x, p.y, p.x + p.w, p.y + p.h));
   rt.Draw(sprite);
 

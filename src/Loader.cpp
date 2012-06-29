@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <map>
 #include "TmxParser/Tmx.h"
 #include "Utils.h"
 #include "Loader.h"
@@ -53,10 +54,17 @@ Loader::exit() {
 }
 
 void
-Loader::createImage(string const &name, float x, float y, Resources *resources) {
+Loader::createImage(string const &name, float x, float y, Resources *resources) const {
   Entity *img = _em.createEntity();
   img->addComponent(new Transform(x, y));
   img->addComponent(resources->makeImage(name));
+}
+
+void
+Loader::createImage(ImagePart const &part, float x, float y, Resources *resources) const {
+  Entity *img = _em.createEntity();
+  img->addComponent(new Transform(x, y));
+  img->addComponent(resources->makeImage(part));
 }
 
 void
@@ -106,6 +114,7 @@ Loader::loadTmxMap(string const &name) const {
       map.GetHeight() << "x" << map.GetTileHeight() << "px" << endl;
 
     // Load tilesets
+    std::map<int, ImagePart> tilesetImages;
     for (int i = 0; i < map.GetNumTilesets(); ++i) {
       Tmx::Tileset const *tileset = map.GetTileset(i);
       string imageFile;
@@ -116,8 +125,53 @@ Loader::loadTmxMap(string const &name) const {
         imageFile = joinPaths(getDirectory(tsxFile), tileset->GetImage()->GetSource());
       }
       addImage(imageFile, resources); // Make sure to load the tileset image
+      //tilesetImages[i] = imageFile;
       cout << "Tileset #" << i << " name='" << tileset->GetName() << "' " <<
         imageFile << " " << tileset->GetTileWidth() << "x" << tileset->GetTileHeight() << endl;
+
+      int j = 0;
+      for (int y = tileset->GetMargin(); y < tileset->GetImage()->GetHeight();
+           y += tileset->GetTileHeight() + tileset->GetSpacing()) {
+        for (int x = tileset->GetMargin(); x < tileset->GetImage()->GetWidth();
+             x += tileset->GetTileWidth() + tileset->GetSpacing()) {
+          
+          int gid = tileset->GetFirstGid() + j;
+          tilesetImages[gid] = ImagePart(imageFile, x, y,
+                                         tileset->GetTileWidth(), tileset->GetTileHeight());
+          //cout << gid << " ";
+           // cout << "Tile #" << (tileset->GetFirstGid() + j) << ": " <<
+           //   x << "," << y << "-" << (x + tileset->GetTileWidth()) << "," <<
+           //   (y + tileset->GetTileHeight()) << endl;
+          ++j;
+        }
+      }
+      //cout << endl;
+    }
+
+    // Load layers
+    const int maxLayer = map.GetNumLayers();
+    for (int i = 0; i < maxLayer; ++i) {
+      Tmx::Layer const *layer = map.GetLayer(i);
+      // cout << "Layer #" << i << ": " << layer->GetName() << " " <<
+      //   (layer->IsVisible() ? "visible" : "hidden") << " " <<
+      //   layer->GetWidth() << "x" << layer->GetHeight() << endl;
+      if (layer->IsVisible()) {
+        for (int y = 0; y < layer->GetHeight(); ++y) {
+          // cout << "[ ";
+          for (int x = 0; x < layer->GetWidth(); ++x) {
+            const Tmx::MapTile &tile = layer->GetTile(x, y);
+            if (tile.tilesetId < 0) {
+              // cout << "? ";
+              continue;
+            }
+            const Tmx::Tileset *tileset = map.GetTileset(tile.tilesetId);
+            // cout << tile.tilesetId << "|" << tileset->GetFirstGid() + tile.id << " ";
+            createImage(tilesetImages[tileset->GetFirstGid() + tile.id],
+                        x * map.GetTileWidth(), y * map.GetTileHeight(), resources);
+          }
+          // cout << "]" << endl;
+        }
+      }
     }
   }
 }

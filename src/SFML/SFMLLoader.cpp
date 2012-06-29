@@ -138,8 +138,8 @@ SFMLLoader::loadSpriteFromXML(string const &directory, TiXmlDocument *doc, strin
     int i = 0;
     for (int y = 0; y < array[1]; ++y) {
       for (int x = 0; x < array[0]; ++x) {
-        frames[i].part.x = pos[0] + size[0] * x;
-        frames[i].part.y = pos[1] + size[1] * y;
+        frames[i].rect.x = pos[0] + size[0] * x;
+        frames[i].rect.y = pos[1] + size[1] * y;
         ++i;
       }
     }

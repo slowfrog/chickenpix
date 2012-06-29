@@ -21,6 +21,7 @@ public:
   virtual string toString() const;
 
 private:
-  void createImage(string const &name, float x, float y, Resources *resources);
+  void createImage(string const &name, float x, float y, Resources *resources) const;
+  void createImage(ImagePart const &part, float x, float y, Resources *resources) const;
   void loadTmxMap(string const &name) const;
 };

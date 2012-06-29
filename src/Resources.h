@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "VisualContext.h"
 #include "BVisual.h"
+#include "Image.h"
 
 // Abstract base classes to represent known types of resources
 class ResBase {
@@ -71,6 +72,7 @@ public:
 
   // Factory methods to be implemented in specific implementations
   virtual BVisual *makeImage(string const &name) = 0;
+  virtual BVisual *makeImage(ImagePart part) = 0;
   virtual BVisual *makeSprite(string const &name) = 0;
   virtual BVisual *makeText(string const &text, string const &font,
                             CPColor const &color=CPColor::White) = 0;

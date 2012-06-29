@@ -29,6 +29,16 @@ SFMLResources::makeImage(string const &name) {
 }
 
 BVisual *
+SFMLResources::makeImage(ImagePart const part) {
+  SFMLResImage *resImage = (SFMLResImage *) getImage(part.name);
+  if (resImage == NULL) {
+    cerr << "Cannot find image: " << part.name << endl;
+    assert(!(resImage == NULL));
+  }
+  return new SFMLVisualImage(resImage->get(), part.rect);
+}
+
+BVisual *
 SFMLResources::makeSprite(string const &name) {
   SFMLResSprite *resSprite = (SFMLResSprite *) getSprite(name);
   if (resSprite == NULL) {
