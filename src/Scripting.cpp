@@ -15,7 +15,9 @@ Scripting::Scripting(string const &name, EntityManager &em):
 Scripting::~Scripting() {
   for (map<string, ScriptInfo>::iterator it = _scriptCache.begin(); it != _scriptCache.end(); it++) {
     ScriptInfo &info = it->second;
-    Py_DECREF(info.func);
+    Py_XDECREF(info.initFunc);
+    Py_XDECREF(info.updateFunc);
+    Py_XDECREF(info.exitFunc);
     Py_DECREF(info.module);
   }
   _scriptCache.clear();
@@ -30,13 +32,28 @@ Scripting::init() {
   PyObject *path;
   sys_path = PySys_GetObject((char *)"path");
   if (sys_path) {
-    path = PyString_FromString(".");
+    path = PyString_FromString("resources/scripts");
     if (PyList_Append(sys_path, path) < 0) {
       cout << "Could not append to path" << endl;
     }
     Py_DECREF(path);
   }
   initcp(&_em);
+}
+
+PyObject *
+Scripting::getFunction(PyObject *module, char const *func, string const &moduleName) {
+  PyObject *pFunc = PyObject_GetAttrString(module, func);
+  if (!pFunc) {
+    return NULL;
+    
+  } else if (!PyCallable_Check(pFunc)) {
+    cout << "'" << func << "' is not callable in module " << moduleName << endl;
+    return NULL;
+    
+  } else {
+    return pFunc;
+  }
 }
 
 ScriptInfo *
@@ -53,20 +70,11 @@ Scripting::getScript(string const &name) {
       }
       return NULL;
     }
-    PyObject *pFunc = PyObject_GetAttrString(pModule, "run");
-    if (!pFunc) {
-      cout << "'" << "run" << "' is not found in module " << name << endl;
-      Py_DECREF(pModule);
-      return NULL;
-    } else if (!PyCallable_Check(pFunc)) {
-      cout << "'" << "run" << "' is not callable in module " << name << endl;
-      Py_DECREF(pModule);
-      return NULL;
-      
-    } else {
-      ScriptInfo info = {pModule, pFunc};
-      _scriptCache[name] = info;
-    }
+    PyObject *initFunc = getFunction(pModule, "init", name);
+    PyObject *updateFunc = getFunction(pModule, "update", name);
+    PyObject *exitFunc = getFunction(pModule, "exit", name);
+    ScriptInfo info = {pModule, initFunc, updateFunc, exitFunc};
+    _scriptCache[name] = info;
   }
   return &_scriptCache[name];
 }
@@ -82,20 +90,34 @@ Scripting::update(int now) {
     Scriptable *scriptable = wentity->getComponent<Scriptable>();
     ScriptInfo *info = getScript(scriptable->getName());
     if (info) {
-      scriptable->update(now); // ??
-
       PyObject *pye = wentity->getWrapper();
       PyObject *arglist = Py_BuildValue("(OO)", pye, pyem);
-      PyObject *ret = PyObject_CallObject(info->func, arglist);
 
+      if (!(scriptable->isInitDone() || info->initFunc == NULL)) {
+        PyObject *ret = PyObject_CallObject(info->initFunc, arglist);
+        scriptable->setInitDone(true);
+        if (PyErr_Occurred()) {
+          cout << "#Error from " << scriptable->getName() << ".init()" << endl;
+          PyErr_Print();
+        }
+        if (ret) {
+          Py_DECREF(ret);
+        }
+      }
+      
+      scriptable->update(now); // Useless ?
+
+      if (info->updateFunc != NULL) {
+        PyObject *ret = PyObject_CallObject(info->updateFunc, arglist);
+        if (PyErr_Occurred()) {
+          cout << "#Error from " << scriptable->getName() << ".update()" << endl;
+          PyErr_Print();
+        }
+        if (ret) {
+          Py_DECREF(ret);
+        }
+      }
       Py_DECREF(arglist);
-      if (PyErr_Occurred()) {
-        cout << "#Error from CallObject" << endl;
-        PyErr_Print();
-      }
-      if (ret) {
-        Py_DECREF(ret);
-      }
     }
   }
   Py_DECREF(pyem);

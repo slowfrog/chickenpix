@@ -81,7 +81,8 @@ namespace Tmx
 		tilesetElem->Attribute("firstgid", &first_gid);
  		if (tilesetElem->Attribute("source"))
         {
-			ParseTsxFile(filePath + tilesetElem->Attribute("source"));
+            source = tilesetElem->Attribute("source");
+			ParseTsxFile(filePath + source);
         }
         else
         {

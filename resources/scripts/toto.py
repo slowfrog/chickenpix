@@ -1,14 +1,12 @@
 import cp
 
-def hasMember(self, name):
-    return name in self.getDict()
+def init(self, manager):
+    """This method is called on an entity only once, before any call to update"""
+    self.times = 0
 
-# Nothing
-def run(self, manager):
+def update(self, manager):
+    """This method is called for each engine update"""
     self.x = 666
-    if not hasMember(self, "times"):
-        self.times = 0
-
     if self.times == 0:
         print("TOTO: My id is %d and I have %d components: %s" %
               (self.id(),
