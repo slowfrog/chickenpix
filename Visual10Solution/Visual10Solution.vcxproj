@@ -106,6 +106,7 @@
     <ClCompile Include="..\src\TmxParser\TmxTileset.cpp" />
     <ClCompile Include="..\src\TmxParser\TmxUtil.cpp" />
     <ClCompile Include="..\src\Transform.cpp" />
+    <ClCompile Include="..\src\Utils.cpp" />
     <ClCompile Include="..\src\WrappedEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +152,7 @@
     <ClInclude Include="..\src\TmxParser\TmxTileset.h" />
     <ClInclude Include="..\src\TmxParser\TmxUtil.h" />
     <ClInclude Include="..\src\Transform.h" />
+    <ClInclude Include="..\src\Utils.h" />
     <ClInclude Include="..\src\variant.h" />
     <ClInclude Include="..\src\VisualContext.h" />
     <ClInclude Include="..\src\WrappedEntity.h" />
