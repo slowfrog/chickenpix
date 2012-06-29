@@ -5,6 +5,7 @@
 
 #include "../tinyxml/tinyxml.h"
 
+#include "../Utils.h"
 #include "SFMLLoader.h"
 #include "../Animated.h"
 #include "../Input.h"
@@ -21,16 +22,6 @@ splitXY(string const &str, int *res) {
   size_t pos = str.find(",");
   res[0] = atoi(str.substr(0, pos).c_str());
   res[1] = atoi(str.substr(pos + 1).c_str());
-}
-
-static string
-getDirectory(string const &str) {
-  size_t pos = str.rfind("/");
-  if (pos == string::npos) {
-    return str;
-  } else {
-    return str.substr(0, pos);
-  }
 }
 
 static string YES = "yes";

@@ -22,4 +22,5 @@ public:
 
 private:
   void createImage(string const &name, float x, float y, Resources *resources);
+  void loadTmxMap(string const &name) const;
 };

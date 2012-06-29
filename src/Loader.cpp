@@ -1,4 +1,7 @@
+#include <iostream>
 #include <sstream>
+#include "TmxParser/Tmx.h"
+#include "Utils.h"
 #include "Loader.h"
 #include "Transform.h"
 #include "Animated.h"
@@ -38,7 +41,7 @@ Loader::init() {
   addSprite("sprites/wait", resources, "man_still");
 
   // Load start level
-  loadLevel("start");
+  loadLevel("beach");
 }
 
 void
@@ -58,16 +61,18 @@ Loader::createImage(string const &name, float x, float y, Resources *resources) 
 
 void
 Loader::loadLevel(string const &name) {
+  loadTmxMap(string("resources/maps/") + name + ".tmx");
+  
   Resources *resources = _em.getComponent<Resources>();
   // Hard coded start level
-  createImage("map", -150, -250, resources);
+  //createImage("map", -150, -250, resources);
 
-  createImage("pig", 10, 350, resources);
-  createImage("streetboy", 50, 350, resources);
-  createImage("mayor", 90, 350, resources);
-  createImage("princess", 130, 350, resources);
-  createImage("wizard", 170, 350, resources);
-  createImage("richard", 210, 350, resources);
+  // createImage("pig", 10, 350, resources);
+  // createImage("streetboy", 50, 350, resources);
+  // createImage("mayor", 90, 350, resources);
+  // createImage("princess", 130, 350, resources);
+  // createImage("wizard", 170, 350, resources);
+  // createImage("richard", 210, 350, resources);
 
   Entity *hero = _em.createEntity();
   hero->addComponent(new Transform(320, 222));
@@ -85,6 +90,25 @@ Loader::loadLevel(string const &name) {
   text->addComponent(new Transform(5, 10));
   text->addComponent(resources->makeText("Press [ESC] to quit...", "sans_small"));
   _em.tagEntity(text, "LABEL");
+}
+
+void
+Loader::loadTmxMap(string const &name) const {
+  // Tmx Parser
+  Tmx::Map map;
+  map.ParseFile(name);
+  if (map.HasError()) {
+    cout << "Map has error: " << map.GetErrorText() << endl;
+  } else {
+    cout << "Map: " << map.GetWidth() << "x" << map.GetTileWidth() << "px - " <<
+      map.GetHeight() << "x" << map.GetTileHeight() << "px" << endl;
+    for (int i = 0; i < map.GetNumTilesets(); ++i) {
+      Tmx::Tileset const *tileset = map.GetTileset(i);
+      string imageFile = joinPaths(getDirectory(name), tileset->GetImage()->GetSource());
+      cout << "Tileset #" << i << " name='" << tileset->GetName() << "' " <<
+        imageFile << " " << tileset->GetTileWidth() << "x" << tileset->GetTileHeight() << endl;
+    }
+  }
 }
 
 string
