@@ -1,12 +1,16 @@
 #pragma once
 
-#define TRANSFORM_TYPE  1
-#define MOBILE_TYPE     2
-#define VISUAL_TYPE     3
-#define ANIMATED_TYPE   4
-#define INPUT_TYPE      5
-#define RESOURCE_TYPE   6
-#define RESOURCES_TYPE  7
-#define SCRIPTABLE_TYPE 8
+enum ComponentType {
+  TRANSFORM_TYPE  = 1,
+  MOBILE_TYPE     = 2,
+  VISUAL_TYPE     = 3,
+  ANIMATED_TYPE   = 4,
+  INPUT_TYPE      = 5,
+  RESOURCE_TYPE   = 6,
+  RESOURCES_TYPE  = 7,
+  SCRIPTABLE_TYPE = 8,
+  CAMERA_TYPE     = 9
+  // !!! Don't forget to update ComponentName values when adding a component type !!!
+};
 
 extern const char *ComponentName[];

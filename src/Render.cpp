@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "Render.h"
 #include "BVisual.h"
+#include "Camera.h"
 #include "VisualContext.h"
 
 Render::Render(string const &name, EntityManager &em):
@@ -18,8 +19,17 @@ Render::update(int now) {
   last = now;
   
   VisualContext *vc = getVisualContext();
-
   clear(*vc);
+
+  // The point of view is computed with:
+  // - the position of the entity having the Camera component
+  // - offset by the specific camera position
+  // - centered on the screen
+  Entity *cameraEntity = _em.getEntity(Camera::TYPE);
+  Camera *camera = cameraEntity->getComponent<Camera>();
+  Transform *transform = cameraEntity->getComponent<Transform>();
+  float offsetX = transform->getX() + camera->getOffsetX() - (vc->getWidth() / 2);
+  float offsetY = transform->getY() + camera->getOffsetY() - (vc->getHeight() / 2);
   
   // Visual
   vector<Entity *> visuals = _em.getEntities(BVisual::TYPE, Transform::TYPE);
@@ -28,7 +38,7 @@ Render::update(int now) {
     Transform *t = entity->getComponent<Transform>();
     BVisual *v = entity->getComponent<BVisual>();
 
-    v->draw(*vc, t->getX(), t->getY(), delta);
+    v->draw(*vc, t->getX() - offsetX, t->getY() - offsetY, delta);
   }
 
   paint(*vc);

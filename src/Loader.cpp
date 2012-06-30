@@ -6,6 +6,7 @@
 #include "Loader.h"
 #include "Transform.h"
 #include "Animated.h"
+#include "Camera.h"
 #include "Input.h"
 #include "Mobile.h"
 #include "Resources.h"
@@ -80,7 +81,7 @@ Loader::loadLevel(string const &name) {
   // Hard coded start level
   //createImage("map", -150, -250, resources);
 
-  createImage("pig", 10, 350, resources);
+  createImage("pig", 210, 635, resources);
   // createImage("streetboy", 50, 350, resources);
   // createImage("mayor", 90, 350, resources);
   // createImage("princess", 130, 350, resources);
@@ -88,11 +89,12 @@ Loader::loadLevel(string const &name) {
   // createImage("richard", 210, 350, resources);
 
   Entity *hero = _em.createEntity();
-  hero->addComponent(new Transform(320, 222));
+  hero->addComponent(new Transform(410, 620));
   hero->addComponent(new Animated("man_stand_down"));
   hero->addComponent(new Input());
   hero->addComponent(new Scriptable("toto"));
   hero->addComponent(new Mobile());
+  hero->addComponent(new Camera());
   _em.tagEntity(hero, "HERO");
   _em.tagEntity(hero, "DummyTag");
   
