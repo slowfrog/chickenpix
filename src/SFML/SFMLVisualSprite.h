@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "../BVisual.h"
+#include "../Image.h"
 
 class SFMLVisualSprite: public BVisual {
 private:
