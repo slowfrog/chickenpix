@@ -5,33 +5,28 @@
 #include "PythonTypes.h"
 #include "WrappedEntity.h"
 #include "EntityManager.h"
+#include "PythonComponents.h"
 
-// EntityManager wrapper
-typedef struct {
-  PyObject_HEAD
-  EntityManager *em;
-} PyEntityManager;
-
-static PyTypeObject PyEntityManagerType = {
+PyTypeObject PyEntityManagerType = {
   PyObject_HEAD_INIT(NULL)
   0,                         /*ob_size*/
   "cp.EntityManager",        /*tp_name*/
   sizeof(PyEntityManager), /*tp_basicsize*/
 };
 
-// Entity wrapper
-typedef struct {
-  PyObject_HEAD
-  WrappedEntity *wentity;
-} PyEntity;
-
-static PyTypeObject PyEntityType = {
+PyTypeObject PyEntityType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Entity",
   sizeof(PyEntity),
 };
 
+PyTypeObject PyComponentType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Component",
+  sizeof(PyComponent),
+};
 
 // EntityManager methods
 static PyObject *
@@ -171,7 +166,6 @@ Entity_getTags(PyEntity *self) {
   for (int i = 0; i < size; ++i) {
     string const &tag = tags[i];
     PyObject *ptag = PyString_FromString(tag.c_str());
-    Py_INCREF(ptag); // Because PyList_SetItem steals the reference
     PyList_SetItem(ret, i, ptag);
   }
   return ret;
@@ -219,19 +213,7 @@ Entity_getAttr(PyObject *self, PyObject *key) {
   }
 }
 
-// Component wrapper
-typedef struct {
-  PyObject_HEAD
-  Component *component;
-} PyComponent;
-
-static PyTypeObject PyComponentType = {
-  PyObject_HEAD_INIT(NULL)
-  0,
-  "cp.Component",
-  sizeof(PyComponent),
-};
-
+// Component methods
 static PyObject *
 Component_type(PyComponent *self) {
   PyObject *ret = PyInt_FromLong(self->component->getType());
@@ -301,10 +283,11 @@ initcp(EntityManager *em) {
   Py_INCREF(&PyComponentType);
   PyModule_AddObject(m, "Component", (PyObject *) &PyComponentType);
 
+  initComponents(m);
   // Constants
-  for (int i = 1; ComponentName[i] != NULL; ++i) {
-    PyModule_AddObject(m, ComponentName[i], PyInt_FromLong(i));
-  }
+  //for (int i = 1; ComponentName[i] != NULL; ++i) {
+  //  PyModule_AddObject(m, ComponentName[i], PyInt_FromLong(i));
+  //}
 }
 
 PyObject *wrapEntityManager(EntityManager *em) {
@@ -320,6 +303,10 @@ PyObject *wrapEntity(WrappedEntity *e) {
 }
 
 PyObject *wrapComponent(Component *c) {
+  PyObject *ret = wrapRealComponent(c);
+  if (ret != NULL) {
+    return ret;
+  }
   PyComponent *pc = (PyComponent *) PyComponentType.tp_alloc(&PyComponentType, 0);
   pc->component = c;
   return (PyObject *) pc;
