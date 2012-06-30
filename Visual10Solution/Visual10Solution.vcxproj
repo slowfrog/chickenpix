@@ -70,6 +70,7 @@
     <ClCompile Include="..\src\Animated.cpp" />
     <ClCompile Include="..\src\Animation.cpp" />
     <ClCompile Include="..\src\BVisual.cpp" />
+    <ClCompile Include="..\src\Camera.cpp" />
     <ClCompile Include="..\src\Component.cpp" />
     <ClCompile Include="..\src\ComponentRegistry.cpp" />
     <ClCompile Include="..\src\Entity.cpp" />
@@ -80,6 +81,7 @@
     <ClCompile Include="..\src\Loader.cpp" />
     <ClCompile Include="..\src\log.cpp" />
     <ClCompile Include="..\src\Mobile.cpp" />
+    <ClCompile Include="..\src\Movement.cpp" />
     <ClCompile Include="..\src\PythonTypes.cpp" />
     <ClCompile Include="..\src\Render.cpp" />
     <ClCompile Include="..\src\Resource.cpp" />
@@ -113,6 +115,7 @@
     <ClInclude Include="..\src\Animated.h" />
     <ClInclude Include="..\src\Animation.h" />
     <ClInclude Include="..\src\BVisual.h" />
+    <ClInclude Include="..\src\Camera.h" />
     <ClInclude Include="..\src\Component.h" />
     <ClInclude Include="..\src\ComponentRegistry.h" />
     <ClInclude Include="..\src\Entity.h" />
@@ -124,6 +127,7 @@
     <ClInclude Include="..\src\Loader.h" />
     <ClInclude Include="..\src\log.h" />
     <ClInclude Include="..\src\Mobile.h" />
+    <ClInclude Include="..\src\Movement.h" />
     <ClInclude Include="..\src\PythonTypes.h" />
     <ClInclude Include="..\src\Render.h" />
     <ClInclude Include="..\src\Resource.h" />
