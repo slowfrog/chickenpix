@@ -16,7 +16,7 @@ public:
   inline ImageRect(int x, int y, int w, int h):
     x(x), y(y), w(w), h(h) {
   };
-  inline bool isValid() {
+  inline bool isValid() const {
     return w != -1;
   }
 };

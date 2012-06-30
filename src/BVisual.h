@@ -12,6 +12,8 @@ public:
   virtual ~BVisual();
 
   virtual void draw(VisualContext &vc, float x, float y, int delta=-1) = 0;
+  virtual int getWidth(VisualContext &vc) const = 0;
+  virtual int getHeight(VisualContext &vc) const = 0;
 
   virtual string toString() const;
 };

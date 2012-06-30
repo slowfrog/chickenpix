@@ -2,9 +2,9 @@
 #include "SFMLVisualSprite.h"
 
 SFMLVisualSprite::SFMLVisualSprite(sf::Image &image, vector<Frame> const &frames, bool pingpong):
-  sprite(image), frames(frames), pingpong(pingpong), frame(0),
-  dir(frames.size() > 1 ? 1 : 0),
-  timeLeft(frames[0].duration) {
+  sprite_(image), frames_(frames), pingpong_(pingpong), frame_(0),
+  dir_(frames.size() > 1 ? 1 : 0),
+  timeLeft_(frames[0].duration) {
 }
 
 SFMLVisualSprite::~SFMLVisualSprite() {
@@ -13,26 +13,36 @@ SFMLVisualSprite::~SFMLVisualSprite() {
 void
 SFMLVisualSprite::draw(VisualContext &vc, float x, float y, int delta) {
   sf::RenderTarget &rt = ((SFMLVisualContext &)vc).getRenderTarget();
-  sprite.SetPosition(x, y);
-  Frame &f = frames[frame];
+  sprite_.SetPosition(x, y);
+  Frame &f = frames_[frame_];
   ImageRect &p = f.rect;
-  sprite.SetSubRect(sf::IntRect(p.x, p.y, p.x + p.w, p.y + p.h));
-  rt.Draw(sprite);
+  sprite_.SetSubRect(sf::IntRect(p.x, p.y, p.x + p.w, p.y + p.h));
+  rt.Draw(sprite_);
 
   int realDelta = (delta > 0) ? delta : 15;
-  timeLeft -= realDelta;
-  while (timeLeft < 0) {
-    if (!pingpong) {
-      frame = (frame + 1) % frames.size();
+  timeLeft_ -= realDelta;
+  while (timeLeft_ < 0) {
+    if (!pingpong_) {
+      frame_ = (frame_ + 1) % frames_.size();
     } else {
-      if ((frame + dir < 0) || (frame + dir >= (int) frames.size())) {
-        dir = -dir;
+      if ((frame_ + dir_ < 0) || (frame_ + dir_ >= (int) frames_.size())) {
+        dir_ = -dir_;
       }
-      frame = frame + dir;
+      frame_ = frame_ + dir_;
     }
 
-    timeLeft += frames[frame].duration;
+    timeLeft_ += frames_[frame_].duration;
   }
+}
+
+int
+SFMLVisualSprite::getWidth(VisualContext &) const {
+  return frames_[frame_].rect.w;
+}
+
+int
+SFMLVisualSprite::getHeight(VisualContext &)const {
+  return frames_[frame_].rect.h;
 }
 
 

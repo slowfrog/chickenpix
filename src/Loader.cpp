@@ -99,11 +99,11 @@ Loader::loadLevel(string const &name) {
   _em.tagEntity(hero, "DummyTag");
   
   Entity *text = _em.createEntity();
-  text->addComponent(new Transform(100, 160));
+  text->addComponent(new Transform(290, 475));
   text->addComponent(resources->makeText("Chickenpix!", "sans_big", CPColor(255, 255, 0, 128)));
   _em.tagEntity(text, "LABEL");
   text = _em.createEntity();
-  text->addComponent(new Transform(5, 10));
+  text->addComponent(new Transform(235, 365));
   text->addComponent(resources->makeText("Press [ESC] to quit...", "sans_small"));
   _em.tagEntity(text, "LABEL");
 }

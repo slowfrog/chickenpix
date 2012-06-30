@@ -16,6 +16,16 @@ CLVisualSprite::draw(VisualContext &vc, float x, float y, int delta) {
   sprite->update(delta);
 }
 
+int
+CLVisualSprite::getWidth(VisualContext &) const {
+  return sprite->get_width();
+}
+
+int
+CLVisualSprite::getHeight(VisualContext &) const {
+  return sprite->get_height();
+}
+
 string
 CLVisualSprite::toString() const {
   return "{CLVisualSprite}}";
