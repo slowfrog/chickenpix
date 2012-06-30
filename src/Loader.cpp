@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Animated.h"
 #include "Input.h"
+#include "Mobile.h"
 #include "Resources.h"
 #include "Scriptable.h"
 
@@ -39,6 +40,10 @@ Loader::init() {
   addSprite("sprites/walk_left", resources, "man_walk_left");
   addSprite("sprites/walk_down", resources, "man_walk_down");
   addSprite("sprites/walk_right", resources, "man_walk_right");
+  addSprite("sprites/stand_up", resources, "man_stand_up");
+  addSprite("sprites/stand_left", resources, "man_stand_left");
+  addSprite("sprites/stand_down", resources, "man_stand_down");
+  addSprite("sprites/stand_right", resources, "man_stand_right");
   addSprite("sprites/wait", resources, "man_still");
 
   // Load start level
@@ -75,7 +80,7 @@ Loader::loadLevel(string const &name) {
   // Hard coded start level
   //createImage("map", -150, -250, resources);
 
-  // createImage("pig", 10, 350, resources);
+  createImage("pig", 10, 350, resources);
   // createImage("streetboy", 50, 350, resources);
   // createImage("mayor", 90, 350, resources);
   // createImage("princess", 130, 350, resources);
@@ -84,9 +89,10 @@ Loader::loadLevel(string const &name) {
 
   Entity *hero = _em.createEntity();
   hero->addComponent(new Transform(320, 222));
-  hero->addComponent(new Animated("man_still"));
+  hero->addComponent(new Animated("man_stand_down"));
   hero->addComponent(new Input());
   hero->addComponent(new Scriptable("toto"));
+  hero->addComponent(new Mobile());
   _em.tagEntity(hero, "HERO");
   _em.tagEntity(hero, "DummyTag");
   

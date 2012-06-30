@@ -3,6 +3,7 @@
 #include "../log.h"
 #include "../Animation.h"
 #include "../EntityManager.h"
+#include "../Movement.h"
 #include "../Scripting.h"
 #include "../TagEntityManager.h"
 #include "SFMLInputs.h"
@@ -47,6 +48,8 @@ int main(int argc, char const *argv[]) {
   sfloader.init();
   Scripting scripting("Scripting", em);
   scripting.init();
+  Movement movement("Movement", em);
+  movement.init();
   cout << em.toString() << endl;
   //LOG( em.toString() );
   LOG2DBG << em.toString() << "\n"; // (exemple dutilisation)
@@ -65,6 +68,7 @@ int main(int argc, char const *argv[]) {
     }
 
     scripting.update(now);
+    movement.update(now);
     anim.update(now);
     sfrender.update(now);
 
@@ -72,6 +76,7 @@ int main(int argc, char const *argv[]) {
     // Do ~60FPS
     sf::Sleep(0.015f);
   }
+  movement.exit();
   scripting.exit();
   sfloader.exit();
   sfinputs.exit();

@@ -30,39 +30,67 @@
     <const name="vertical-speed" value="43" />
     <sprite name="walk_up">
       <image file="img/richard_walkcycle.png">
-        <grid pos="0,0"
+        <grid pos="64,0"
               size="64,64"
-              array="9,1" />
+              array="8,1" />
       </image>
       <animation loop="yes"
                  speed="100" />
+    </sprite>
+    <sprite name="stand_up">
+      <image file="img/richard_walkcycle.png">
+        <grid pos="0,0"
+              size="64,64"
+              array="1,1" />
+      </image>
     </sprite>
     <sprite name="walk_left">
       <image file="img/richard_walkcycle.png">
-        <grid pos="0,64"
+        <grid pos="64,64"
               size="64,64"
-              array="9,1" />
+              array="8,1" />
       </image>
       <animation loop="yes"
                  speed="100" />
+    </sprite>
+    <sprite name="stand_left">
+      <image file="img/richard_walkcycle.png">
+        <grid pos="0,64"
+              size="64,64"
+              array="1,1" />
+      </image>
     </sprite>
     <sprite name="walk_down">
       <image file="img/richard_walkcycle.png">
-        <grid pos="0,128"
+        <grid pos="64,128"
               size="64,64"
-              array="9,1" />
+              array="8,1" />
       </image>
       <animation loop="yes"
                  speed="100" />
     </sprite>
+    <sprite name="stand_down">
+      <image file="img/richard_walkcycle.png">
+        <grid pos="0,128"
+              size="64,64"
+              array="1,1" />
+      </image>
+    </sprite>
     <sprite name="walk_right">
       <image file="img/richard_walkcycle.png">
-        <grid pos="0,192"
+        <grid pos="64,192"
               size="64,64"
-              array="9,1" />
+              array="8,1" />
       </image>
       <animation loop="yes"
                  speed="100" />
+    </sprite>
+    <sprite name="stand_right">
+      <image file="img/richard_walkcycle.png">
+        <grid pos="0,192"
+              size="64,64"
+              array="1,1" />
+      </image>
     </sprite>
     <sprite name="wait">
       <image file="img/male_blur.png">

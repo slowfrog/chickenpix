@@ -150,13 +150,16 @@ string
 EntityManager::toString() const {
   ostringstream out;
   out << "{EntityManager name=" << _name << ", entities[";
+  int alive = 0;
+  int dead = 0;
   for (unsigned int i = 1; i < _entities.size(); ++i) {
     if (_entities[i] != NULL) {
-      out << "@";
+      ++alive;
     } else {
-      out << ".";
+      ++dead;
     }
   }
+  out << "alive: " << alive << ", dead:" << dead;
   out << "] tags[ ";
   for (map<string, vector<Entity::Id> >::const_iterator it = _tags.begin();
        it != _tags.end(); it++) {

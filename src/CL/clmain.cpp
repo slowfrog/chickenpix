@@ -8,6 +8,7 @@
 #include "CLInputs.h"
 #include "../Animation.h"
 #include "../Scripting.h"
+#include "../Movement.h"
 
 class DisplayProgram
 {
@@ -30,6 +31,8 @@ public:
       clinputs.init();
       Scripting scripting("Scripting", em);
       scripting.init();
+      Movement movement("Movement", em);
+      movement.init();
 
       cout << em.toString() << endl;
       
@@ -47,6 +50,8 @@ public:
 
         // Execute scripts
         scripting.update(now);
+        // "Physics" engine
+        movement.update(now);
         // Update animations
         anim.update(now);
         // Render update
@@ -58,6 +63,7 @@ public:
         CL_System::sleep(15);
       }
 
+      movement.exit();
       scripting.exit();
       clinputs.exit();
       clloader.exit();

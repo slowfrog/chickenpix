@@ -4,7 +4,7 @@
 #include "Inputs.h"
 #include "Input.h"
 #include "Resources.h"
-#include "Transform.h"
+#include "Mobile.h"
 
 Inputs::Inputs(string const &name, EntityManager &em):
   System(name, em), exitRequested(false) {
@@ -47,23 +47,13 @@ Inputs::moveHero(int now) {
     anim = "man_walk_right";
   }
 
-  vector<Entity *> ents = _em.getEntities(Transform::TYPE);
+  vector<Entity *> ents = _em.getEntities(Mobile::TYPE, Input::TYPE);
   for (vector<Entity *>::iterator it = ents.begin(); it < ents.end(); it++) {
     Entity *ent = *it;
-    if ((dx != 0) || (dy != 0)) {
-      if (!ent->hasComponent(Input::TYPE)) {
-        Transform *t = ent->getComponent<Transform>();
-        t->moveBy((float) -dx, (float) -dy);
-      }
-    }
+    Mobile *m = ent->getComponent<Mobile>();
+    m->setSpeed((float) dx, (float) dy);
   }
-
-  Entity *hero = _em.getEntity(_em.getFirstByTag("HERO"));
-  if (hero) {
-    Animated *animated = hero->getComponent<Animated>();
-    animated->setAnimation(anim);
-  }
-};
+}
 
 bool
 Inputs::isExitRequested() const {
