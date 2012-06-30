@@ -7,7 +7,6 @@ const char *ComponentName[] = {
   "Visual",
   "Animated",
   "Input",
-  "Resource",
   "Resources",
   "Scriptable",
   "Camera",

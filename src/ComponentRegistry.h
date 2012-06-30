@@ -6,10 +6,9 @@ enum ComponentType {
   VISUAL_TYPE     = 3,
   ANIMATED_TYPE   = 4,
   INPUT_TYPE      = 5,
-  RESOURCE_TYPE   = 6,
-  RESOURCES_TYPE  = 7,
-  SCRIPTABLE_TYPE = 8,
-  CAMERA_TYPE     = 9
+  RESOURCES_TYPE  = 6,
+  SCRIPTABLE_TYPE = 7,
+  CAMERA_TYPE     = 8
   // !!! Don't forget to update ComponentName values when adding a component type !!!
 };
 
