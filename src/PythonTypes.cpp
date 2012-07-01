@@ -158,6 +158,24 @@ Entity_getComponents(PyEntity *self) {
 }
 
 static PyObject *
+Entity_getComponent(PyEntity *self, PyObject *args) {
+  Entity *entity = self->wentity;
+  int ctype;
+  if (!PyArg_ParseTuple(args, "i", &ctype)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    return Py_None;
+  }
+  if (!entity->hasComponent(ctype)) {
+    return Py_None;
+  } else {
+    Component *comp = entity->getComponent(ctype);
+    return wrapComponent(comp);
+  }
+}
+
+static PyObject *
 Entity_getTags(PyEntity *self) {
   Entity *entity = self->wentity;
   vector<string> const &tags = entity->getTags();
@@ -180,6 +198,7 @@ Entity_getDict(PyEntity *self) {
 static PyMethodDef Entity_methods[] = {
   {"id", (PyCFunction) Entity_id, METH_NOARGS, "Id of the entity" },
   {"getComponents", (PyCFunction) Entity_getComponents, METH_NOARGS, "Get all components of the entity" },
+  {"getComponent", (PyCFunction) Entity_getComponent, METH_VARARGS, "Get the component with a given type" },
   {"getTags", (PyCFunction) Entity_getTags, METH_NOARGS, "Get all tags on the entity" },
   {"getDict", (PyCFunction) Entity_getDict, METH_NOARGS, "Get the dictionary of values associated to the entity" },
   {NULL} /* End of list */
