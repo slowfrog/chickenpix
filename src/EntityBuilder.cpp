@@ -369,7 +369,6 @@ CEntityBuilder::buildComponentResourcesImage( TiXmlElement *pNode,  Entity *e, R
 
 void 
 CEntityBuilder::buildComponentResourcesText( TiXmlElement *pNode,  Entity *e, Resources *pResource){
-    
   std::string   text, police;
   int           r(0), g(0), b(0), a(0);
   TiXmlElement  *pFontAttr = pNode->FirstChildElement( "text");

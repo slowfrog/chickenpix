@@ -79,9 +79,10 @@ Loader::createImage(ImagePart const &part, float x, float y, Resources *resource
 
 void
 Loader::loadLevel(string const &name) {
-  // Use Builder to create resources
-  CEntityBuilder eb("resources/entities.xml");
+  // Get resources
   Resources *resources = _em.getComponent<Resources>();
+  // Use Builder to create resources
+  CEntityBuilder eb("resources/entities.xml"); // File is hardcoded but this should be change
   eb.parseResources( this, resources);
   // Load map (tmx)
   loadTmxMap(string("resources/maps/") + name + ".tmx");
