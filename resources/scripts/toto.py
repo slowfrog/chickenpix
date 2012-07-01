@@ -32,9 +32,13 @@ def update(self, manager):
         t.x = 3.2
         t.y = -3
         print("t={%f,%f}" % (t.x, t.y))
+        m = self.getComponent(cp.Mobile.TYPE)
+        print("Current speed: (%f, %f)" % m.speed)
     if self.times > 60 and self.times < 180:
-        t = self.getComponent(cp.Transform.TYPE)
-        t.moveBy(5, 5)
+        #t = self.getComponent(cp.Transform.TYPE)
+        #t.moveBy(5, 5)
+        m = self.getComponent(cp.Mobile.TYPE)
+        m.speed = (-10, 5)
         c = self.getComponent(cp.Camera.TYPE)
         c.offsetX = random.randint(-20, 20)
         c.offsetY = random.randint(-20, 20)

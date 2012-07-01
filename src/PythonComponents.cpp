@@ -2,6 +2,7 @@
 #include "log.h"
 #include "PythonComponents.h"
 #include "Camera.h"
+#include "Mobile.h"
 #include "Transform.h"
 
 static PyObject *NO_ARGS = PyTuple_New(0);
@@ -9,6 +10,7 @@ static PyObject *NO_KWDS = PyDict_New();
 
 // Transform wrapper
 typedef PyComponent PyTransform;
+typedef PyComponent PyMobile;
 typedef PyComponent PyCamera;
 
 // Transform type and methods
@@ -106,6 +108,102 @@ static PyMethodDef Transform_methods[] = {
   {NULL} /* End of list */
 };
 
+// Mobile type and methods -------------------------------------------------------------------
+static PyTypeObject PyMobileType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Mobile",
+  sizeof(PyMobile),
+};
+
+static
+int Mobile_init(PyTransform *self, PyObject *args, PyObject *kwds) {
+  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
+    return -1;
+  }
+  if (PyErr_Occurred()) {
+    PyErr_Clear();
+  }
+  
+  float speedX, speedY;
+  if (!PyArg_ParseTuple(args, "ff", &speedX, &speedY)) {
+    return -1;
+  }
+  self->component = new Mobile(speedX, speedY);
+  return 0;
+}
+
+static
+PyObject *Mobile_getSpeedX(PyObject *self, void *) {
+  return PyFloat_FromDouble(((Mobile *) ((PyMobile *) self)->component)->getSpeedX());
+}
+
+static
+int Mobile_setSpeedX(PyObject *self, PyObject *val, void *) {
+  if (!PyNumber_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Mobile.speedX must be a number");
+    return -1;
+  }
+  ((Mobile *) ((PyMobile *) self)->component)->setSpeedX((float) PyFloat_AsDouble(val));
+  return 0;
+}
+
+static
+PyObject *Mobile_getSpeedY(PyObject *self, void *) {
+  return PyFloat_FromDouble(((Mobile *) ((PyMobile *) self)->component)->getSpeedY());
+}
+
+static
+int Mobile_setSpeedY(PyObject *self, PyObject *val, void *) {
+  if (!PyNumber_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Mobile.speedY must be a number");
+    return -1;
+  }
+  ((Mobile *) ((PyMobile *) self)->component)->setSpeedY((float) PyFloat_AsDouble(val));
+  return 0;
+}
+
+static
+PyObject *Mobile_getSpeed(PyObject *self, void *) {
+  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  return PyTuple_Pack(2, PyFloat_FromDouble(m->getSpeedX()), PyFloat_FromDouble(m->getSpeedY()));
+}
+
+static
+int Mobile_setSpeed(PyObject *self, PyObject *val, void *) {
+  if (!PyTuple_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Mobile.speed must be a tuple");
+    return -1;
+  }
+  if (PyTuple_Size(val) != 2) {
+    PyErr_SetString(PyExc_TypeError, "Mobile.speed must be a two-value tuple");
+    return -1;
+  }
+  PyObject *psx = PyTuple_GetItem(val, 0);
+  PyObject *psy = PyTuple_GetItem(val, 1);
+  if (!PyNumber_Check(psx)) {
+    PyErr_SetString(PyExc_TypeError, "Mobile.speed must be a tuple with numbers (first element is not)");
+    return -1;
+  }
+  if (!PyNumber_Check(psy)) {
+    PyErr_SetString(PyExc_TypeError, "Mobile.speed must be a tuple with numbers (second element is not)");
+    return -1;
+  }
+  
+  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  float sx = (float) PyFloat_AsDouble(psx);
+  float sy = (float) PyFloat_AsDouble(psy);
+  m->setSpeed(sx, sy);
+  return 0;
+}
+
+static PyGetSetDef Mobile_getset[] = {
+  { (char *) "speedX", Mobile_getSpeedX, Mobile_setSpeedX, (char *) "The x speed", NULL },
+  { (char *) "speedY", Mobile_getSpeedY, Mobile_setSpeedY, (char *) "The y speed", NULL },
+  { (char *) "speed", Mobile_getSpeed, Mobile_setSpeed, (char *) "The speed as a tuple of two numbers", NULL },
+  { NULL, NULL }
+};
+
 // Camera type and methods -------------------------------------------------------------------
 static PyTypeObject PyCameraType = {
   PyObject_HEAD_INIT(NULL)
@@ -189,6 +287,23 @@ initComponents(PyObject *module) {
   PyDict_SetItemString(PyTransformType.tp_dict, "TYPE", type);
   Py_DECREF(type);
 
+  // Mobile
+  PyMobileType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
+  PyMobileType.tp_doc = "Type of mobile components";
+  //PyMobileType.tp_methods = XXX
+  PyMobileType.tp_base = &PyComponentType;
+  PyMobileType.tp_init = (initproc) Mobile_init;
+  PyMobileType.tp_getset = Mobile_getset;
+  if (PyType_Ready(&PyMobileType) < 0) {
+    LOG2 << "Cannot create Mobile type\n";
+    return;
+  }
+  Py_INCREF(&PyMobileType);
+  PyModule_AddObject(module, "Mobile", (PyObject *) &PyMobileType);
+  type = PyInt_FromLong(Mobile::TYPE);
+  PyDict_SetItemString(PyMobileType.tp_dict, "TYPE", type);
+  Py_DECREF(type);
+  
   // Camera
   PyCameraType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
   PyCameraType.tp_doc = "Type of camera components";
@@ -215,6 +330,13 @@ wrapTransform(Transform *t) {
 }
 
 PyObject *
+wrapMobile(Mobile *c) {
+  PyMobile *pyc = (PyMobile *) PyMobileType.tp_alloc(&PyMobileType, 0);
+  pyc->component = c;
+  return (PyObject *) pyc;
+}
+
+PyObject *
 wrapCamera(Camera *c) {
   PyCamera *pyc = (PyCamera *) PyCameraType.tp_alloc(&PyCameraType, 0);
   pyc->component = c;
@@ -227,6 +349,8 @@ wrapRealComponent(Component *c) {
   switch (c->getType()) {
   case Transform::TYPE:
     return wrapTransform((Transform *) c);
+  case Mobile::TYPE:
+    return wrapMobile((Mobile *) c);
   case Camera::TYPE:
     return wrapCamera((Camera *) c);
   default:

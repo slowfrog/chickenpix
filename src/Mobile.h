@@ -13,11 +13,22 @@ public:
   Mobile(float dx, float dy);
   virtual ~Mobile();
 
+  inline
   void setSpeed(float dx, float dy) {
     dx_ = dx;
     dy_ = dy;
   }
 
+  inline
+  void setSpeedX(float dx) {
+    dx_ = dx;
+  }
+
+  inline
+  void setSpeedY(float dy) {
+    dy_ = dy;
+  }
+  
   float getSpeedX() const {
     return dx_;
   }
