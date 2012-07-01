@@ -47,7 +47,7 @@ public:
    * Tags management
    */
   void tagEntity(Entity *entity, string const &tag, const bool unique=false);
-  void untagEntity(Entity *entity, string const &tag, const bool unique=false);
+  void untagEntity(Entity *entity, string const &tag);
   vector<Entity::Id> const &getByTag(const string &tag);
   Entity::Id getFirstByTag(const string &tag);
 

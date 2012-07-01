@@ -9,8 +9,8 @@
 #include "Animated.h"
 #include "Input.h"
 #include "Resources.h"
-#include "Resources.h"
 #include "Scriptable.h"
+#include "Camera.h"
 // owner
 #include "EntityBuilder.h"
 
@@ -23,9 +23,9 @@ static callbacks callers[]={
   clbVisual,
   clbAnimated,
   clbInput,
-  clbResource,
   clbResources,
   clbScriptable,
+  clbCamera,
   0 // last index marker
 };
 
@@ -52,16 +52,16 @@ void clbInput( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pRe
   eb->buildInput( node, e, pResource);
 }
 
-void clbResource( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
-  eb->buildResource( node, e, pResource);
-}
-
 void clbResources( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
   eb->buildResources( node, e, pResource);
 }
 
 void clbScriptable( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
   eb->buildScriptable( node, e, pResource);
+}
+
+void clbCamera( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
+  eb->buildCamera( node, e, pResource);
 }
 
 /****************************************************************/
@@ -283,17 +283,18 @@ CEntityBuilder::buildTransform (TiXmlElement *pNode, Entity* e, Resources *pReso
 // Component Mobile
 void 
 CEntityBuilder::buildMobile(TiXmlElement *pNode, Entity *e, Resources*){
+  // Build Mobile with arguments
   TiXmlElement *pChar = pNode->FirstChildElement("position");
   if ( pChar ){
     float x(0.f), y(0.f);
     if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "x", &x) && 
          TIXML_SUCCESS == pChar->QueryValueAttribute( "y", &y) ) {
-      e->addComponent(new Mobile(x, y));
+      e->addComponent( new Mobile(x, y));
       return;
     }
   }
-  LOG2ERR<<"Bad xml description for [Mobile] component\n";
-  throw "Bad xml description for [Mobile] component";
+  // Else, build Mobile without argument
+  e->addComponent( new Mobile);
 }
 
 // Component BVisual
@@ -322,12 +323,6 @@ void
 CEntityBuilder::buildInput(TiXmlElement *pNode, Entity *e, Resources*){
   // No elements, no attributes
   e->addComponent( new Input);
-}
-
-// Component Resource
-void 
-CEntityBuilder::buildResource(TiXmlElement *pNode, Entity *e, Resources *pResource){
-  // Not used ????
 }
 
 // Component Resources
@@ -390,10 +385,10 @@ CEntityBuilder::buildComponentResourcesText( TiXmlElement *pNode,  Entity *e, Re
   
   pFontAttr = pNode->FirstChildElement( "color");
   if ( pFontAttr){
-    pNode->QueryValueAttribute( "r", &r);
-    pNode->QueryValueAttribute( "g", &g);
-    pNode->QueryValueAttribute( "b", &b);
-    pNode->QueryValueAttribute( "a", &a);
+    pFontAttr->QueryValueAttribute( "r", &r);
+    pFontAttr->QueryValueAttribute( "g", &g);
+    pFontAttr->QueryValueAttribute( "b", &b);
+    pFontAttr->QueryValueAttribute( "a", &a);
   }
   
   
@@ -421,5 +416,11 @@ CEntityBuilder::buildScriptable(TiXmlElement *pNode, Entity *e, Resources*){
   throw "Bad xml description for [Scriptable] component";
 }
 
+// Component Camera
+void 
+CEntityBuilder::buildCamera(TiXmlElement *pNode, Entity *e, Resources*){
+  // No elements, no attributes
+  e->addComponent( new Camera);
+}
 
 

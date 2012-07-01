@@ -39,12 +39,27 @@ CTagEntityMng::registerTag(const unsigned long entityId, const std::string &tag,
 }
 
 void 
-CTagEntityMng::unregisterTag(const std::string& tag, bool unique){
-  if( !unique ){
-    mTagE.erase( tag);
+CTagEntityMng::unregisterTag( const std::string& tag){
+  long  deleted = mTagE.erase( tag);
+  if ( !deleted) {
+    mTagUniqE.erase( tag);
+  }
+}
+
+void 
+CTagEntityMng::unregisterTagForEntity( const unsigned long id, const std::string &tag){
+  CTagEntityMng::TMapTagEntityCIt it = mTagE.find( tag);
+  if ( it != mTagE.end()){
+    TCollectionIdEntity vId = (*it).second;
+    TCollectionIdEntity::iterator vit = vId.begin();
+    for( ; vit != vId.end(); vit++){
+      if ( (*vit) == id){
+        vId.erase( vit);
+      }
+    }
   }
   else{
-    mTagUniqE.erase( tag);
+      mTagUniqE.erase( tag);
   }
 }
 

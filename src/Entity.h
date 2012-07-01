@@ -20,7 +20,7 @@ private:
   Id _id;
   Type _type;
   vector<Component *> comp;
-  //vector<string> tags;
+  vector<string> tags;
   
 public:
 

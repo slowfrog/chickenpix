@@ -2,6 +2,7 @@
 #include <sstream>
 #include <map>
 #include "TmxParser/Tmx.h"
+#include "EntityBuilder.h"
 #include "Utils.h"
 #include "Loader.h"
 #include "Transform.h"
@@ -24,8 +25,10 @@ void
 Loader::init() {
   // Load resources
   initResources();
+  // Add resources
+  //Resources *resources = _em.getComponent<Resources>();
   
-  Resources *resources = _em.getComponent<Resources>();
+  /*
   addImage("resources/img/map.png", resources, "map");
   addImage("resources/img/cochon.png", resources, "pig");
   addImage("resources/img/garcon_des_rues.png", resources, "streetboy");
@@ -46,6 +49,7 @@ Loader::init() {
   addSprite("sprites/stand_down", resources, "man_stand_down");
   addSprite("sprites/stand_right", resources, "man_stand_right");
   addSprite("sprites/wait", resources, "man_still");
+   */
   
   // Load start level
   loadLevel("beach");
@@ -75,19 +79,28 @@ Loader::createImage(ImagePart const &part, float x, float y, Resources *resource
 
 void
 Loader::loadLevel(string const &name) {
-  loadTmxMap(string("resources/maps/") + name + ".tmx");
-  
+  // Use Builder to create resources
+  CEntityBuilder eb("resources/entities.xml");
   Resources *resources = _em.getComponent<Resources>();
+  eb.parseResources( this, resources);
+  // Load map (tmx)
+  loadTmxMap(string("resources/maps/") + name + ".tmx");
+  // Use builder to create entities
+  eb.parseEntity   ( _em, resources);
+  
+  
   // Hard coded start level
   //createImage("map", -150, -250, resources);
   
-  createImage("pig", 210, 635, resources);
+  //createImage("pig", 210, 635, resources);
+  
   // createImage("streetboy", 50, 350, resources);
   // createImage("mayor", 90, 350, resources);
   // createImage("princess", 130, 350, resources);
   // createImage("wizard", 170, 350, resources);
   // createImage("richard", 210, 350, resources);
   
+  /*
   Entity *hero = _em.createEntity();
   hero->addComponent(new Transform(410, 620));
   hero->addComponent(new Animated("man_stand_down"));
@@ -106,6 +119,7 @@ Loader::loadLevel(string const &name) {
   text->addComponent(new Transform(235, 365));
   text->addComponent(resources->makeText("Press [ESC] to quit...", "sans_small"));
   _em.tagEntity(text, "LABEL");
+  */
 }
 
 void

@@ -37,7 +37,8 @@ public:
   /* API */
   void resetTagCollection();
   void registerTag(const unsigned long, const std::string&, const bool =false); 
-  void unregisterTag(const std::string&, const bool = false);
+  void unregisterTag(const std::string&);
+  void unregisterTagForEntity( const unsigned long, const std::string&);
   
   const TEntityId            getEntityByTag(const std::string&) const;
   const TCollectionIdEntity& getEntitiesByTag(const std::string&) const;

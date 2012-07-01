@@ -5,10 +5,6 @@
 #include "EntityManager.h"
 
 // Constants
-#define TAGS        "tags"
-#define TAG         "tag"
-#define COMPONENTS  "components"
-#define COMPONENT   "component"
 
 // Forward
 class CEntityBuilder;
@@ -23,9 +19,9 @@ extern void clbMobile   ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbVisual   ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbAnimated ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbInput    ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
-extern void clbResource ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbResources( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbScriptable( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
+extern void clbCamera   ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 
 /*
 */
@@ -46,9 +42,9 @@ public:
   void buildVisual    ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildAnimated  ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildInput     ( TiXmlElement*, Entity*, Resources* = NULL);
-  void buildResource  ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildResources ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildScriptable( TiXmlElement*, Entity*, Resources* = NULL);
+  void buildCamera    ( TiXmlElement*, Entity*, Resources* = NULL);
   
 protected:
   void init();

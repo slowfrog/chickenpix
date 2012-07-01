@@ -4,7 +4,7 @@
 
 EntityManager::EntityManager(string const &name):
   _name(name), _entities(1) {
-    CTagEntityMng::get()->resetTagCollection();
+  CTagEntityMng::get()->resetTagCollection();
 }
 
 EntityManager::~EntityManager() {
@@ -127,8 +127,8 @@ EntityManager::tagEntity(Entity *entity, string const &tag, const bool unique) {
 }
 
 void
-EntityManager::untagEntity(Entity *entity, string const &tag, const bool unique) {
-  CTagEntityMng::get()->unregisterTag( tag, unique);
+EntityManager::untagEntity(Entity *entity, string const &tag) {
+  CTagEntityMng::get()->unregisterTagForEntity( entity->getId(), tag);
   /*
   if (entity->hasTag(tag)) {
     entity->removeTag(tag);

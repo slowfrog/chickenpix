@@ -45,6 +45,18 @@
             <image path="sprites/walk_right" alias="man_walk_right"/>
         </resource>
         <resource type="sprite">
+            <image path="sprites/stand_up" alias="man_stand_up"/>
+        </resource>
+        <resource type="sprite">
+            <image path="sprites/stand_left" alias="man_stand_left"/>
+        </resource>
+        <resource type="sprite">
+            <image path="sprites/stand_down" alias="man_stand_down"/>
+        </resource>
+        <resource type="sprite">
+            <image path="sprites/stand_right" alias="man_stand_right"/>
+        </resource>
+        <resource type="sprite">
             <image path="sprites/wait" alias="man_still"/>
         </resource>
     </resources>
@@ -72,6 +84,7 @@
         </components>
     </entity>
         
+    <!-- 
     <entity>
         <components>
             <component name="Resources" type="image">
@@ -126,6 +139,7 @@
             </component>
         </components>
     </entity>
+    -->
     
 	<entity>
 		<!-- Tag list  -->
@@ -136,46 +150,50 @@
 		</tags>
         <components>
             <component name="Transform">
-                <position x="320" y="222"/>
+                <position x="410" y="620"/>
             </component>
             <component name="Animated">
-                <image name="man_still"/>
+                <image name="man_stand_down"/>
             </component>
             <component name="Input">
             </component>
             <component name="Scriptable">
                 <script name="toto"/>
             </component>
+            <component name="Mobile">
+            </component>
+            <component name="Camera">
+            </component>
         </components>
     </entity>
     
     <entity>
         <tags>
-            <tag name="LABEL" unique="false"></tag>
+            <tag name="LABEL"></tag>
 		</tags>
         <components>
             <component name="Transform">
-                <position x="100" y="160"/>
+                <position x="235" y="365"/>
+            </component>
+            <component name="Resources" type="font">
+                <text>Press [ESC] to quit...</text>
+                <police name="sans_small"/>
+            </component>
+        </components>
+    </entity>
+    
+    <entity>
+        <tags>
+            <tag name="LABEL"></tag>
+		</tags>
+        <components>
+            <component name="Transform">
+                <position x="290" y="475"/>
             </component>
             <component name="Resources" type="font">
                 <text>Chickenpix!</text>
                 <police name="sans_big"/>
                 <color r="255" g="255" b="0" a="128"/>
-            </component>
-        </components>
-    </entity>
-    
-    <entity>
-        <tags>
-            <tag name="LABEL" unique="false"></tag>
-		</tags>
-        <components>
-            <component name="Transform">
-                <position x="5" y="10"/>
-            </component>
-            <component name="Resources" type="font">
-                <text>Press [ESC] to quit...</text>
-                <police name="sans_small"/>
             </component>
         </components>
     </entity>
