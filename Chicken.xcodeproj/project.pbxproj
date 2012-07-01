@@ -33,6 +33,7 @@
 		5A13928B15A056C3009F373F /* Movement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A13928415A056C3009F373F /* Movement.cpp */; };
 		5A13928C15A056C3009F373F /* PythonComponents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A13928615A056C3009F373F /* PythonComponents.cpp */; };
 		5A13928D15A056C3009F373F /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A13928815A056C3009F373F /* Utils.cpp */; };
+		5A1394F215A0B3F2009F373F /* SystemManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A1394F115A0B3F2009F373F /* SystemManager.cpp */; };
 		5A22FC4315938DA100745D05 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A22FC4215938DA100745D05 /* Python.framework */; };
 		5A22FC551593902600745D05 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC4F1593902600745D05 /* tinystr.cpp */; };
 		5A22FC561593902600745D05 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC511593902600745D05 /* tinyxml.cpp */; };
@@ -136,6 +137,8 @@
 		5A13928715A056C3009F373F /* PythonComponents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PythonComponents.h; path = src/PythonComponents.h; sourceTree = "<group>"; };
 		5A13928815A056C3009F373F /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utils.cpp; path = src/Utils.cpp; sourceTree = "<group>"; };
 		5A13928915A056C3009F373F /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = src/Utils.h; sourceTree = "<group>"; };
+		5A1394F015A0B3F2009F373F /* SystemManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemManager.h; path = src/SystemManager.h; sourceTree = "<group>"; };
+		5A1394F115A0B3F2009F373F /* SystemManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SystemManager.cpp; path = src/SystemManager.cpp; sourceTree = "<group>"; };
 		5A2186B115977D4F00FF7E57 /* variant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = variant.h; path = src/variant.h; sourceTree = "<group>"; };
 		5A22FC4215938DA100745D05 /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /System/Library/Frameworks/Python.framework; sourceTree = "<absolute>"; };
 		5A22FC4F1593902600745D05 /* tinystr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinystr.cpp; path = src/tinyxml/tinystr.cpp; sourceTree = "<group>"; };
@@ -221,14 +224,8 @@
 		5A00358D158FCF3900B483F8 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
-				5A13928215A056C3009F373F /* Camera.cpp */,
-				5A13928315A056C3009F373F /* Camera.h */,
-				5A13928415A056C3009F373F /* Movement.cpp */,
-				5A13928515A056C3009F373F /* Movement.h */,
-				5A13928615A056C3009F373F /* PythonComponents.cpp */,
-				5A13928715A056C3009F373F /* PythonComponents.h */,
-				5A13928815A056C3009F373F /* Utils.cpp */,
-				5A13928915A056C3009F373F /* Utils.h */,
+				5A2554C3159CFD8B0032BBF8 /* EntityBuilder.h */,
+				5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */,
 				5A255474159CF3DC0032BBF8 /* TagEntityManager.h */,
 				5A255473159CF3DC0032BBF8 /* TagEntityManager.cpp */,
 				5A0035AB158FCF6D00B483F8 /* EntityManager.h */,
@@ -237,40 +234,10 @@
 				5A0035A8158FCF6D00B483F8 /* Entity.cpp */,
 				5A0E14BB159BC3B800B253AB /* WrappedEntity.cpp */,
 				5A0E14BC159BC3B800B253AB /* WrappedEntity.h */,
-				5A0E1131159B72C700B253AB /* Animation.cpp */,
-				5A0E1132159B72C700B253AB /* Animation.h */,
-				5A0035A7158FCF6D00B483F8 /* ComponentRegistry.h */,
-				5A0E1133159B72C700B253AB /* ComponentRegistry.cpp */,
-				5A22FCA01593CD9000745D05 /* PythonTypes.cpp */,
-				5A22FCA11593CD9000745D05 /* PythonTypes.h */,
-				5A8920281592817A0088CDE0 /* Scriptable.cpp */,
-				5A8920291592817A0088CDE0 /* Scriptable.h */,
-				5A89202A1592817A0088CDE0 /* Scripting.cpp */,
-				5A89202B1592817A0088CDE0 /* Scripting.h */,
-				5ADCACF31592693A00E29849 /* BVisual.cpp */,
-				5ADCACF41592693A00E29849 /* BVisual.h */,
-				5ADCACF51592693A00E29849 /* Inputs.cpp */,
-				5ADCACF61592693A00E29849 /* Inputs.h */,
-				5ADCACF71592693A00E29849 /* Resources.cpp */,
 				5ADCACF91592693A00E29849 /* VisualContext.h */,
-				5A0035A3158FCF6D00B483F8 /* Animated.cpp */,
-				5A0035A4158FCF6D00B483F8 /* Animated.h */,
-				5A0035A5158FCF6D00B483F8 /* Component.cpp */,
-				5A0035A6158FCF6D00B483F8 /* Component.h */,
 				5A0035AC158FCF6D00B483F8 /* Image.h */,
-				5A0035AD158FCF6D00B483F8 /* Input.cpp */,
-				5A0035AE158FCF6D00B483F8 /* Input.h */,
-				5A0035AF158FCF6D00B483F8 /* Loader.cpp */,
-				5A0035B0158FCF6D00B483F8 /* Loader.h */,
-				5A0035B1158FCF6D00B483F8 /* Mobile.cpp */,
-				5A0035B2158FCF6D00B483F8 /* Mobile.h */,
-				5A0035B3158FCF6D00B483F8 /* Render.cpp */,
-				5A0035B4158FCF6D00B483F8 /* Render.h */,
-				5ADCACF81592693A00E29849 /* Resources.h */,
-				5A0035B7158FCF6D00B483F8 /* System.cpp */,
-				5A0035B8158FCF6D00B483F8 /* System.h */,
-				5A0035B9158FCF6D00B483F8 /* Transform.cpp */,
-				5A0035BA158FCF6D00B483F8 /* Transform.h */,
+				5A1394F015A0B3F2009F373F /* SystemManager.h */,
+				5A1394F115A0B3F2009F373F /* SystemManager.cpp */,
 			);
 			name = Engine;
 			sourceTree = "<group>";
@@ -296,6 +263,65 @@
 				5A00359A158FCF5800B483F8 /* SFMLVisualImage.h */,
 			);
 			name = SFML;
+			sourceTree = "<group>";
+		};
+		5A1394ED15A0B25E009F373F /* System */ = {
+			isa = PBXGroup;
+			children = (
+				5A0035AF158FCF6D00B483F8 /* Loader.cpp */,
+				5A0035B0158FCF6D00B483F8 /* Loader.h */,
+				5A0035B3158FCF6D00B483F8 /* Render.cpp */,
+				5A0035B4158FCF6D00B483F8 /* Render.h */,
+				5A0035B7158FCF6D00B483F8 /* System.cpp */,
+				5A0035B8158FCF6D00B483F8 /* System.h */,
+				5ADCACF51592693A00E29849 /* Inputs.cpp */,
+				5ADCACF61592693A00E29849 /* Inputs.h */,
+				5A89202A1592817A0088CDE0 /* Scripting.cpp */,
+				5A89202B1592817A0088CDE0 /* Scripting.h */,
+				5A13928415A056C3009F373F /* Movement.cpp */,
+				5A13928515A056C3009F373F /* Movement.h */,
+				5A0E1131159B72C700B253AB /* Animation.cpp */,
+				5A0E1132159B72C700B253AB /* Animation.h */,
+			);
+			name = System;
+			sourceTree = "<group>";
+		};
+		5A1394EE15A0B26A009F373F /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5A0035A7158FCF6D00B483F8 /* ComponentRegistry.h */,
+				5A0E1133159B72C700B253AB /* ComponentRegistry.cpp */,
+				5A0035B9158FCF6D00B483F8 /* Transform.cpp */,
+				5A0035BA158FCF6D00B483F8 /* Transform.h */,
+				5A0035AD158FCF6D00B483F8 /* Input.cpp */,
+				5A0035AE158FCF6D00B483F8 /* Input.h */,
+				5A0035B1158FCF6D00B483F8 /* Mobile.cpp */,
+				5A0035B2158FCF6D00B483F8 /* Mobile.h */,
+				5A0035A3158FCF6D00B483F8 /* Animated.cpp */,
+				5A0035A4158FCF6D00B483F8 /* Animated.h */,
+				5A0035A5158FCF6D00B483F8 /* Component.cpp */,
+				5A0035A6158FCF6D00B483F8 /* Component.h */,
+				5ADCACF31592693A00E29849 /* BVisual.cpp */,
+				5ADCACF41592693A00E29849 /* BVisual.h */,
+				5ADCACF81592693A00E29849 /* Resources.h */,
+				5ADCACF71592693A00E29849 /* Resources.cpp */,
+				5A8920281592817A0088CDE0 /* Scriptable.cpp */,
+				5A8920291592817A0088CDE0 /* Scriptable.h */,
+				5A13928215A056C3009F373F /* Camera.cpp */,
+				5A13928315A056C3009F373F /* Camera.h */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		5A1394EF15A0B35E009F373F /* Python */ = {
+			isa = PBXGroup;
+			children = (
+				5A13928615A056C3009F373F /* PythonComponents.cpp */,
+				5A13928715A056C3009F373F /* PythonComponents.h */,
+				5A22FCA01593CD9000745D05 /* PythonTypes.cpp */,
+				5A22FCA11593CD9000745D05 /* PythonTypes.h */,
+			);
+			name = Python;
 			sourceTree = "<group>";
 		};
 		5A22FC5B1593BA4000745D05 /* Tmx */ = {
@@ -346,12 +372,12 @@
 		5A25546C159CF3150032BBF8 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				5A13928815A056C3009F373F /* Utils.cpp */,
+				5A13928915A056C3009F373F /* Utils.h */,
 				5A2186B115977D4F00FF7E57 /* variant.h */,
 				5A0E14B9159BC3A900B253AB /* log.h */,
 				5A0E14B8159BC3A900B253AB /* log.cpp */,
 				5A255486159CF55B0032BBF8 /* Singleton.h */,
-				5A2554C3159CFD8B0032BBF8 /* EntityBuilder.h */,
-				5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -410,6 +436,9 @@
 		A01FB6B20F07CF80000AAC7B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5A1394EF15A0B35E009F373F /* Python */,
+				5A1394EE15A0B26A009F373F /* Components */,
+				5A1394ED15A0B25E009F373F /* System */,
 				5A25546C159CF3150032BBF8 /* Tools */,
 				5A22FC9C1593BC8200745D05 /* RoundFight */,
 				5A22FC5B1593BA4000745D05 /* Tmx */,
@@ -550,6 +579,7 @@
 				5A13928B15A056C3009F373F /* Movement.cpp in Sources */,
 				5A13928C15A056C3009F373F /* PythonComponents.cpp in Sources */,
 				5A13928D15A056C3009F373F /* Utils.cpp in Sources */,
+				5A1394F215A0B3F2009F373F /* SystemManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

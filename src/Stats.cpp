@@ -74,21 +74,21 @@ Stats::toString() const{
 /**
 */
 std::string 
-CCharacter::toString() const {
+Character::toString() const {
   return _stats.toString();
 }
 
 /**
 */
-void change(CCharacter& c, const unsigned long id, const CVariant& v, func f){
+void change(Character& c, const unsigned long id, const CVariant& v, func f){
     CVariant &r = c.get( id);
     f(r, v);
 }
 
-void plus(CVariant& rl, const CVariant& rv){
+void plusVar(CVariant& rl, const CVariant& rv){
     rl = rl + rv;
 }
 
-void minus(CVariant& rl, const CVariant& rv){
+void minusVar(CVariant& rl, const CVariant& rv){
     rl = rl - rv;
 }

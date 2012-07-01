@@ -153,6 +153,12 @@
             </component>
             <component name="Camera">
             </component>
+            <component name="Character">
+                <stats name="initiative" value="5"/>
+                <stats name="health" value="50"/>
+                <stats name="armor_class" value="3"/>
+                <stats name="damage" value="1"/>
+            </component>
         </components>
     </entity>
     

@@ -9,13 +9,13 @@
 /* CRoundInit
 /****************************************************************/
 IRoundState* 
-CRoundInit::addFighter( CFightEngine& fe, const CFighter& f, const bool ally){
+CRoundInit::addFighter( CFightSystem& fe, const CFighter& f, const bool ally){
     fe.add( f, ally);
     return this;
 }
 
 IRoundState*
-CRoundInit::start( CFightEngine& fe){
+CRoundInit::start( CFightSystem& fe){
     fe.startRound();
     return new CRoundPrepare;
 }
@@ -24,25 +24,25 @@ CRoundInit::start( CFightEngine& fe){
 /* CRoundPrepare
 /****************************************************************/
 IRoundState* 
-CRoundPrepare::popFighter( CFightEngine& fe){
+CRoundPrepare::popFighter( CFightSystem& fe){
     fe.curFighter();
     return this;
 }
 
 IRoundState* 
-CRoundPrepare::chooseTarget( CFightEngine& fe){
+CRoundPrepare::chooseTarget( CFightSystem& fe){
     fe.curTarget();
     return this;
 }
 
 IRoundState* 
-CRoundPrepare::chooseSkill( CFightEngine& fe){
+CRoundPrepare::chooseSkill( CFightSystem& fe){
     fe.curSkill();
     return this;  
 }
 
 IRoundState* 
-CRoundPrepare::doFight( CFightEngine& fe){
+CRoundPrepare::doFight( CFightSystem& fe){
     fe.curFight();
     return new CRoundFight;
 }
@@ -51,7 +51,7 @@ CRoundPrepare::doFight( CFightEngine& fe){
 /* CRoundFight
 /****************************************************************/
 IRoundState* 
-CRoundFight::next( CFightEngine& fe){
+CRoundFight::next( CFightSystem& fe){
     fe.nextRound();
     return new CRoundPrepare;
 }
@@ -60,7 +60,7 @@ CRoundFight::next( CFightEngine& fe){
 /* CFightEngine: Round fight management
 /****************************************************************/
 // Init static
-IRoundState *CFightEngine::curState = NULL;
+IRoundState *CFightSystem::curState = NULL;
 
 // Sort by initiative
 bool 
@@ -70,15 +70,15 @@ sortByInitiative(const CFighter& a, const CFighter& b){
 
 /**
  */
-CFightEngine::CFightEngine():endOfFight(false){
-	curState = new CRoundInit;
+CFightSystem::CFightSystem( const std::string &name,EntityManager &em): System( name, em), endOfFight(false){
+	/*curState = new CRoundInit;
 	if ( !curState ) throw "[CFightEngine] failed.";
-    CDice<>::init();
+    CDice<>::init();*/
 }
 
 /**
  */
-CFightEngine::~CFightEngine(){
+CFightSystem::~CFightSystem(){
 	if ( curState){
 		delete curState;
 	}
@@ -88,7 +88,7 @@ CFightEngine::~CFightEngine(){
 /**
  */
 void 
-CFightEngine::setState(IRoundState* s){
+CFightSystem::setState(IRoundState* s){
 	if ( s && curState && curState != s){
 		delete curState;
 		curState = s;
@@ -98,21 +98,21 @@ CFightEngine::setState(IRoundState* s){
 /**
  */
 void 
-CFightEngine::addFoe( const CFighter& f){
+CFightSystem::addFoe( const CFighter& f){
   setState( curState->addFighter( *this, f, false));
 }
 
 /**
  */
 void 
-CFightEngine::addAlly( const CFighter& f){
+CFightSystem::addAlly( const CFighter& f){
   setState( curState->addFighter( *this, f, true));
 }
 
 /**
  */
 void 
-CFightEngine::processRounds(){
+CFightSystem::processRounds(){
 	// Start round
 	setState( curState->start( *this));
 	// main loop
@@ -130,7 +130,7 @@ CFightEngine::processRounds(){
 }
 
 bool 
-CFightEngine::add(const CFighter& f, const bool ally){
+CFightSystem::add(const CFighter& f, const bool ally){
   if ( ally){
     vAlly.push_back( f);
   }
@@ -143,7 +143,7 @@ CFightEngine::add(const CFighter& f, const bool ally){
 /**
 */
 bool 
-CFightEngine::startRound(){
+CFightSystem::startRound(){
   // sort fighters by initiative
   vFoe.sort ( sortByInitiative);
   vAlly.sort( sortByInitiative);
@@ -167,7 +167,7 @@ CFightEngine::startRound(){
 }
 
 bool
-CFightEngine::curFighter(){
+CFightSystem::curFighter(){
   // Default behavior
   qAtt.front();
   LOG2DBG << qAtt.front().Name()<< " attacks\n";
@@ -178,7 +178,7 @@ CFightEngine::curFighter(){
 }
 
 bool 
-CFightEngine::curTarget(){
+CFightSystem::curTarget(){
   qDef.front();
   LOG2DBG << qDef.front().Name()<< " defends\n";
   LOG2DBG << qDef.front().toString()<<"\n";
@@ -188,14 +188,14 @@ CFightEngine::curTarget(){
 }
 
 bool 
-CFightEngine::curSkill(){
+CFightSystem::curSkill(){
   // Selection de l attaque pour le tour en cours
   // Peut fuire
   return true;
 }
 
 bool 
-CFightEngine::curFight(){
+CFightSystem::curFight(){
   // Get CA  
   long ca = CDice<8>::rolled(); // die 6 faces
   LOG2DBG << "CA : "<< ca << "\n";
@@ -204,7 +204,7 @@ CFightEngine::curFight(){
     // Get damage    
     long dmg = (long)qAtt.front().get( DAMAGE) + CDice<20>::rolled(); // die 20 faces
     // apply damage on health point
-    change(qDef.front(), HEALTH, CVariant( dmg), minus);
+    change(qDef.front(), HEALTH, CVariant( dmg), minusVar);
     LOG2DBG << "dmg : "<< dmg << "\n";
     LOG2DBG << qDef.front().toString()<<"\n";
   }
@@ -212,7 +212,7 @@ CFightEngine::curFight(){
 }
 
 void 
-CFightEngine::nextRound(){
+CFightSystem::nextRound(){
   // Def is dead ?  
   if ( qDef.front().isDead() ){
     LOG2DBG <<qDef.front().Name()<<" is dead\n";
@@ -248,7 +248,7 @@ CFightEngine::nextRound(){
  Display Information
 */
 std::string 
-CFightEngine::toString(){
+CFightSystem::toString(){
   std::ostringstream out;
   out<<std::endl<<"Current state: ["<<curState->toString()<<"]"<<std::endl;
   
@@ -266,4 +266,22 @@ CFightEngine::toString(){
     cit++;
   }
   return out.str();
+}
+
+/*
+ System API
+ */
+// Init
+void CFightSystem::init(){
+  curState = new CRoundInit;
+	if ( !curState ) throw "[CFightEngine] failed.";
+  CDice<>::init();
+}
+
+// Update
+void CFightSystem::update(int){
+}
+
+// Exit
+void CFightSystem::exit(){
 }

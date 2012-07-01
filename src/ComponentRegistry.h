@@ -8,7 +8,8 @@ enum ComponentType {
   INPUT_TYPE      = 5,
   RESOURCES_TYPE  = 6,
   SCRIPTABLE_TYPE = 7,
-  CAMERA_TYPE     = 8
+  CAMERA_TYPE     = 8,
+  CHARACTER_TYPE  = 9,
   // !!! Don't forget to update ComponentName values when adding a component type !!!
 };
 

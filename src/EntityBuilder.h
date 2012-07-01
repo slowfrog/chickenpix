@@ -9,6 +9,8 @@
 // Forward
 class CEntityBuilder;
 class Loader;
+class Character;
+class CVariant;
 
 // Types
 typedef void (*callbacks)( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
@@ -22,6 +24,7 @@ extern void clbInput    ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbResources( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbScriptable( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbCamera   ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
+extern void clbCharacter( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 
 /*
 */
@@ -45,6 +48,7 @@ public:
   void buildResources ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildScriptable( TiXmlElement*, Entity*, Resources* = NULL);
   void buildCamera    ( TiXmlElement*, Entity*, Resources* = NULL);
+  void buildCharacter ( TiXmlElement*, Entity*, Resources* = NULL);
   
 protected:
   void init();
@@ -63,6 +67,8 @@ protected:
   void buildComponentResourcesByType( const std::string&, TiXmlElement*,  Entity*, Resources*);
   void buildComponentResourcesImage ( TiXmlElement*,  Entity*, Resources* );
   void buildComponentResourcesText  ( TiXmlElement*,  Entity*, Resources*);
+  
+  void buildStats( Character*, const std::string&, const CVariant&);
   
 private:
   // not allowed

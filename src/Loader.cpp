@@ -81,13 +81,15 @@ void
 Loader::loadLevel(string const &name) {
   // Get resources
   Resources *resources = _em.getComponent<Resources>();
-  // Use Builder to create resources
-  CEntityBuilder eb("resources/entities.xml"); // File is hardcoded but this should be change
-  eb.parseResources( this, resources);
-  // Load map (tmx)
-  loadTmxMap(string("resources/maps/") + name + ".tmx");
-  // Use builder to create entities
-  eb.parseEntity   ( _em, resources);
+  if ( !resFile.empty() ){
+    // Use Builder to create resources
+    CEntityBuilder eb( resFile); // File is hardcoded but this should be change
+    eb.parseResources( this, resources);
+    // Load map (tmx)
+    loadTmxMap(string("resources/maps/") + name + ".tmx");
+    // Use builder to create entities
+    eb.parseEntity   ( _em, resources);
+  }
   
   
   // Hard coded start level
@@ -197,6 +199,11 @@ Loader::loadTmxMap(string const &name) const {
       }
     }
   }
+}
+
+void 
+Loader::setEntitiesDesc( const std::string& file){
+  resFile = file;
 }
 
 string

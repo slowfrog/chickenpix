@@ -3,13 +3,16 @@
 #include <list>
 #include <queue>
 #include <string>
+
+#include "EntityManager.h"
+#include "system.h"
 #include "Stats.h"
 
 // Forward
-class CFightEngine; 
+class CFightSystem; 
 
 // Types
-typedef CCharacter  CFighter;
+typedef Character  CFighter;
 
 /**
  State for fight round
@@ -19,13 +22,13 @@ typedef CCharacter  CFighter;
 /****************************************************************/
 class IRoundState {
 public:
-    virtual IRoundState* addFighter     ( CFightEngine&, const CFighter&, const bool)   { return 0;}
-    virtual IRoundState* start          ( CFightEngine&) { return 0; }
-    virtual IRoundState* popFighter     ( CFightEngine&) { return 0; }
-    virtual IRoundState* chooseTarget   ( CFightEngine&) { return 0; }
-    virtual IRoundState* chooseSkill    ( CFightEngine&) { return 0; }
-    virtual IRoundState* doFight        ( CFightEngine&) { return 0; }
-    virtual IRoundState* next           ( CFightEngine&) { return 0; }
+    virtual IRoundState* addFighter     ( CFightSystem&, const CFighter&, const bool)   { return 0;}
+    virtual IRoundState* start          ( CFightSystem&) { return 0; }
+    virtual IRoundState* popFighter     ( CFightSystem&) { return 0; }
+    virtual IRoundState* chooseTarget   ( CFightSystem&) { return 0; }
+    virtual IRoundState* chooseSkill    ( CFightSystem&) { return 0; }
+    virtual IRoundState* doFight        ( CFightSystem&) { return 0; }
+    virtual IRoundState* next           ( CFightSystem&) { return 0; }
 
     virtual std::string toString() =0;
 };
@@ -35,8 +38,8 @@ public:
 /****************************************************************/
 class CRoundInit : public IRoundState {
 public:
-  virtual IRoundState* addFighter ( CFightEngine&, const CFighter&, const bool);
-  virtual IRoundState* start      ( CFightEngine&);
+  virtual IRoundState* addFighter ( CFightSystem&, const CFighter&, const bool);
+  virtual IRoundState* start      ( CFightSystem&);
   virtual std::string toString() {static std::string ret("CRoundInit"); return ret;}
 };
 
@@ -45,10 +48,10 @@ public:
 /****************************************************************/
 class CRoundPrepare : public IRoundState {
 public:
-    virtual IRoundState* popFighter     ( CFightEngine&);
-    virtual IRoundState* chooseTarget   ( CFightEngine&);
-    virtual IRoundState* chooseSkill    ( CFightEngine&);
-    virtual IRoundState* doFight        ( CFightEngine&);
+    virtual IRoundState* popFighter     ( CFightSystem&);
+    virtual IRoundState* chooseTarget   ( CFightSystem&);
+    virtual IRoundState* chooseSkill    ( CFightSystem&);
+    virtual IRoundState* doFight        ( CFightSystem&);
 
     virtual std::string toString() {return "CRoundPrepare";}
 };
@@ -58,7 +61,7 @@ public:
 /****************************************************************/
 class CRoundFight : public IRoundState {
 public:    
-    virtual IRoundState* next( CFightEngine&);
+    virtual IRoundState* next( CFightSystem&);
 
     virtual std::string toString() {return "CRoundFight";}
 };
@@ -74,7 +77,7 @@ public:
 /****************************************************************/
 /* CFightEngine
 /****************************************************************/
-class CFightEngine /*: public system*/{
+class CFightSystem : public System {
   friend class CRoundInit;
   friend class CRoundPrepare;
   friend class CRoundFight;
@@ -94,13 +97,18 @@ class CFightEngine /*: public system*/{
   
 public:
   // Constructor/destructor
-  CFightEngine();
-  virtual	~CFightEngine();
+  CFightSystem( const std::string&, EntityManager&);
+  virtual	~CFightSystem();
 	
   // API
   void addFoe (const CFighter&);
   void addAlly(const CFighter&);
   void processRounds();
+  
+  // System API
+  void init();
+  void update(int);
+  void exit();
   
   // Display info
   std::string toString();
@@ -122,9 +130,6 @@ protected:
   };
 	
 protected:
-  // Copy not allowed
-  CFightEngine(const CFightEngine&) {throw;}	
-	
   // Set current state
   void setState(IRoundState*);
   // Check if fight must ended

@@ -11,11 +11,14 @@ public:
     return _pInstance;
   }
   
-  virtual ~CSingleton(){
+  static void destroy(){
     if ( _pInstance){
       delete _pInstance;
     }
     _pInstance = NULL;
+  }
+  
+  virtual ~CSingleton(){
   }
   
 protected:

@@ -10,5 +10,6 @@ const char *ComponentName[] = {
   "Resources",
   "Scriptable",
   "Camera",
+  "Character",
   0
 };

@@ -11,6 +11,7 @@
 #include "Resources.h"
 #include "Scriptable.h"
 #include "Camera.h"
+#include "Stats.h"
 // owner
 #include "EntityBuilder.h"
 
@@ -26,11 +27,12 @@ static callbacks callers[]={
   clbResources,
   clbScriptable,
   clbCamera,
+  clbCharacter,
   0 // last index marker
 };
 
 /****************************************************************/
-/* Callbacks
+/* Callbacks                                                    */
 /****************************************************************/
 void clbTransform( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
   eb->buildTransform( node, e, pResource);
@@ -64,8 +66,12 @@ void clbCamera( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pR
   eb->buildCamera( node, e, pResource);
 }
 
+void clbCharacter( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
+  eb->buildCharacter( node, e, pResource);
+}
+
 /****************************************************************/
-/* class : CEntityBuilder
+/* class : CEntityBuilder                                       */
 /****************************************************************/
 /*
 */
@@ -75,7 +81,7 @@ CEntityBuilder::CEntityBuilder( const std::string& pathfile): mPathFileName(path
     LOG2ERR<<"Bad file\n";
     throw "Bad file";
   }
-  // Initialiaze parser
+  // Initialize parser
   init();
 }
 
@@ -113,7 +119,6 @@ CEntityBuilder::parseResources( Loader *pLoader, Resources *pResource){
   if ( pElem){
     pElem = pElem->FirstChildElement( "resource");
     for (pElem; pElem; pElem = pElem->NextSiblingElement() ){
-      LOG2<<"test : "<<pElem->Value()<<"\n";
       std::string type = pElem->Attribute( "type");
       if ( !type.empty()) {
         buildResourcesByType(type, pElem, pLoader, pResource);
@@ -404,10 +409,10 @@ CEntityBuilder::buildComponentResourcesText( TiXmlElement *pNode,  Entity *e, Re
 
 // Component Scriptable
 void 
-CEntityBuilder::buildScriptable(TiXmlElement *pNode, Entity *e, Resources*){
+CEntityBuilder::buildScriptable( TiXmlElement *pNode, Entity *e, Resources*){
   TiXmlElement *pChar = pNode->FirstChildElement("script");
-  std::string script = pChar->Attribute( "name");
-  if ( !script.empty()){
+  std::string script;
+  if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "name", &script)){
     e->addComponent( new Scriptable( script));
     return;
   }
@@ -417,9 +422,51 @@ CEntityBuilder::buildScriptable(TiXmlElement *pNode, Entity *e, Resources*){
 
 // Component Camera
 void 
-CEntityBuilder::buildCamera(TiXmlElement *pNode, Entity *e, Resources*){
+CEntityBuilder::buildCamera( TiXmlElement *pNode, Entity *e, Resources*){
   // No elements, no attributes
   e->addComponent( new Camera);
 }
 
+// Component Character
+void 
+CEntityBuilder::buildCharacter ( TiXmlElement *pNode, Entity *e, Resources*){
+  TiXmlElement *pChar = pNode->FirstChildElement("stats");
+  if ( pChar ){
+    Character *character = new Character;
+    for( pChar; pChar; pChar= pChar->NextSiblingElement()){
+      std::string name;
+      long        value(0);
+      if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "name", &name) &&
+           TIXML_SUCCESS == pChar->QueryValueAttribute( "value", &value)){
+        buildStats( character, name, CVariant( value));
+      }
+    }
+    e->addComponent( character);
+  }
+}
 
+void 
+CEntityBuilder::buildStats( Character *c, const std::string &name, const CVariant &v)
+{
+  // Ok, not very generic !! must be enhanced later
+  if ( name == "initiative"){
+    c->addStats( INITIATIVE, v);
+    return;
+  }
+  
+  if ( name == "health"){
+    c->addStats( HEALTH, v);
+    return;
+  }
+  
+  if ( name == "ca"){
+    c->addStats( ARMOR_CLASS, v);
+    return;
+  }
+  
+  if ( name == "damage"){
+    c->addStats( DAMAGE, v);
+    return;
+  }
+
+}

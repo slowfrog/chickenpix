@@ -6,6 +6,7 @@
 #include <time.h>
 #include "log.h"
 #include "variant.h"
+#include "Component.h"
 
 // Stats id Character
 #define HEALTH                      0x000100
@@ -58,51 +59,54 @@ protected:
 /****************************************************************/
 /* CCharacter                                                   */
 /****************************************************************/
-class CCharacter
+class Character : public Component
 {
 public:
-    CCharacter(const unsigned long id= DEFAULT_ID_CH, const std::string &name=DEFAULT_NAME_CH, long lt=DEFAULT_LIFE_THRESHOLD_CH):_id(id), _name(name), _lifeThreshold(lt)
-    { 
-        // Mandatory stats
-        _stats.addStat( HEALTH,         DEFAULT_MIN_STAT);
-        _stats.addStat( DAMAGE,         DEFAULT_MIN_STAT);
-        _stats.addStat( ARMOR_CLASS,    DEFAULT_MIN_STAT);
-        _stats.addStat( INITIATIVE,     DEFAULT_MIN_STAT);
-    }
-
-    ~CCharacter(){}
-
-    inline const unsigned long Id() const {return _id;}
-    inline const std::string& Name() const {return _name;}
-
-    void addStats(const unsigned id, const CVariant& v){
-        _stats.addStat(id, v);
-    }
-    
-    bool isDead() { return _stats.getStat(HEALTH) <= _lifeThreshold; }
-    CVariant& get(const unsigned long id) { return _stats.getStat( id);}
-    const CVariant& get(const unsigned long id) const { return _stats.getStat( id);}
-    std::string toString() const;
-
+  static const Type TYPE = CHARACTER_TYPE;
+public:
+  Character(const unsigned long id= DEFAULT_ID_CH, const std::string &name=DEFAULT_NAME_CH, long lt=DEFAULT_LIFE_THRESHOLD_CH)
+  : Component( CHARACTER_TYPE), _id( id), _name( name), _lifeThreshold( lt)
+  { 
+    // Mandatory stats
+    _stats.addStat( HEALTH,         DEFAULT_MIN_STAT);
+    _stats.addStat( DAMAGE,         DEFAULT_MIN_STAT);
+    _stats.addStat( ARMOR_CLASS,    DEFAULT_MIN_STAT);
+    _stats.addStat( INITIATIVE,     DEFAULT_MIN_STAT);
+  }
+  
+  ~Character(){}
+  
+  inline const unsigned long Id() const {return _id;}
+  inline const std::string& Name() const {return _name;}
+  
+  void addStats(const unsigned id, const CVariant& v){
+    _stats.addStat(id, v);
+  }
+  
+  bool isDead() { return _stats.getStat(HEALTH) <= _lifeThreshold; }
+  CVariant& get(const unsigned long id) { return _stats.getStat( id);}
+  const CVariant& get(const unsigned long id) const { return _stats.getStat( id);}
+  std::string toString() const;
+  
 private:
-    unsigned long   _id;
-    std::string     _name;
-    long            _lifeThreshold;
-    Stats           _stats;
-    // Skill (attaque, defense, fuite)
-    // Liste objet (prevoir modificateur)
-    // Liste objet equipe
-    // pile de modificateurs stack<long, long>
+  unsigned long   _id;
+  std::string     _name;
+  long            _lifeThreshold;
+  Stats           _stats;
+  // Skill (attaque, defense, fuite)
+  // Liste objet (prevoir modificateur)
+  // Liste objet equipe
+  // pile de modificateurs stack<long, long>
 };
 
 
 // Interface to manipulate Stats in CCharacter
 typedef void(*func)(CVariant&, const CVariant&);
 
-void change(CCharacter&, const unsigned long, const CVariant&, func);
+void change(Character&, const unsigned long, const CVariant&, func);
 
-void plus(CVariant&, const CVariant&);
-void minus(CVariant&, const CVariant&);
+void plusVar(CVariant&, const CVariant&);
+void minusVar(CVariant&, const CVariant&);
 
 
 

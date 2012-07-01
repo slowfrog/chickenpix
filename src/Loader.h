@@ -20,9 +20,12 @@ public:
   virtual void loadLevel(string const &name);
   virtual string toString() const;
   // Build entity
-  
+  void setEntitiesDesc( const std::string&); 
 private:
   void createImage(string const &name, float x, float y, Resources *resources) const;
   void createImage(ImagePart const &part, float x, float y, Resources *resources) const;
   void loadTmxMap(string const &name) const;
+  
+private:
+  std::string resFile;
 };

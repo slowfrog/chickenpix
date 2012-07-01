@@ -4,7 +4,6 @@
 
 EntityManager::EntityManager(string const &name):
   _name(name), _entities(1) {
-  CTagEntityMng::get()->resetTagCollection();
 }
 
 EntityManager::~EntityManager() {
