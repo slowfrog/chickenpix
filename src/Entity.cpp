@@ -69,8 +69,8 @@ Entity::hasComponents(Component::Type t1, Component::Type t2) const {
   return hasComponent(t1) && hasComponent(t2);
 }
 
-
-bool
+/*
+ bool
 Entity::hasTag(string const &tag) const {
   for (vector<string>::const_iterator it = tags.begin(); it < tags.end(); it++) {
     if (tag == *it) {
@@ -96,6 +96,7 @@ Entity::removeTag(string const &tag) {
     }
   }
 }
+ */
 
 void
 Entity::releaseComponents() {

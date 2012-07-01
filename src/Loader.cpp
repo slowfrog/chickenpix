@@ -2,6 +2,7 @@
 #include <sstream>
 #include <map>
 #include "TmxParser/Tmx.h"
+#include "EntityBuilder.h"
 #include "Utils.h"
 #include "Loader.h"
 #include "Transform.h"
@@ -14,7 +15,7 @@
 
 
 Loader::Loader(string const &name, EntityManager &em, string const &resourceFile):
-  System(name, em), resourceFile(resourceFile) {
+System(name, em), resourceFile(resourceFile) {
 }
 
 Loader::~Loader() {
@@ -24,8 +25,10 @@ void
 Loader::init() {
   // Load resources
   initResources();
+  // Add resources
+  //Resources *resources = _em.getComponent<Resources>();
   
-  Resources *resources = _em.getComponent<Resources>();
+  /*
   addImage("resources/img/map.png", resources, "map");
   addImage("resources/img/cochon.png", resources, "pig");
   addImage("resources/img/garcon_des_rues.png", resources, "streetboy");
@@ -33,10 +36,10 @@ Loader::init() {
   addImage("resources/img/maire.png", resources, "mayor");
   addImage("resources/img/princesse.png", resources, "princess");
   addImage("resources/img/richard.png", resources, "richard");
-
+  
   addFont("resources/fonts/BerkshireSwash-Regular.ttf", 30, resources, "sans_big");
   addFont("resources/fonts/BerkshireSwash-Regular.ttf", 8, resources, "sans_small");
-
+  
   addSprite("sprites/walk_up", resources, "man_walk_up");
   addSprite("sprites/walk_left", resources, "man_walk_left");
   addSprite("sprites/walk_down", resources, "man_walk_down");
@@ -46,7 +49,8 @@ Loader::init() {
   addSprite("sprites/stand_down", resources, "man_stand_down");
   addSprite("sprites/stand_right", resources, "man_stand_right");
   addSprite("sprites/wait", resources, "man_still");
-
+   */
+  
   // Load start level
   loadLevel("beach");
 }
@@ -75,19 +79,29 @@ Loader::createImage(ImagePart const &part, float x, float y, Resources *resource
 
 void
 Loader::loadLevel(string const &name) {
-  loadTmxMap(string("resources/maps/") + name + ".tmx");
-  
+  // Get resources
   Resources *resources = _em.getComponent<Resources>();
+  // Use Builder to create resources
+  CEntityBuilder eb("resources/entities.xml"); // File is hardcoded but this should be change
+  eb.parseResources( this, resources);
+  // Load map (tmx)
+  loadTmxMap(string("resources/maps/") + name + ".tmx");
+  // Use builder to create entities
+  eb.parseEntity   ( _em, resources);
+  
+  
   // Hard coded start level
   //createImage("map", -150, -250, resources);
-
-  createImage("pig", 210, 635, resources);
+  
+  //createImage("pig", 210, 635, resources);
+  
   // createImage("streetboy", 50, 350, resources);
   // createImage("mayor", 90, 350, resources);
   // createImage("princess", 130, 350, resources);
   // createImage("wizard", 170, 350, resources);
   // createImage("richard", 210, 350, resources);
-
+  
+  /*
   Entity *hero = _em.createEntity();
   hero->addComponent(new Transform(410, 620));
   hero->addComponent(new Animated("man_stand_down"));
@@ -95,7 +109,7 @@ Loader::loadLevel(string const &name) {
   hero->addComponent(new Scriptable("toto"));
   hero->addComponent(new Mobile());
   hero->addComponent(new Camera());
-  _em.tagEntity(hero, "HERO");
+  _em.tagEntity(hero, "HERO", true);
   _em.tagEntity(hero, "DummyTag");
   
   Entity *text = _em.createEntity();
@@ -106,6 +120,7 @@ Loader::loadLevel(string const &name) {
   text->addComponent(new Transform(235, 365));
   text->addComponent(resources->makeText("Press [ESC] to quit...", "sans_small"));
   _em.tagEntity(text, "LABEL");
+  */
 }
 
 void
@@ -119,8 +134,8 @@ Loader::loadTmxMap(string const &name) const {
     cout << "Map has error: " << map.GetErrorText() << endl;
   } else {
     cout << "Map: " << map.GetWidth() << "x" << map.GetTileWidth() << "px - " <<
-      map.GetHeight() << "x" << map.GetTileHeight() << "px" << endl;
-
+    map.GetHeight() << "x" << map.GetTileHeight() << "px" << endl;
+    
     // Load tilesets
     std::map<int, ImagePart> tilesetImages;
     for (int i = 0; i < map.GetNumTilesets(); ++i) {
@@ -135,8 +150,8 @@ Loader::loadTmxMap(string const &name) const {
       addImage(imageFile, resources); // Make sure to load the tileset image
       //tilesetImages[i] = imageFile;
       cout << "Tileset #" << i << " name='" << tileset->GetName() << "' " <<
-        imageFile << " " << tileset->GetTileWidth() << "x" << tileset->GetTileHeight() << endl;
-
+      imageFile << " " << tileset->GetTileWidth() << "x" << tileset->GetTileHeight() << endl;
+      
       int j = 0;
       for (int y = tileset->GetMargin(); y < tileset->GetImage()->GetHeight();
            y += tileset->GetTileHeight() + tileset->GetSpacing()) {
@@ -147,15 +162,15 @@ Loader::loadTmxMap(string const &name) const {
           tilesetImages[gid] = ImagePart(imageFile, x, y,
                                          tileset->GetTileWidth(), tileset->GetTileHeight());
           //cout << gid << " ";
-           // cout << "Tile #" << (tileset->GetFirstGid() + j) << ": " <<
-           //   x << "," << y << "-" << (x + tileset->GetTileWidth()) << "," <<
-           //   (y + tileset->GetTileHeight()) << endl;
+          // cout << "Tile #" << (tileset->GetFirstGid() + j) << ": " <<
+          //   x << "," << y << "-" << (x + tileset->GetTileWidth()) << "," <<
+          //   (y + tileset->GetTileHeight()) << endl;
           ++j;
         }
       }
       //cout << endl;
     }
-
+    
     // Load layers
     const int maxLayer = map.GetNumLayers();
     for (int i = 0; i < maxLayer; ++i) {

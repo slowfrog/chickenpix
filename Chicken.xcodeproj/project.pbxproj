@@ -19,7 +19,6 @@
 		5A0035C2158FCF6D00B483F8 /* Loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035AF158FCF6D00B483F8 /* Loader.cpp */; };
 		5A0035C3158FCF6D00B483F8 /* Mobile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035B1158FCF6D00B483F8 /* Mobile.cpp */; };
 		5A0035C4158FCF6D00B483F8 /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035B3158FCF6D00B483F8 /* Render.cpp */; };
-		5A0035C5158FCF6D00B483F8 /* Resource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035B5158FCF6D00B483F8 /* Resource.cpp */; };
 		5A0035C6158FCF6D00B483F8 /* System.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035B7158FCF6D00B483F8 /* System.cpp */; };
 		5A0035C7158FCF6D00B483F8 /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035B9158FCF6D00B483F8 /* Transform.cpp */; };
 		5A0035EB158FD2A300B483F8 /* smain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0035EA158FD2A300B483F8 /* smain.cpp */; };
@@ -30,6 +29,10 @@
 		5A0E1312159BA1A100B253AB /* Stats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E1311159BA1A100B253AB /* Stats.cpp */; };
 		5A0E14BA159BC3A900B253AB /* log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E14B8159BC3A900B253AB /* log.cpp */; };
 		5A0E14BD159BC3B800B253AB /* WrappedEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E14BB159BC3B800B253AB /* WrappedEntity.cpp */; };
+		5A13928A15A056C3009F373F /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A13928215A056C3009F373F /* Camera.cpp */; };
+		5A13928B15A056C3009F373F /* Movement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A13928415A056C3009F373F /* Movement.cpp */; };
+		5A13928C15A056C3009F373F /* PythonComponents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A13928615A056C3009F373F /* PythonComponents.cpp */; };
+		5A13928D15A056C3009F373F /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A13928815A056C3009F373F /* Utils.cpp */; };
 		5A22FC4315938DA100745D05 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A22FC4215938DA100745D05 /* Python.framework */; };
 		5A22FC551593902600745D05 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC4F1593902600745D05 /* tinystr.cpp */; };
 		5A22FC561593902600745D05 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC511593902600745D05 /* tinyxml.cpp */; };
@@ -49,6 +52,7 @@
 		5A22FC841593BA5F00745D05 /* TmxUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC761593BA5F00745D05 /* TmxUtil.cpp */; };
 		5A22FCA21593CD9000745D05 /* PythonTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FCA01593CD9000745D05 /* PythonTypes.cpp */; };
 		5A255475159CF3DC0032BBF8 /* TagEntityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A255473159CF3DC0032BBF8 /* TagEntityManager.cpp */; };
+		5A2554C5159CFD8B0032BBF8 /* EntityBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */; };
 		5A89202C1592817A0088CDE0 /* Scriptable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A8920281592817A0088CDE0 /* Scriptable.cpp */; };
 		5A89202D1592817A0088CDE0 /* Scripting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A89202A1592817A0088CDE0 /* Scripting.cpp */; };
 		5ADCACF11592692300E29849 /* SFMLResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACEC1592692300E29849 /* SFMLResources.cpp */; };
@@ -107,8 +111,6 @@
 		5A0035B2158FCF6D00B483F8 /* Mobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mobile.h; path = src/Mobile.h; sourceTree = "<group>"; };
 		5A0035B3158FCF6D00B483F8 /* Render.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Render.cpp; path = src/Render.cpp; sourceTree = "<group>"; };
 		5A0035B4158FCF6D00B483F8 /* Render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Render.h; path = src/Render.h; sourceTree = "<group>"; };
-		5A0035B5158FCF6D00B483F8 /* Resource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Resource.cpp; path = src/Resource.cpp; sourceTree = "<group>"; };
-		5A0035B6158FCF6D00B483F8 /* Resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Resource.h; path = src/Resource.h; sourceTree = "<group>"; };
 		5A0035B7158FCF6D00B483F8 /* System.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = System.cpp; path = src/System.cpp; sourceTree = "<group>"; };
 		5A0035B8158FCF6D00B483F8 /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = System.h; path = src/System.h; sourceTree = "<group>"; };
 		5A0035B9158FCF6D00B483F8 /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Transform.cpp; path = src/Transform.cpp; sourceTree = "<group>"; };
@@ -126,6 +128,14 @@
 		5A0E14B9159BC3A900B253AB /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = log.h; path = src/log.h; sourceTree = "<group>"; };
 		5A0E14BB159BC3B800B253AB /* WrappedEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WrappedEntity.cpp; path = src/WrappedEntity.cpp; sourceTree = "<group>"; };
 		5A0E14BC159BC3B800B253AB /* WrappedEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WrappedEntity.h; path = src/WrappedEntity.h; sourceTree = "<group>"; };
+		5A13928215A056C3009F373F /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera.cpp; path = src/Camera.cpp; sourceTree = "<group>"; };
+		5A13928315A056C3009F373F /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = src/Camera.h; sourceTree = "<group>"; };
+		5A13928415A056C3009F373F /* Movement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Movement.cpp; path = src/Movement.cpp; sourceTree = "<group>"; };
+		5A13928515A056C3009F373F /* Movement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Movement.h; path = src/Movement.h; sourceTree = "<group>"; };
+		5A13928615A056C3009F373F /* PythonComponents.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PythonComponents.cpp; path = src/PythonComponents.cpp; sourceTree = "<group>"; };
+		5A13928715A056C3009F373F /* PythonComponents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PythonComponents.h; path = src/PythonComponents.h; sourceTree = "<group>"; };
+		5A13928815A056C3009F373F /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utils.cpp; path = src/Utils.cpp; sourceTree = "<group>"; };
+		5A13928915A056C3009F373F /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = src/Utils.h; sourceTree = "<group>"; };
 		5A2186B115977D4F00FF7E57 /* variant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = variant.h; path = src/variant.h; sourceTree = "<group>"; };
 		5A22FC4215938DA100745D05 /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /System/Library/Frameworks/Python.framework; sourceTree = "<absolute>"; };
 		5A22FC4F1593902600745D05 /* tinystr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinystr.cpp; path = src/tinyxml/tinystr.cpp; sourceTree = "<group>"; };
@@ -166,6 +176,8 @@
 		5A255473159CF3DC0032BBF8 /* TagEntityManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TagEntityManager.cpp; path = src/TagEntityManager.cpp; sourceTree = "<group>"; };
 		5A255474159CF3DC0032BBF8 /* TagEntityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TagEntityManager.h; path = src/TagEntityManager.h; sourceTree = "<group>"; };
 		5A255486159CF55B0032BBF8 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Singleton.h; path = src/Singleton.h; sourceTree = "<group>"; };
+		5A2554C3159CFD8B0032BBF8 /* EntityBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EntityBuilder.h; path = src/EntityBuilder.h; sourceTree = "<group>"; };
+		5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityBuilder.cpp; path = src/EntityBuilder.cpp; sourceTree = "<group>"; };
 		5A2A2E851598DD8C009389E6 /* Stats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stats.h; path = src/Stats.h; sourceTree = "<group>"; };
 		5A8920281592817A0088CDE0 /* Scriptable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scriptable.cpp; path = src/Scriptable.cpp; sourceTree = "<group>"; };
 		5A8920291592817A0088CDE0 /* Scriptable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scriptable.h; path = src/Scriptable.h; sourceTree = "<group>"; };
@@ -209,12 +221,25 @@
 		5A00358D158FCF3900B483F8 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				5A13928215A056C3009F373F /* Camera.cpp */,
+				5A13928315A056C3009F373F /* Camera.h */,
+				5A13928415A056C3009F373F /* Movement.cpp */,
+				5A13928515A056C3009F373F /* Movement.h */,
+				5A13928615A056C3009F373F /* PythonComponents.cpp */,
+				5A13928715A056C3009F373F /* PythonComponents.h */,
+				5A13928815A056C3009F373F /* Utils.cpp */,
+				5A13928915A056C3009F373F /* Utils.h */,
 				5A255474159CF3DC0032BBF8 /* TagEntityManager.h */,
 				5A255473159CF3DC0032BBF8 /* TagEntityManager.cpp */,
+				5A0035AB158FCF6D00B483F8 /* EntityManager.h */,
+				5A0035AA158FCF6D00B483F8 /* EntityManager.cpp */,
+				5A0035A9158FCF6D00B483F8 /* Entity.h */,
+				5A0035A8158FCF6D00B483F8 /* Entity.cpp */,
 				5A0E14BB159BC3B800B253AB /* WrappedEntity.cpp */,
 				5A0E14BC159BC3B800B253AB /* WrappedEntity.h */,
 				5A0E1131159B72C700B253AB /* Animation.cpp */,
 				5A0E1132159B72C700B253AB /* Animation.h */,
+				5A0035A7158FCF6D00B483F8 /* ComponentRegistry.h */,
 				5A0E1133159B72C700B253AB /* ComponentRegistry.cpp */,
 				5A22FCA01593CD9000745D05 /* PythonTypes.cpp */,
 				5A22FCA11593CD9000745D05 /* PythonTypes.h */,
@@ -227,17 +252,11 @@
 				5ADCACF51592693A00E29849 /* Inputs.cpp */,
 				5ADCACF61592693A00E29849 /* Inputs.h */,
 				5ADCACF71592693A00E29849 /* Resources.cpp */,
-				5ADCACF81592693A00E29849 /* Resources.h */,
 				5ADCACF91592693A00E29849 /* VisualContext.h */,
 				5A0035A3158FCF6D00B483F8 /* Animated.cpp */,
 				5A0035A4158FCF6D00B483F8 /* Animated.h */,
 				5A0035A5158FCF6D00B483F8 /* Component.cpp */,
 				5A0035A6158FCF6D00B483F8 /* Component.h */,
-				5A0035A7158FCF6D00B483F8 /* ComponentRegistry.h */,
-				5A0035A8158FCF6D00B483F8 /* Entity.cpp */,
-				5A0035A9158FCF6D00B483F8 /* Entity.h */,
-				5A0035AA158FCF6D00B483F8 /* EntityManager.cpp */,
-				5A0035AB158FCF6D00B483F8 /* EntityManager.h */,
 				5A0035AC158FCF6D00B483F8 /* Image.h */,
 				5A0035AD158FCF6D00B483F8 /* Input.cpp */,
 				5A0035AE158FCF6D00B483F8 /* Input.h */,
@@ -247,8 +266,7 @@
 				5A0035B2158FCF6D00B483F8 /* Mobile.h */,
 				5A0035B3158FCF6D00B483F8 /* Render.cpp */,
 				5A0035B4158FCF6D00B483F8 /* Render.h */,
-				5A0035B5158FCF6D00B483F8 /* Resource.cpp */,
-				5A0035B6158FCF6D00B483F8 /* Resource.h */,
+				5ADCACF81592693A00E29849 /* Resources.h */,
 				5A0035B7158FCF6D00B483F8 /* System.cpp */,
 				5A0035B8158FCF6D00B483F8 /* System.h */,
 				5A0035B9158FCF6D00B483F8 /* Transform.cpp */,
@@ -332,6 +350,8 @@
 				5A0E14B9159BC3A900B253AB /* log.h */,
 				5A0E14B8159BC3A900B253AB /* log.cpp */,
 				5A255486159CF55B0032BBF8 /* Singleton.h */,
+				5A2554C3159CFD8B0032BBF8 /* EntityBuilder.h */,
+				5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -469,7 +489,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo delete ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\nif [ -d ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources ]; then   \n\trm -r ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources\nfi\n\necho create ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\nmkdir ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources \nmkdir ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\n\necho copy resources\ncp -R ./resources/* ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\n\n\n\n";
+			shellScript = "echo delete ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\nif [ -d ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources ]; then   \n\trm -r ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources\nfi\n\necho create ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\nmkdir ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources \nmkdir ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\n\necho copy resources\ncp -R ./resources/* ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\n\n#cp ./*.py ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources\n\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -490,7 +510,6 @@
 				5A0035C2158FCF6D00B483F8 /* Loader.cpp in Sources */,
 				5A0035C3158FCF6D00B483F8 /* Mobile.cpp in Sources */,
 				5A0035C4158FCF6D00B483F8 /* Render.cpp in Sources */,
-				5A0035C5158FCF6D00B483F8 /* Resource.cpp in Sources */,
 				5A0035C6158FCF6D00B483F8 /* System.cpp in Sources */,
 				5A0035C7158FCF6D00B483F8 /* Transform.cpp in Sources */,
 				5A0035EB158FD2A300B483F8 /* smain.cpp in Sources */,
@@ -526,6 +545,11 @@
 				5A0E14BA159BC3A900B253AB /* log.cpp in Sources */,
 				5A0E14BD159BC3B800B253AB /* WrappedEntity.cpp in Sources */,
 				5A255475159CF3DC0032BBF8 /* TagEntityManager.cpp in Sources */,
+				5A2554C5159CFD8B0032BBF8 /* EntityBuilder.cpp in Sources */,
+				5A13928A15A056C3009F373F /* Camera.cpp in Sources */,
+				5A13928B15A056C3009F373F /* Movement.cpp in Sources */,
+				5A13928C15A056C3009F373F /* PythonComponents.cpp in Sources */,
+				5A13928D15A056C3009F373F /* Utils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
