@@ -5,6 +5,7 @@
 #include "PythonTypes.h"
 #include "WrappedEntity.h"
 #include "EntityManager.h"
+#include "TagEntityManager.h"
 
 // EntityManager wrapper
 typedef struct {
@@ -165,7 +166,7 @@ Entity_getComponents(PyEntity *self) {
 static PyObject *
 Entity_getTags(PyEntity *self) {
   Entity *entity = self->wentity;
-  vector<string> const &tags = entity->getTags();
+  vector<string> const &tags = CTagEntityMng::get()->getTagsByEntity( entity->getId());/*entity->getTags();*/
   int size = tags.size();
   PyObject *ret = PyList_New(size);
   for (int i = 0; i < size; ++i) {

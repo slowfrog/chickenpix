@@ -9,8 +9,8 @@ class Entity {
   friend class EntityManager;
   
 public:
-  typedef unsigned int Id;
-  typedef unsigned int Type;
+  typedef unsigned long Id;
+  typedef unsigned int  Type;
   
   static const Type TYPE; // = 1
   
@@ -20,7 +20,7 @@ private:
   Id _id;
   Type _type;
   vector<Component *> comp;
-  vector<string> tags;
+  //vector<string> tags;
   
 public:
 
@@ -50,11 +50,11 @@ public:
   bool hasComponent(Component::Type t) const;
   bool hasComponents(Component::Type t1, Component::Type t2) const;
 
-  bool hasTag(string const &tag) const;
+  /*bool hasTag(string const &tag) const;
   inline
   vector<string> const &getTags() const {
     return tags;
-  }
+  }*/
 
   inline
   static bool isInstance(Entity *entity) {
@@ -67,8 +67,8 @@ public:
   
 protected:
   Entity(Entity const &src, Type type);
-  void addTag(string const &tag);
-  void removeTag(string const &tag);
+  //void addTag(string const &tag);
+  //void removeTag(string const &tag);
 };
 
 template<class T>

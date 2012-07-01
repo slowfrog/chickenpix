@@ -5,10 +5,11 @@
 #include "Input.h"
 #include "Resources.h"
 #include "Scriptable.h"
+#include "EntityBuilder.h"
 
 
 Loader::Loader(string const &name, EntityManager &em, string const &resourceFile):
-  System(name, em), resourceFile(resourceFile) {
+  System(name, em), resourceFile(resourceFile){
 }
 
 Loader::~Loader() {
@@ -20,6 +21,11 @@ Loader::init() {
   initResources();
   
   Resources *resources = _em.getComponent<Resources>();
+  CEntityBuilder eb( "./resources/entities.xml");
+  eb.parseResources(this, resources);
+  
+  eb.parseEntity(_em, resources);
+  /*
   addImage("resources/img/map.png", resources, "map");
   addImage("resources/img/cochon.png", resources, "pig");
   addImage("resources/img/garcon_des_rues.png", resources, "streetboy");
@@ -36,6 +42,7 @@ Loader::init() {
   addSprite("sprites/walk_down", resources, "man_walk_down");
   addSprite("sprites/walk_right", resources, "man_walk_right");
   addSprite("sprites/wait", resources, "man_still");
+  */
 
   // Load start level
   loadLevel("start");
@@ -58,6 +65,7 @@ Loader::createImage(string const &name, float x, float y, Resources *resources) 
 
 void
 Loader::loadLevel(string const &name) {
+  /*
   Resources *resources = _em.getComponent<Resources>();
   // Hard coded start level
   createImage("map", -150, -250, resources);
@@ -85,6 +93,7 @@ Loader::loadLevel(string const &name) {
   text->addComponent(new Transform(5, 10));
   text->addComponent(resources->makeText("Press [ESC] to quit...", "sans_small"));
   _em.tagEntity(text, "LABEL");
+   */
 }
 
 string

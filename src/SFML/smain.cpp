@@ -9,10 +9,14 @@
 #include "SFMLLoader.h"
 #include "SFMLRender.h"
 
+#include "../EntityBuilder.h"
+
+#include <unistd.h>
 
 using namespace std;
 
 int main(int argc, char const *argv[]) {
+  try{
   // init log
   ILog::setLogger( new CLogOutput, LEVEL_DEBUG);
   
@@ -27,16 +31,25 @@ int main(int argc, char const *argv[]) {
   
   CTagEntityMng::get()->registerTag(20, "Frog");
   CTagEntityMng::get()->registerTag(20, "little");
+  CTagEntityMng::get()->registerTag(20, "Jump");
   
   LOG2<< "Entity: "<<CTagEntityMng::get()->getEntityByTag( "Hero") <<"\n";
-  LOG2<< "Entity: "<<CTagEntityMng::get()->getFirstEntitiesByTag( "Bat") <<"\n";
+  LOG2<< "Entity: "<<CTagEntityMng::get()->getFirstEntityByTag( "Bat") <<"\n";
   
   CTagEntityMng::TCollectionIdEntity v = CTagEntityMng::get()->getEntitiesByTag("Bat");
   for(int i=0; i< v.size(); i++)
     LOG2<<"Entity : "<<v[i]<<"\n";
   
+  CTagEntityMng::TCollectionTag vt = CTagEntityMng::get()->getTagsByEntity( 20);
+  for(int i=0; i< vt.size(); i++)
+    LOG2<<"Tag(s) : "<<vt[i]<<"\n";
+  
   // Init
   EntityManager em("SFML-main");
+  
+  //CEntityBuilder eb("./resources/entities.xml");
+  //eb.BuildEntities();
+  
   SFMLRender sfrender("SFMLRender", em);
   sfrender.init();
   Animation anim("Animation", em);
@@ -77,6 +90,16 @@ int main(int argc, char const *argv[]) {
   sfinputs.exit();
   anim.exit();
   sfrender.exit();
+  }
+  catch (const std::string &msg) {
+    LOG2<<"*** Exception with message : "<<msg<<" ***\n";
+  }
+  catch (int n) {
+    LOG2<<"*** Exception with number : "<<n<<" ***\n";
+  }
+  catch (...) {
+    LOG2<<"*** Unknown exception ***\n";
+  }
 
   // Exit
   

@@ -3,10 +3,11 @@
 #include "Resources.h"
 #include "System.h"
 #include "VisualContext.h"
+#include "EntityBuilder.h"
 
 class Loader: public System {
 protected:
-  string resourceFile;
+  string          resourceFile;
 public:
   Loader(string const &name, EntityManager &em, string const &resourceFile);
   virtual ~Loader();

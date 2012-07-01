@@ -1,8 +1,10 @@
 #include <sstream>
+#include "TagEntityManager.h"
 #include "EntityManager.h"
 
 EntityManager::EntityManager(string const &name):
   _name(name), _entities(1) {
+    CTagEntityMng::get()->resetTagCollection();
 }
 
 EntityManager::~EntityManager() {
@@ -66,28 +68,6 @@ EntityManager::replaceEntity(Entity::Id id, Entity *replacement) {
   _entities[id] = replacement;
 }
 
-void
-EntityManager::tagEntity(Entity *entity, string const &tag) {
-  if (!entity->hasTag(tag)) {
-    _tags[tag].push_back(entity->getId());
-    entity->addTag(tag);
-  }
-}
-
-void
-EntityManager::untagEntity(Entity *entity, string const &tag) {
-  if (entity->hasTag(tag)) {
-    entity->removeTag(tag);
-    vector<Entity::Id> *etags = &_tags[tag];
-    for (vector<Entity::Id>::iterator it = etags->begin(); it < etags->end(); it++) {
-      if (entity->getId() == *it) {
-        etags->erase(it);
-        return;
-      }
-    }
-  }
-}
-
 vector<Entity *>
 EntityManager::getEntities(Component::Type t) {
   vector<Entity *> ret;
@@ -135,15 +115,54 @@ EntityManager::getEntity(Component::Type t) {
   return NULL;
 }
 
+void
+EntityManager::tagEntity(Entity *entity, string const &tag, const bool unique) {
+  CTagEntityMng::get()->registerTag( entity->getId(), tag, unique);
+  /*
+  if (!entity->hasTag(tag)) {
+    _tags[tag].push_back(entity->getId());
+    entity->addTag(tag);
+  }
+   */
+}
+
+void
+EntityManager::untagEntity(Entity *entity, string const &tag, const bool unique) {
+  CTagEntityMng::get()->unregisterTag( tag, unique);
+  /*
+  if (entity->hasTag(tag)) {
+    entity->removeTag(tag);
+    vector<Entity::Id> *etags = &_tags[tag];
+    for (vector<Entity::Id>::iterator it = etags->begin(); it < etags->end(); it++) {
+      if (entity->getId() == *it) {
+        etags->erase(it);
+        return;
+      }
+    }
+  }*/
+}
+
 vector<Entity::Id> const &
 EntityManager::getByTag(string const &tag) {
-  return _tags[tag];
+  return CTagEntityMng::get()->getEntitiesByTag( tag);
+  //return _tags[tag];
 }
 
 Entity::Id
 EntityManager::getFirstByTag(string const &tag) {
+  // Search first in the map of unique tag, 
+  // if not found look in the other map 
+  Entity::Id l_id = CTagEntityMng::get()->getEntityByTag( tag);
+  if ( l_id >= 0){
+    return l_id;
+  }
+  else {
+    return CTagEntityMng::get()->getFirstEntityByTag( tag);
+  }
+  /*
   vector<Entity::Id> const &allByTag = getByTag(tag);
   return allByTag.empty() ? NULL : allByTag[0];
+   */
 }
 
 string

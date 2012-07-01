@@ -49,6 +49,7 @@
 		5A22FC841593BA5F00745D05 /* TmxUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FC761593BA5F00745D05 /* TmxUtil.cpp */; };
 		5A22FCA21593CD9000745D05 /* PythonTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FCA01593CD9000745D05 /* PythonTypes.cpp */; };
 		5A255475159CF3DC0032BBF8 /* TagEntityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A255473159CF3DC0032BBF8 /* TagEntityManager.cpp */; };
+		5A2554C5159CFD8B0032BBF8 /* EntityBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */; };
 		5A89202C1592817A0088CDE0 /* Scriptable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A8920281592817A0088CDE0 /* Scriptable.cpp */; };
 		5A89202D1592817A0088CDE0 /* Scripting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A89202A1592817A0088CDE0 /* Scripting.cpp */; };
 		5ADCACF11592692300E29849 /* SFMLResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACEC1592692300E29849 /* SFMLResources.cpp */; };
@@ -166,6 +167,8 @@
 		5A255473159CF3DC0032BBF8 /* TagEntityManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TagEntityManager.cpp; path = src/TagEntityManager.cpp; sourceTree = "<group>"; };
 		5A255474159CF3DC0032BBF8 /* TagEntityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TagEntityManager.h; path = src/TagEntityManager.h; sourceTree = "<group>"; };
 		5A255486159CF55B0032BBF8 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Singleton.h; path = src/Singleton.h; sourceTree = "<group>"; };
+		5A2554C3159CFD8B0032BBF8 /* EntityBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EntityBuilder.h; path = src/EntityBuilder.h; sourceTree = "<group>"; };
+		5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityBuilder.cpp; path = src/EntityBuilder.cpp; sourceTree = "<group>"; };
 		5A2A2E851598DD8C009389E6 /* Stats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stats.h; path = src/Stats.h; sourceTree = "<group>"; };
 		5A8920281592817A0088CDE0 /* Scriptable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scriptable.cpp; path = src/Scriptable.cpp; sourceTree = "<group>"; };
 		5A8920291592817A0088CDE0 /* Scriptable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scriptable.h; path = src/Scriptable.h; sourceTree = "<group>"; };
@@ -211,10 +214,15 @@
 			children = (
 				5A255474159CF3DC0032BBF8 /* TagEntityManager.h */,
 				5A255473159CF3DC0032BBF8 /* TagEntityManager.cpp */,
+				5A0035AB158FCF6D00B483F8 /* EntityManager.h */,
+				5A0035AA158FCF6D00B483F8 /* EntityManager.cpp */,
+				5A0035A9158FCF6D00B483F8 /* Entity.h */,
+				5A0035A8158FCF6D00B483F8 /* Entity.cpp */,
 				5A0E14BB159BC3B800B253AB /* WrappedEntity.cpp */,
 				5A0E14BC159BC3B800B253AB /* WrappedEntity.h */,
 				5A0E1131159B72C700B253AB /* Animation.cpp */,
 				5A0E1132159B72C700B253AB /* Animation.h */,
+				5A0035A7158FCF6D00B483F8 /* ComponentRegistry.h */,
 				5A0E1133159B72C700B253AB /* ComponentRegistry.cpp */,
 				5A22FCA01593CD9000745D05 /* PythonTypes.cpp */,
 				5A22FCA11593CD9000745D05 /* PythonTypes.h */,
@@ -227,17 +235,11 @@
 				5ADCACF51592693A00E29849 /* Inputs.cpp */,
 				5ADCACF61592693A00E29849 /* Inputs.h */,
 				5ADCACF71592693A00E29849 /* Resources.cpp */,
-				5ADCACF81592693A00E29849 /* Resources.h */,
 				5ADCACF91592693A00E29849 /* VisualContext.h */,
 				5A0035A3158FCF6D00B483F8 /* Animated.cpp */,
 				5A0035A4158FCF6D00B483F8 /* Animated.h */,
 				5A0035A5158FCF6D00B483F8 /* Component.cpp */,
 				5A0035A6158FCF6D00B483F8 /* Component.h */,
-				5A0035A7158FCF6D00B483F8 /* ComponentRegistry.h */,
-				5A0035A8158FCF6D00B483F8 /* Entity.cpp */,
-				5A0035A9158FCF6D00B483F8 /* Entity.h */,
-				5A0035AA158FCF6D00B483F8 /* EntityManager.cpp */,
-				5A0035AB158FCF6D00B483F8 /* EntityManager.h */,
 				5A0035AC158FCF6D00B483F8 /* Image.h */,
 				5A0035AD158FCF6D00B483F8 /* Input.cpp */,
 				5A0035AE158FCF6D00B483F8 /* Input.h */,
@@ -247,6 +249,7 @@
 				5A0035B2158FCF6D00B483F8 /* Mobile.h */,
 				5A0035B3158FCF6D00B483F8 /* Render.cpp */,
 				5A0035B4158FCF6D00B483F8 /* Render.h */,
+				5ADCACF81592693A00E29849 /* Resources.h */,
 				5A0035B5158FCF6D00B483F8 /* Resource.cpp */,
 				5A0035B6158FCF6D00B483F8 /* Resource.h */,
 				5A0035B7158FCF6D00B483F8 /* System.cpp */,
@@ -332,6 +335,8 @@
 				5A0E14B9159BC3A900B253AB /* log.h */,
 				5A0E14B8159BC3A900B253AB /* log.cpp */,
 				5A255486159CF55B0032BBF8 /* Singleton.h */,
+				5A2554C3159CFD8B0032BBF8 /* EntityBuilder.h */,
+				5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -469,7 +474,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo delete ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\nif [ -d ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources ]; then   \n\trm -r ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources\nfi\n\necho create ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\nmkdir ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources \nmkdir ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\n\necho copy resources\ncp -R ./resources/* ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\n\n\n\n";
+			shellScript = "echo delete ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\nif [ -d ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources ]; then   \n\trm -r ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources\nfi\n\necho create ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\nmkdir ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources \nmkdir ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\n\necho copy resources\ncp -R ./resources/* ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources/resources\n\ncp ./*.py ../Bin/build/${CONFIGURATION}/${EXECUTABLE_NAME}.app/Contents/resources\n\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -526,6 +531,7 @@
 				5A0E14BA159BC3A900B253AB /* log.cpp in Sources */,
 				5A0E14BD159BC3B800B253AB /* WrappedEntity.cpp in Sources */,
 				5A255475159CF3DC0032BBF8 /* TagEntityManager.cpp in Sources */,
+				5A2554C5159CFD8B0032BBF8 /* EntityBuilder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

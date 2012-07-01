@@ -13,11 +13,11 @@ Entity::Entity(Id id):
 }
 
 Entity::Entity(Entity const &src):
-  _id(src._id), _type(src._type), comp(src.comp), tags(src.tags) {
+  _id(src._id), _type(src._type), comp(src.comp)/*, tags(src.tags)*/ {
 }
 
 Entity::Entity(Entity const &src, Type type):
-  _id(src._id), _type(type), comp(src.comp), tags(src.tags) {
+  _id(src._id), _type(type), comp(src.comp)/*, tags(src.tags)*/ {
 }
 
 Entity::~Entity() {
@@ -69,7 +69,7 @@ Entity::hasComponents(Component::Type t1, Component::Type t2) const {
   return hasComponent(t1) && hasComponent(t2);
 }
 
-
+/*
 bool
 Entity::hasTag(string const &tag) const {
   for (vector<string>::const_iterator it = tags.begin(); it < tags.end(); it++) {
@@ -96,6 +96,7 @@ Entity::removeTag(string const &tag) {
     }
   }
 }
+ */
 
 void
 Entity::releaseComponents() {
