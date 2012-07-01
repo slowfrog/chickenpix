@@ -38,11 +38,11 @@ int main(int argc, char const *argv[]) {
     LOG2<< "Entity: "<<CTagEntityMng::get()->getFirstEntityByTag( "Bat") <<"\n";
     
     CTagEntityMng::TCollectionIdEntity v = CTagEntityMng::get()->getEntitiesByTag("Bat");
-    for(int i=0; i< v.size(); i++)
+    for(unsigned int i=0; i< v.size(); i++)
       LOG2<<"Entity : "<<v[i]<<"\n";
     
     CTagEntityMng::TCollectionTag vt = CTagEntityMng::get()->getTagsByEntity( 20);
-    for(int i=0; i< vt.size(); i++)
+    for(unsigned int i=0; i< vt.size(); i++)
       LOG2<<"Tag(s) : "<<vt[i]<<"\n";
     
     // Init

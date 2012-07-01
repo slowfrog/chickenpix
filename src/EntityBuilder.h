@@ -66,7 +66,7 @@ protected:
   
 private:
   // not allowed
-  CEntityBuilder operator=(const CEntityBuilder&){}
+  CEntityBuilder operator=(const CEntityBuilder&){return *this;}
   
 private:
   //EntityManager &mEM;

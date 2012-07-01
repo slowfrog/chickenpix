@@ -15,7 +15,7 @@ typedef CCharacter  CFighter;
  State for fight round
  */
 /****************************************************************/
-/* CRoundInit : interface
+/* CRoundInit : interface                                       */
 /****************************************************************/
 class IRoundState {
 public:
@@ -31,7 +31,7 @@ public:
 };
 
 /****************************************************************/
-/* CRoundInit
+/* CRoundInit                                                   */
 /****************************************************************/
 class CRoundInit : public IRoundState {
 public:
@@ -41,7 +41,7 @@ public:
 };
 
 /****************************************************************/
-/* CRoundPrepare
+/* CRoundPrepare                                                */
 /****************************************************************/
 class CRoundPrepare : public IRoundState {
 public:
@@ -54,7 +54,7 @@ public:
 };
 
 /****************************************************************/
-/* CRoundFight
+/* CRoundFight                                                  */
 /****************************************************************/
 class CRoundFight : public IRoundState {
 public:    
@@ -64,7 +64,7 @@ public:
 };
 
 /****************************************************************/
-/* CRoundFinish
+/* CRoundFinish                                                 */
 /****************************************************************/
 class CRoundFinish : public IRoundState {
 public:
@@ -72,7 +72,7 @@ public:
 };
 
 /****************************************************************/
-/* CFightEngine
+/* CFightEngine                                                 */
 /****************************************************************/
 class CFightEngine /*: public system*/{
   friend class CRoundInit;
