@@ -32,7 +32,7 @@ Scripting::init() {
   PyObject *path;
   sys_path = PySys_GetObject((char *)"path");
   if (sys_path) {
-    path = PyString_FromString(".");
+    path = PyString_FromString("resources/scripts");
     if (PyList_Append(sys_path, path) < 0) {
       cout << "Could not append to path" << endl;
     }

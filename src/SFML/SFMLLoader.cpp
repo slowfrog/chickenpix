@@ -5,6 +5,7 @@
 
 #include "../tinyxml/tinyxml.h"
 
+#include "../Utils.h"
 #include "SFMLLoader.h"
 #include "../Animated.h"
 #include "../Input.h"
@@ -21,16 +22,6 @@ splitXY(string const &str, int *res) {
   size_t pos = str.find(",");
   res[0] = atoi(str.substr(0, pos).c_str());
   res[1] = atoi(str.substr(pos + 1).c_str());
-}
-
-static string
-getDirectory(string const &str) {
-  size_t pos = str.rfind("/");
-  if (pos == string::npos) {
-    return str;
-  } else {
-    return str.substr(0, pos);
-  }
 }
 
 static string YES = "yes";
@@ -54,7 +45,7 @@ SFMLLoader::initResources() {
 }
 
 void
-SFMLLoader::addImage(string const &path, Resources *resources, string const &alias) {
+SFMLLoader::addImage(string const &path, Resources *resources, string const &alias) const {
   sf::Image *img = new sf::Image();
   if (!img->LoadFromFile(path)) {
     cerr << "Error loading image: " << path << endl;
@@ -147,8 +138,8 @@ SFMLLoader::loadSpriteFromXML(string const &directory, TiXmlDocument *doc, strin
     int i = 0;
     for (int y = 0; y < array[1]; ++y) {
       for (int x = 0; x < array[0]; ++x) {
-        frames[i].part.x = pos[0] + size[0] * x;
-        frames[i].part.y = pos[1] + size[1] * y;
+        frames[i].rect.x = pos[0] + size[0] * x;
+        frames[i].rect.y = pos[1] + size[1] * y;
         ++i;
       }
     }

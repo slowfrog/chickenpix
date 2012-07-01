@@ -64,6 +64,9 @@ namespace Tmx
 		// Returns the name of the tileset.
 		const std::string &GetName() const { return name; }
 
+        // Returns the source of the tileset, in case it's in an external tsx file.
+		const std::string &GetSource() const { return source; }
+
 		// Get the width of a single tile.
 		int GetTileWidth() const { return tile_width; } 
 
@@ -99,6 +102,7 @@ namespace Tmx
 		int first_gid;
 		
 		std::string name;
+        std::string source;
 		
 		int tile_width;
 		int tile_height;

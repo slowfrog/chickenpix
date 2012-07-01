@@ -27,10 +27,16 @@ CLLoader::initResources() {
 }
 
 void
-CLLoader::addImage(string const &path, Resources *resources, string const &alias) {
+CLLoader::addImage(string const &path, Resources *resources, string const &alias) const {
   VisualContext &vc = resources->getVisualContext();
   CL_GraphicContext &gc = ((CLVisualContext &) vc).getGraphicContext();
-  CL_Image *img = new CL_Image(gc, path);
+  CL_Image *img;
+  try {
+    img = new CL_Image(gc, path);
+  } catch (CL_Exception e) {
+    cerr << "Error building CL_Image: " << e.what() << endl;
+    return;
+  }
   resources->setImage(path, new CLResImage(img));
   if (alias.size() > 0) {
     resources->setImage(alias, new CLResImage(img));
@@ -40,13 +46,21 @@ CLLoader::addImage(string const &path, Resources *resources, string const &alias
 void
 CLLoader::addImage(CL_GraphicContext &gc, string const &path, CL_ResourceManager *clresources,
                    Resources *resources, string const &name) {
-  resources->setImage(name, new CLResImage(new CL_Image(gc, path, clresources)));
+  try {
+    resources->setImage(name, new CLResImage(new CL_Image(gc, path, clresources)));
+  } catch (CL_Exception e) {
+    cerr << "Error building CL_Image: " << e.what() << endl;
+  }
 }
 
 void
 CLLoader::addSprite(CL_GraphicContext &gc, string const &path, CL_ResourceManager *clresources,
                     Resources *resources, string const &name) {
-  resources->setSprite(name, new CLResSprite(new CL_Sprite(gc, path, clresources)));
+  try {
+    resources->setSprite(name, new CLResSprite(new CL_Sprite(gc, path, clresources)));
+  } catch (CL_Exception e) {
+    cerr << "Error building CL_Sprite: " << e.what() << endl;
+  }
 }
 
 void
@@ -57,7 +71,14 @@ CLLoader::addFont(string const &path, int size, Resources *resources, string con
   desc.set_height(realSize);
   desc.set_anti_alias(true);
   desc.set_subpixel(false);
-  CL_Font_Freetype *font = new CL_Font_Freetype(desc);
+  CL_Font_Freetype *font;
+  try {
+    font = new CL_Font_Freetype(desc);
+  } catch (CL_Exception e) {
+    cerr << "Error building CL_Font: " << e.what() << endl;
+    return;
+  }
+    
   resources->setFont(path, new CLResFont(font));
   if (alias.length() > 0) {
     resources->setFont(alias, new CLResFont(font));
@@ -67,7 +88,11 @@ CLLoader::addFont(string const &path, int size, Resources *resources, string con
 void
 CLLoader::addFont(string const &path, CL_ResourceManager *clresources,
                   Resources *resources, string const &name) {
-  resources->setFont(name, new CLResFont(new CL_Font_Freetype(path, clresources)));
+  try {
+    resources->setFont(name, new CLResFont(new CL_Font_Freetype(path, clresources)));
+  } catch (CL_Exception e) {
+    cerr << "Error building CL_Font: " << e.what() << endl;
+  }
 }
 
 void
