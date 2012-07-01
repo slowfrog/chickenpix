@@ -34,8 +34,10 @@ def update(self, manager):
         print("t={%f,%f}" % (t.x, t.y))
     if self.times > 60 and self.times < 180:
         t = self.getComponent(cp.Transform.TYPE)
-        t.x += 1
-        t.y += 1
+        t.moveBy(5, 5)
         c = self.getComponent(cp.Camera.TYPE)
         c.offsetX = random.randint(-20, 20)
         c.offsetY = random.randint(-20, 20)
+    if self.times == 180:
+        t = self.getComponent(cp.Transform.TYPE)
+        t.moveTo(0, 0)

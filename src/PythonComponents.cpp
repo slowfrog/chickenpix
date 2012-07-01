@@ -72,7 +72,41 @@ static PyGetSetDef Transform_getset[] = {
   { NULL, NULL }
 };
 
-// Camera type and methods
+static
+PyObject *Transform_moveTo(PyTransform *self, PyObject *args) {
+  Transform *t = (Transform *) self->component;
+  float x, y;
+  if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+  } else {
+    t->moveTo(x, y);
+  }
+  return Py_None;
+}
+
+static
+PyObject *Transform_moveBy(PyTransform *self, PyObject *args) {
+  Transform *t = (Transform *) self->component;
+  float x, y;
+  if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+  } else {
+    t->moveBy(x, y);
+  }
+  return Py_None;
+}
+
+static PyMethodDef Transform_methods[] = {
+  {"moveTo", (PyCFunction) Transform_moveTo, METH_VARARGS, "Move to a defined position"},
+  {"moveBy", (PyCFunction) Transform_moveBy, METH_VARARGS, "Move by a defined displacement"},
+  {NULL} /* End of list */
+};
+
+// Camera type and methods -------------------------------------------------------------------
 static PyTypeObject PyCameraType = {
   PyObject_HEAD_INIT(NULL)
   0,
@@ -133,6 +167,7 @@ static PyGetSetDef Camera_getset[] = {
   { NULL, NULL }
 };
 
+// Real initialization -----------------------------------------------------------------------
 void
 initComponents(PyObject *module) {
   PyObject *type;
@@ -140,7 +175,7 @@ initComponents(PyObject *module) {
   // Transform
   PyTransformType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
   PyTransformType.tp_doc = "Type of transform components";
-  //PyTransformType.tp_methods = XXXX
+  PyTransformType.tp_methods = Transform_methods;
   PyTransformType.tp_base = &PyComponentType;
   PyTransformType.tp_init = (initproc) Transform_init;
   PyTransformType.tp_getset = Transform_getset;
@@ -157,7 +192,7 @@ initComponents(PyObject *module) {
   // Camera
   PyCameraType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
   PyCameraType.tp_doc = "Type of camera components";
-  //PyCameraType.tp_methods = XXXX
+  //PyCameraType.tp_methods = XXX
   PyCameraType.tp_base = &PyComponentType;
   PyCameraType.tp_init = (initproc) Camera_init;
   PyCameraType.tp_getset = Camera_getset;
