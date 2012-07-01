@@ -269,7 +269,7 @@ CEntityBuilder::buildTransform (TiXmlElement *pNode, Entity* e, Resources *pReso
     int x(0), y(0);
     if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "x", &x) && 
         TIXML_SUCCESS == pChar->QueryValueAttribute( "y", &y) ) {
-      e->addComponent(new Transform(x, y));
+      e->addComponent(new Transform((float) x, (float) y));
       return;
     }
   }

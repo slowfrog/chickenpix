@@ -18,8 +18,9 @@ WrappedEntity::wrap(EntityManager &em, Entity *entity) {
 }
 
 WrappedEntity::WrappedEntity(Entity &src):
-  Entity(src, TYPE), _wrapper(wrapEntity(this)), _dict(NULL) {
+  Entity(src, TYPE), _wrapper(NULL), _dict(NULL) {
   
+  _wrapper = wrapEntity(this);
   src.releaseComponents(); // If we don't release them, they will be destroyed when the source entity
                            // is deleted
 }

@@ -5,7 +5,7 @@
 
 SFMLVisualText::SFMLVisualText(string const &text, sf::Font &font, sf::Color const &color):
   str_(text), font_(font), color_(color) {
-  str_.SetSize(font_.GetCharacterSize());
+  str_.SetSize((float) font_.GetCharacterSize());
   str_.SetFont(font_);
   str_.SetColor(color_);
 }

@@ -16,7 +16,8 @@ void
 CLVisualImage::draw(VisualContext &vc, float x, float y, int delta) {
   CL_GraphicContext &gc = ((CLVisualContext &)vc).getGraphicContext();
   if (rect_.isValid()) {
-    image_.draw(gc, CL_Rectf(rect_.x, rect_.y, rect_.x + rect_.w, rect_.y + rect_.h),
+    image_.draw(gc, CL_Rectf((float) rect_.x, (float) rect_.y, 
+                             (float) rect_.x + rect_.w, (float) rect_.y + rect_.h),
                CL_Rectf(x, y, x + rect_.w, y + rect_.h));
   } else {
     image_.draw(gc, x, y);

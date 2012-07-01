@@ -190,7 +190,7 @@ Loader::loadTmxMap(string const &name) const {
             const Tmx::Tileset *tileset = map.GetTileset(tile.tilesetId);
             // cout << tile.tilesetId << "|" << tileset->GetFirstGid() + tile.id << " ";
             createImage(tilesetImages[tileset->GetFirstGid() + tile.id],
-                        x * map.GetTileWidth(), y * map.GetTileHeight(), resources);
+                        (float) x * map.GetTileWidth(), (float) y * map.GetTileHeight(), resources);
           }
           // cout << "]" << endl;
         }

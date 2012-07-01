@@ -12,7 +12,9 @@
 
 #include "../EntityBuilder.h"
 
+#ifndef _WINDOWS_
 #include <unistd.h>
+#endif
 
 using namespace std;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tinyxml.h"
+#include "tinyxml/tinyxml.h"
 #include "Resources.h"
 #include "EntityManager.h"
 
