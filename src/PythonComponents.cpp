@@ -85,6 +85,7 @@ PyObject *Transform_moveTo(PyTransform *self, PyObject *args) {
   } else {
     t->moveTo(x, y);
   }
+  Py_INCREF(Py_None);
   return Py_None;
 }
 
@@ -99,6 +100,7 @@ PyObject *Transform_moveBy(PyTransform *self, PyObject *args) {
   } else {
     t->moveBy(x, y);
   }
+  Py_INCREF(Py_None);
   return Py_None;
 }
 

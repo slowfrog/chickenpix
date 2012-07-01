@@ -1,13 +1,15 @@
 import random
+import time
 import cp
 
 def init(self, manager):
     """This method is called on an entity only once, before any call to update"""
     self.times = -1
+    self.start = time.time()
+    print("start=%f" % time.time())
 
 def update(self, manager):
     """This method is called for each engine update"""
-    self.x = 666
     self.times += 1
     if self.times == 0:
         print("TOTO: My id is %d and I have %d components: %s" %
@@ -17,7 +19,7 @@ def update(self, manager):
         entities = manager.getEntities(cp.Transform.TYPE) #, cp.Visual)
         print("My tags are [%s]" % ", ".join(self.getTags()))
         print("There are %d Transform entities" % len(entities))
-        print("x=%s" % self.getDict()["x"])
+        print("dict=%s" % self.getDict())
     if self.times < 3:
         labels = manager.getByTag("LABEL")
         print("There are %d entities tagged LABEL" % len(labels))
@@ -38,7 +40,7 @@ def update(self, manager):
         #t = self.getComponent(cp.Transform.TYPE)
         #t.moveBy(5, 5)
         m = self.getComponent(cp.Mobile.TYPE)
-        m.speed = (-10, 5)
+        m.speed = (5, 5)
         c = self.getComponent(cp.Camera.TYPE)
         c.offsetX = random.randint(-20, 20)
         c.offsetY = random.randint(-20, 20)
@@ -48,3 +50,5 @@ def update(self, manager):
     if self.times == 240:
         self.removeComponent(cp.Transform.TYPE)
         self.addComponent(cp.Transform(100, 100))
+        diffclock = time.time() - self.start
+        print("240 frames in %f sec: %f FPS" % (diffclock, 240 / diffclock))
