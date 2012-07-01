@@ -89,7 +89,10 @@ Loader::loadLevel(string const &name) {
     loadTmxMap(string("resources/maps/") + name + ".tmx");
     // Use builder to create entities
     eb.parseEntity   ( _em, resources);
+  }else {
+    throw "xml desc file for entities is missing";
   }
+
   
   
   // Hard coded start level
