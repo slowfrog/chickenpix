@@ -1,14 +1,21 @@
+import random
 import cp
 
 def init(self, manager):
     """This method is called on an entity only once, before any call to update"""
     self.times = -1
 
-def getTransform(self):
+def getComponent(self, ctype):
     comps = self.getComponents()
     for comp in comps:
-        if comp.type() == cp.Transform.TYPE:
+        if comp.type() == ctype:
             return comp
+        
+def getTransform(self):
+    return getComponent(self, cp.Transform.TYPE)
+    
+def getCamera(self):
+    return getComponent(self, cp.Camera.TYPE)
     
 def update(self, manager):
     """This method is called for each engine update"""
@@ -37,7 +44,10 @@ def update(self, manager):
         t.x = 3.2
         t.y = -3
         print("t={%f,%f}" % (t.x, t.y))
-    if self.times > 3:
+    if self.times > 60 and self.times < 180:
         t = getTransform(self)
         t.x += 1
         t.y += 1
+        c = getCamera(self)
+        c.offsetX = random.randint(-20, 20)
+        c.offsetY = random.randint(-20, 20)

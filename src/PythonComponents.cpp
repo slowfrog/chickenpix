@@ -1,9 +1,15 @@
 #include <Python.h>
 #include "log.h"
 #include "PythonComponents.h"
+#include "Camera.h"
 #include "Transform.h"
 
-using namespace std;
+static PyObject *NO_ARGS = PyTuple_New(0);
+static PyObject *NO_KWDS = PyDict_New();
+
+// Transform wrapper
+typedef PyComponent PyTransform;
+typedef PyComponent PyCamera;
 
 // Transform type and methods
 static PyTypeObject PyTransformType = {
@@ -12,9 +18,6 @@ static PyTypeObject PyTransformType = {
   "cp.Transform",
   sizeof(PyTransform),
 };
-
-static PyObject *NO_ARGS = PyTuple_New(0);
-static PyObject *NO_KWDS = PyDict_New();
 
 static
 int Transform_init(PyTransform *self, PyObject *args, PyObject *kwds) {
@@ -64,13 +67,77 @@ int Transform_sety(PyObject *self, PyObject *val, void *) {
 }
 
 static PyGetSetDef Transform_getset[] = {
-  { "x", Transform_getx, Transform_setx, "The x coordinate", NULL },
-  { "y", Transform_gety, Transform_sety, "The y coordinate", NULL },
+  { (char *) "x", Transform_getx, Transform_setx, (char *) "The x coordinate", NULL },
+  { (char *) "y", Transform_gety, Transform_sety, (char *) "The y coordinate", NULL },
+  { NULL, NULL }
+};
+
+// Camera type and methods
+static PyTypeObject PyCameraType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Camera",
+  sizeof(PyCamera),
+};
+
+static
+int Camera_init(PyTransform *self, PyObject *args, PyObject *kwds) {
+  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
+    return -1;
+  }
+  if (PyErr_Occurred()) {
+    PyErr_Clear();
+  }
+  
+  float offsetX, offsetY;
+  if (!PyArg_ParseTuple(args, "ff", &offsetX, &offsetY)) {
+    return -1;
+  }
+  self->component = new Camera(offsetX, offsetY);
+  return 0;
+}
+
+static
+PyObject *Camera_getOffsetX(PyObject *self, void *) {
+  return PyFloat_FromDouble(((Camera *) ((PyCamera *) self)->component)->getOffsetX());
+}
+
+static
+int Camera_setOffsetX(PyObject *self, PyObject *val, void *) {
+  if (!PyNumber_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Camera.offsetX must be a number");
+    return -1;
+  }
+  ((Camera *) ((PyCamera *) self)->component)->setOffsetX((float) PyFloat_AsDouble(val));
+  return 0;
+}
+
+static
+PyObject *Camera_getOffsetY(PyObject *self, void *) {
+  return PyFloat_FromDouble(((Camera *) ((PyCamera *) self)->component)->getOffsetY());
+}
+
+static
+int Camera_setOffsetY(PyObject *self, PyObject *val, void *) {
+  if (!PyNumber_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Camera.offsetY must be a number");
+    return -1;
+  }
+  ((Camera *) ((PyCamera *) self)->component)->setOffsetY((float) PyFloat_AsDouble(val));
+  return 0;
+}
+
+static PyGetSetDef Camera_getset[] = {
+  { (char *) "offsetX", Camera_getOffsetX, Camera_setOffsetX, (char *) "The x offset", NULL },
+  { (char *) "offsetY", Camera_getOffsetY, Camera_setOffsetY, (char *) "The y offset", NULL },
   { NULL, NULL }
 };
 
 void
 initComponents(PyObject *module) {
+  PyObject *type;
+  
+  // Transform
   PyTransformType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
   PyTransformType.tp_doc = "Type of transform components";
   //PyTransformType.tp_methods = XXXX
@@ -83,9 +150,26 @@ initComponents(PyObject *module) {
   }
   Py_INCREF(&PyTransformType);
   PyModule_AddObject(module, "Transform", (PyObject *) &PyTransformType);
-  PyObject *val = PyInt_FromLong(Transform::TYPE);
-  PyDict_SetItemString(PyTransformType.tp_dict, "TYPE", val);
-  Py_DECREF(val);
+  type = PyInt_FromLong(Transform::TYPE);
+  PyDict_SetItemString(PyTransformType.tp_dict, "TYPE", type);
+  Py_DECREF(type);
+
+  // Camera
+  PyCameraType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
+  PyCameraType.tp_doc = "Type of camera components";
+  //PyCameraType.tp_methods = XXXX
+  PyCameraType.tp_base = &PyComponentType;
+  PyCameraType.tp_init = (initproc) Camera_init;
+  PyCameraType.tp_getset = Camera_getset;
+  if (PyType_Ready(&PyCameraType) < 0) {
+    LOG2 << "Cannot create Camera type\n";
+    return;
+  }
+  Py_INCREF(&PyCameraType);
+  PyModule_AddObject(module, "Camera", (PyObject *) &PyCameraType);
+  type = PyInt_FromLong(Camera::TYPE);
+  PyDict_SetItemString(PyCameraType.tp_dict, "TYPE", type);
+  Py_DECREF(type);
 }
 
 PyObject *
@@ -95,12 +179,21 @@ wrapTransform(Transform *t) {
   return (PyObject *) pyt;
 }
 
+PyObject *
+wrapCamera(Camera *c) {
+  PyCamera *pyc = (PyCamera *) PyCameraType.tp_alloc(&PyCameraType, 0);
+  pyc->component = c;
+  return (PyObject *) pyc;
+}
+
 
 PyObject *
 wrapRealComponent(Component *c) {
   switch (c->getType()) {
   case Transform::TYPE:
     return wrapTransform((Transform *) c);
+  case Camera::TYPE:
+    return wrapCamera((Camera *) c);
   default:
     return NULL;
   }
