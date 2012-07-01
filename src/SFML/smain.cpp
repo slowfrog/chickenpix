@@ -49,7 +49,7 @@ int main(int argc, char const *argv[]) {
     
     // Init
     EntityManager em("SFML-main");
-    SFMLRender sfrender("SFMLRender", em);
+    SFMLRender sfrender("SFMLRender", em, 800, 600);
     sfrender.init();
     Animation anim("Animation", em);
     anim.init();

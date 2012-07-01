@@ -21,7 +21,7 @@ public:
       EntityManager em("CL-main");
       ClanLib clanlib("ClanLib", em);
       clanlib.init();
-      CLRender clrender("CLRender", em);
+      CLRender clrender("CLRender", em, 800, 600);
       clrender.init();
       Animation anim("Animation", em);
       anim.init();
