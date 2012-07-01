@@ -5,18 +5,6 @@ def init(self, manager):
     """This method is called on an entity only once, before any call to update"""
     self.times = -1
 
-def getComponent(self, ctype):
-    comps = self.getComponents()
-    for comp in comps:
-        if comp.type() == ctype:
-            return comp
-        
-def getTransform(self):
-    return getComponent(self, cp.Transform.TYPE)
-    
-def getCamera(self):
-    return getComponent(self, cp.Camera.TYPE)
-    
 def update(self, manager):
     """This method is called for each engine update"""
     self.x = 666
@@ -45,9 +33,14 @@ def update(self, manager):
         t.y = -3
         print("t={%f,%f}" % (t.x, t.y))
     if self.times > 60 and self.times < 180:
-        t = getTransform(self)
-        t.x += 1
-        t.y += 1
-        c = getCamera(self)
+        t = self.getComponent(cp.Transform.TYPE)
+        t.moveBy(5, 5)
+        c = self.getComponent(cp.Camera.TYPE)
         c.offsetX = random.randint(-20, 20)
         c.offsetY = random.randint(-20, 20)
+    if self.times == 180:
+        t = self.getComponent(cp.Transform.TYPE)
+        t.moveTo(0, 0)
+    if self.times == 240:
+        self.removeComponent(cp.Transform.TYPE)
+        self.addComponent(cp.Transform(100, 100))

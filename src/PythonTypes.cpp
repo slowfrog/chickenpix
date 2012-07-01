@@ -159,6 +159,52 @@ Entity_getComponents(PyEntity *self) {
 }
 
 static PyObject *
+Entity_getComponent(PyEntity *self, PyObject *args) {
+  Entity *entity = self->wentity;
+  int ctype;
+  if (!PyArg_ParseTuple(args, "i", &ctype)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    return Py_None;
+  }
+  if (!entity->hasComponent(ctype)) {
+    return Py_None;
+  } else {
+    Component *comp = entity->getComponent(ctype);
+    return wrapComponent(comp);
+  }
+}
+
+static PyObject *
+Entity_addComponent(PyEntity *self, PyObject *args) {
+  Entity *entity = self->wentity;
+  PyObject *comp;
+  if (!PyArg_ParseTuple(args, "O!", &PyComponentType, &comp)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+  } else {
+    entity->addComponent(((PyComponent *) comp)->component);
+  }
+  return Py_None;
+}
+
+static PyObject *
+Entity_removeComponent(PyEntity *self, PyObject *args) {
+  Entity *entity = self->wentity;
+  int ctype;
+  if (!PyArg_ParseTuple(args, "i", &ctype)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+  } else {
+    entity->removeComponent(ctype);
+  }
+  return Py_None;
+}
+
+static PyObject *
 Entity_getTags(PyEntity *self) {
   Entity *entity = self->wentity;
   vector<string> const &tags = CTagEntityMng::get()->getTagsByEntity( entity->getId()); /*entity->getTags();*/
@@ -181,6 +227,9 @@ Entity_getDict(PyEntity *self) {
 static PyMethodDef Entity_methods[] = {
   {"id", (PyCFunction) Entity_id, METH_NOARGS, "Id of the entity" },
   {"getComponents", (PyCFunction) Entity_getComponents, METH_NOARGS, "Get all components of the entity" },
+  {"getComponent", (PyCFunction) Entity_getComponent, METH_VARARGS, "Get the component with a given type" },
+  {"addComponent", (PyCFunction) Entity_addComponent, METH_VARARGS, "Add a component to the entity" },
+  {"removeComponent", (PyCFunction) Entity_removeComponent, METH_VARARGS, "Remove a component from the entity" },
   {"getTags", (PyCFunction) Entity_getTags, METH_NOARGS, "Get all tags on the entity" },
   {"getDict", (PyCFunction) Entity_getDict, METH_NOARGS, "Get the dictionary of values associated to the entity" },
   {NULL} /* End of list */
