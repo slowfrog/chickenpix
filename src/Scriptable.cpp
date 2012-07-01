@@ -4,7 +4,7 @@
 #include "Scriptable.h"
 
 Scriptable::Scriptable(string const &name):
-  Component(TYPE), _name(name), _initDone(false), _exitDone(false) {
+  Component(TYPE), name_(name), initDone_(false), exitDone_(false) {
 }
 
 Scriptable::~Scriptable() {
@@ -17,6 +17,6 @@ Scriptable::update(int now) {
 string
 Scriptable::toString() const {
   ostringstream out;
-  out << "{Scriptable name=" << _name << ", init:" << _initDone << ", exit:" << _exitDone << "}" << ends;
+  out << "{Scriptable name=" << name_ << ", init:" << initDone_ << ", exit:" << exitDone_ << "}" << ends;
   return out.str();
 }
