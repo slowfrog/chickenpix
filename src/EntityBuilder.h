@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tinyxml.h"
+#include "tinyxml/tinyxml.h"
 #include "Resources.h"
 #include "EntityManager.h"
 
@@ -72,7 +72,7 @@ protected:
   
 private:
   // not allowed
-  CEntityBuilder operator=(const CEntityBuilder&){}
+  CEntityBuilder operator=(const CEntityBuilder&){return *this;}
   
 private:
   //EntityManager &mEM;

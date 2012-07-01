@@ -74,6 +74,7 @@
     <ClCompile Include="..\src\Component.cpp" />
     <ClCompile Include="..\src\ComponentRegistry.cpp" />
     <ClCompile Include="..\src\Entity.cpp" />
+    <ClCompile Include="..\src\EntityBuilder.cpp" />
     <ClCompile Include="..\src\EntityManager.cpp" />
     <ClCompile Include="..\src\FightSystem.cpp" />
     <ClCompile Include="..\src\Input.cpp" />
@@ -82,9 +83,9 @@
     <ClCompile Include="..\src\log.cpp" />
     <ClCompile Include="..\src\Mobile.cpp" />
     <ClCompile Include="..\src\Movement.cpp" />
+    <ClCompile Include="..\src\PythonComponents.cpp" />
     <ClCompile Include="..\src\PythonTypes.cpp" />
     <ClCompile Include="..\src\Render.cpp" />
-    <ClCompile Include="..\src\Resource.cpp" />
     <ClCompile Include="..\src\Resources.cpp" />
     <ClCompile Include="..\src\Scriptable.cpp" />
     <ClCompile Include="..\src\Scripting.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="..\src\Component.h" />
     <ClInclude Include="..\src\ComponentRegistry.h" />
     <ClInclude Include="..\src\Entity.h" />
+    <ClInclude Include="..\src\EntityBuilder.h" />
     <ClInclude Include="..\src\EntityManager.h" />
     <ClInclude Include="..\src\FightSystem.h" />
     <ClInclude Include="..\src\Image.h" />
@@ -128,9 +130,9 @@
     <ClInclude Include="..\src\log.h" />
     <ClInclude Include="..\src\Mobile.h" />
     <ClInclude Include="..\src\Movement.h" />
+    <ClInclude Include="..\src\PythonComponents.h" />
     <ClInclude Include="..\src\PythonTypes.h" />
     <ClInclude Include="..\src\Render.h" />
-    <ClInclude Include="..\src\Resource.h" />
     <ClInclude Include="..\src\Resources.h" />
     <ClInclude Include="..\src\Scriptable.h" />
     <ClInclude Include="..\src\Scripting.h" />

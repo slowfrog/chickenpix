@@ -6,30 +6,30 @@
 
 class Scriptable: public Component {
 private:
-  string _name;
-  bool _initDone;
-  bool _exitDone;
+  string name_;
+  bool initDone_;
+  bool exitDone_;
 public:
   static const Type TYPE = SCRIPTABLE_TYPE;
   Scriptable(string const &name);
   virtual ~Scriptable();
 
   inline string const &getName() const {
-    return _name;
+    return name_;
   }
   virtual void update(int now);
 
   inline bool isInitDone() const {
-    return _initDone;
+    return initDone_;
   }
   inline void setInitDone(bool done) {
-    _initDone = done;
+    initDone_ = done;
   }
   inline bool isExitDone() const {
-    return _exitDone;
+    return exitDone_;
   }
   inline void setExitDone(bool done) {
-    _exitDone = done;
+    exitDone_ = done;
   }
 
   virtual string toString() const;

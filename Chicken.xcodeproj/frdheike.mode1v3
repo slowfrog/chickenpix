@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>5A13968215A1026A009F373F</string>
+						<string>5A13969415A10460009F373F</string>
 						<key>history</key>
 						<array>
 							<string>5A13956E15A0EB00009F373F</string>
@@ -322,8 +322,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>59</integer>
-									<integer>46</integer>
+									<integer>37</integer>
+									<integer>29</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -366,7 +366,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>SystemManager.h</string>
+								<string>EntityBuilder.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -374,11 +374,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>SystemManager.h</string>
+										<string>EntityBuilder.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>5A13968115A1026A009F373F</string>
+										<string>5A13969315A10460009F373F</string>
 										<key>history</key>
 										<array>
 											<string>5A22FC8D1593BB1600745D05</string>
@@ -464,10 +464,10 @@
 											<string>5A13966A15A100A2009F373F</string>
 											<string>5A13966B15A100A2009F373F</string>
 											<string>5A13967115A101D4009F373F</string>
-											<string>5A13967215A101D4009F373F</string>
-											<string>5A13967315A101D4009F373F</string>
-											<string>5A13968015A1026A009F373F</string>
-											<string>5A13965415A10045009F373F</string>
+											<string>5A13968315A1038E009F373F</string>
+											<string>5A13969015A10460009F373F</string>
+											<string>5A13969115A10460009F373F</string>
+											<string>5A13969215A10460009F373F</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -667,15 +667,16 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>5A13969515A10460009F373F</string>
 		<string>5A1394B315A0ABDD009F373F</string>
 		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>5A1392A015A057A8009F373F</string>
 		<string>5A1392A115A057A8009F373F</string>
-		<string>5A003588158FCEB600B483F8</string>
 		<string>5A13952115A0CD6E009F373F</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 		<string>/Volumes/Data HD/Work/Chicken/Chicken.xcodeproj</string>
+		<string>5A003588158FCEB600B483F8</string>
 	</array>
 	<key>WindowString</key>
 	<string>15 151 1284 885 0 0 1920 1058 </string>
@@ -694,12 +695,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>SystemManager.cpp</string>
+								<string>EntityBuilder.cpp</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -716,8 +719,6 @@
 							<string>505pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -770,7 +771,7 @@
 			<key>WindowToolGUID</key>
 			<string>5A003588158FCEB600B483F8</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>

@@ -6,7 +6,7 @@
 #include "FightSystem.h"
 
 /****************************************************************/
-/* CRoundInit
+/* CRoundInit                                                   */
 /****************************************************************/
 IRoundState* 
 CRoundInit::addFighter( CFightSystem& fe, const CFighter& f, const bool ally){
@@ -21,7 +21,7 @@ CRoundInit::start( CFightSystem& fe){
 }
 
 /****************************************************************/
-/* CRoundPrepare
+/* CRoundPrepare                                                */
 /****************************************************************/
 IRoundState* 
 CRoundPrepare::popFighter( CFightSystem& fe){
@@ -48,7 +48,7 @@ CRoundPrepare::doFight( CFightSystem& fe){
 }
 
 /****************************************************************/
-/* CRoundFight
+/* CRoundFight                                                  */
 /****************************************************************/
 IRoundState* 
 CRoundFight::next( CFightSystem& fe){
@@ -57,7 +57,7 @@ CRoundFight::next( CFightSystem& fe){
 }
 
 /****************************************************************/
-/* CFightEngine: Round fight management
+/* CFightEngine: Round fight management                         */
 /****************************************************************/
 // Init static
 IRoundState *CFightSystem::curState = NULL;

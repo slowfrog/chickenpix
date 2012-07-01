@@ -52,6 +52,7 @@ EntityManager_getEntities(PyEntityManager *self, PyObject *args) {
     if (PyErr_Occurred()) {
       PyErr_Print();
     }
+    Py_INCREF(Py_None);
     return Py_None;
   }
   vector<Entity *> const &entities =
@@ -80,9 +81,11 @@ EntityManager_tagEntity(PyEntityManager *self, PyObject *args) {
     if (PyErr_Occurred()) {
       PyErr_Print();
     }
+    Py_INCREF(Py_None);
     return Py_None;
   }
   em->tagEntity(entity->wentity, tag);
+  Py_INCREF(Py_None);
   return Py_None;
 }
 
@@ -96,9 +99,11 @@ EntityManager_untagEntity(PyEntityManager *self, PyObject *args) {
     if (PyErr_Occurred()) {
       PyErr_Print();
     }
+    Py_INCREF(Py_None);
     return Py_None;
   }
   em->untagEntity(entity->wentity, tag);
+  Py_INCREF(Py_None);
   return Py_None;
 }
 
@@ -111,6 +116,7 @@ EntityManager_getByTag(PyEntityManager *self, PyObject *args) {
     if (PyErr_Occurred()) {
       PyErr_Print();
     }
+    Py_INCREF(Py_None);
     return Py_None;
   }
 
@@ -166,9 +172,11 @@ Entity_getComponent(PyEntity *self, PyObject *args) {
     if (PyErr_Occurred()) {
       PyErr_Print();
     }
+    Py_INCREF(Py_None);
     return Py_None;
   }
   if (!entity->hasComponent(ctype)) {
+    Py_INCREF(Py_None);
     return Py_None;
   } else {
     Component *comp = entity->getComponent(ctype);
@@ -187,6 +195,7 @@ Entity_addComponent(PyEntity *self, PyObject *args) {
   } else {
     entity->addComponent(((PyComponent *) comp)->component);
   }
+  Py_INCREF(Py_None);
   return Py_None;
 }
 
@@ -201,6 +210,7 @@ Entity_removeComponent(PyEntity *self, PyObject *args) {
   } else {
     entity->removeComponent(ctype);
   }
+  Py_INCREF(Py_None);
   return Py_None;
 }
 
@@ -221,7 +231,9 @@ Entity_getTags(PyEntity *self) {
 static PyObject *
 Entity_getDict(PyEntity *self) {
   WrappedEntity *wentity = self->wentity;
-  return wentity->getOrCreateDict();
+  PyObject *ret = wentity->getOrCreateDict();
+  Py_INCREF(ret);
+  return ret;
 }
 
 static PyMethodDef Entity_methods[] = {

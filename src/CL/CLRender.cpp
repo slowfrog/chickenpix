@@ -5,8 +5,8 @@
 #include "../BVisual.h"
 #include "CLVisualContext.h"
 
-CLRender::CLRender(string const &name, EntityManager &em):
-  Render(name, em), window(NULL) {
+CLRender::CLRender(string const &name, EntityManager &em, unsigned int width, unsigned int height):
+  Render(name, em), width_(width), height_(height), window_(NULL) {
 }
 
 CLRender::~CLRender() {
@@ -14,16 +14,16 @@ CLRender::~CLRender() {
 
 void
 CLRender::init() {
-  window = new CL_DisplayWindow("CL chickenpix", 640, 480);
-  window->set_size(640, 480, true); // Must re-set the size on Linux, otherwise the window
-                                    // frame eats some client area
+  window_ = new CL_DisplayWindow("CL chickenpix", width_, height_);
+  window_->set_size(width_, height_, true); // Must re-set the size on Linux, otherwise the window
+                                            // frame eats some client area
   Entity *clstate = _em.createEntity();
-  clstate->addComponent(new CLResources(*window));
+  clstate->addComponent(new CLResources(*window_));
 }
 
 VisualContext *
 CLRender::getVisualContext() {
-  return new CLVisualContext(*window);
+  return new CLVisualContext(*window_);
 }
 
 void
@@ -39,13 +39,13 @@ CLRender::paint(VisualContext &vc) {
 
 void
 CLRender::exit() {
-  delete window;
-  window = NULL;
+  delete window_;
+  window_ = NULL;
 }
 
 string
 CLRender::toString() const {
   ostringstream out;
-  out << "{CLRender-System name=" << getName() << "}" << ends;
+  out << "{CLRender-System name=" << getName() << " size=" << width_ << "x" << height_ << "}" <<ends;
   return out.str();
 }

@@ -75,7 +75,7 @@ void clbCharacter( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources 
 /****************************************************************/
 /*
 */
-CEntityBuilder::CEntityBuilder( const std::string& pathfile): mPathFileName(pathfile), mhRoot(0), mhDoc(0){
+CEntityBuilder::CEntityBuilder( const std::string& pathfile): mPathFileName(pathfile), mhDoc(0), mhRoot(0){
   // Check file
   if ( mPathFileName.empty() ){
     LOG2ERR<<"Bad file\n";
@@ -117,8 +117,7 @@ CEntityBuilder::parseResources( Loader *pLoader, Resources *pResource){
   // Loop on <resources>
   TiXmlElement *pElem = mhRoot.FirstChildElement().Element();
   if ( pElem){
-    pElem = pElem->FirstChildElement( "resource");
-    for (pElem; pElem; pElem = pElem->NextSiblingElement() ){
+    for (pElem = pElem->FirstChildElement( "resource"); pElem; pElem = pElem->NextSiblingElement() ){
       std::string type = pElem->Attribute( "type");
       if ( !type.empty()) {
         buildResourcesByType(type, pElem, pLoader, pResource);
@@ -202,8 +201,8 @@ CEntityBuilder::buildResourcesSprite( TiXmlElement *pNode, Loader *pLoader, Reso
 void 
 CEntityBuilder::parseEntity( EntityManager &em, Resources *pResource){
   // Loop on <entity>
-  TiXmlElement *pElem=mhRoot.FirstChild( "entity").Element();
-  for (pElem; pElem; pElem = pElem->NextSiblingElement() ){
+  for (TiXmlElement *pElem=mhRoot.FirstChild( "entity").Element();
+       pElem; pElem = pElem->NextSiblingElement() ){
     BuildEntity( pElem, em, pResource);
   }
 }
@@ -218,9 +217,8 @@ CEntityBuilder::BuildEntity( TiXmlElement *pParent, EntityManager &em, Resources
   }
   TiXmlElement* pChilds = pParent->FirstChildElement( "tags");
   if ( pChilds ){
-    pChilds=pChilds->FirstChildElement( "tag" );
     // Add tags
-    for( pChilds; pChilds; pChilds = pChilds->NextSiblingElement() ){
+    for(pChilds=pChilds->FirstChildElement( "tag" ); pChilds; pChilds = pChilds->NextSiblingElement() ){
       std::string name;
       if ( TIXML_SUCCESS == pChilds->QueryValueAttribute( "name", &name))
       {
@@ -237,8 +235,7 @@ CEntityBuilder::BuildEntity( TiXmlElement *pParent, EntityManager &em, Resources
   // Add components
   pChilds = pParent->FirstChildElement( "components");
   if ( pChilds ){
-    pChilds=pChilds->FirstChildElement( "component" );
-    for( pChilds; pChilds; pChilds = pChilds->NextSiblingElement() ){
+    for( pChilds=pChilds->FirstChildElement( "component" ); pChilds; pChilds = pChilds->NextSiblingElement() ){
       std::string name; 
       if ( TIXML_SUCCESS == pChilds->QueryValueAttribute( "name", &name)){
         LOG2 <<name<<"\n";
@@ -276,7 +273,7 @@ CEntityBuilder::buildTransform (TiXmlElement *pNode, Entity* e, Resources *pReso
     int x(0), y(0);
     if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "x", &x) && 
         TIXML_SUCCESS == pChar->QueryValueAttribute( "y", &y) ) {
-      e->addComponent(new Transform(x, y));
+      e->addComponent(new Transform((float) x, (float) y));
       return;
     }
   }

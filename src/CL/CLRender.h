@@ -3,11 +3,13 @@
 #include "../Render.h"
 
 class CLRender: public Render {
-public:
-  CL_DisplayWindow *window;
+private:
+  unsigned int width_;
+  unsigned int height_;
+  CL_DisplayWindow *window_;
   
 public:
-  CLRender(string const &name, EntityManager &em);
+  CLRender(string const &name, EntityManager &em, unsigned int width, unsigned int height);
   virtual ~CLRender();
 
   virtual void init();

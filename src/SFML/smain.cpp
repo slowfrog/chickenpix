@@ -14,6 +14,10 @@
 #include "../EntityBuilder.h"
 #include "../SystemManager.h"
 
+#ifndef _WINDOWS_
+#include <unistd.h>
+#endif
+
 using namespace std;
 
 int main(int argc, char const *argv[]) {
@@ -24,7 +28,7 @@ int main(int argc, char const *argv[]) {
     
     // Init
     EntityManager em("SFML-main");
-    SFMLRender sfrender("SFMLRender", em);
+    SFMLRender sfrender("SFMLRender", em, 800, 600);
     sfrender.init();
     Animation anim("Animation", em);
     anim.init();
