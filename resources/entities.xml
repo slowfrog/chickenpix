@@ -62,17 +62,6 @@
     </resources>
     
 	<!-- create entity -->
-    <entity>
-        <components>
-            <component name="Resources" type="image">
-                <image alias="map"/>
-            </component>
-            <component name="Transform">
-                <position x="-150" y="-250"/>
-            </component>
-        </components>
-    </entity>
-    
     <entity>    
         <components>
             <component name="Resources" type="image">
