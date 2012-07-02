@@ -441,8 +441,16 @@ CEntityBuilder::buildScriptable( TiXmlElement *pNode, Entity *e, Resources*){
 // Component Camera
 void 
 CEntityBuilder::buildCamera( TiXmlElement *pNode, Entity *e, Resources*){
-  // No elements, no attributes
-  e->addComponent( new Camera);
+  float offsetX(0.f), offsetY(0.f);
+  unsigned int width(0), height(0);
+  if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "offsetX", &offsetX) && 
+       TIXML_SUCCESS == pNode->QueryValueAttribute( "offsetY", &offsetY) &&
+       TIXML_SUCCESS == pNode->QueryValueAttribute( "width", &width) &&
+       TIXML_SUCCESS == pNode->QueryValueAttribute( "height", &height) ) {
+    e->addComponent( new Camera(offsetX, offsetY, width, height));
+  } else {
+    e->addComponent( new Camera);
+  }
 }
 
 // Component Character

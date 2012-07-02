@@ -152,8 +152,9 @@
             </component>
             <component name="Mobile">
             </component>
-            <component name="Camera">
-            </component>
+            <component name="Camera"
+                       offsetX="100" offsetY="100"
+                       width="600" height="600" />
             <component name="Character">
                 <stats name="initiative" value="5"/>
                 <stats name="health" value="50"/>

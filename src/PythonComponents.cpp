@@ -436,10 +436,11 @@ int Camera_init(PyTransform *self, PyObject *args, PyObject *kwds) {
   }
   
   float offsetX, offsetY;
-  if (!PyArg_ParseTuple(args, "ff", &offsetX, &offsetY)) {
+  unsigned int width, height;
+  if (!PyArg_ParseTuple(args, "ffII", &offsetX, &offsetY, &width, &height)) {
     return -1;
   }
-  self->component = new Camera(offsetX, offsetY);
+  self->component = new Camera(offsetX, offsetY, width, height);
   return 0;
 }
 
@@ -473,9 +474,41 @@ int Camera_setOffsetY(PyObject *self, PyObject *val, void *) {
   return 0;
 }
 
+static
+PyObject *Camera_getWidth(PyObject *self, void *) {
+  return PyInt_FromLong(((Camera *) ((PyCamera *) self)->component)->getWidth());
+}
+
+static
+int Camera_setWidth(PyObject *self, PyObject *val, void *) {
+  if (!PyNumber_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Camera.width must be a number");
+    return -1;
+  }
+  ((Camera *) ((PyCamera *) self)->component)->setWidth((unsigned int) PyInt_AsLong(val));
+  return 0;
+}
+
+static
+PyObject *Camera_getHeight(PyObject *self, void *) {
+  return PyInt_FromLong(((Camera *) ((PyCamera *) self)->component)->getHeight());
+}
+
+static
+int Camera_setHeight(PyObject *self, PyObject *val, void *) {
+  if (!PyNumber_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Camera.height must be a number");
+    return -1;
+  }
+  ((Camera *) ((PyCamera *) self)->component)->setHeight((unsigned int) PyInt_AsLong(val));
+  return 0;
+}
+
 static PyGetSetDef Camera_getset[] = {
   { (char *) "offsetX", Camera_getOffsetX, Camera_setOffsetX, (char *) "The x offset", NULL },
   { (char *) "offsetY", Camera_getOffsetY, Camera_setOffsetY, (char *) "The y offset", NULL },
+  { (char *) "width", Camera_getWidth, Camera_setWidth, (char *) "The width of the view", NULL },
+  { (char *) "height", Camera_getHeight, Camera_setHeight, (char *) "The height of the view", NULL },
   { NULL, NULL }
 };
 

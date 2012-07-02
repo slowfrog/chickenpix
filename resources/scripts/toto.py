@@ -26,6 +26,20 @@ def update(self, manager):
             anim = self.getComponent(cp.Animated.TYPE)
             print("Current anim is %s" % anim.animation)
             anim.animation = "man_still"
+        if input.state.isKeyDown(cp.InputState.NUM0):
+            print("You are pressing 0")
+            cam = self.getComponent(cp.Camera.TYPE)
+            print("Current camera at %f,%f size %dx%d" %
+                  (cam.offsetX, cam.offsetY, cam.width, cam.height))
+            cam.width = 100
+            cam.height = 100
+        if input.state.isKeyDown(cp.InputState.NUM1):
+            print("You are pressing 1")
+            print("Current camera at %f,%f size %dx%d" %
+                  (cam.offsetX, cam.offsetY, cam.width, cam.height))
+            cam = self.getComponent(cp.Camera.TYPE)
+            cam.width = 600
+            cam.height = 600
         if input.state.isButtonDown(cp.InputState.RIGHT_BUTTON):
             print("The right button is pressed at %d,%d" % input.state.getMousePosition())
         if input.state.isButtonDown(cp.InputState.MIDDLE_BUTTON):

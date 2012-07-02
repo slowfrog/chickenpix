@@ -24,6 +24,7 @@ Render::update(int now) {
   // The point of view is computed with:
   // - the position of the entity having the Camera component
   // - offset by the specific camera position
+  // - clipped to the width and height of the view of the camera (if != 0)
   // - centered on the screen
   Entity *cameraEntity = _em.getEntity(Camera::TYPE);
   Camera *camera = cameraEntity->getComponent<Camera>();
@@ -32,8 +33,10 @@ Render::update(int now) {
   float offsetY = transform->getY() + camera->getOffsetY() - (vc->getHeight() / 2);
   float minX = offsetX;
   float minY = offsetY;
-  float maxX = minX + vc->getWidth();
-  float maxY = minY + vc->getHeight();
+  unsigned int width = camera->getWidth() > 0 ? camera->getWidth() : vc->getWidth();
+  unsigned int height = camera->getHeight() > 0 ? camera->getHeight() : vc->getHeight();
+  float maxX = minX + width;
+  float maxY = minY + height;
   
   // Visual
   vector<Entity *> visuals = _em.getEntities(BVisual::TYPE, Transform::TYPE);
