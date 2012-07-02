@@ -42,5 +42,5 @@ CLInputState::isButtonDown(MouseButton const b) const {
 
 InputState::MousePos
 CLInputState::getMousePosition() const {
-  return MousePos({mouse_->get_x(), mouse_->get_y()});
+  return MousePos(mouse_->get_x(), mouse_->get_y());
 }

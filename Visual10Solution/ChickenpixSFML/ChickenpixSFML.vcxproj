@@ -90,6 +90,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\SFML\SFMLInputs.cpp" />
+    <ClCompile Include="..\..\src\SFML\SFMLInputState.cpp" />
     <ClCompile Include="..\..\src\SFML\SFMLLoader.cpp" />
     <ClCompile Include="..\..\src\SFML\SFMLRender.cpp" />
     <ClCompile Include="..\..\src\SFML\SFMLResources.cpp" />
@@ -99,7 +100,9 @@
     <ClCompile Include="..\..\src\SFML\smain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\SFML\SFML.h" />
     <ClInclude Include="..\..\src\SFML\SFMLInputs.h" />
+    <ClInclude Include="..\..\src\SFML\SFMLInputState.h" />
     <ClInclude Include="..\..\src\SFML\SFMLLoader.h" />
     <ClInclude Include="..\..\src\SFML\SFMLRender.h" />
     <ClInclude Include="..\..\src\SFML\SFMLResources.h" />

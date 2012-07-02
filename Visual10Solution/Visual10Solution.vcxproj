@@ -73,10 +73,12 @@
     <ClCompile Include="..\src\Camera.cpp" />
     <ClCompile Include="..\src\Component.cpp" />
     <ClCompile Include="..\src\ComponentRegistry.cpp" />
+    <ClCompile Include="..\src\Controller.cpp" />
     <ClCompile Include="..\src\Entity.cpp" />
     <ClCompile Include="..\src\EntityBuilder.cpp" />
     <ClCompile Include="..\src\EntityManager.cpp" />
     <ClCompile Include="..\src\FightSystem.cpp" />
+    <ClCompile Include="..\src\HeroController.cpp" />
     <ClCompile Include="..\src\Input.cpp" />
     <ClCompile Include="..\src\Inputs.cpp" />
     <ClCompile Include="..\src\Loader.cpp" />
@@ -91,6 +93,7 @@
     <ClCompile Include="..\src\Scripting.cpp" />
     <ClCompile Include="..\src\Stats.cpp" />
     <ClCompile Include="..\src\System.cpp" />
+    <ClCompile Include="..\src\SystemManager.cpp" />
     <ClCompile Include="..\src\TagEntityManager.cpp" />
     <ClCompile Include="..\src\tinyxml\tinystr.cpp" />
     <ClCompile Include="..\src\tinyxml\tinyxml.cpp" />
@@ -119,13 +122,16 @@
     <ClInclude Include="..\src\Camera.h" />
     <ClInclude Include="..\src\Component.h" />
     <ClInclude Include="..\src\ComponentRegistry.h" />
+    <ClInclude Include="..\src\Controller.h" />
     <ClInclude Include="..\src\Entity.h" />
     <ClInclude Include="..\src\EntityBuilder.h" />
     <ClInclude Include="..\src\EntityManager.h" />
     <ClInclude Include="..\src\FightSystem.h" />
+    <ClInclude Include="..\src\HeroController.h" />
     <ClInclude Include="..\src\Image.h" />
     <ClInclude Include="..\src\Input.h" />
     <ClInclude Include="..\src\Inputs.h" />
+    <ClInclude Include="..\src\InputState.h" />
     <ClInclude Include="..\src\Loader.h" />
     <ClInclude Include="..\src\log.h" />
     <ClInclude Include="..\src\Mobile.h" />
@@ -139,6 +145,7 @@
     <ClInclude Include="..\src\Singleton.h" />
     <ClInclude Include="..\src\Stats.h" />
     <ClInclude Include="..\src\System.h" />
+    <ClInclude Include="..\src\SystemManager.h" />
     <ClInclude Include="..\src\TagEntityManager.h" />
     <ClInclude Include="..\src\tinyxml\tinystr.h" />
     <ClInclude Include="..\src\tinyxml\tinyxml.h" />

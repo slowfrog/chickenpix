@@ -8,6 +8,10 @@ public:
   struct MousePos {
     int x;
     int y;
+
+    MousePos(int x, int y):
+      x(x), y(y) {
+	}
   };
 
   enum MouseButton {

@@ -45,5 +45,5 @@ SFMLInputState::isButtonDown(MouseButton const b) const {
 
 InputState::MousePos
 SFMLInputState::getMousePosition() const {
-  return MousePos({window_->GetInput().GetMouseX(), window_->GetInput().GetMouseY()});
+  return MousePos(window_->GetInput().GetMouseX(), window_->GetInput().GetMouseY());
 }

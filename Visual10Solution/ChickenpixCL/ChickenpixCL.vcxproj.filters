@@ -42,6 +42,9 @@
     <ClCompile Include="..\..\src\CL\CLVisualText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\CL\CLInputState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\CL\ClanLib.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\CL\CL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\CL\CLInputState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

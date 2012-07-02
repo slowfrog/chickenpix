@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\CL\ClanLib.cpp" />
     <ClCompile Include="..\..\src\CL\CLInputs.cpp" />
+    <ClCompile Include="..\..\src\CL\CLInputState.cpp" />
     <ClCompile Include="..\..\src\CL\CLLoader.cpp" />
     <ClCompile Include="..\..\src\CL\clmain.cpp" />
     <ClCompile Include="..\..\src\CL\CLRender.cpp" />
@@ -96,6 +97,7 @@
     <ClInclude Include="..\..\src\CL\CL.h" />
     <ClInclude Include="..\..\src\CL\ClanLib.h" />
     <ClInclude Include="..\..\src\CL\CLInputs.h" />
+    <ClInclude Include="..\..\src\CL\CLInputState.h" />
     <ClInclude Include="..\..\src\CL\CLLoader.h" />
     <ClInclude Include="..\..\src\CL\CLRender.h" />
     <ClInclude Include="..\..\src\CL\CLResources.h" />
