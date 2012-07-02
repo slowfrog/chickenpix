@@ -11,6 +11,11 @@ def init(self, manager):
 def update(self, manager):
     """This method is called for each engine update"""
     self.times += 1
+    input = self.getComponent(cp.Input.TYPE)
+    if input is not None:
+        downdown = input.state.isKeyDown(12);
+        if downdown:
+            print("The down arrow is pressed")
     if self.times == 0:
         print("TOTO: My id is %d and I have %d components: %s" %
               (self.id(),

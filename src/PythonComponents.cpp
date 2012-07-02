@@ -2,6 +2,8 @@
 #include "log.h"
 #include "PythonComponents.h"
 #include "Camera.h"
+#include "Input.h"
+#include "InputState.h"
 #include "Mobile.h"
 #include "Transform.h"
 
@@ -11,6 +13,7 @@ static PyObject *NO_KWDS = PyDict_New();
 // Transform wrapper
 typedef PyComponent PyTransform;
 typedef PyComponent PyMobile;
+typedef PyComponent PyInput;
 typedef PyComponent PyCamera;
 
 // Transform type and methods
@@ -206,6 +209,76 @@ static PyGetSetDef Mobile_getset[] = {
   { NULL, NULL }
 };
 
+// Input state type and methods -------------------------------------------------------------------
+typedef struct {
+  PyObject_HEAD
+  InputState const *state;
+} PyInputState;
+
+static PyTypeObject PyInputStateType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.InputState",
+  sizeof(PyInputState),
+};
+
+static
+PyObject *InputState_isKeyDown(PyInputState *self, PyObject *args) {
+  int key;
+  if (!PyArg_ParseTuple(args, "i", &key)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+  }
+  if (self->state->isKeyDown((InputState::Key) key)) {
+    Py_RETURN_TRUE;
+  } else {
+    Py_RETURN_FALSE;
+  }
+}
+
+static PyMethodDef InputState_methods[] = {
+  { "isKeyDown", (PyCFunction) InputState_isKeyDown, METH_VARARGS, "Check if a key is pressed" },
+  { NULL }
+};
+
+// Input type and methods -------------------------------------------------------------------
+static PyTypeObject PyInputType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Input",
+  sizeof(PyInput),
+};
+
+static
+int Input_init(PyTransform *self, PyObject *args, PyObject *kwds) {
+  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
+    return -1;
+  }
+  if (PyErr_Occurred()) {
+    PyErr_Clear();
+  }
+  
+  self->component = new Input();
+  return 0;
+}
+
+static
+PyObject *Input_getState(PyObject *self, void *) {
+  Input *input = (Input *) ((PyInput *) self)->component;
+  PyInputState *state = (PyInputState *) PyInputStateType.tp_alloc(&PyInputStateType, 0);
+  state->state = input->getInputState();
+  Py_INCREF(state);
+  return (PyObject *) state;
+}
+
+static PyGetSetDef Input_getset[] = {
+  { (char *) "state", Input_getState, NULL, (char *) "The input state", NULL },
+  { NULL, NULL }
+};
+
 // Camera type and methods -------------------------------------------------------------------
 static PyTypeObject PyCameraType = {
   PyObject_HEAD_INIT(NULL)
@@ -305,6 +378,35 @@ initComponents(PyObject *module) {
   type = PyInt_FromLong(Mobile::TYPE);
   PyDict_SetItemString(PyMobileType.tp_dict, "TYPE", type);
   Py_DECREF(type);
+
+  // InputState
+  PyInputStateType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
+  PyInputStateType.tp_doc = "Type of the input state";
+  PyInputStateType.tp_methods = InputState_methods;
+  if (PyType_Ready(&PyInputStateType) < 0) {
+    LOG2 << "Cannot create InputState type\n";
+    return;
+  }
+  Py_INCREF(&PyInputStateType);
+  PyModule_AddObject(module, "InputState", (PyObject *) &PyInputStateType);
+  Py_DECREF(type);
+  
+  // Input
+  PyInputType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
+  PyInputType.tp_doc = "Type of input components";
+  //PyInputType.tp_methods = XXX
+  PyInputType.tp_base = &PyComponentType;
+  PyInputType.tp_init = (initproc) Input_init;
+  PyInputType.tp_getset = Input_getset;
+  if (PyType_Ready(&PyInputType) < 0) {
+    LOG2 << "Cannot create Input type\n";
+    return;
+  }
+  Py_INCREF(&PyInputType);
+  PyModule_AddObject(module, "Input", (PyObject *) &PyInputType);
+  type = PyInt_FromLong(Input::TYPE);
+  PyDict_SetItemString(PyInputType.tp_dict, "TYPE", type);
+  Py_DECREF(type);
   
   // Camera
   PyCameraType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
@@ -339,6 +441,13 @@ wrapMobile(Mobile *c) {
 }
 
 PyObject *
+wrapInput(Input *i) {
+  PyInput *pyi = (PyInput *) PyInputType.tp_alloc(&PyInputType, 0);
+  pyi->component = i;
+  return (PyObject *) pyi;
+}
+
+PyObject *
 wrapCamera(Camera *c) {
   PyCamera *pyc = (PyCamera *) PyCameraType.tp_alloc(&PyCameraType, 0);
   pyc->component = c;
@@ -353,6 +462,8 @@ wrapRealComponent(Component *c) {
     return wrapTransform((Transform *) c);
   case Mobile::TYPE:
     return wrapMobile((Mobile *) c);
+  case Input::TYPE:
+    return wrapInput((Input *) c);
   case Camera::TYPE:
     return wrapCamera((Camera *) c);
   default:
