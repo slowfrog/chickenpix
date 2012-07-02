@@ -10,6 +10,7 @@
 #include "SFMLInputs.h"
 #include "SFMLLoader.h"
 #include "SFMLRender.h"
+#include "../Main.h"
 
 #include "../EntityBuilder.h"
 #include "../SystemManager.h"
@@ -20,73 +21,25 @@
 
 using namespace std;
 
+// Interface to SFML timing functions
+class SFMLTimer {
+private:
+  sf::Clock clock_;
+  
+public:
+  int getTime() {
+    return (int) floor(1000 * clock_.GetElapsedTime());
+  }
+
+  void sleep(int time) {
+    sf::Sleep(time / 1000.0f);
+  }
+
+};
+
 int main(int argc, char const *argv[]) {
-  try{
-    // init log
-    ILog::setLogger( new CLogOutput, LEVEL_DEBUG);
-    CTagEntityMng::get()->resetTagCollection();
-    
-    // Init
-    EntityManager em("SFML-main");
-    SFMLRender sfrender("SFMLRender", em, 800, 600);
-    sfrender.init();
-    Animation anim("Animation", em);
-    anim.init();
-    SFMLInputs sfinputs("SFMLInput", em);
-    sfinputs.init();
-    SFMLLoader sfloader("SFMLLoader", em, "resources/resources.xml");
-    sfloader.setEntitiesDesc( "resources/entities.xml");
-    sfloader.init();
-    Scripting scripting("Scripting", em);
-    scripting.init();
-    Movement movement("Movement", em);
-    movement.init();
-    
-    //EntityManager emf("SFML-fight");
-    //CFightSystem fight("FightSystem", emf);
-    //fight.init();
-    
-    //CSystemManager::get()->createEntityManager( "SFML-fight");
-    //CSystemManager::get()->registerSystem( "SFML-fight", &fight);
-    
-    //CSystemManager::destroy();
-    
-    //return 0;
-    //cout << em.toString() << endl;
-    LOG2<< em.toString() <<"\n";
-    //LOG2<< emf.toString() <<"\n";
-    
-    // One step
-    sf::Clock clock;
-    int prev = (int) floor(1000 * clock.GetElapsedTime());
-    while (true) {
-      int now = (int) floor(1000 * clock.GetElapsedTime());
-      
-      // Process inputs
-      sfinputs.update(now);
-      if (sfinputs.isExitRequested()) {
-        break;
-      }
-      
-      scripting.update(now);
-      movement.update(now);
-      anim.update(now);
-      sfrender.update(now);
-      
-      prev = now;
-      // Do ~60FPS
-      int sleepTime = 15 - ((int) floor(1000 * clock.GetElapsedTime()) - now);
-      if (sleepTime < 0) {
-        sleepTime = 0;
-      }
-      sf::Sleep(sleepTime / 1000.0f);
-    }
-    movement.exit();
-    scripting.exit();
-    sfloader.exit();
-    sfinputs.exit();
-    anim.exit();
-    sfrender.exit();
+  try {
+    runGame<SFMLRender, SFMLInputs, SFMLLoader, SFMLTimer>();
   }
   catch (const std::string &msg) {
     LOG2<<"*** Exception with message : "<<msg<<" ***\n";

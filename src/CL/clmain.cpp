@@ -1,7 +1,7 @@
 #include "CL.h"
 
 #include "../EntityManager.h"
-#include "ClanLib.h"
+//#include "ClanLib.h"
 #include "CLRender.h"
 #include "CLLoader.h"
 #include "CLResources.h"
@@ -9,6 +9,18 @@
 #include "../Animation.h"
 #include "../Scripting.h"
 #include "../Movement.h"
+#include "../Main.h"
+
+// Interface to ClanLib timing system
+class CLTimer {
+public:
+  int getTime() {
+    return CL_System::get_time();
+  }
+  void sleep(int time) {
+    CL_System::sleep(time);
+  }
+};
 
 class DisplayProgram
 {
@@ -17,64 +29,11 @@ public:
   {
     try
     {
-      // Init
-      EntityManager em("CL-main");
-      ClanLib clanlib("ClanLib", em);
-      clanlib.init();
-      CLRender clrender("CLRender", em, 800, 600);
-      clrender.init();
-      Animation anim("Animation", em);
-      anim.init();
-      CLLoader clloader("Loader", em, "resources/resources.xml");
-      clloader.setEntitiesDesc( "resources/entities.xml");
-      clloader.init();
-      CLInputs clinputs("Inputs", em);
-      clinputs.init();
-      Scripting scripting("Scripting", em);
-      scripting.init();
-      Movement movement("Movement", em);
-      movement.init();
-
-      cout << em.toString() << endl;
+      CL_SetupCore setupCore;
+      CL_SetupDisplay setupDisplay;
+      CL_SetupSWRender setupSWRender;
       
-      int prev = CL_System::get_time();
-
-      // One step
-      while (true) {
-        int now = CL_System::get_time();
-
-        // Process inputs
-        clinputs.update(now);
-        if (clinputs.isExitRequested()) {
-          break;
-        }
-
-        // Execute scripts
-        scripting.update(now);
-        // "Physics" engine
-        movement.update(now);
-        // Update animations
-        anim.update(now);
-        // Render update
-        clrender.update(now);
-        
-        prev = now;
-        
-        // Do ~60FPS
-        int sleepTime = 15 - (CL_System::get_time() - now);
-        if (sleepTime < 0) {
-          sleepTime = 0;
-        }
-        CL_System::sleep(sleepTime);
-      }
-
-      movement.exit();
-      scripting.exit();
-      clinputs.exit();
-      clloader.exit();
-      clrender.exit();
-      anim.exit();
-      clanlib.exit();
+      runGame<CLRender, CLInputs, CLLoader, CLTimer>();
     }
     catch(CL_Exception &exception)
     {
