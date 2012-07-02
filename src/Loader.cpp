@@ -14,6 +14,7 @@
 #include "Scriptable.h"
 #include "log.h"
 
+static const int BASE_MAP_ZORDER = -5;
 
 Loader::Loader(string const &name, EntityManager &em, string const &resourceFile):
 System(name, em), resourceFile(resourceFile) {
@@ -65,17 +66,13 @@ Loader::exit() {
 }
 
 void
-Loader::createImage(string const &name, float x, float y, Resources *resources) const {
+Loader::createImage(ImagePart const &part, float x, float y, int zOrder,
+                    Resources *resources) const {
   Entity *img = _em.createEntity();
   img->addComponent(new Transform(x, y));
-  img->addComponent(resources->makeImage(name));
-}
-
-void
-Loader::createImage(ImagePart const &part, float x, float y, Resources *resources) const {
-  Entity *img = _em.createEntity();
-  img->addComponent(new Transform(x, y));
-  img->addComponent(resources->makeImage(part));
+  BVisual *image = resources->makeImage(part);
+  image->setZOrder(zOrder);
+  img->addComponent(image);
 }
 
 void
@@ -196,7 +193,8 @@ Loader::loadTmxMap(string const &name) const {
             const Tmx::Tileset *tileset = map.GetTileset(tile.tilesetId);
             // cout << tile.tilesetId << "|" << tileset->GetFirstGid() + tile.id << " ";
             createImage(tilesetImages[tileset->GetFirstGid() + tile.id],
-                        (float) x * map.GetTileWidth(), (float) y * map.GetTileHeight(), resources);
+                        (float) x * map.GetTileWidth(), (float) y * map.GetTileHeight(),
+                        BASE_MAP_ZORDER + i, resources);
           }
           // cout << "]" << endl;
         }

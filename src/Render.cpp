@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 #include "Transform.h"
 #include "Render.h"
 #include "BVisual.h"
@@ -12,6 +13,14 @@ Render::Render(string const &name, EntityManager &em):
 
 Render::~Render() {
 }
+
+static bool
+compareEntitiesOnZOrder(Entity * const &entity1, Entity * const &entity2) {
+  BVisual *vis1 = entity1->getComponent<BVisual>();
+  BVisual *vis2 = entity2->getComponent<BVisual>();
+  return BVisual::compareZOrder(*vis1, *vis2);
+}
+
 
 void
 Render::update(int now) {
@@ -40,6 +49,9 @@ Render::update(int now) {
   
   // Visual
   vector<Entity *> visuals = _em.getEntities(BVisual::TYPE, Transform::TYPE);
+  // Sort by z-order
+  stable_sort(visuals.begin(), visuals.end(), compareEntitiesOnZOrder);
+
   int painted = 0;
   for (vector<Entity *>::iterator it = visuals.begin(); it < visuals.end(); it++) {
     Entity *entity = *it;

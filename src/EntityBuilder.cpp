@@ -391,6 +391,10 @@ CEntityBuilder::buildComponentResourcesImage( TiXmlElement *pNode,  Entity *e, R
           image->setGUI(false);
         }
       }
+      int zOrder;
+      if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "z-order", &zOrder)) {
+        image->setZOrder(zOrder);
+      }
       e->addComponent( image);
       return;
     }
