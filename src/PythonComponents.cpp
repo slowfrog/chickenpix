@@ -239,10 +239,102 @@ PyObject *InputState_isKeyDown(PyInputState *self, PyObject *args) {
   }
 }
 
+static
+PyObject *InputState_isButtonDown(PyInputState *self, PyObject *args) {
+  int button;
+  if (!PyArg_ParseTuple(args, "i", &button)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+  }
+  if (self->state->isButtonDown((InputState::MouseButton) button)) {
+    Py_RETURN_TRUE;
+  } else {
+    Py_RETURN_FALSE;
+  }
+}
+
+static
+PyObject *InputState_getMousePosition(PyInputState *self) {
+  InputState::MousePos pos = self->state->getMousePosition();
+  return PyTuple_Pack(2, PyInt_FromLong(pos.x), PyInt_FromLong(pos.y));
+}
+
 static PyMethodDef InputState_methods[] = {
   { "isKeyDown", (PyCFunction) InputState_isKeyDown, METH_VARARGS, "Check if a key is pressed" },
+  { "isButtonDown", (PyCFunction) InputState_isButtonDown, METH_VARARGS, "Check if a mouse button is pressed" },
+  { "getMousePosition", (PyCFunction) InputState_getMousePosition, METH_NOARGS, "Get the current mouse position as a tuple" },
   { NULL }
 };
+
+static
+void
+exposeInputStateConstants() {
+  PyObject *val;
+  val = PyInt_FromLong(InputState::Num0);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM0", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Num1);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM1", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Num2);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM2", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Num3);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM3", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Num4);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM4", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Num5);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM5", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Num6);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM6", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Num7);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM7", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Num8);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM8", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Num9);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM9", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Space);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "SPACE", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Space);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "SPACE", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Up);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "UP", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Down);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "DOWN", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Left);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "LEFT", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Right);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "RIGHT", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::Escape);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "ESCAPE", val);
+  Py_DECREF(val);
+  //-- Mouse buttons
+  val = PyInt_FromLong(InputState::LeftButton);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "LEFT_BUTTON", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::RightButton);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "RIGHT_BUTTON", val);
+  Py_DECREF(val);
+  val = PyInt_FromLong(InputState::MiddleButton);
+  PyDict_SetItemString(PyInputStateType.tp_dict, "MIDDLE_BUTTON", val);
+  Py_DECREF(val);
+}
 
 // Input type and methods -------------------------------------------------------------------
 static PyTypeObject PyInputType = {
@@ -389,6 +481,7 @@ initComponents(PyObject *module) {
   }
   Py_INCREF(&PyInputStateType);
   PyModule_AddObject(module, "InputState", (PyObject *) &PyInputStateType);
+  exposeInputStateConstants();
   Py_DECREF(type);
   
   // Input

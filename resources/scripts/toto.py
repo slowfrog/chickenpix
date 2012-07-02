@@ -13,9 +13,20 @@ def update(self, manager):
     self.times += 1
     input = self.getComponent(cp.Input.TYPE)
     if input is not None:
-        downdown = input.state.isKeyDown(12);
-        if downdown:
+        if input.state.isKeyDown(cp.InputState.DOWN):
             print("The down arrow is pressed")
+        if input.state.isKeyDown(cp.InputState.UP):
+            print("The up arrow is pressed")
+        if input.state.isKeyDown(cp.InputState.LEFT):
+            print("The left arrow is pressed")
+        if input.state.isKeyDown(cp.InputState.RIGHT):
+            print("The right arrow is pressed")
+        if input.state.isButtonDown(cp.InputState.LEFT_BUTTON):
+            print("The left button is pressed at %d,%d" % input.state.getMousePosition())
+        if input.state.isButtonDown(cp.InputState.RIGHT_BUTTON):
+            print("The right button is pressed at %d,%d" % input.state.getMousePosition())
+        if input.state.isButtonDown(cp.InputState.MIDDLE_BUTTON):
+            print("The middle button is pressed at %d,%d" % input.state.getMousePosition())
     if self.times == 0:
         print("TOTO: My id is %d and I have %d components: %s" %
               (self.id(),

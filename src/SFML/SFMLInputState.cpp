@@ -22,6 +22,13 @@ sf::Key::Code KEYMAP[] = {
   sf::Key::Escape,
 };
 
+static
+sf::Mouse::Button BUTTONMAP[] = {
+  sf::Mouse::Left,
+  sf::Mouse::Right,
+  sf::Mouse::Middle
+};
+
 SFMLInputState::SFMLInputState(sf::RenderWindow *window) :
   window_(window) {
 }
@@ -33,10 +40,10 @@ SFMLInputState::isKeyDown(Key const k) const {
 
 bool
 SFMLInputState::isButtonDown(MouseButton const b) const {
-  return false;
+  return window_->GetInput().IsMouseButtonDown(BUTTONMAP[b]);
 }
 
 InputState::MousePos
 SFMLInputState::getMousePosition() const {
-  return MousePos({0, 0});
+  return MousePos({window_->GetInput().GetMouseX(), window_->GetInput().GetMouseY()});
 }

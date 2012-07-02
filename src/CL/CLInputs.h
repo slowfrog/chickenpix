@@ -6,6 +6,7 @@
 class CLInputs: public Inputs {
 private:
   CL_InputDevice *keyboard_;
+  CL_InputDevice *mouse_;
   CLInputState *state_;
 public:
   CLInputs(string const &name, EntityManager &em);

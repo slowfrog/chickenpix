@@ -20,8 +20,14 @@ static int KEYMAP[] = {
   CL_KEY_ESCAPE
 };
 
-CLInputState::CLInputState(CL_InputDevice *keyboard):
-  keyboard_(keyboard) {
+static int BUTTONMAP[] = {
+  CL_MOUSE_LEFT,
+  CL_MOUSE_RIGHT,
+  CL_MOUSE_MIDDLE
+};
+
+CLInputState::CLInputState(CL_InputDevice *keyboard, CL_InputDevice *mouse):
+  keyboard_(keyboard), mouse_(mouse) {
 }
 
 bool
@@ -31,11 +37,10 @@ CLInputState::isKeyDown(Key const k) const {
 
 bool
 CLInputState::isButtonDown(MouseButton const b) const {
-  // TODO
-  return false;
+  return mouse_->get_keycode(BUTTONMAP[b]);
 }
 
 InputState::MousePos
 CLInputState::getMousePosition() const {
-  return MousePos({0, 0});
+  return MousePos({mouse_->get_x(), mouse_->get_y()});
 }
