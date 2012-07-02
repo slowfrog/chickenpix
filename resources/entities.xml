@@ -68,16 +68,6 @@
     <entity>    
         <components>
             <component name="Resources" type="image" gui="true" z-order="100">
-                <image alias="pig"/>
-            </component>
-            <component name="Transform">
-                <position x="10" y="350"/>
-            </component>
-        </components>
-    </entity>
-    <entity>    
-        <components>
-            <component name="Resources" type="image" gui="true" z-order="100">
                 <image alias="wall"/>
             </component>
             <component name="Transform">
