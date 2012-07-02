@@ -1,5 +1,5 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+#include "SFML.h"
 #include "../Render.h"
 
 class SFMLRender: public Render {

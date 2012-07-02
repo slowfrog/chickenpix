@@ -27,17 +27,20 @@ int KEYMAP[] = {
 
 
 CLInputs::CLInputs(string const &name, EntityManager &em):
-  Inputs(name, em), keyboard(NULL) {
+  Inputs(name, em), keyboard_(NULL), state_(NULL) {
 }
 
 CLInputs::~CLInputs() {
+  delete state_;
+  state_ = NULL;
 }
 
 void
 CLInputs::init() {
   Resources *resources = _em.getComponent<Resources>();
   CLVisualContext &vc = (CLVisualContext &) resources->getVisualContext();
-  keyboard = &(vc.getWindow().get_ic().get_keyboard());
+  keyboard_ = &(vc.getWindow().get_ic().get_keyboard());
+  state_ = new CLInputState(keyboard_);
 }
 
 void
@@ -46,9 +49,9 @@ CLInputs::pumpEvents() {
   CL_KeepAlive::process();
 }
 
-bool
-CLInputs::isKeyDown(Key key) const {
-  return keyboard->get_keycode(KEYMAP[key]);
+InputState const *
+CLInputs::getInputState() const {
+  return state_;
 }
 
 void

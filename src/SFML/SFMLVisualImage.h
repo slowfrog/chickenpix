@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include "SFML.h"
 #include "../BVisual.h"
 #include "../Image.h"
 

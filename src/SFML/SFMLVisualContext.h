@@ -1,7 +1,6 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-
+#include "SFML.h"
 #include "../VisualContext.h"
 
 class SFMLVisualContext: public VisualContext {

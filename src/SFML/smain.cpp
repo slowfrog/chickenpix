@@ -1,5 +1,5 @@
 #include <iostream>
-#include <SFML/System.hpp>
+#include "SFML.h"
 #include "../log.h"
 #include "../Animation.h"
 #include "../EntityManager.h"

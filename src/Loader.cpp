@@ -12,6 +12,7 @@
 #include "Mobile.h"
 #include "Resources.h"
 #include "Scriptable.h"
+#include "log.h"
 
 
 Loader::Loader(string const &name, EntityManager &em, string const &resourceFile):
@@ -136,10 +137,10 @@ Loader::loadTmxMap(string const &name) const {
   Tmx::Map map;
   map.ParseFile(name);
   if (map.HasError()) {
-    cout << "Map has error: " << map.GetErrorText() << endl;
+    LOG2 << "Map has error: " << map.GetErrorText() << "\n";
   } else {
-    cout << "Map: " << map.GetWidth() << "x" << map.GetTileWidth() << "px - " <<
-    map.GetHeight() << "x" << map.GetTileHeight() << "px" << endl;
+    LOG2 << "Map: " << map.GetWidth() << "x" << map.GetTileWidth() << "px - " <<
+    map.GetHeight() << "x" << map.GetTileHeight() << "px\n";
     
     // Load tilesets
     std::map<int, ImagePart> tilesetImages;
@@ -154,8 +155,8 @@ Loader::loadTmxMap(string const &name) const {
       }
       addImage(imageFile, resources); // Make sure to load the tileset image
       //tilesetImages[i] = imageFile;
-      cout << "Tileset #" << i << " name='" << tileset->GetName() << "' " <<
-      imageFile << " " << tileset->GetTileWidth() << "x" << tileset->GetTileHeight() << endl;
+      LOG2DBG << "Tileset #" << i << " name='" << tileset->GetName() << "' " <<
+        imageFile << " " << tileset->GetTileWidth() << "x" << tileset->GetTileHeight() << "\n";
       
       int j = 0;
       for (int y = tileset->GetMargin(); y < tileset->GetImage()->GetHeight();

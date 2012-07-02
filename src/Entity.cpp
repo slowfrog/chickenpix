@@ -1,4 +1,5 @@
 #include <sstream>
+#include "log.h"
 #include "Entity.h"
 
 
@@ -14,10 +15,18 @@ Entity::Entity(Id id):
 
 Entity::Entity(Entity const &src):
   _id(src._id), _type(src._type), comp(src.comp), tags(src.tags) {
+  // Re-parent all components
+  for (vector<Component *>::iterator it = comp.begin(); it < comp.end(); ++it) {
+    (*it)->setEntity(this);
+  }
 }
 
 Entity::Entity(Entity const &src, Type type):
   _id(src._id), _type(type), comp(src.comp), tags(src.tags) {
+  // Re-parent all components
+  for (vector<Component *>::iterator it = comp.begin(); it < comp.end(); ++it) {
+    (*it)->setEntity(this);
+  }
 }
 
 Entity::~Entity() {
@@ -30,6 +39,7 @@ Entity::~Entity() {
 void
 Entity::addComponent(Component *c) {
   comp.push_back(c);
+  c->setEntity(this);
 }
 
 void
@@ -37,6 +47,7 @@ Entity::removeComponent(Component::Type t) {
   for (vector<Component *>::iterator it = comp.begin(); it < comp.end(); it++) {
     Component *c = (*it);
     if (c->getType() == t) {
+      c->setEntity(NULL);
       comp.erase(it);
       delete c;
       break;

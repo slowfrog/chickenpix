@@ -1,6 +1,5 @@
 #include <iostream>
 #include <sstream>
-#include <SFML/Window.hpp>
 #include "../Transform.h"
 #include "SFMLRender.h"
 #include "../BVisual.h"

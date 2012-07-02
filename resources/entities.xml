@@ -146,6 +146,7 @@
             </component>
             <component name="Input">
             </component>
+            <component name="Controller" class="HeroController" />
             <component name="Scriptable">
                 <script name="toto"/>
             </component>

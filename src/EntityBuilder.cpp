@@ -8,6 +8,7 @@
 #include "Mobile.h"
 #include "Animated.h"
 #include "Input.h"
+#include "HeroController.h"
 #include "Resources.h"
 #include "Scriptable.h"
 #include "Camera.h"
@@ -28,6 +29,7 @@ static callbacks callers[]={
   clbScriptable,
   clbCamera,
   clbCharacter,
+  clbController,
   0 // last index marker
 };
 
@@ -52,6 +54,10 @@ void clbAnimated( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *
 
 void clbInput( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
   eb->buildInput( node, e, pResource);
+}
+
+void clbController( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
+  eb->buildController( node, e, pResource);
 }
 
 void clbResources( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
@@ -238,7 +244,7 @@ CEntityBuilder::BuildEntity( TiXmlElement *pParent, EntityManager &em, Resources
     for( pChilds=pChilds->FirstChildElement( "component" ); pChilds; pChilds = pChilds->NextSiblingElement() ){
       std::string name; 
       if ( TIXML_SUCCESS == pChilds->QueryValueAttribute( "name", &name)){
-        LOG2 <<name<<"\n";
+        //LOG2 <<name<<"\n";
         buildComponents(pChilds, name, ent, pResources);
       }
       else {
@@ -325,6 +331,21 @@ void
 CEntityBuilder::buildInput(TiXmlElement *pNode, Entity *e, Resources*){
   // No elements, no attributes
   e->addComponent( new Input);
+}
+
+// Component Controller
+void 
+CEntityBuilder::buildController(TiXmlElement *pNode, Entity *e, Resources*){
+  std::string name; 
+  if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "class", &name)){
+    if (name == "HeroController") {
+      // No elements, no attributes
+      e->addComponent( new HeroController);
+    } else {
+      LOG2ERR << "Unknown Controller class " << name << "\n";
+    }
+    LOG2ERR << "Missing 'class' attribute for [Controller] component\n";
+  }
 }
 
 // Component Resources
@@ -430,7 +451,7 @@ CEntityBuilder::buildCharacter ( TiXmlElement *pNode, Entity *e, Resources*){
   TiXmlElement *pChar = pNode->FirstChildElement("stats");
   if ( pChar ){
     Character *character = new Character;
-    for( pChar; pChar; pChar= pChar->NextSiblingElement()){
+    for(; pChar; pChar= pChar->NextSiblingElement()){
       std::string name;
       long        value(0);
       if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "name", &name) &&

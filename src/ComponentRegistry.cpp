@@ -11,5 +11,6 @@ const char *ComponentName[] = {
   "Scriptable",
   "Camera",
   "Character",
+  "Controller",
   0
 };

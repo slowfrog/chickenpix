@@ -1,66 +1,48 @@
 #include <sstream>
 #include <iostream>
 
-#include <SFML/Window.hpp>
-
 #include "SFMLInputs.h"
 #include "SFMLVisualContext.h"
 #include "../Input.h"
 #include "../Transform.h"
 #include "../Resources.h"
 
-sf::Key::Code KEYMAP[] = {
-  sf::Key::Num0,
-  sf::Key::Num1,
-  sf::Key::Num2,
-  sf::Key::Num3,
-  sf::Key::Num4,
-  sf::Key::Num5,
-  sf::Key::Num6,
-  sf::Key::Num7,
-  sf::Key::Num8,
-  sf::Key::Num9,
-  sf::Key::Space,
-  sf::Key::Up,
-  sf::Key::Down,
-  sf::Key::Left,
-  sf::Key::Right,
-  sf::Key::Escape,
-};
-
 
 SFMLInputs::SFMLInputs(string const &name, EntityManager &em):
-  Inputs(name, em), window(NULL) {
+  Inputs(name, em), window_(NULL), state_(NULL) {
 }
 
 SFMLInputs::~SFMLInputs() {
+  delete state_;
+  state_ = NULL;
 }
 
 void
 SFMLInputs::init() {
   Resources *resources = _em.getComponent<Resources>();
   SFMLVisualContext &vc = (SFMLVisualContext &) resources->getVisualContext();
-  window = &vc.getRenderWindow();
+  window_ = &vc.getRenderWindow();
+  state_ = new SFMLInputState(window_);
 }
 
 void
 SFMLInputs::pumpEvents() {
   sf::Event event;
-  while (window->GetEvent(event)) {
-    if (event.Type == sf::Event::Closed) {
-      exitRequested = true;
-      return;
-    }
+  while (window_->GetEvent(event)) {
+    // if (event.Type == sf::Event::Closed) {
+    //   exitRequested = true;
+    //   return;
+    // }
   }
-}
-
-bool
-SFMLInputs::isKeyDown(Key key) const {
-  return window->GetInput().IsKeyDown(KEYMAP[key]);
 }
 
 void
 SFMLInputs::exit() {
+}
+
+InputState const *
+SFMLInputs::getInputState() const {
+  return state_;
 }
 
 string

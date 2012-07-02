@@ -1,7 +1,7 @@
 #include "Input.h"
 
 Input::Input():
-  Component(TYPE) {
+  Component(TYPE), state_(NULL) {
 }
 
 Input::~Input() {
