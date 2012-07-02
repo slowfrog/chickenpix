@@ -61,7 +61,11 @@ public:
         prev = now;
         
         // Do ~60FPS
-        CL_System::sleep(15);
+        int sleepTime = 15 - (CL_System::get_time() - now);
+        if (sleepTime < 0) {
+          sleepTime = 0;
+        }
+        CL_System::sleep(sleepTime);
       }
 
       movement.exit();

@@ -75,7 +75,11 @@ int main(int argc, char const *argv[]) {
       
       prev = now;
       // Do ~60FPS
-      sf::Sleep(0.015f);
+      int sleepTime = 15 - ((int) floor(1000 * clock.GetElapsedTime()) - now);
+      if (sleepTime < 0) {
+        sleepTime = 0;
+      }
+      sf::Sleep(sleepTime / 1000.0f);
     }
     movement.exit();
     scripting.exit();
