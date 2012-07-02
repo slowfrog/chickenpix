@@ -5,7 +5,7 @@
 #include <string>
 
 #include "EntityManager.h"
-#include "system.h"
+#include "System.h"
 #include "Stats.h"
 
 // Forward
