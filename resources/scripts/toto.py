@@ -13,14 +13,14 @@ def update(self, manager):
     self.times += 1
     input = self.getComponent(cp.Input.TYPE)
     if input is not None:
-        if input.state.isKeyDown(cp.InputState.DOWN):
-            print("The down arrow is pressed")
-        if input.state.isKeyDown(cp.InputState.UP):
-            print("The up arrow is pressed")
-        if input.state.isKeyDown(cp.InputState.LEFT):
-            print("The left arrow is pressed")
-        if input.state.isKeyDown(cp.InputState.RIGHT):
-            print("The right arrow is pressed")
+        # if input.state.isKeyDown(cp.InputState.DOWN):
+        #     print("The down arrow is pressed")
+        # if input.state.isKeyDown(cp.InputState.UP):
+        #     print("The up arrow is pressed")
+        # if input.state.isKeyDown(cp.InputState.LEFT):
+        #     print("The left arrow is pressed")
+        # if input.state.isKeyDown(cp.InputState.RIGHT):
+        #     print("The right arrow is pressed")
         if input.state.isButtonDown(cp.InputState.LEFT_BUTTON):
             print("The left button is pressed at %d,%d" % input.state.getMousePosition())
             anim = self.getComponent(cp.Animated.TYPE)
@@ -35,9 +35,9 @@ def update(self, manager):
             cam.height = 100
         if input.state.isKeyDown(cp.InputState.NUM1):
             print("You are pressing 1")
+            cam = self.getComponent(cp.Camera.TYPE)
             print("Current camera at %f,%f size %dx%d" %
                   (cam.offsetX, cam.offsetY, cam.width, cam.height))
-            cam = self.getComponent(cp.Camera.TYPE)
             cam.width = 600
             cam.height = 600
         if input.state.isButtonDown(cp.InputState.RIGHT_BUTTON):
