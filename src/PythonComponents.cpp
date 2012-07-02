@@ -1,6 +1,7 @@
 #include <Python.h>
 #include "log.h"
 #include "PythonComponents.h"
+#include "Animated.h"
 #include "Camera.h"
 #include "Input.h"
 #include "InputState.h"
@@ -13,6 +14,7 @@ static PyObject *NO_KWDS = PyDict_New();
 // Transform wrapper
 typedef PyComponent PyTransform;
 typedef PyComponent PyMobile;
+typedef PyComponent PyAnimated;
 typedef PyComponent PyInput;
 typedef PyComponent PyCamera;
 
@@ -206,6 +208,51 @@ static PyGetSetDef Mobile_getset[] = {
   { (char *) "speedX", Mobile_getSpeedX, Mobile_setSpeedX, (char *) "The x speed", NULL },
   { (char *) "speedY", Mobile_getSpeedY, Mobile_setSpeedY, (char *) "The y speed", NULL },
   { (char *) "speed", Mobile_getSpeed, Mobile_setSpeed, (char *) "The speed as a tuple of two numbers", NULL },
+  { NULL, NULL }
+};
+
+// Animated type and methods -------------------------------------------------------------------
+static PyTypeObject PyAnimatedType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Animated",
+  sizeof(PyAnimated),
+};
+
+static
+int Animated_init(PyTransform *self, PyObject *args, PyObject *kwds) {
+  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
+    return -1;
+  }
+  if (PyErr_Occurred()) {
+    PyErr_Clear();
+  }
+  
+  PyObject *name;
+  if (!PyArg_ParseTuple(args, "S", &name)) {
+    return -1;
+  }
+  self->component = new Animated(PyString_AsString(name));
+  return 0;
+}
+
+static
+PyObject *Animated_getAnimation(PyObject *self, void *) {
+  return PyString_FromString(((Animated *) ((PyAnimated *) self)->component)->getAnimation().c_str());
+}
+
+static
+int Animated_setAnimation(PyObject *self, PyObject *val, void *) {
+  if (!PyString_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Animated.animation must be a string");
+    return -1;
+  }
+  ((Animated *) ((PyAnimated *) self)->component)->setAnimation(PyString_AsString(val));
+  return 0;
+}
+
+static PyGetSetDef Animated_getset[] = {
+  { (char *) "animation", Animated_getAnimation, Animated_setAnimation, (char *) "The current animation", NULL },
   { NULL, NULL }
 };
 
@@ -439,7 +486,7 @@ initComponents(PyObject *module) {
   
   // Transform
   PyTransformType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-  PyTransformType.tp_doc = "Type of transform components";
+  PyTransformType.tp_doc = "Type of Transform components";
   PyTransformType.tp_methods = Transform_methods;
   PyTransformType.tp_base = &PyComponentType;
   PyTransformType.tp_init = (initproc) Transform_init;
@@ -456,7 +503,7 @@ initComponents(PyObject *module) {
 
   // Mobile
   PyMobileType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-  PyMobileType.tp_doc = "Type of mobile components";
+  PyMobileType.tp_doc = "Type of Mobile components";
   //PyMobileType.tp_methods = XXX
   PyMobileType.tp_base = &PyComponentType;
   PyMobileType.tp_init = (initproc) Mobile_init;
@@ -469,6 +516,23 @@ initComponents(PyObject *module) {
   PyModule_AddObject(module, "Mobile", (PyObject *) &PyMobileType);
   type = PyInt_FromLong(Mobile::TYPE);
   PyDict_SetItemString(PyMobileType.tp_dict, "TYPE", type);
+  Py_DECREF(type);
+
+  // Animated
+  PyAnimatedType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
+  PyAnimatedType.tp_doc = "Type of Animated components";
+  //PyAnimatedType.tp_methods = XXX
+  PyAnimatedType.tp_base = &PyComponentType;
+  PyAnimatedType.tp_init = (initproc) Animated_init;
+  PyAnimatedType.tp_getset = Animated_getset;
+  if (PyType_Ready(&PyAnimatedType) < 0) {
+    LOG2 << "Cannot create Animated type\n";
+    return;
+  }
+  Py_INCREF(&PyAnimatedType);
+  PyModule_AddObject(module, "Animated", (PyObject *) &PyAnimatedType);
+  type = PyInt_FromLong(Animated::TYPE);
+  PyDict_SetItemString(PyAnimatedType.tp_dict, "TYPE", type);
   Py_DECREF(type);
 
   // InputState
@@ -486,7 +550,7 @@ initComponents(PyObject *module) {
   
   // Input
   PyInputType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-  PyInputType.tp_doc = "Type of input components";
+  PyInputType.tp_doc = "Type of Input components";
   //PyInputType.tp_methods = XXX
   PyInputType.tp_base = &PyComponentType;
   PyInputType.tp_init = (initproc) Input_init;
@@ -503,7 +567,7 @@ initComponents(PyObject *module) {
   
   // Camera
   PyCameraType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-  PyCameraType.tp_doc = "Type of camera components";
+  PyCameraType.tp_doc = "Type of Camera components";
   //PyCameraType.tp_methods = XXX
   PyCameraType.tp_base = &PyComponentType;
   PyCameraType.tp_init = (initproc) Camera_init;
@@ -534,6 +598,13 @@ wrapMobile(Mobile *c) {
 }
 
 PyObject *
+wrapAnimated(Animated *a) {
+  PyAnimated *pya = (PyAnimated *) PyAnimatedType.tp_alloc(&PyAnimatedType, 0);
+  pya->component = a;
+  return (PyObject *) pya;
+}
+
+PyObject *
 wrapInput(Input *i) {
   PyInput *pyi = (PyInput *) PyInputType.tp_alloc(&PyInputType, 0);
   pyi->component = i;
@@ -555,6 +626,8 @@ wrapRealComponent(Component *c) {
     return wrapTransform((Transform *) c);
   case Mobile::TYPE:
     return wrapMobile((Mobile *) c);
+  case Animated::TYPE:
+    return wrapAnimated((Animated *) c);
   case Input::TYPE:
     return wrapInput((Input *) c);
   case Camera::TYPE:

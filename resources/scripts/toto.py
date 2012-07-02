@@ -23,6 +23,9 @@ def update(self, manager):
             print("The right arrow is pressed")
         if input.state.isButtonDown(cp.InputState.LEFT_BUTTON):
             print("The left button is pressed at %d,%d" % input.state.getMousePosition())
+            anim = self.getComponent(cp.Animated.TYPE)
+            print("Current anim is %s" % anim.animation)
+            anim.animation = "man_still"
         if input.state.isButtonDown(cp.InputState.RIGHT_BUTTON):
             print("The right button is pressed at %d,%d" % input.state.getMousePosition())
         if input.state.isButtonDown(cp.InputState.MIDDLE_BUTTON):
