@@ -46,12 +46,18 @@ Render::update(int now) {
     Transform *t = entity->getComponent<Transform>();
     BVisual *v = entity->getComponent<BVisual>();
 
-    if ((t->getX() > maxX) || (t->getY() > maxY) ||
-        (t->getX() + v->getWidth(*vc) < minX) || (t->getY() + v->getHeight(*vc) < minY)) {
-      continue; // Off screen: don't draw
+    if (!v->isGUI()) { // Non GUI element move with the camera
+      if ((t->getX() > maxX) || (t->getY() > maxY) ||
+          (t->getX() + v->getWidth(*vc) < minX) || (t->getY() + v->getHeight(*vc) < minY)) {
+        continue; // Off screen: don't draw
+      }
+      painted++;
+      v->draw(*vc, t->getX() - offsetX, t->getY() - offsetY, delta);
+      
+    } else { // GUI elements are fixed
+      painted++;
+      v->draw(*vc, t->getX(), t->getY(), delta);
     }
-    painted++;
-    v->draw(*vc, t->getX() - offsetX, t->getY() - offsetY, delta);
   }
 
   paint(*vc);

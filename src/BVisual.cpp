@@ -1,7 +1,7 @@
 #include "BVisual.h"
 
-BVisual::BVisual():
-  Component(TYPE) {
+BVisual::BVisual(bool gui):
+  Component(TYPE), gui_(gui) {
 }
 
 BVisual::~BVisual() {

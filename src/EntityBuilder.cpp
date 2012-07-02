@@ -382,7 +382,16 @@ CEntityBuilder::buildComponentResourcesImage( TiXmlElement *pNode,  Entity *e, R
   if ( pChar) {
     std::string alias;
     if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "alias", &alias)){
-      e->addComponent( pResource->makeImage( alias));
+      BVisual *image = pResource->makeImage( alias);
+      std::string gui;
+      if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "gui", &gui)) {
+        if (gui == "true") {
+          image->setGUI(true);
+        } else {
+          image->setGUI(false);
+        }
+      }
+      e->addComponent( image);
       return;
     }
   }

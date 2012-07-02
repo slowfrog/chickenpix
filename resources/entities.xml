@@ -64,7 +64,7 @@
 	<!-- create entity -->
     <entity>    
         <components>
-            <component name="Resources" type="image">
+            <component name="Resources" type="image" gui="true">
                 <image alias="pig"/>
             </component>
             <component name="Transform">
