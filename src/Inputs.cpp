@@ -16,7 +16,7 @@ void
 Inputs::update(int now) {
   pumpEvents();
 
-  InputState *state = getInputState();
+  InputState const *state = getInputState();
   if (state->isKeyDown(InputState::Escape)) {
     exitRequested_ = true;
     return;
@@ -33,39 +33,7 @@ Inputs::update(int now) {
       c->update(now);
     }
   }
-  
-  //moveHero(now);
 }
-
-// void
-// Inputs::moveHero(int now) {
-//   int dx = 0;
-//   int dy = 0;
-//   string anim = "man_still";
-//   if (isKeyDown(Up)) {
-//     dy -= 2;
-//     anim = "man_walk_up";
-//   }
-//   if (isKeyDown(Down)) {
-//     dy += 2;
-//     anim = "man_walk_down";
-//   }
-//   if (isKeyDown(Left)) {
-//     dx -= 2;
-//     anim = "man_walk_left";
-//   }
-//   if (isKeyDown(Right)) {
-//     dx += 2;
-//     anim = "man_walk_right";
-//   }
-
-//   vector<Entity *> ents = _em.getEntities(Mobile::TYPE, Input::TYPE);
-//   for (vector<Entity *>::iterator it = ents.begin(); it < ents.end(); it++) {
-//     Entity *ent = *it;
-//     Mobile *m = ent->getComponent<Mobile>();
-//     m->setSpeed((float) dx, (float) dy);
-//   }
-// }
 
 bool
 Inputs::isExitRequested() const {
