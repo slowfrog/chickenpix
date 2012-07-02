@@ -61,6 +61,11 @@
 		5ADCACFA1592693A00E29849 /* BVisual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACF31592693A00E29849 /* BVisual.cpp */; };
 		5ADCACFB1592693A00E29849 /* Inputs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACF51592693A00E29849 /* Inputs.cpp */; };
 		5ADCACFC1592693A00E29849 /* Resources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACF71592693A00E29849 /* Resources.cpp */; };
+		5AEA4BDA15A236F100658BF8 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEA4BD615A236F100658BF8 /* Controller.cpp */; };
+		5AEA4BDB15A236F100658BF8 /* HeroController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEA4BD815A236F100658BF8 /* HeroController.cpp */; };
+		5AEA4BDE15A2372A00658BF8 /* SFMLInputState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEA4BDC15A2372A00658BF8 /* SFMLInputState.cpp */; };
+		5AEA4C1015A2467800658BF8 /* SFMLSystemFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEA4C0F15A2467800658BF8 /* SFMLSystemFactory.cpp */; };
+		5AEA4C3B15A2582D00658BF8 /* SystemFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEA4C3A15A2582D00658BF8 /* SystemFactory.cpp */; };
 		A0072ADE0F1D0EC500B4A594 /* sfml-system.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A01FB6CB0F07CFF2000AAC7B /* sfml-system.framework */; };
 		A0072ADF0F1D0EC500B4A594 /* sfml-window.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A01FB6CC0F07CFF2000AAC7B /* sfml-window.framework */; };
 		A0072AE00F1D0EC500B4A594 /* sfml-graphics.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A01FB6CA0F07CFF2000AAC7B /* sfml-graphics.framework */; };
@@ -198,6 +203,18 @@
 		5ADCACF71592693A00E29849 /* Resources.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Resources.cpp; path = src/Resources.cpp; sourceTree = "<group>"; };
 		5ADCACF81592693A00E29849 /* Resources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = src/Resources.h; sourceTree = "<group>"; };
 		5ADCACF91592693A00E29849 /* VisualContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisualContext.h; path = src/VisualContext.h; sourceTree = "<group>"; };
+		5AEA4BD615A236F100658BF8 /* Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Controller.cpp; path = src/Controller.cpp; sourceTree = "<group>"; };
+		5AEA4BD715A236F100658BF8 /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Controller.h; path = src/Controller.h; sourceTree = "<group>"; };
+		5AEA4BD815A236F100658BF8 /* HeroController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HeroController.cpp; path = src/HeroController.cpp; sourceTree = "<group>"; };
+		5AEA4BD915A236F100658BF8 /* HeroController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeroController.h; path = src/HeroController.h; sourceTree = "<group>"; };
+		5AEA4BDC15A2372A00658BF8 /* SFMLInputState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SFMLInputState.cpp; path = src/SFML/SFMLInputState.cpp; sourceTree = "<group>"; };
+		5AEA4BDD15A2372A00658BF8 /* SFMLInputState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLInputState.h; path = src/SFML/SFMLInputState.h; sourceTree = "<group>"; };
+		5AEA4BDF15A2373900658BF8 /* InputState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputState.h; path = src/InputState.h; sourceTree = "<group>"; };
+		5AEA4BE615A23DF000658BF8 /* Main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Main.h; path = src/Main.h; sourceTree = "<group>"; };
+		5AEA4C0915A2428800658BF8 /* SystemFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemFactory.h; path = src/SystemFactory.h; sourceTree = "<group>"; };
+		5AEA4C0E15A2467800658BF8 /* SFMLSystemFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLSystemFactory.h; path = src/SFML/SFMLSystemFactory.h; sourceTree = "<group>"; };
+		5AEA4C0F15A2467800658BF8 /* SFMLSystemFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SFMLSystemFactory.cpp; path = src/SFML/SFMLSystemFactory.cpp; sourceTree = "<group>"; };
+		5AEA4C3A15A2582D00658BF8 /* SystemFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SystemFactory.cpp; path = src/SystemFactory.cpp; sourceTree = "<group>"; };
 		A01FB6A90F07CF6E000AAC7B /* Chicken.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chicken.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A01FB6AC0F07CF6E000AAC7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A01FB6CA0F07CFF2000AAC7B /* sfml-graphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-graphics.framework"; path = "/Library/Frameworks/sfml-graphics.framework"; sourceTree = "<absolute>"; };
@@ -224,6 +241,8 @@
 		5A00358D158FCF3900B483F8 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				5AEA4BE615A23DF000658BF8 /* Main.h */,
+				5AEA4BDF15A2373900658BF8 /* InputState.h */,
 				5A2554C3159CFD8B0032BBF8 /* EntityBuilder.h */,
 				5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */,
 				5A255474159CF3DC0032BBF8 /* TagEntityManager.h */,
@@ -238,6 +257,8 @@
 				5A0035AC158FCF6D00B483F8 /* Image.h */,
 				5A1394F015A0B3F2009F373F /* SystemManager.h */,
 				5A1394F115A0B3F2009F373F /* SystemManager.cpp */,
+				5AEA4C0915A2428800658BF8 /* SystemFactory.h */,
+				5AEA4C3A15A2582D00658BF8 /* SystemFactory.cpp */,
 			);
 			name = Engine;
 			sourceTree = "<group>";
@@ -245,6 +266,10 @@
 		5A00358E158FCF3F00B483F8 /* SFML */ = {
 			isa = PBXGroup;
 			children = (
+				5AEA4C0E15A2467800658BF8 /* SFMLSystemFactory.h */,
+				5AEA4C0F15A2467800658BF8 /* SFMLSystemFactory.cpp */,
+				5AEA4BDC15A2372A00658BF8 /* SFMLInputState.cpp */,
+				5AEA4BDD15A2372A00658BF8 /* SFMLInputState.h */,
 				5ADCACEC1592692300E29849 /* SFMLResources.cpp */,
 				5ADCACED1592692300E29849 /* SFMLResources.h */,
 				5ADCACEE1592692300E29849 /* SFMLVisualContext.h */,
@@ -289,6 +314,12 @@
 		5A1394EE15A0B26A009F373F /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5AEA4BD615A236F100658BF8 /* Controller.cpp */,
+				5AEA4BD715A236F100658BF8 /* Controller.h */,
+				5AEA4BD815A236F100658BF8 /* HeroController.cpp */,
+				5AEA4BD915A236F100658BF8 /* HeroController.h */,
+				5A2A2E851598DD8C009389E6 /* Stats.h */,
+				5A0E1311159BA1A100B253AB /* Stats.cpp */,
 				5A0035A7158FCF6D00B483F8 /* ComponentRegistry.h */,
 				5A0E1133159B72C700B253AB /* ComponentRegistry.cpp */,
 				5A0035B9158FCF6D00B483F8 /* Transform.cpp */,
@@ -361,8 +392,6 @@
 		5A22FC9C1593BC8200745D05 /* RoundFight */ = {
 			isa = PBXGroup;
 			children = (
-				5A2A2E851598DD8C009389E6 /* Stats.h */,
-				5A0E1311159BA1A100B253AB /* Stats.cpp */,
 				5A0584FF1593D357003C67F6 /* FightSystem.h */,
 				5A0584FE1593D357003C67F6 /* FightSystem.cpp */,
 			);
@@ -580,6 +609,11 @@
 				5A13928C15A056C3009F373F /* PythonComponents.cpp in Sources */,
 				5A13928D15A056C3009F373F /* Utils.cpp in Sources */,
 				5A1394F215A0B3F2009F373F /* SystemManager.cpp in Sources */,
+				5AEA4BDA15A236F100658BF8 /* Controller.cpp in Sources */,
+				5AEA4BDB15A236F100658BF8 /* HeroController.cpp in Sources */,
+				5AEA4BDE15A2372A00658BF8 /* SFMLInputState.cpp in Sources */,
+				5AEA4C1015A2467800658BF8 /* SFMLSystemFactory.cpp in Sources */,
+				5AEA4C3B15A2582D00658BF8 /* SystemFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
