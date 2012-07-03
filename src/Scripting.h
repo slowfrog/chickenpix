@@ -28,4 +28,6 @@ public:
   virtual void update(int now);
   virtual void exit();
   virtual string toString() const;
+  
+  inline SystemType getType() const { return SCRIPTING_TYPE;}
 };

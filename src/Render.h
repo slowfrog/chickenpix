@@ -15,6 +15,8 @@ public:
   virtual void update(int now);
   virtual void paint(VisualContext &vc) = 0;
   virtual void exit() = 0;
+  
+  inline SystemType getType() const { return RENDER_TYPE;}
 
   virtual string toString() const;
 };

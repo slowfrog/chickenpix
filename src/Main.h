@@ -3,6 +3,7 @@
 #include <cassert>
 #include "log.h"
 #include "SystemFactory.h"
+#include "SystemManager.h" 
 #include "TagEntityManager.h"
 
 
@@ -14,7 +15,10 @@ runGame( CSystemFactory* pFac) {
   ILog::setLogger( new CLogOutput, LEVEL_DEBUG);
   // Init
   CTagEntityMng::get()->resetTagCollection();
-  EntityManager em("Main");
+  
+  CSystemManager::get()->createEntityManager("Main");
+  CSystemManager::get()->setCurrent("Main");
+  //EntityManager em("Main");
   
   /*RenderClass render("Render", em, 800, 600);
   render.init();
@@ -31,28 +35,40 @@ runGame( CSystemFactory* pFac) {
   movement.init();
    */
   
-  Render    *render     = pFac->createRender    ( em, "Render", 800, 600);
+  Render    *render     = pFac->createRender    ( *CSystemManager::get()->getCurrentEntityManager(), "Render", 800, 600);
   assert( render);
-  Animation *anim       = pFac->createAnimation ( em, "Animation");
+  Animation *anim       = pFac->createAnimation ( *CSystemManager::get()->getCurrentEntityManager(), "Animation");
   assert( anim);
-  Loader    *loader     = pFac->createLoader    ( em, "Loader", "resources/resources.xml", "resources/entities.xml");
+  Loader    *loader     = pFac->createLoader    ( *CSystemManager::get()->getCurrentEntityManager(), "Loader", "resources/resources.xml", "resources/entities.xml");
   assert( loader);
-  Inputs    *inputs     = pFac->createInputs    ( em, "Inputs");
+  Inputs    *inputs     = pFac->createInputs    ( *CSystemManager::get()->getCurrentEntityManager(), "Inputs");
   assert( inputs);
-  Scripting *scripting   = pFac->createScripting( em, "Scripting");
+  Scripting *scripting  = pFac->createScripting( *CSystemManager::get()->getCurrentEntityManager(), "Scripting");
   assert( scripting);
-  Movement *movement    = pFac->createMovement  ( em, "Movement");
+  Movement *movement    = pFac->createMovement  ( *CSystemManager::get()->getCurrentEntityManager(), "Movement");
   assert( movement);
   
+  
+  
   // !!!AIE!!! l odre des system a l air important, il faudrait du coup prevoir un ordre d init ....
-  render->init();
+  /*render->init();
   anim->init();
   loader->init();
   inputs->init();
   scripting->init();
   movement->init();
+   */
+  
+  CSystemManager::get()->registerSystem( "Main", render);
+  CSystemManager::get()->registerSystem( "Main", anim);
+  CSystemManager::get()->registerSystem( "Main", loader);
+  CSystemManager::get()->registerSystem( "Main", inputs);
+  CSystemManager::get()->registerSystem( "Main", scripting);
+  CSystemManager::get()->registerSystem( "Main", movement);
+  
+  CSystemManager::get()->SystemInit();
 
-  cout << em.toString() << endl;
+  cout << CSystemManager::get()->getCurrentEntityManager()->toString() << endl;
 
   TimerClass timer;
   int prev = timer.getTime();
@@ -62,11 +78,17 @@ runGame( CSystemFactory* pFac) {
     int now = timer.getTime();
 
     // Process inputs
-    inputs->update(now);
-    if (inputs->isExitRequested()) {
+    CSystemManager::get()->SystemUpdate( now);
+    //inputs->update(now);
+    
+    
+    // hehe c est tres moche mais bon ...
+    if ( ((Inputs*)CSystemManager::get()->getSystemByType( INPUTS_TYPE))->isExitRequested() ){
+    //if (inputs->isExitRequested()) {
       break;
     }
 
+    /*
     // Execute scripts
     scripting->update(now);
     // "Physics" engine
@@ -75,7 +97,7 @@ runGame( CSystemFactory* pFac) {
     anim->update(now);
     // Render update
     render->update(now);
-        
+      */  
     prev = now;
         
     // Do ~60FPS
@@ -86,12 +108,14 @@ runGame( CSystemFactory* pFac) {
     timer.sleep(sleepTime);
   }
 
-  movement->exit();
+  CSystemManager::get()->SystemExit();
+  /*movement->exit();
   scripting->exit();
   inputs->exit();
   loader->exit();
   render->exit();
   anim->exit();
+   */
   
   // At this step all pointers still valids
   // delete them

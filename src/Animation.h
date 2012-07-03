@@ -11,5 +11,7 @@ public:
   virtual void update(int);
   virtual void exit();
   
+  inline SystemType getType() const { return ANIMATION_TYPE;}
+  
   virtual string toString() const;
 };

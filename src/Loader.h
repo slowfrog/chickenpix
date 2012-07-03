@@ -19,6 +19,9 @@ public:
   virtual void addSprite(string const &path, Resources *resources, string const &name) = 0;
   virtual void loadLevel(string const &name);
   virtual string toString() const;
+  
+  inline SystemType getType() const { return LOADER_TYPE;}
+  
   // Build entity
   void setEntitiesDesc( const std::string&); 
 private:

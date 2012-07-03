@@ -21,6 +21,8 @@ public:
 
   bool isExitRequested() const;
   
+  inline SystemType getType() const { return INPUTS_TYPE;}
+  
   virtual string toString() const;
 
 private:
