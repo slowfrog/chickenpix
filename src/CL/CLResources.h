@@ -61,6 +61,23 @@ inline CL_Font &CLResFont::get() {
   return *font;
 }
 
+class CLResAudio: public ResAudio {
+private:
+  CL_SoundBuffer *audio;
+public:
+  CLResAudio(CL_SoundBuffer *audio);
+  virtual ~CLResAudio();
+  CL_SoundBuffer &get();
+};
+inline CLResAudio::CLResAudio(CL_SoundBuffer *audio):
+  audio(audio) {
+}
+inline CLResAudio::~CLResAudio() {
+  delete audio;
+}
+inline CL_SoundBuffer &CLResAudio::get() {
+  return *audio;
+}
 
 
 //
@@ -77,7 +94,7 @@ public:
   virtual BVisual *makeSprite(string const &name);
   virtual BVisual *makeText(string const &text, string const &font,
                             CPColor const &color=CPColor::White);
+  virtual Audio *makeAudio(string const &audio);
 
   virtual string toString() const;
 };
-

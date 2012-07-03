@@ -144,6 +144,8 @@ CEntityBuilder::buildResourcesByKind( const std::string &kind, TiXmlElement *pEl
     buildResourcesFont(pElem, pLoader, pResource);
   } else if ( "sprite" == kind) {
     buildResourcesSprite(pElem, pLoader, pResource);
+  } else if ( "audio" == kind) {
+    buildResourcesAudio(pElem, pLoader, pResource);
   }
 }
 
@@ -195,6 +197,21 @@ CEntityBuilder::buildResourcesSprite( TiXmlElement *pNode, Loader *pLoader, Reso
   }
   LOG2ERR<<"Bad xml description for [Sprite] Resources\n";
   throw "Bad xml description for [Sprite] Resources";
+}
+
+void 
+CEntityBuilder::buildResourcesAudio( TiXmlElement *pNode, Loader *pLoader, Resources *pResource){
+  TiXmlElement *pChar = pNode->FirstChildElement( "audio");
+  if ( pChar ){
+    std::string path  = pChar->Attribute( "path");
+    std::string alias = pChar->Attribute( "alias");
+    if ( !path.empty() && !alias.empty() ){
+      pLoader->addAudio(path, pResource, alias);
+      return;
+    }
+  }
+  LOG2ERR<<"Bad xml description for [Audio] Resources\n";
+  throw "Bad xml description for [Audio] Resources";
 }
 
 /*

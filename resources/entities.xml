@@ -62,6 +62,10 @@
         <resource kind="sprite">
             <image path="sprites/wait" alias="man_still"/>
         </resource>
+
+        <resource kind="audio">
+          <audio path="musica/calmtown" alias="background_music" />
+        </resource>
     </resources>
     
 	<!-- create entity -->

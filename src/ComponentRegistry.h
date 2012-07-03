@@ -10,7 +10,8 @@ enum ComponentType {
   SCRIPTABLE_TYPE =  7,
   CAMERA_TYPE     =  8,
   CHARACTER_TYPE  =  9,
-  CONTROLLER_TYPE = 10
+  CONTROLLER_TYPE = 10,
+  AUDIO_TYPE      = 11
   // !!! Don't forget to update ComponentName values when adding a component type !!!
 };
 

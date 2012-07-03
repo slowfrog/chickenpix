@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include "VisualContext.h"
+#include "Audio.h"
 #include "BVisual.h"
 #include "Image.h"
 
@@ -22,6 +23,10 @@ public:
 class ResFont: public ResBase {
 public:
   virtual ~ResFont() {}
+};
+class ResAudio: public ResBase {
+public:
+  virtual ~ResAudio() {}
 };
 class CPColor {
 public:
@@ -44,9 +49,10 @@ public:
   enum Kind {
     Image = 0,
     Sprite = 1,
-    Font = 2
+    Font = 2,
+    KAudio = 3
   };
-  static const unsigned int KINDS = 3;
+  static const unsigned int KINDS = 4;
   
 private:
   map<string, ResBase *> store[KINDS];
@@ -69,6 +75,8 @@ public:
   ResSprite *getSprite(string const &name);
   void setFont(string const &name, ResFont *font);
   ResFont *getFont(string const &name);
+  void setAudio(string const &name, ResAudio *audio);
+  ResAudio *getAudio(string const &name);
 
   // Factory methods to be implemented in specific implementations
   virtual BVisual *makeImage(string const &name) = 0;
@@ -76,6 +84,7 @@ public:
   virtual BVisual *makeSprite(string const &name) = 0;
   virtual BVisual *makeText(string const &text, string const &font,
                             CPColor const &color=CPColor::White) = 0;
+  virtual Audio *makeAudio(string const &name) = 0;
   
   virtual string toString() const;
 };
@@ -97,4 +106,10 @@ inline void Resources::setFont(string const &name, ResFont *font) {
 }
 inline ResFont *Resources::getFont(string const &name) {
   return (ResFont *) getObject(Resources::Font, name);
+}
+inline void Resources::setAudio(string const &name, ResAudio *audio) {
+  setObject(Resources::KAudio, name, audio);
+}
+inline ResAudio *Resources::getAudio(string const &name) {
+  return (ResAudio *) getObject(Resources::KAudio, name);
 }
