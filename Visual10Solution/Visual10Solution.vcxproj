@@ -45,6 +45,7 @@
       <AdditionalIncludeDirectories>$(PYTHON_DIR)/include;$(CLANLIB_DIR)/include;$(CLANLIB_DIR)/ext/include;$(DXSDK_DIR)/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>TIXML_USE_STL;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -59,6 +60,7 @@
       <AdditionalIncludeDirectories>$(PYTHON_DIR)/include;$(CLANLIB_DIR)/include;$(CLANLIB_DIR)/ext/include;$(DXSDK_DIR)/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>TIXML_USE_STL;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
