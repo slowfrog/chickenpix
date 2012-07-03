@@ -45,8 +45,8 @@ public:
   
   void addComponent(Component *c);
   void removeComponent(Component::Type t);
-  Component *getComponent(Component::Type t);
-  template<class T>  T *getComponent();
+  Component *getComponent(Component::Type t) const;
+  template<class T>  T *getComponent() const;
   bool hasComponent(Component::Type t) const;
   bool hasComponents(Component::Type t1, Component::Type t2) const;
 
@@ -72,6 +72,6 @@ protected:
 };
 
 template<class T>
-T *Entity::getComponent() {
+T *Entity::getComponent() const {
   return (T *)getComponent(T::TYPE);
 }

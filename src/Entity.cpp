@@ -46,8 +46,9 @@ Entity::removeComponent(Component::Type t) {
 }
 
 Component *
-Entity::getComponent(Component::Type t) {
-  for (vector<Component *>::iterator it = comp.begin(); it < comp.end(); it++) {
+Entity::getComponent(Component::Type t) const {
+  for (vector<Component *>::const_iterator it = comp.begin(); it < comp.end();
+       it++) {
     if ((*it)->getType() == t) {
       return *it;
     }
