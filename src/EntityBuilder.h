@@ -65,6 +65,7 @@ protected:
   void buildResourcesImage ( TiXmlElement*, Loader*, Resources*);
   void buildResourcesFont  ( TiXmlElement*, Loader*, Resources*);
   void buildResourcesSprite( TiXmlElement*, Loader*, Resources*);
+  void buildResourcesAudio( TiXmlElement*, Loader*, Resources*);
   
   void buildComponentResourcesByKind( const std::string&, TiXmlElement*,  Entity*, Resources*);
   void buildComponentResourcesImage ( TiXmlElement*,  Entity*, Resources* );

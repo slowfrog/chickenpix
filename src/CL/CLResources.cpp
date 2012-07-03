@@ -1,6 +1,7 @@
 #include <cassert>
 #include <sstream>
 #include "CLResources.h"
+#include "CLAudio.h"
 #include "CLVisualImage.h"
 #include "CLVisualSprite.h"
 #include "CLVisualText.h"
@@ -57,6 +58,16 @@ CLResources::makeText(string const &text, string const &font, CPColor const &col
     assert(!(resFont == NULL));
   }
   return new CLVisualText(text, resFont->get(), CL_Colorf(color.r, color.g, color.b, color.a));
+}
+
+Audio *
+CLResources::makeAudio(string const &audio) {
+  CLResAudio *resAudio = (CLResAudio *) getAudio(audio);
+  if (resAudio == NULL) {
+    cerr << "Cannot find audio: " << audio << endl;
+    assert(!(resAudio == NULL));
+  }
+  return new CLAudio(resAudio->get());
 }
 
 string
