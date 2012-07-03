@@ -1,13 +1,16 @@
 #pragma once
 
-#include "Controller.h"
+class EntityManager;
+class Entity;
+class InputState;
 
-class HeroController: public Controller {
+class HeroController {
+private:
+  HeroController() {};
+  ~HeroController() {};
 public:
-  HeroController();
-  virtual ~HeroController();
-
-  virtual void update(int now);
   
-  virtual string toString() const;
+  static
+  void update(EntityManager &em, Entity &entity, const InputState &input,
+              int now);
 };

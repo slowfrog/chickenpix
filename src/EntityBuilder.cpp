@@ -8,7 +8,7 @@
 #include "Mobile.h"
 #include "Animated.h"
 #include "Input.h"
-#include "HeroController.h"
+#include "Controller.h"
 #include "Resources.h"
 #include "Scriptable.h"
 #include "Camera.h"
@@ -124,9 +124,9 @@ CEntityBuilder::parseResources( Loader *pLoader, Resources *pResource){
   TiXmlElement *pElem = mhRoot.FirstChildElement().Element();
   if ( pElem){
     for (pElem = pElem->FirstChildElement( "resource"); pElem; pElem = pElem->NextSiblingElement() ){
-      std::string type = pElem->Attribute( "type");
-      if ( !type.empty()) {
-        buildResourcesByType(type, pElem, pLoader, pResource);
+      std::string kind = pElem->Attribute( "kind");
+      if ( !kind.empty()) {
+        buildResourcesByKind(kind, pElem, pLoader, pResource);
       }
     }
   }
@@ -137,16 +137,12 @@ CEntityBuilder::parseResources( Loader *pLoader, Resources *pResource){
 }
 
 void
-CEntityBuilder::buildResourcesByType( const std::string &type, TiXmlElement *pElem, Loader *pLoader, Resources *pResource){
-  if ( "image" == type){
+CEntityBuilder::buildResourcesByKind( const std::string &kind, TiXmlElement *pElem, Loader *pLoader, Resources *pResource){
+  if ( "image" == kind){
     buildResourcesImage(pElem, pLoader, pResource);
-  }
-  
-  if ( "font" == type) {
+  } else if ( "font" == kind) {
     buildResourcesFont(pElem, pLoader, pResource);
-  }
-  
-  if ( "sprite" == type) {
+  } else if ( "sprite" == kind) {
     buildResourcesSprite(pElem, pLoader, pResource);
   }
 }
@@ -242,13 +238,13 @@ CEntityBuilder::BuildEntity( TiXmlElement *pParent, EntityManager &em, Resources
   pChilds = pParent->FirstChildElement( "components");
   if ( pChilds ){
     for( pChilds=pChilds->FirstChildElement( "component" ); pChilds; pChilds = pChilds->NextSiblingElement() ){
-      std::string name; 
-      if ( TIXML_SUCCESS == pChilds->QueryValueAttribute( "name", &name)){
+      std::string type; 
+      if ( TIXML_SUCCESS == pChilds->QueryValueAttribute( "type", &type)){
         //LOG2 <<name<<"\n";
-        buildComponents(pChilds, name, ent, pResources);
+        buildComponents(pChilds, type, ent, pResources);
       }
       else {
-        LOG2ERR<<"Attribute [name] not found\n";
+        LOG2ERR<<"Attribute [type] not found\n";
       }
     }
   }
@@ -258,10 +254,10 @@ CEntityBuilder::BuildEntity( TiXmlElement *pParent, EntityManager &em, Resources
  * Dispatch to specific component builder
  */
 void 
-CEntityBuilder::buildComponents( TiXmlElement *pParent, const std::string& name, Entity *e, Resources *pResources ){
+CEntityBuilder::buildComponents( TiXmlElement *pParent, const std::string& type, Entity *e, Resources *pResources ){
   int i =1;
   while ( ComponentName[i]) {
-    if ( ComponentName[i] == name){
+    if ( ComponentName[i] == type){
       if ( callers[i]) {
         callers[i]( this, pParent, e, pResources);
         break;
@@ -337,14 +333,10 @@ CEntityBuilder::buildInput(TiXmlElement *pNode, Entity *e, Resources*){
 void 
 CEntityBuilder::buildController(TiXmlElement *pNode, Entity *e, Resources*){
   std::string name; 
-  if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "class", &name)){
-    if (name == "HeroController") {
-      // No elements, no attributes
-      e->addComponent( new HeroController);
-    } else {
-      LOG2ERR << "Unknown Controller class " << name << "\n";
-    }
-    LOG2ERR << "Missing 'class' attribute for [Controller] component\n";
+  if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "name", &name)){
+    e->addComponent( new Controller(name));
+  } else {
+    LOG2ERR << "Missing 'name' attribute for [Controller] component\n";
   }
 }
 
@@ -353,24 +345,24 @@ void
 CEntityBuilder::buildResources(TiXmlElement *pNode, Entity *e, Resources *pResource){
   // Different kind of resource
   if ( pNode ){
-    std::string type;
-    if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "type", &type)){
-      buildComponentResourcesByType( type, pNode,  e, pResource);
+    std::string kind;
+    if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "kind", &kind)){
+      buildComponentResourcesByKind( kind, pNode,  e, pResource);
       return;
     }
   }
-  LOG2ERR<<"Bad type for  [Resources] component\n";
-  throw "Bad type for  [Resources] component";
+  LOG2ERR<<"Bad kind for  [Resources] component\n";
+  throw "Bad kind for  [Resources] component";
 }
 
 void 
-CEntityBuilder::buildComponentResourcesByType( const std::string &type, TiXmlElement *pNode,  Entity *e, Resources *pResource){
-  if ( "image" == type) {
+CEntityBuilder::buildComponentResourcesByKind( const std::string &kind, TiXmlElement *pNode,  Entity *e, Resources *pResource){
+  if ( "image" == kind) {
     buildComponentResourcesImage( pNode,  e, pResource);
     return;
   }
   
-  if ( "font" == type){
+  if ( "font" == kind){
     buildComponentResourcesText( pNode, e, pResource);
     return;
   }
@@ -399,8 +391,8 @@ CEntityBuilder::buildComponentResourcesImage( TiXmlElement *pNode,  Entity *e, R
       return;
     }
   }
-  LOG2ERR<<"Bad type for  [Resources/Image] component\n";
-  throw "Bad type for  [Resources/Image] component";
+  LOG2ERR<<"Bad kind for  [Resources/Image] component\n";
+  throw "Bad kind for  [Resources/Image] component";
 }
 
 void 
