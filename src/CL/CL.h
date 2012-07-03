@@ -8,3 +8,5 @@
 #include <ClanLib/display.h>
 #include <ClanLib/swrender.h>
 #include <ClanLib/application.h>
+#include <ClanLib/sound.h>
+#include <ClanLib/vorbis.h>

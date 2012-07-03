@@ -36,6 +36,13 @@ public:
       CL_SetupCore setupCore;
       CL_SetupDisplay setupDisplay;
       CL_SetupSWRender setupSWRender;
+      CL_SetupSound setupSound;
+      CL_SetupVorbis setupVorbis;
+
+      // Direct music playing
+      CL_SoundOutput output(44100);
+      CL_SoundBuffer music("resources/music/Calmtown.ogg");
+      music.play();
       
       pCLFactory = new CLSystemFactory;
       assert( pCLFactory);
