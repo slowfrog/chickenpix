@@ -17,7 +17,7 @@ LDFLAGS=-g -pthread `pkg-config --libs python` -lz
 CL_CFLAGS=`pkg-config --cflags clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3 clanSound-2.3 clanVorbis-2.3` $(CFLAGS) 
 CL_LDFLAGS=`pkg-config --libs clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanSWRender-2.3 clanSound-2.3 clanVorbis-2.3` $(LDFLAGS)
 SF_CFLAGS=-I$(SFML_DIR)/include $(CFLAGS) 
-SF_LDFLAGS=-L$(SFML_DIR)/lib $(LDFLAGS) -lsfml-window -lsfml-graphics -lsfml-system 
+SF_LDFLAGS=-L$(SFML_DIR)/lib $(LDFLAGS) -lsfml-audio -lsfml-window -lsfml-graphics -lsfml-system 
 
 SOURCES:=$(shell ls $(SRC_DIR)/*.cpp)
 TIX_SOURCES:=$(shell ls $(TIX_SRC_DIR)/*.cpp)

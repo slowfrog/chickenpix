@@ -40,6 +40,11 @@ public:
 int main(int argc, char const *argv[]) {
   SFMLSystemFactory *pSFMLFactory(NULL);
   try {
+    // Trying to play a music
+    sf::Music music;
+    music.OpenFromFile("resources/music/Calmtown.ogg");
+    music.Play();
+    
     pSFMLFactory = new SFMLSystemFactory;
     assert( pSFMLFactory );
     runGame<SFMLTimer>( pSFMLFactory);
