@@ -73,6 +73,7 @@
             <component type="Transform">
                 <position x="600" y="0"/>
             </component>
+            <component type="Controller" name="ButtonController" />
         </components>
     </entity>
         
@@ -175,7 +176,7 @@
             <component type="Transform">
                 <position x="235" y="365"/>
             </component>
-            <component type="Resources" kind="font">
+            <component type="Resources" kind="font" z-order="99">
                 <text>Press [ESC] to quit...</text>
                 <police name="sans_small"/>
             </component>
@@ -190,7 +191,7 @@
             <component type="Transform">
                 <position x="290" y="475"/>
             </component>
-            <component type="Resources" kind="font">
+            <component type="Resources" kind="font" z-order="99">
                 <text>Chickenpix!</text>
                 <police name="sans_big"/>
                 <color r="255" g="255" b="0" a="128"/>

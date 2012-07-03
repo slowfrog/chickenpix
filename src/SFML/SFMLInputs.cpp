@@ -19,6 +19,7 @@ SFMLInputs::~SFMLInputs() {
 
 void
 SFMLInputs::init() {
+  Inputs::init();
   Resources *resources = _em.getComponent<Resources>();
   SFMLVisualContext &vc = (SFMLVisualContext &) resources->getVisualContext();
   window_ = &vc.getRenderWindow();
