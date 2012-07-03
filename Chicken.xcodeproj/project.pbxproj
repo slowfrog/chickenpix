@@ -59,6 +59,7 @@
 		5AB6A09F15A37A2600454601 /* ButtonController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AB6A09D15A37A2600454601 /* ButtonController.cpp */; };
 		5AB6A0A715A37B0000454601 /* entities.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5AB6A0A515A37B0000454601 /* entities.xml */; };
 		5AB6A0A815A37B0000454601 /* resources.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5AB6A0A615A37B0000454601 /* resources.xml */; };
+		5AB6A26115A3A13000454601 /* sfml-audio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB6A26015A3A13000454601 /* sfml-audio.framework */; };
 		5ADCACF11592692300E29849 /* SFMLResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACEC1592692300E29849 /* SFMLResources.cpp */; };
 		5ADCACF21592692300E29849 /* SFMLVisualSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACEF1592692300E29849 /* SFMLVisualSprite.cpp */; };
 		5ADCACFA1592693A00E29849 /* BVisual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5ADCACF31592693A00E29849 /* BVisual.cpp */; };
@@ -199,6 +200,7 @@
 		5AB6A0A015A37A5900454601 /* SFML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFML.h; path = src/SFML/SFML.h; sourceTree = "<group>"; };
 		5AB6A0A515A37B0000454601 /* entities.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = entities.xml; path = resources/entities.xml; sourceTree = "<group>"; };
 		5AB6A0A615A37B0000454601 /* resources.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = resources.xml; path = resources/resources.xml; sourceTree = "<group>"; };
+		5AB6A26015A3A13000454601 /* sfml-audio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-audio.framework"; path = "/Library/Frameworks/sfml-audio.framework"; sourceTree = "<absolute>"; };
 		5ADCACEC1592692300E29849 /* SFMLResources.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SFMLResources.cpp; path = src/SFML/SFMLResources.cpp; sourceTree = "<group>"; };
 		5ADCACED1592692300E29849 /* SFMLResources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLResources.h; path = src/SFML/SFMLResources.h; sourceTree = "<group>"; };
 		5ADCACEE1592692300E29849 /* SFMLVisualContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLVisualContext.h; path = src/SFML/SFMLVisualContext.h; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 				A01FB6CF0F07CFF2000AAC7B /* sfml-system.framework in Frameworks */,
 				A01FB6D00F07CFF2000AAC7B /* sfml-window.framework in Frameworks */,
 				5A22FC4315938DA100745D05 /* Python.framework in Frameworks */,
+				5AB6A26115A3A13000454601 /* sfml-audio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +464,7 @@
 				A01FB6CB0F07CFF2000AAC7B /* sfml-system.framework */,
 				A01FB6CC0F07CFF2000AAC7B /* sfml-window.framework */,
 				A01FB6CA0F07CFF2000AAC7B /* sfml-graphics.framework */,
+				5AB6A26015A3A13000454601 /* sfml-audio.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
