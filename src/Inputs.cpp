@@ -1,6 +1,8 @@
 #include <sstream>
 
+#include "log.h"
 #include "Controller.h"
+#include "HeroController.h"
 #include "Inputs.h"
 #include "Input.h"
 #include "InputState.h"
@@ -30,7 +32,13 @@ Inputs::update(int now) {
 
     if (entity->hasComponent(Controller::TYPE)) {
       Controller *c = entity->getComponent<Controller>();
-      c->update(now);
+      const string &name = c->getName();
+      if (name == "HeroController") {
+        HeroController::update(_em, *entity, *state, now);
+      } else {
+        // TODO find a script with the right name
+        LOG2 << "Controller not found for name: " << name << "\n";
+      }
     }
   }
 }

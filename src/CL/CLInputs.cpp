@@ -41,7 +41,7 @@ CLInputs::init() {
   CLVisualContext &vc = (CLVisualContext &) resources->getVisualContext();
   keyboard_ = &(vc.getWindow().get_ic().get_keyboard());
   mouse_ = &(vc.getWindow().get_ic().get_mouse());
-  state_ = new CLInputState(keyboard_, mouse_);
+  state_ = new CLInputState(vc, keyboard_, mouse_);
 }
 
 void

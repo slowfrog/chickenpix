@@ -26,8 +26,14 @@ static int BUTTONMAP[] = {
   CL_MOUSE_MIDDLE
 };
 
-CLInputState::CLInputState(CL_InputDevice *keyboard, CL_InputDevice *mouse):
-  keyboard_(keyboard), mouse_(mouse) {
+CLInputState::CLInputState(VisualContext &vc, CL_InputDevice *keyboard,
+                           CL_InputDevice *mouse):
+  vc_(vc), keyboard_(keyboard), mouse_(mouse) {
+}
+
+VisualContext &
+CLInputState::getVisualContext() const {
+  return vc_;
 }
 
 bool

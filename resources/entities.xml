@@ -3,63 +3,63 @@
     
     <!-- Load resources -->
     <resources>
-        <resource type="image">
+        <resource kind="image">
             <image path="resources/img/map.png" alias="map"/>
         </resource>
-        <resource type="image">
+        <resource kind="image">
             <image path="resources/img/cochon.png" alias="pig"/>
         </resource>
-        <resource type="image">
+        <resource kind="image">
             <image path="resources/img/garcon_des_rues.png" alias="streetboy"/>
         </resource>
-        <resource type="image">
+        <resource kind="image">
             <image path="resources/img/magicien.png" alias="wizard"/>
         </resource>
-        <resource type="image">
+        <resource kind="image">
             <image path="resources/img/maire.png" alias="mayor"/>
         </resource>
-        <resource type="image">
+        <resource kind="image">
             <image path="resources/img/princesse.png" alias="princess"/>
         </resource>
-        <resource type="image">
+        <resource kind="image">
             <image path="resources/img/richard.png" alias="richard"/>
         </resource>
-        <resource type="image">
+        <resource kind="image">
             <image path="resources/img/wall.png" alias="wall"/>
         </resource>
         
-        <resource type="font">
+        <resource kind="font">
             <image path="resources/fonts/BerkshireSwash-Regular.ttf" alias="sans_big" size="30"/>
         </resource>
-        <resource type="font">
+        <resource kind="font">
             <image path="resources/fonts/BerkshireSwash-Regular.ttf" alias="sans_small" size="8"/>
         </resource>
         
-        <resource type="sprite">
+        <resource kind="sprite">
             <image path="sprites/walk_up" alias="man_walk_up"/>
         </resource>
-        <resource type="sprite">
+        <resource kind="sprite">
             <image path="sprites/walk_left" alias="man_walk_left"/>
         </resource>
-        <resource type="sprite">
+        <resource kind="sprite">
             <image path="sprites/walk_down" alias="man_walk_down"/>
         </resource>
-        <resource type="sprite">
+        <resource kind="sprite">
             <image path="sprites/walk_right" alias="man_walk_right"/>
         </resource>
-        <resource type="sprite">
+        <resource kind="sprite">
             <image path="sprites/stand_up" alias="man_stand_up"/>
         </resource>
-        <resource type="sprite">
+        <resource kind="sprite">
             <image path="sprites/stand_left" alias="man_stand_left"/>
         </resource>
-        <resource type="sprite">
+        <resource kind="sprite">
             <image path="sprites/stand_down" alias="man_stand_down"/>
         </resource>
-        <resource type="sprite">
+        <resource kind="sprite">
             <image path="sprites/stand_right" alias="man_stand_right"/>
         </resource>
-        <resource type="sprite">
+        <resource kind="sprite">
             <image path="sprites/wait" alias="man_still"/>
         </resource>
     </resources>
@@ -67,10 +67,10 @@
 	<!-- create entity -->
     <entity>    
         <components>
-            <component name="Resources" type="image" gui="true" z-order="100">
+            <component type="Resources" kind="image" gui="true" z-order="100">
                 <image alias="wall"/>
             </component>
-            <component name="Transform">
+            <component type="Transform">
                 <position x="600" y="0"/>
             </component>
         </components>
@@ -79,10 +79,10 @@
     <!-- 
     <entity>
         <components>
-            <component name="Resources" type="image">
+            <component type="Resources" kind="image">
                 <image alias="streetboy"/>
             </component>
-            <component name="Transform">
+            <component type="Transform">
                 <position x="50" y="350"/>
             </component>
         </components>
@@ -90,10 +90,10 @@
         
     <entity>
         <components>
-            <component name="Resources" type="image">
+            <component type="Resources" kind="image">
                 <image alias="mayor"/>
             </component>
-            <component name="Transform">
+            <component type="Transform">
                 <position x="90" y="350"/>
             </component>
         </components>
@@ -101,10 +101,10 @@
         
     <entity>
         <components>
-            <component name="Resources" type="image">
+            <component type="Resources" kind="image">
                 <image alias="princess"/>
             </component>
-            <component name="Transform">
+            <component type="Transform">
                 <position x="130" y="350"/>
             </component>
         </components>
@@ -112,10 +112,10 @@
         
     <entity>
         <components>
-            <component name="Resources" type="image">
+            <component type="Resources" kind="image">
                 <image alias="wizard"/>
             </component>
-            <component name="Transform">
+            <component type="Transform">
                 <position x="170" y="350"/>
             </component>
         </components>
@@ -123,10 +123,10 @@
         
     <entity>
         <components>
-            <component name="Resources" type="image">
+            <component type="Resources" kind="image">
                 <image alias="richard"/>
             </component>
-            <component name="Transform">
+            <component type="Transform">
                 <position x="210" y="350"/>
             </component>
         </components>
@@ -141,24 +141,24 @@
             <tag name="clever"></tag>
 		</tags>
         <components>
-            <component name="Transform">
+            <component type="Transform">
                 <position x="410" y="620"/>
             </component>
-            <component name="Animated">
+            <component type="Animated">
                 <image name="man_stand_down"/>
             </component>
-            <component name="Input">
+            <component type="Input">
             </component>
-            <component name="Controller" class="HeroController" />
-            <component name="Scriptable">
+            <component type="Controller" name="HeroController" />
+            <component type="Scriptable">
                 <script name="toto"/>
             </component>
-            <component name="Mobile">
+            <component type="Mobile">
             </component>
-            <component name="Camera"
+            <component type="Camera"
                        offsetX="100" offsetY="100"
                        width="600" height="600" />
-            <component name="Character">
+            <component type="Character">
                 <stats name="initiative" value="5"/>
                 <stats name="health" value="50"/>
                 <stats name="armor_class" value="3"/>
@@ -172,10 +172,10 @@
             <tag name="LABEL"></tag>
 		</tags>
         <components>
-            <component name="Transform">
+            <component type="Transform">
                 <position x="235" y="365"/>
             </component>
-            <component name="Resources" type="font">
+            <component type="Resources" kind="font">
                 <text>Press [ESC] to quit...</text>
                 <police name="sans_small"/>
             </component>
@@ -187,10 +187,10 @@
             <tag name="LABEL"></tag>
 		</tags>
         <components>
-            <component name="Transform">
+            <component type="Transform">
                 <position x="290" y="475"/>
             </component>
-            <component name="Resources" type="font">
+            <component type="Resources" kind="font">
                 <text>Chickenpix!</text>
                 <police name="sans_big"/>
                 <color r="255" g="255" b="0" a="128"/>

@@ -1,7 +1,7 @@
 #include "Controller.h"
 
-Controller::Controller():
-  Component(Controller::TYPE) {
+Controller::Controller(const string &name):
+  Component(Controller::TYPE), name_(name) {
 }
 
 Controller::~Controller() {
@@ -9,5 +9,5 @@ Controller::~Controller() {
 
 string
 Controller::toString() const {
-  return "{Controller}";
+  return "{Controller " + name_ + "}";
 }

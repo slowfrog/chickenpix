@@ -22,7 +22,7 @@ SFMLInputs::init() {
   Resources *resources = _em.getComponent<Resources>();
   SFMLVisualContext &vc = (SFMLVisualContext &) resources->getVisualContext();
   window_ = &vc.getRenderWindow();
-  state_ = new SFMLInputState(window_);
+  state_ = new SFMLInputState(vc, window_);
 }
 
 void

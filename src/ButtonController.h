@@ -4,12 +4,11 @@ class EntityManager;
 class Entity;
 class InputState;
 
-class HeroController {
+class ButtonController {
 private:
-  HeroController() {};
-  ~HeroController() {};
+  ButtonController() {};
+  ~ButtonController() {};
 public:
-  
   static
   void update(EntityManager &em, Entity &entity, const InputState &input,
               int now);

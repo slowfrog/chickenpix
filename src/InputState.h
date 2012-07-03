@@ -1,8 +1,12 @@
 #pragma once
 
-/** This is an interface allowing to ask for the current state of all input devices. It is
- *  implemented specifically by each back-end. An instance is injected into the Input
- *  component so that it can do what it wants with it. */
+class VisualContext;
+
+/** This is an interface allowing to ask for the current state of all input
+ *  devices. It is implemented specifically by each back-end. It also has a
+ *  reference to the VisualContext, because the visual state might participate
+ *  in some input computations.
+ */
 class InputState {
 public:
   struct MousePos {
@@ -44,6 +48,7 @@ public:
   inline
   virtual ~InputState() {};
 
+  virtual VisualContext &getVisualContext() const = 0;
   virtual bool isKeyDown(Key k) const = 0;
   virtual bool isButtonDown(MouseButton b) const = 0;
   virtual MousePos getMousePosition() const = 0;

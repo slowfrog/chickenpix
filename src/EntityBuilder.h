@@ -55,7 +55,7 @@ public:
 protected:
   void init();
   
-  void buildResourcesByType( const std::string&, TiXmlElement*, Loader*, Resources*);
+  void buildResourcesByKind( const std::string&, TiXmlElement*, Loader*, Resources*);
   
   void BuildEntity    ( TiXmlElement*, EntityManager&, Resources* );
   
@@ -66,7 +66,7 @@ protected:
   void buildResourcesFont  ( TiXmlElement*, Loader*, Resources*);
   void buildResourcesSprite( TiXmlElement*, Loader*, Resources*);
   
-  void buildComponentResourcesByType( const std::string&, TiXmlElement*,  Entity*, Resources*);
+  void buildComponentResourcesByKind( const std::string&, TiXmlElement*,  Entity*, Resources*);
   void buildComponentResourcesImage ( TiXmlElement*,  Entity*, Resources* );
   void buildComponentResourcesText  ( TiXmlElement*,  Entity*, Resources*);
   

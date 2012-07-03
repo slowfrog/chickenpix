@@ -9,7 +9,7 @@ class CLSystemFactory : public CSystemFactory
 public:
   // Constructor destructor
   CLSystemFactory();
-  virtual CLSystemFactory();
+  virtual ~CLSystemFactory();
   
   // Specific system
   virtual Loader *createLoader( EntityManager&, const std::string&, const std::string&, const std::string&);

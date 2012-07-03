@@ -2,7 +2,7 @@
 #include "Component.h"
 
 Component::Component(Type type):
-  type_(type), entity_(NULL) {
+  type_(type) {
 }
 
 Component::~Component() {

@@ -9,7 +9,7 @@
 CLSystemFactory::CLSystemFactory():CSystemFactory(){
 }
 
-CLSystemFactory::CLSystemFactory(){
+CLSystemFactory::~CLSystemFactory(){
 }
 
 // Specific system

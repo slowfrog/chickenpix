@@ -12,7 +12,6 @@ public:
   
 private:
   Type type_;
-  Entity *entity_;
 
 public:
   explicit Component(Type type);
@@ -23,12 +22,6 @@ public:
   }
   inline const char *getTypeName() const {
     return ComponentName[type_];
-  }
-  inline void setEntity(Entity *entity) {
-    entity_ = entity;
-  }
-  inline Entity *getEntity() const {
-    return entity_;
   }
 
   virtual string toString() const;
