@@ -39,6 +39,7 @@ ButtonController::update(EntityManager &em, Entity &entity,
       (mpos.y >= minY) && (mpos.y <= maxY)) {
     // Mouse is over button
     if (input.isButtonDown(InputState::LeftButton)) {
+      LOG2 << "Button clicked\n";
       // button is pressed
     } else {
       // button is not pressed

@@ -13,7 +13,7 @@ public:
   Inputs(string const &name, EntityManager &em);
   virtual ~Inputs();
 
-  virtual void init() = 0;
+  virtual void init();
   virtual void pumpEvents() = 0;
   virtual void update(int now);
   virtual void exit() = 0;

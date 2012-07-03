@@ -37,6 +37,7 @@ CLInputs::~CLInputs() {
 
 void
 CLInputs::init() {
+  Inputs::init();
   Resources *resources = _em.getComponent<Resources>();
   CLVisualContext &vc = (CLVisualContext &) resources->getVisualContext();
   keyboard_ = &(vc.getWindow().get_ic().get_keyboard());

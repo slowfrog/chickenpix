@@ -73,6 +73,7 @@
             <component type="Transform">
                 <position x="600" y="0"/>
             </component>
+            <component type="Controller" name="ButtonController" />
         </components>
     </entity>
         
