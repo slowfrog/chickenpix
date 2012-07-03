@@ -420,13 +420,21 @@ CEntityBuilder::buildComponentResourcesText( TiXmlElement *pNode,  Entity *e, Re
   
   
   if ( !text.empty() && !police.empty()){
+    BVisual *textVis = NULL;
     // Color is defined
     if ( pFontAttr) {
-      e->addComponent(pResource->makeText( text, police, CPColor(r, g, b, a)));
+      textVis = pResource->makeText( text, police, CPColor(r, g, b, a));
     }
     else {
-      e->addComponent(pResource->makeText( text, police));
+      textVis = pResource->makeText( text, police);
     }
+    
+    int zOrder;
+    if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "z-order", &zOrder)) {
+      textVis->setZOrder(zOrder);
+    }
+
+    e->addComponent(textVis);
   }
 }
 
