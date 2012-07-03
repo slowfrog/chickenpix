@@ -64,7 +64,7 @@
         </resource>
 
         <resource kind="audio">
-          <audio path="musica/calmtown" alias="background_music" />
+          <audio path="resources/music/Calmtown.ogg" alias="background_music" />
         </resource>
     </resources>
     

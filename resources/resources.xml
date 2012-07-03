@@ -107,9 +107,4 @@
              speed="1000" />
     </sprite>
   </section>
-
-  <!-- Music -->
-  <section name="music">
-    <vorbis name="calmtown" file="music/Calmtown.ogg" />
-  </section>
 </resources>
