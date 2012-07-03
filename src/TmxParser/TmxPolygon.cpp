@@ -38,7 +38,7 @@ namespace Tmx
 
 	void Polygon::Parse(const TiXmlNode *polygonNode)
 	{
-		char *pointsLine = strdup(polygonNode->ToElement()->Attribute("points"));
+		char *pointsLine = _strdup(polygonNode->ToElement()->Attribute("points"));
 		
 		char *token = strtok(pointsLine, " ");
 		while (token)

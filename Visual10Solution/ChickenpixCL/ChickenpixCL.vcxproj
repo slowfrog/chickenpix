@@ -88,6 +88,7 @@
     <ClCompile Include="..\..\src\CL\clmain.cpp" />
     <ClCompile Include="..\..\src\CL\CLRender.cpp" />
     <ClCompile Include="..\..\src\CL\CLResources.cpp" />
+    <ClCompile Include="..\..\src\CL\CLSystemFactory.cpp" />
     <ClCompile Include="..\..\src\CL\CLVisualImage.cpp" />
     <ClCompile Include="..\..\src\CL\CLVisualSprite.cpp" />
     <ClCompile Include="..\..\src\CL\CLVisualText.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="..\..\src\CL\CLLoader.h" />
     <ClInclude Include="..\..\src\CL\CLRender.h" />
     <ClInclude Include="..\..\src\CL\CLResources.h" />
+    <ClInclude Include="..\..\src\CL\CLSystemFactory.h" />
     <ClInclude Include="..\..\src\CL\CLVisualContext.h" />
     <ClInclude Include="..\..\src\CL\CLVisualImage.h" />
     <ClInclude Include="..\..\src\CL\CLVisualSprite.h" />

@@ -44,7 +44,7 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(PYTHON_DIR)/include;$(CLANLIB_DIR)/include;$(CLANLIB_DIR)/ext/include;$(DXSDK_DIR)/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PreprocessorDefinitions>TIXML_USE_STL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TIXML_USE_STL;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -58,7 +58,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(PYTHON_DIR)/include;$(CLANLIB_DIR)/include;$(CLANLIB_DIR)/ext/include;$(DXSDK_DIR)/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <PreprocessorDefinitions>TIXML_USE_STL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TIXML_USE_STL;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -69,6 +69,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\Animated.cpp" />
     <ClCompile Include="..\src\Animation.cpp" />
+    <ClCompile Include="..\src\ButtonController.cpp" />
     <ClCompile Include="..\src\BVisual.cpp" />
     <ClCompile Include="..\src\Camera.cpp" />
     <ClCompile Include="..\src\Component.cpp" />
@@ -93,6 +94,7 @@
     <ClCompile Include="..\src\Scripting.cpp" />
     <ClCompile Include="..\src\Stats.cpp" />
     <ClCompile Include="..\src\System.cpp" />
+    <ClCompile Include="..\src\SystemFactory.cpp" />
     <ClCompile Include="..\src\SystemManager.cpp" />
     <ClCompile Include="..\src\TagEntityManager.cpp" />
     <ClCompile Include="..\src\tinyxml\tinystr.cpp" />
@@ -118,6 +120,7 @@
   <ItemGroup>
     <ClInclude Include="..\src\Animated.h" />
     <ClInclude Include="..\src\Animation.h" />
+    <ClInclude Include="..\src\ButtonController.h" />
     <ClInclude Include="..\src\BVisual.h" />
     <ClInclude Include="..\src\Camera.h" />
     <ClInclude Include="..\src\Component.h" />
@@ -146,6 +149,7 @@
     <ClInclude Include="..\src\Singleton.h" />
     <ClInclude Include="..\src\Stats.h" />
     <ClInclude Include="..\src\System.h" />
+    <ClInclude Include="..\src\SystemFactory.h" />
     <ClInclude Include="..\src\SystemManager.h" />
     <ClInclude Include="..\src\TagEntityManager.h" />
     <ClInclude Include="..\src\tinyxml\tinystr.h" />
