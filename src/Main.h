@@ -1,18 +1,22 @@
 #pragma once
 
+#include <cassert>
 #include "log.h"
+#include "SystemFactory.h"
 #include "TagEntityManager.h"
 
+
 // Template function of the main game loop
-template<class RenderClass, class InputsClass, class LoaderClass, class TimerClass>
+template<class TimerClass>
 void
-runGame() {
+runGame( CSystemFactory* pFac) {
   // init log
   ILog::setLogger( new CLogOutput, LEVEL_DEBUG);
   // Init
   CTagEntityMng::get()->resetTagCollection();
   EntityManager em("Main");
-  RenderClass render("Render", em, 800, 600);
+  
+  /*RenderClass render("Render", em, 800, 600);
   render.init();
   Animation anim("Animation", em);
   anim.init();
@@ -25,6 +29,28 @@ runGame() {
   scripting.init();
   Movement movement("Movement", em);
   movement.init();
+   */
+  
+  Render    *render     = pFac->createRender    ( em, "Render", 800, 600);
+  assert( render);
+  Animation *anim       = pFac->createAnimation ( em, "Animation");
+  assert( anim);
+  Loader    *loader     = pFac->createLoader    ( em, "Loader", "resources/resources.xml", "resources/entities.xml");
+  assert( loader);
+  Inputs    *inputs     = pFac->createInputs    ( em, "Inputs");
+  assert( inputs);
+  Scripting *scripting   = pFac->createScripting( em, "Scripting");
+  assert( scripting);
+  Movement *movement    = pFac->createMovement  ( em, "Movement");
+  assert( movement);
+  
+  // !!!AIE!!! l odre des system a l air important, il faudrait du coup prevoir un ordre d init ....
+  render->init();
+  anim->init();
+  loader->init();
+  inputs->init();
+  scripting->init();
+  movement->init();
 
   cout << em.toString() << endl;
 
@@ -36,19 +62,19 @@ runGame() {
     int now = timer.getTime();
 
     // Process inputs
-    inputs.update(now);
-    if (inputs.isExitRequested()) {
+    inputs->update(now);
+    if (inputs->isExitRequested()) {
       break;
     }
 
     // Execute scripts
-    scripting.update(now);
+    scripting->update(now);
     // "Physics" engine
-    movement.update(now);
+    movement->update(now);
     // Update animations
-    anim.update(now);
+    anim->update(now);
     // Render update
-    render.update(now);
+    render->update(now);
         
     prev = now;
         
@@ -60,10 +86,19 @@ runGame() {
     timer.sleep(sleepTime);
   }
 
-  movement.exit();
-  scripting.exit();
-  inputs.exit();
-  loader.exit();
-  render.exit();
-  anim.exit();
+  movement->exit();
+  scripting->exit();
+  inputs->exit();
+  loader->exit();
+  render->exit();
+  anim->exit();
+  
+  // At this step all pointers still valids
+  // delete them
+  delete render;
+  delete anim;
+  delete loader;
+  delete inputs;
+  delete scripting;
+  delete movement;
 };

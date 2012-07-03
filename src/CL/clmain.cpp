@@ -1,7 +1,10 @@
+#include <cassert>
+
 #include "CL.h"
 
 #include "../EntityManager.h"
 //#include "ClanLib.h"
+#include "CLSystemFactory.h"
 #include "CLRender.h"
 #include "CLLoader.h"
 #include "CLResources.h"
@@ -27,13 +30,16 @@ class DisplayProgram
 public:
   static int main(const std::vector<CL_String> &args)
   {
+    CLSystemFactory *pCLFactory(NULL);
     try
     {
       CL_SetupCore setupCore;
       CL_SetupDisplay setupDisplay;
       CL_SetupSWRender setupSWRender;
       
-      runGame<CLRender, CLInputs, CLLoader, CLTimer>();
+      pCLFactory = new CLSystemFactory;
+      assert( pCLFactory);
+      runGame<CLTimer>( pCLFactory);
     }
     catch(CL_Exception &exception)
     {
@@ -42,6 +48,11 @@ public:
       CL_Console::write_line("Exception caught: " + exception.get_message_and_stack_trace());
       console.display_close_message();
  
+    }
+    
+    // Delete unused pointer(s)
+    if ( pCLFactory ){
+      delete pCLFactory;
     }
 
     return 0;

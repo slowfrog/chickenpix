@@ -10,6 +10,7 @@
 #include "SFMLInputs.h"
 #include "SFMLLoader.h"
 #include "SFMLRender.h"
+#include "SFMLSystemFactory.h"
 #include "../Main.h"
 
 #include "../EntityBuilder.h"
@@ -22,7 +23,7 @@
 using namespace std;
 
 // Interface to SFML timing functions
-class SFMLTimer {
+class SFMLTimer{
 private:
   sf::Clock clock_;
   
@@ -30,16 +31,18 @@ public:
   int getTime() {
     return (int) floor(1000 * clock_.GetElapsedTime());
   }
-
+  
   void sleep(int time) {
     sf::Sleep(time / 1000.0f);
   }
-
 };
 
 int main(int argc, char const *argv[]) {
+  SFMLSystemFactory *pSFMLFactory(NULL);
   try {
-    runGame<SFMLRender, SFMLInputs, SFMLLoader, SFMLTimer>();
+    pSFMLFactory = new SFMLSystemFactory;
+    assert( pSFMLFactory );
+    runGame<SFMLTimer>( pSFMLFactory);
   }
   catch (const std::string &msg) {
     LOG2<<"*** Exception with message : "<<msg<<" ***\n";
@@ -49,6 +52,11 @@ int main(int argc, char const *argv[]) {
   }
   catch (...) {
     LOG2<<"*** Unknown exception ***\n";
+  }
+  
+  // Delete unused pointer(s)
+  if ( pSFMLFactory ){
+    delete pSFMLFactory;
   }
 
   // Exit

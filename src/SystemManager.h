@@ -36,6 +36,6 @@ private:
   // Members
   TMapEMSystem          mMapEMSys;
   TEntityMngCollection  mvEM;
-  std::string           mCurrent;
+  TId                   mCurrent;
   TSystemCollection     mCurrentSys;
 };
