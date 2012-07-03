@@ -29,8 +29,13 @@ sf::Mouse::Button BUTTONMAP[] = {
   sf::Mouse::Middle
 };
 
-SFMLInputState::SFMLInputState(sf::RenderWindow *window) :
-  window_(window) {
+SFMLInputState::SFMLInputState(VisualContext &vc, sf::RenderWindow *window) :
+  vc_(vc), window_(window) {
+}
+
+VisualContext &
+SFMLInputState::getVisualContext() const {
+  return vc_;
 }
 
 bool
