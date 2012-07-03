@@ -177,6 +177,20 @@ SFMLLoader::addSprite(string const &path, Resources *resources, string const &na
   loadSpriteFromXML(getDirectory(doc->Value()), doc, path, resources, name);
 }
 
+void
+SFMLLoader::addAudio(string const &path, Resources *resources,
+                     string const &alias) {
+  sf::SoundBuffer *buffer = new sf::SoundBuffer();
+  if (!buffer->LoadFromFile(path)) {
+    cerr << "Error loading audio: " << path << endl;
+    return;
+  }
+  resources->setAudio(path, new SFMLResAudio(buffer));
+  if (alias.length() > 0) {
+    resources->setAudio(alias, new SFMLResAudio(buffer));
+  }
+}
+
 string
 SFMLLoader::toString() const {
   ostringstream out;

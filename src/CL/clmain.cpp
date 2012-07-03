@@ -41,8 +41,6 @@ public:
 
       // Direct music playing
       CL_SoundOutput output(44100);
-      // CL_SoundBuffer music("resources/music/Calmtown.ogg");
-      // music.play();
       
       pCLFactory = new CLSystemFactory;
       assert( pCLFactory);

@@ -73,6 +73,24 @@ inline sf::Font &SFMLResFont::get() {
   return *font;
 }
 
+class SFMLResAudio: public ResAudio {
+private:
+  sf::SoundBuffer *sound_;
+public:
+  SFMLResAudio(sf::SoundBuffer *sound);
+  virtual ~SFMLResAudio();
+  sf::SoundBuffer &get();
+};
+inline SFMLResAudio::SFMLResAudio(sf::SoundBuffer *sound):
+  sound_(sound) {
+}
+inline SFMLResAudio::~SFMLResAudio() {
+  delete sound_;
+}
+inline sf::SoundBuffer &SFMLResAudio::get() {
+  return *sound_;
+}
+
 
 //
 class SFMLResources: public Resources {
@@ -88,6 +106,7 @@ public:
   virtual BVisual *makeSprite(string const &name);
   virtual BVisual *makeText(string const &text, string const &font,
                             CPColor const &color=CPColor::White);
+  virtual Audio *makeAudio(string const &name);
 
   virtual string toString() const;
 };

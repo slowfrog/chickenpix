@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include "SFMLResources.h"
+#include "SFMLAudio.h"
 #include "SFMLVisualImage.h"
 #include "SFMLVisualSprite.h"
 #include "SFMLVisualText.h"
@@ -58,6 +59,17 @@ SFMLResources::makeText(string const &text, string const &font, CPColor const &c
   }
   return new SFMLVisualText(text, resFont->get(), sf::Color(color.r, color.g, color.b, color.a));
 }
+
+Audio *
+SFMLResources::makeAudio(string const &name) {
+  SFMLResAudio *resAudio = (SFMLResAudio *) getAudio(name);
+  if (resAudio == NULL) {
+    cerr << "Cannot find audio: " << name << endl;
+    assert(!(resAudio == NULL));
+  }
+  return new SFMLAudio(resAudio->get());
+}
+
 
 string
 SFMLResources::toString() const {
