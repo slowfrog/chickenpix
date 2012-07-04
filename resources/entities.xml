@@ -62,6 +62,9 @@
         <resource kind="sprite">
             <image path="sprites/wait" alias="man_still"/>
         </resource>
+        <resource kind="sprite">
+            <image path="sprites/gold_coin" alias="gold_coin"/>
+        </resource>
 
         <resource kind="audio">
           <audio path="resources/music/Calmtown.ogg" alias="background_music" />
@@ -172,6 +175,13 @@
         </components>
     </entity>
 
+    <entity>
+      <components>
+        <component type="Transform"><position x="430" y="700"/></component>
+        <component type="Animated"><image name="gold_coin" /></component>
+      </components>
+    </entity>
+    
     <entity>
       <components>
         <component type="Resources" kind="audio">

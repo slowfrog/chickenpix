@@ -106,5 +106,11 @@
       <frame nr="13"
              speed="1000" />
     </sprite>
+    <sprite name="gold_coin">
+      <image file="img/coin_gold.png">
+        <grid pos="0,0" size="32,32" array="8,1" />
+      </image>
+      <animation loop="yes" speed="100" />
+    </sprite>
   </section>
 </resources>
