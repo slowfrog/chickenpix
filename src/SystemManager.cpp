@@ -7,7 +7,7 @@
 #define BAD_INDEX -1
 
 // Constructor / Destuctor
-CSystemManager::CSystemManager():mCurEM(0), mCurEMName(""){
+CSystemManager::CSystemManager():mCurEMName(""), mCurEM(0){
 }
 
 CSystemManager::~CSystemManager(){
@@ -17,7 +17,7 @@ CSystemManager::~CSystemManager(){
 
 void 
 CSystemManager::deleteEM(){
-  for(int i=0; i < mvEM.size(); i++){
+  for(unsigned int i=0; i < mvEM.size(); i++){
     EntityManager* em = mvEM.back();
     mvEM.pop_back();
     delete em;
@@ -26,7 +26,7 @@ CSystemManager::deleteEM(){
 
 EntityManager*
 CSystemManager::getEM( const std::string &name){
-  int i( 0);
+  unsigned int i( 0);
   while( i < mvEM.size() && name !=mvEM[i]->getName()){
     i++;
   }
@@ -107,12 +107,11 @@ CSystemManager::getSystemByType( const SystemType type){
 void 
 CSystemManager::SystemInit(){
   if ( mCurVecSys){
-    int i = 0;
-    while( i != END_OF_LIST){
-      if ( (*mCurVecSys)[ in_ex_itPath[ i]]) {
-        (*mCurVecSys)[ in_ex_itPath[ i]]->init();
+    for (int i = 0; in_ex_itPath[i] != END_OF_LIST; ++i) {
+      System *sys = (*mCurVecSys)[in_ex_itPath[i]];
+      if (sys) {
+        sys->init();
       }
-      i++;
     }
   }
 }
@@ -120,12 +119,11 @@ CSystemManager::SystemInit(){
 void 
 CSystemManager::SystemUpdate(int now){
   if ( mCurVecSys){
-    int i = 0;
-    while( i != END_OF_LIST){
-      if ( (*mCurVecSys)[ updatePath[ i]]) {
-        (*mCurVecSys)[ updatePath[ i]]->update( now);
+    for (int i = 0; updatePath[i] != END_OF_LIST; ++i) {
+      System *sys = (*mCurVecSys)[updatePath[i]];
+      if (sys) {
+        sys->update(now);
       }
-      i++;
     }
   }
 }
@@ -133,12 +131,11 @@ CSystemManager::SystemUpdate(int now){
 void 
 CSystemManager::SystemExit(){
   if ( mCurVecSys){
-    int i = END_OF_LIST-1;
-    while( i != 0 ){
-      if ( (*mCurVecSys)[ updatePath[ i]]) {
-        (*mCurVecSys)[ updatePath[ i]]->exit( );
+    for (int i = END_OF_LIST - 1; i >= 0; --i) {
+      System *sys = (*mCurVecSys)[in_ex_itPath[i]];
+      if (sys) {
+        sys->exit();
       }
-      i--;
     }
   }
 }
