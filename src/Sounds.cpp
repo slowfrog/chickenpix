@@ -33,7 +33,13 @@ Sounds::update(int now) {
       audio = newAudio;
     }
 
-    audio->play();
+    if (!audio->isPlaying()) {
+      if (!audio->hasPlayed()) {
+        audio->play();
+      } else {
+        entity->removeComponent(Audio::TYPE);
+      }
+    }
   }
 }
 

@@ -13,6 +13,7 @@ void
 SFMLAudio::play() {
   if (!isPlaying()) {
     LOG2 << "Starting " << getName() << " looping " << isLooping() << "\n";
+    Audio::play();
     sound_.SetPlayingOffset(0);
     sound_.SetLoop(isLooping());
     sound_.Play();

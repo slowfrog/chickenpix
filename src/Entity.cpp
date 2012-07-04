@@ -29,8 +29,17 @@ Entity::~Entity() {
 }
 
 void
-Entity::addComponent(Component *c) {
-  comp.push_back(c);
+Entity::addComponent(Component *newComp) {
+  Component::Type t = newComp->getType();
+  for (vector<Component *>::iterator it = comp.begin(); it < comp.end(); it++) {
+    Component *c = (*it);
+    if (c->getType() == t) {
+      delete c;
+      *it = newComp;
+      return;
+    }
+  }
+  comp.push_back(newComp);
 }
 
 void

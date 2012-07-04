@@ -192,13 +192,6 @@
         </component>
       </components>
     </entity>
-    <entity>
-      <components>
-        <component type="Resources" kind="audio">
-          <audio alias="coin" />
-        </component>
-      </components>
-    </entity>
     
     <entity>
         <tags>

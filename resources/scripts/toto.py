@@ -34,7 +34,9 @@ def update(self, manager):
             cam.width = 100
             cam.height = 100
         if input.state.isKeyDown(cp.InputState.SPACE):
-            self.addComponent(cp.Audio("coin", False))
+            if self.getComponent(cp.Audio.TYPE) is None:
+                print("BLING BLING")
+                self.addComponent(cp.Audio("coin", False))
         if input.state.isKeyDown(cp.InputState.NUM1):
             print("You are pressing 1")
             cam = self.getComponent(cp.Camera.TYPE)
@@ -96,5 +98,3 @@ def update(self, manager):
         print("240 frames in %f sec: %f FPS" % (diffclock, 240 / diffclock))
 
     audio = self.getComponent(cp.Audio.TYPE)
-    if audio is not None:
-        print("%s playing %s" % (audio.name, audio.playing))

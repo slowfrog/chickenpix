@@ -6,6 +6,7 @@ class Audio: public Component {
 private:
   string name_;
   bool   looping_;
+  bool   played_;
   // ? Volume
 public:
   static const Type TYPE = AUDIO_TYPE;
@@ -33,10 +34,17 @@ public:
   void setLooping(bool looping) {
     looping_ = looping;
   }
+  inline
+  bool hasPlayed() const {
+    return played_;
+  }
 
-  // Virtual methods with dummy implementation to allow instanciation 
-  inline virtual void play() {};
-  inline virtual bool isPlaying() { return false; };
+  inline virtual void play() {
+    played_ = true;
+  };
+  inline virtual bool isPlaying() {
+    return false;
+  };
   inline virtual void stop() {};
   
   virtual string toString() const;

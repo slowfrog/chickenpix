@@ -12,6 +12,7 @@ CLAudio::~CLAudio() {
 void
 CLAudio::play() {
   if (!isPlaying()) {
+    Audio::play();
     session_.set_looping(isLooping());
     session_.play();
   }

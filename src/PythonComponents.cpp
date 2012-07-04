@@ -374,6 +374,19 @@ static PyGetSetDef Audio_getset[] = {
   { NULL, NULL }
 };
 
+static
+PyObject *Audio_stop(PyAudio *audio) {
+  Audio *a = (Audio *) audio->component;
+  a->stop();
+  Py_RETURN_NONE;
+}
+
+static PyMethodDef Audio_methods[] = {
+  { "stop", (PyCFunction) Audio_stop, METH_NOARGS,
+    "Stop a sound that is currently playing" },
+  { NULL }
+};
+
 // Input state type and methods ------------------------------------------------
 typedef struct {
   PyObject_HEAD
@@ -705,7 +718,7 @@ initComponents(PyObject *module) {
   // Audio
   PyAudioType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
   PyAudioType.tp_doc = "Type of Audio components";
-  //PyAudioType.tp_methods = XXX
+  PyAudioType.tp_methods = Audio_methods;
   PyAudioType.tp_base = &PyComponentType;
   PyAudioType.tp_init = (initproc) Audio_init;
   PyAudioType.tp_getset = Audio_getset;
