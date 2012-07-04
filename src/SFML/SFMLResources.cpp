@@ -67,7 +67,7 @@ SFMLResources::makeAudio(string const &name) {
     cerr << "Cannot find audio: " << name << endl;
     assert(!(resAudio == NULL));
   }
-  return new SFMLAudio(resAudio->get());
+  return new SFMLAudio(name, resAudio->get());
 }
 
 

@@ -11,9 +11,13 @@ private:
   CL_SoundBuffer_Session session_;
 
 public:
-  CLAudio(CL_SoundBuffer &buffer);
+  CLAudio(const string &name, CL_SoundBuffer &buffer);
   virtual ~CLAudio();
 
+  inline
+  virtual bool isConcrete() {
+    return true;
+  }
   virtual void play();
   virtual bool isPlaying();
   virtual void stop();

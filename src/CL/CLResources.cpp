@@ -67,7 +67,7 @@ CLResources::makeAudio(string const &audio) {
     cerr << "Cannot find audio: " << audio << endl;
     assert(!(resAudio == NULL));
   }
-  return new CLAudio(resAudio->get());
+  return new CLAudio(audio, resAudio->get());
 }
 
 string

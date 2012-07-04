@@ -13,13 +13,16 @@ private:
   sf::Sound sound_;
 
 public:
-  SFMLAudio(sf::SoundBuffer &buffer);
+  SFMLAudio(const string &name, sf::SoundBuffer &buffer);
   virtual ~SFMLAudio();
 
+  inline
+  virtual bool isConcrete() {
+    return true;
+  }
   virtual void play();
   virtual bool isPlaying();
   virtual void stop();
-  
   
   virtual string toString() const;
 };

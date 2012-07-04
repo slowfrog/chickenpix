@@ -2,6 +2,7 @@
 #include "log.h"
 #include "PythonComponents.h"
 #include "Animated.h"
+#include "Audio.h"
 #include "Camera.h"
 #include "Input.h"
 #include "InputState.h"
@@ -15,10 +16,11 @@ static PyObject *NO_KWDS = PyDict_New();
 typedef PyComponent PyTransform;
 typedef PyComponent PyMobile;
 typedef PyComponent PyAnimated;
+typedef PyComponent PyAudio;
 typedef PyComponent PyInput;
 typedef PyComponent PyCamera;
 
-// Transform type and methods
+// Transform type and methods ---------------------------------------------------
 static PyTypeObject PyTransformType = {
   PyObject_HEAD_INIT(NULL)
   0,
@@ -45,7 +47,8 @@ int Transform_init(PyTransform *self, PyObject *args, PyObject *kwds) {
 
 static
 PyObject *Transform_getx(PyObject *self, void *) {
-  return PyFloat_FromDouble(((Transform *) ((PyTransform *) self)->component)->getX());
+  Transform *t = (Transform *) ((PyTransform *) self)->component;
+  return PyFloat_FromDouble(t->getX());
 }
 
 static
@@ -54,13 +57,15 @@ int Transform_setx(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Transform.x must be a number");
     return -1;
   }
-  ((Transform *) ((PyTransform *) self)->component)->setX((float) PyFloat_AsDouble(val));
+  Transform *t = (Transform *) ((PyTransform *) self)->component;
+  t->setX((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Transform_gety(PyObject *self, void *) {
-  return PyFloat_FromDouble(((Transform *) ((PyTransform *) self)->component)->getY());
+  Transform *t = (Transform *) ((PyTransform *) self)->component;
+  return PyFloat_FromDouble(t->getY());
 }
 
 static
@@ -69,13 +74,16 @@ int Transform_sety(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Transform.y must be a number");
     return -1;
   }
-  ((Transform *) ((PyTransform *) self)->component)->setY((float) PyFloat_AsDouble(val));
+  Transform *t = (Transform *) ((PyTransform *) self)->component;
+  t->setY((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static PyGetSetDef Transform_getset[] = {
-  { (char *) "x", Transform_getx, Transform_setx, (char *) "The x coordinate", NULL },
-  { (char *) "y", Transform_gety, Transform_sety, (char *) "The y coordinate", NULL },
+  { (char *) "x", Transform_getx, Transform_setx,
+    (char *) "The x coordinate", NULL },
+  { (char *) "y", Transform_gety, Transform_sety,
+    (char *) "The y coordinate", NULL },
   { NULL, NULL }
 };
 
@@ -110,12 +118,14 @@ PyObject *Transform_moveBy(PyTransform *self, PyObject *args) {
 }
 
 static PyMethodDef Transform_methods[] = {
-  {"moveTo", (PyCFunction) Transform_moveTo, METH_VARARGS, "Move to a defined position"},
-  {"moveBy", (PyCFunction) Transform_moveBy, METH_VARARGS, "Move by a defined displacement"},
+  {"moveTo", (PyCFunction) Transform_moveTo, METH_VARARGS,
+   "Move to a defined position"},
+  {"moveBy", (PyCFunction) Transform_moveBy, METH_VARARGS,
+   "Move by a defined displacement"},
   {NULL} /* End of list */
 };
 
-// Mobile type and methods -------------------------------------------------------------------
+// Mobile type and methods -----------------------------------------------------
 static PyTypeObject PyMobileType = {
   PyObject_HEAD_INIT(NULL)
   0,
@@ -142,7 +152,8 @@ int Mobile_init(PyTransform *self, PyObject *args, PyObject *kwds) {
 
 static
 PyObject *Mobile_getSpeedX(PyObject *self, void *) {
-  return PyFloat_FromDouble(((Mobile *) ((PyMobile *) self)->component)->getSpeedX());
+  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  return PyFloat_FromDouble(m->getSpeedX());
 }
 
 static
@@ -151,13 +162,15 @@ int Mobile_setSpeedX(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Mobile.speedX must be a number");
     return -1;
   }
-  ((Mobile *) ((PyMobile *) self)->component)->setSpeedX((float) PyFloat_AsDouble(val));
+  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  m->setSpeedX((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Mobile_getSpeedY(PyObject *self, void *) {
-  return PyFloat_FromDouble(((Mobile *) ((PyMobile *) self)->component)->getSpeedY());
+  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  return PyFloat_FromDouble(m->getSpeedY());
 }
 
 static
@@ -166,14 +179,17 @@ int Mobile_setSpeedY(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Mobile.speedY must be a number");
     return -1;
   }
-  ((Mobile *) ((PyMobile *) self)->component)->setSpeedY((float) PyFloat_AsDouble(val));
+  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  m->setSpeedY((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Mobile_getSpeed(PyObject *self, void *) {
   Mobile *m = (Mobile *) ((PyMobile *) self)->component;
-  return PyTuple_Pack(2, PyFloat_FromDouble(m->getSpeedX()), PyFloat_FromDouble(m->getSpeedY()));
+  return PyTuple_Pack(2,
+                      PyFloat_FromDouble(m->getSpeedX()),
+                      PyFloat_FromDouble(m->getSpeedY()));
 }
 
 static
@@ -189,11 +205,13 @@ int Mobile_setSpeed(PyObject *self, PyObject *val, void *) {
   PyObject *psx = PyTuple_GetItem(val, 0);
   PyObject *psy = PyTuple_GetItem(val, 1);
   if (!PyNumber_Check(psx)) {
-    PyErr_SetString(PyExc_TypeError, "Mobile.speed must be a tuple with numbers (first element is not)");
+    PyErr_SetString(PyExc_TypeError,
+                    "Mobile.speed first element must be a number");
     return -1;
   }
   if (!PyNumber_Check(psy)) {
-    PyErr_SetString(PyExc_TypeError, "Mobile.speed must be a tuple with numbers (second element is not)");
+    PyErr_SetString(PyExc_TypeError,
+                    "Mobile.speed second element must be a number");
     return -1;
   }
   
@@ -205,13 +223,16 @@ int Mobile_setSpeed(PyObject *self, PyObject *val, void *) {
 }
 
 static PyGetSetDef Mobile_getset[] = {
-  { (char *) "speedX", Mobile_getSpeedX, Mobile_setSpeedX, (char *) "The x speed", NULL },
-  { (char *) "speedY", Mobile_getSpeedY, Mobile_setSpeedY, (char *) "The y speed", NULL },
-  { (char *) "speed", Mobile_getSpeed, Mobile_setSpeed, (char *) "The speed as a tuple of two numbers", NULL },
+  { (char *) "speedX", Mobile_getSpeedX, Mobile_setSpeedX,
+    (char *) "The x speed", NULL },
+  { (char *) "speedY", Mobile_getSpeedY, Mobile_setSpeedY,
+    (char *) "The y speed", NULL },
+  { (char *) "speed", Mobile_getSpeed, Mobile_setSpeed,
+    (char *) "The speed as a tuple of two numbers", NULL },
   { NULL, NULL }
 };
 
-// Animated type and methods -------------------------------------------------------------------
+// Animated type and methods ----------------------------------------------------
 static PyTypeObject PyAnimatedType = {
   PyObject_HEAD_INIT(NULL)
   0,
@@ -238,7 +259,8 @@ int Animated_init(PyTransform *self, PyObject *args, PyObject *kwds) {
 
 static
 PyObject *Animated_getAnimation(PyObject *self, void *) {
-  return PyString_FromString(((Animated *) ((PyAnimated *) self)->component)->getAnimation().c_str());
+  Animated *a = (Animated *) ((PyAnimated *) self)->component;
+  return PyString_FromString(a->getAnimation().c_str());
 }
 
 static
@@ -247,16 +269,66 @@ int Animated_setAnimation(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Animated.animation must be a string");
     return -1;
   }
-  ((Animated *) ((PyAnimated *) self)->component)->setAnimation(PyString_AsString(val));
+  Animated *a = (Animated *) ((PyAnimated *) self)->component;
+  a->setAnimation(PyString_AsString(val));
   return 0;
 }
 
 static PyGetSetDef Animated_getset[] = {
-  { (char *) "animation", Animated_getAnimation, Animated_setAnimation, (char *) "The current animation", NULL },
+  { (char *) "animation", Animated_getAnimation, Animated_setAnimation,
+    (char *) "The current animation", NULL },
   { NULL, NULL }
 };
 
-// Input state type and methods -------------------------------------------------------------------
+// Audio type and methods ----------------------------------------------------
+static PyTypeObject PyAudioType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Audio",
+  sizeof(PyAudio),
+};
+
+static
+int Audio_init(PyTransform *self, PyObject *args, PyObject *kwds) {
+  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
+    return -1;
+  }
+  if (PyErr_Occurred()) {
+    PyErr_Clear();
+  }
+  
+  PyObject *name;
+  if (!PyArg_ParseTuple(args, "S", &name)) {
+    return -1;
+  }
+  self->component = new Audio(PyString_AsString(name));
+  return 0;
+}
+
+static
+PyObject *Audio_getName(PyObject *self, void *) {
+  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  return PyString_FromString(a->getName().c_str());
+}
+
+static
+int Audio_setName(PyObject *self, PyObject *val, void *) {
+  if (!PyString_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Audio.name must be a string");
+    return -1;
+  }
+  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  a->setName(PyString_AsString(val));
+  return 0;
+}
+
+static PyGetSetDef Audio_getset[] = {
+  { (char *) "name", Audio_getName, Audio_setName,
+    (char *) "The current 'sound' name", NULL },
+  { NULL, NULL }
+};
+
+// Input state type and methods ------------------------------------------------
 typedef struct {
   PyObject_HEAD
   InputState const *state;
@@ -310,9 +382,12 @@ PyObject *InputState_getMousePosition(PyInputState *self) {
 }
 
 static PyMethodDef InputState_methods[] = {
-  { "isKeyDown", (PyCFunction) InputState_isKeyDown, METH_VARARGS, "Check if a key is pressed" },
-  { "isButtonDown", (PyCFunction) InputState_isButtonDown, METH_VARARGS, "Check if a mouse button is pressed" },
-  { "getMousePosition", (PyCFunction) InputState_getMousePosition, METH_NOARGS, "Get the current mouse position as a tuple" },
+  { "isKeyDown", (PyCFunction) InputState_isKeyDown, METH_VARARGS,
+    "Check if a key is pressed" },
+  { "isButtonDown", (PyCFunction) InputState_isButtonDown, METH_VARARGS,
+    "Check if a mouse button is pressed" },
+  { "getMousePosition", (PyCFunction) InputState_getMousePosition, METH_NOARGS,
+    "Get the current mouse position as a tuple" },
   { NULL }
 };
 
@@ -383,7 +458,7 @@ exposeInputStateConstants() {
   Py_DECREF(val);
 }
 
-// Input type and methods -------------------------------------------------------------------
+// Input type and methods -------------------------------------------------------
 static PyTypeObject PyInputType = {
   PyObject_HEAD_INIT(NULL)
   0,
@@ -407,7 +482,8 @@ int Input_init(PyTransform *self, PyObject *args, PyObject *kwds) {
 static
 PyObject *Input_getState(PyObject *self, void *) {
   Input *input = (Input *) ((PyInput *) self)->component;
-  PyInputState *state = (PyInputState *) PyInputStateType.tp_alloc(&PyInputStateType, 0);
+  PyInputState *state =
+    (PyInputState *) PyInputStateType.tp_alloc(&PyInputStateType, 0);
   state->state = input->getInputState();
   Py_INCREF(state);
   return (PyObject *) state;
@@ -418,7 +494,7 @@ static PyGetSetDef Input_getset[] = {
   { NULL, NULL }
 };
 
-// Camera type and methods -------------------------------------------------------------------
+// Camera type and methods -----------------------------------------------------
 static PyTypeObject PyCameraType = {
   PyObject_HEAD_INIT(NULL)
   0,
@@ -446,7 +522,8 @@ int Camera_init(PyTransform *self, PyObject *args, PyObject *kwds) {
 
 static
 PyObject *Camera_getOffsetX(PyObject *self, void *) {
-  return PyFloat_FromDouble(((Camera *) ((PyCamera *) self)->component)->getOffsetX());
+  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  return PyFloat_FromDouble(c->getOffsetX());
 }
 
 static
@@ -455,13 +532,15 @@ int Camera_setOffsetX(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Camera.offsetX must be a number");
     return -1;
   }
-  ((Camera *) ((PyCamera *) self)->component)->setOffsetX((float) PyFloat_AsDouble(val));
+  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  c->setOffsetX((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Camera_getOffsetY(PyObject *self, void *) {
-  return PyFloat_FromDouble(((Camera *) ((PyCamera *) self)->component)->getOffsetY());
+  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  return PyFloat_FromDouble(c->getOffsetY());
 }
 
 static
@@ -470,13 +549,15 @@ int Camera_setOffsetY(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Camera.offsetY must be a number");
     return -1;
   }
-  ((Camera *) ((PyCamera *) self)->component)->setOffsetY((float) PyFloat_AsDouble(val));
+  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  c->setOffsetY((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Camera_getWidth(PyObject *self, void *) {
-  return PyInt_FromLong(((Camera *) ((PyCamera *) self)->component)->getWidth());
+  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  return PyInt_FromLong(c->getWidth());
 }
 
 static
@@ -485,13 +566,15 @@ int Camera_setWidth(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Camera.width must be a number");
     return -1;
   }
-  ((Camera *) ((PyCamera *) self)->component)->setWidth((unsigned int) PyInt_AsLong(val));
+  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  c->setWidth((unsigned int) PyInt_AsLong(val));
   return 0;
 }
 
 static
 PyObject *Camera_getHeight(PyObject *self, void *) {
-  return PyInt_FromLong(((Camera *) ((PyCamera *) self)->component)->getHeight());
+  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  return PyInt_FromLong(c->getHeight());
 }
 
 static
@@ -500,19 +583,24 @@ int Camera_setHeight(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Camera.height must be a number");
     return -1;
   }
-  ((Camera *) ((PyCamera *) self)->component)->setHeight((unsigned int) PyInt_AsLong(val));
+  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  c->setHeight((unsigned int) PyInt_AsLong(val));
   return 0;
 }
 
 static PyGetSetDef Camera_getset[] = {
-  { (char *) "offsetX", Camera_getOffsetX, Camera_setOffsetX, (char *) "The x offset", NULL },
-  { (char *) "offsetY", Camera_getOffsetY, Camera_setOffsetY, (char *) "The y offset", NULL },
-  { (char *) "width", Camera_getWidth, Camera_setWidth, (char *) "The width of the view", NULL },
-  { (char *) "height", Camera_getHeight, Camera_setHeight, (char *) "The height of the view", NULL },
+  { (char *) "offsetX", Camera_getOffsetX, Camera_setOffsetX,
+    (char *) "The x offset", NULL },
+  { (char *) "offsetY", Camera_getOffsetY, Camera_setOffsetY,
+    (char *) "The y offset", NULL },
+  { (char *) "width", Camera_getWidth, Camera_setWidth,
+    (char *) "The width of the view", NULL },
+  { (char *) "height", Camera_getHeight, Camera_setHeight,
+    (char *) "The height of the view", NULL },
   { NULL, NULL }
 };
 
-// Real initialization -----------------------------------------------------------------------
+// Real initialization ----------------------------------------------------------
 void
 initComponents(PyObject *module) {
   PyObject *type;
@@ -566,6 +654,23 @@ initComponents(PyObject *module) {
   PyModule_AddObject(module, "Animated", (PyObject *) &PyAnimatedType);
   type = PyInt_FromLong(Animated::TYPE);
   PyDict_SetItemString(PyAnimatedType.tp_dict, "TYPE", type);
+  Py_DECREF(type);
+
+  // Audio
+  PyAudioType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
+  PyAudioType.tp_doc = "Type of Audio components";
+  //PyAudioType.tp_methods = XXX
+  PyAudioType.tp_base = &PyComponentType;
+  PyAudioType.tp_init = (initproc) Audio_init;
+  PyAudioType.tp_getset = Audio_getset;
+  if (PyType_Ready(&PyAudioType) < 0) {
+    LOG2 << "Cannot create Audio type\n";
+    return;
+  }
+  Py_INCREF(&PyAudioType);
+  PyModule_AddObject(module, "Audio", (PyObject *) &PyAudioType);
+  type = PyInt_FromLong(Audio::TYPE);
+  PyDict_SetItemString(PyAudioType.tp_dict, "TYPE", type);
   Py_DECREF(type);
 
   // InputState
@@ -638,6 +743,13 @@ wrapAnimated(Animated *a) {
 }
 
 PyObject *
+wrapAudio(Audio *a) {
+  PyAudio *pya = (PyAudio *) PyAudioType.tp_alloc(&PyAudioType, 0);
+  pya->component = a;
+  return (PyObject *) pya;
+}
+
+PyObject *
 wrapInput(Input *i) {
   PyInput *pyi = (PyInput *) PyInputType.tp_alloc(&PyInputType, 0);
   pyi->component = i;
@@ -661,6 +773,8 @@ wrapRealComponent(Component *c) {
     return wrapMobile((Mobile *) c);
   case Animated::TYPE:
     return wrapAnimated((Animated *) c);
+  case Audio::TYPE:
+    return wrapAudio((Audio *) c);
   case Input::TYPE:
     return wrapInput((Input *) c);
   case Camera::TYPE:

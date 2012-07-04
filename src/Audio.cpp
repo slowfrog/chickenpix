@@ -1,7 +1,7 @@
 #include "Audio.h"
 
-Audio::Audio():
-  Component(TYPE) {
+Audio::Audio(const string &name):
+  Component(TYPE), name_(name) {
 }
 
 Audio::~Audio() {
@@ -9,5 +9,5 @@ Audio::~Audio() {
 
 string
 Audio::toString() const {
-  return "{Audio}";
+  return "{Audio name=" + name_ + "}";
 }

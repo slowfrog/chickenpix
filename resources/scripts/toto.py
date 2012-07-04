@@ -33,6 +33,8 @@ def update(self, manager):
                   (cam.offsetX, cam.offsetY, cam.width, cam.height))
             cam.width = 100
             cam.height = 100
+        if input.state.isKeyDown(cp.InputState.SPACE):
+            self.addComponent(cp.Audio("coin"))
         if input.state.isKeyDown(cp.InputState.NUM1):
             print("You are pressing 1")
             cam = self.getComponent(cp.Camera.TYPE)

@@ -1,6 +1,7 @@
 #include "log.h"
 #include "Sounds.h"
 #include "Audio.h"
+#include "Resources.h"
 
 Sounds::Sounds(const string &name, EntityManager &em):
   System(name, em) {
@@ -15,9 +16,21 @@ Sounds::init() {
 
 void
 Sounds::update(int now) {
+  Resources *resources = NULL;
   TEntityList entities = _em.getEntities(Audio::TYPE);
   for (TEntityIterator it = entities.begin(); it < entities.end(); ++it) {
-    Audio *audio = (*it)->getComponent<Audio>();
+    Entity *entity = *it;
+    Audio *audio = entity->getComponent<Audio>();
+    // Replace abstract Audio by concrete ones
+    if (!audio->isConcrete()) {
+      if (!resources) {
+        resources = _em.getComponent<Resources>();
+      }
+      Audio *newAudio = resources->makeAudio(audio->getName());
+      entity->removeComponent(Audio::TYPE);
+      entity->addComponent(newAudio);
+      audio = newAudio;
+    }
     if (!audio->isPlaying()) {
       audio->play();
     }

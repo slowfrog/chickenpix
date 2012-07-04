@@ -1,8 +1,8 @@
 #include "CL.h"
 #include "CLAudio.h"
 
-CLAudio::CLAudio(CL_SoundBuffer &buffer):
-  Audio(), buffer_(buffer), session_(buffer_.prepare()) {
+CLAudio::CLAudio(const string &name, CL_SoundBuffer &buffer):
+  Audio(name), buffer_(buffer), session_(buffer_.prepare()) {
 }
 
 CLAudio::~CLAudio() {
@@ -25,5 +25,5 @@ CLAudio::stop() {
 
 string
 CLAudio::toString() const {
-  return "{CLAudio}";
+  return "{CLAudio name=" + getName() + "}";
 }

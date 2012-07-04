@@ -1,8 +1,8 @@
 #include "SFML.h"
 #include "SFMLAudio.h"
 
-SFMLAudio::SFMLAudio(sf::SoundBuffer &buffer):
-  Audio(), buffer_(buffer), sound_(buffer) {
+SFMLAudio::SFMLAudio(const string &name, sf::SoundBuffer &buffer):
+  Audio(name), buffer_(buffer), sound_(buffer) {
 }
 
 SFMLAudio::~SFMLAudio() {
@@ -25,5 +25,5 @@ SFMLAudio::stop() {
 
 string
 SFMLAudio::toString() const {
-  return "{SFMLAudio}";
+  return "{SFMLAudio name=" + getName() + "}";
 }
