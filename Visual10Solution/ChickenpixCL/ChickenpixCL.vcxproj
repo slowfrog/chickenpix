@@ -82,6 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\CL\CLAudio.cpp" />
     <ClCompile Include="..\..\src\CL\CLInputs.cpp" />
     <ClCompile Include="..\..\src\CL\CLInputState.cpp" />
     <ClCompile Include="..\..\src\CL\CLLoader.cpp" />
@@ -95,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\CL\CL.h" />
+    <ClInclude Include="..\..\src\CL\CLAudio.h" />
     <ClInclude Include="..\..\src\CL\CLInputs.h" />
     <ClInclude Include="..\..\src\CL\CLInputState.h" />
     <ClInclude Include="..\..\src\CL\CLLoader.h" />

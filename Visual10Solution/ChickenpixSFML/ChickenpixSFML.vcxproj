@@ -89,6 +89,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\SFML\SFMLAudio.cpp" />
     <ClCompile Include="..\..\src\SFML\SFMLInputs.cpp" />
     <ClCompile Include="..\..\src\SFML\SFMLInputState.cpp" />
     <ClCompile Include="..\..\src\SFML\SFMLLoader.cpp" />
@@ -102,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\SFML\SFML.h" />
+    <ClInclude Include="..\..\src\SFML\SFMLAudio.h" />
     <ClInclude Include="..\..\src\SFML\SFMLInputs.h" />
     <ClInclude Include="..\..\src\SFML\SFMLInputState.h" />
     <ClInclude Include="..\..\src\SFML\SFMLLoader.h" />

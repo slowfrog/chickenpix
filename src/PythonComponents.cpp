@@ -309,7 +309,7 @@ int Audio_init(PyTransform *self, PyObject *args, PyObject *kwds) {
                       "Second argument 'loop' must be a boolean");
       return -1;
     } else {
-      looping = PyObject_IsTrue(loop);
+      looping = (PyObject_IsTrue(loop) != 0);
     }
   }
   self->component = new Audio(PyString_AsString(name), looping);
@@ -350,7 +350,7 @@ int Audio_setLoop(PyObject *self, PyObject *val, void *) {
     return -1;
   }
   Audio *a = (Audio *) ((PyAudio *) self)->component;
-  a->setLooping(PyObject_IsTrue(val));
+  a->setLooping(PyObject_IsTrue(val) != 0);
   return 0;
 }
 

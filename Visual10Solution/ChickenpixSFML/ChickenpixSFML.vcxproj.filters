@@ -45,6 +45,9 @@
     <ClCompile Include="..\..\src\SFML\SFMLSystemFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\SFML\SFMLAudio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\SFML\SFMLInputs.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\SFML\SFMLSystemFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SFML\SFMLAudio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
