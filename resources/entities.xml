@@ -188,7 +188,7 @@
     <entity>
       <components>
         <component type="Resources" kind="audio">
-          <audio alias="background_music" />
+          <audio alias="background_music" loop="true" />
         </component>
       </components>
     </entity>

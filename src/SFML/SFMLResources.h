@@ -106,7 +106,7 @@ public:
   virtual BVisual *makeSprite(string const &name);
   virtual BVisual *makeText(string const &text, string const &font,
                             CPColor const &color=CPColor::White);
-  virtual Audio *makeAudio(string const &name);
+  virtual Audio *makeAudio(string const &name, bool looping);
 
   virtual string toString() const;
 };

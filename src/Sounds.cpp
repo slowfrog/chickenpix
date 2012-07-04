@@ -26,14 +26,14 @@ Sounds::update(int now) {
       if (!resources) {
         resources = _em.getComponent<Resources>();
       }
-      Audio *newAudio = resources->makeAudio(audio->getName());
+      Audio *newAudio = resources->makeAudio(audio->getName(),
+                                             audio->isLooping());
       entity->removeComponent(Audio::TYPE);
       entity->addComponent(newAudio);
       audio = newAudio;
     }
-    if (!audio->isPlaying()) {
-      audio->play();
-    }
+
+    audio->play();
   }
 }
 

@@ -1,7 +1,7 @@
 #include "Audio.h"
 
-Audio::Audio(const string &name):
-  Component(TYPE), name_(name) {
+Audio::Audio(const string &name, bool looping):
+  Component(TYPE), name_(name), looping_(looping) {
 }
 
 Audio::~Audio() {

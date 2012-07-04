@@ -13,7 +13,7 @@ private:
   sf::Sound sound_;
 
 public:
-  SFMLAudio(const string &name, sf::SoundBuffer &buffer);
+  SFMLAudio(const string &name, bool looping, sf::SoundBuffer &buffer);
   virtual ~SFMLAudio();
 
   inline

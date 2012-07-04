@@ -1,8 +1,9 @@
+#include "../log.h"
 #include "CL.h"
 #include "CLAudio.h"
 
-CLAudio::CLAudio(const string &name, CL_SoundBuffer &buffer):
-  Audio(name), buffer_(buffer), session_(buffer_.prepare()) {
+CLAudio::CLAudio(const string &name, bool looping, CL_SoundBuffer &buffer):
+  Audio(name, looping), buffer_(buffer), session_(buffer_.prepare()) {
 }
 
 CLAudio::~CLAudio() {
@@ -10,12 +11,16 @@ CLAudio::~CLAudio() {
 
 void
 CLAudio::play() {
-  session_.play();
+  if (!isPlaying()) {
+    session_.set_looping(isLooping());
+    session_.play();
+  }
 }
 
 bool
 CLAudio::isPlaying() {
-  return session_.is_playing();
+  bool ret = session_.is_playing();
+  return ret;
 }
 
 void

@@ -462,7 +462,14 @@ CEntityBuilder::buildComponentResourcesAudio( TiXmlElement *pNode,  Entity *e, R
   if ( pChar) {
     std::string alias;
     if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "alias", &alias)){
-      Audio *audio = pResource->makeAudio( alias);
+      bool looping = false;
+      std::string loop;
+      if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "loop", &loop)) {
+        if (loop == "true") {
+          looping = true;
+        }
+      }
+      Audio *audio = pResource->makeAudio( alias, looping);
       e->addComponent( audio);
       return;
     }

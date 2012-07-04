@@ -94,7 +94,7 @@ public:
   virtual BVisual *makeSprite(string const &name);
   virtual BVisual *makeText(string const &text, string const &font,
                             CPColor const &color=CPColor::White);
-  virtual Audio *makeAudio(string const &audio);
+  virtual Audio *makeAudio(string const &audio, bool looping);
 
   virtual string toString() const;
 };

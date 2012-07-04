@@ -61,13 +61,13 @@ CLResources::makeText(string const &text, string const &font, CPColor const &col
 }
 
 Audio *
-CLResources::makeAudio(string const &audio) {
+CLResources::makeAudio(string const &audio, bool looping) {
   CLResAudio *resAudio = (CLResAudio *) getAudio(audio);
   if (resAudio == NULL) {
     cerr << "Cannot find audio: " << audio << endl;
     assert(!(resAudio == NULL));
   }
-  return new CLAudio(audio, resAudio->get());
+  return new CLAudio(audio, looping, resAudio->get());
 }
 
 string

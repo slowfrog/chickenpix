@@ -11,7 +11,7 @@ private:
   CL_SoundBuffer_Session session_;
 
 public:
-  CLAudio(const string &name, CL_SoundBuffer &buffer);
+  CLAudio(const string &name, bool looping, CL_SoundBuffer &buffer);
   virtual ~CLAudio();
 
   inline

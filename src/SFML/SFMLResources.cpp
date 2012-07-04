@@ -61,13 +61,13 @@ SFMLResources::makeText(string const &text, string const &font, CPColor const &c
 }
 
 Audio *
-SFMLResources::makeAudio(string const &name) {
+SFMLResources::makeAudio(string const &name, bool looping) {
   SFMLResAudio *resAudio = (SFMLResAudio *) getAudio(name);
   if (resAudio == NULL) {
     cerr << "Cannot find audio: " << name << endl;
     assert(!(resAudio == NULL));
   }
-  return new SFMLAudio(name, resAudio->get());
+  return new SFMLAudio(name, looping, resAudio->get());
 }
 
 

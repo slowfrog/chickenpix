@@ -298,10 +298,21 @@ int Audio_init(PyTransform *self, PyObject *args, PyObject *kwds) {
   }
   
   PyObject *name;
-  if (!PyArg_ParseTuple(args, "S", &name)) {
+  PyObject *loop;
+  if (!PyArg_ParseTuple(args, "S|O", &name, &loop)) {
     return -1;
   }
-  self->component = new Audio(PyString_AsString(name));
+  bool looping = false;
+  if (loop) {
+    if (!PyBool_Check(loop)) {
+      PyErr_SetString(PyExc_TypeError,
+                      "Second argument 'loop' must be a boolean");
+      return -1;
+    } else {
+      looping = PyObject_IsTrue(loop);
+    }
+  }
+  self->component = new Audio(PyString_AsString(name), looping);
   return 0;
 }
 
@@ -322,9 +333,44 @@ int Audio_setName(PyObject *self, PyObject *val, void *) {
   return 0;
 }
 
+static
+PyObject *Audio_getLoop(PyObject *self, void *) {
+  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  if (a->isLooping()) {
+    Py_RETURN_TRUE;
+  } else {
+    Py_RETURN_FALSE;
+  }
+}
+
+static
+int Audio_setLoop(PyObject *self, PyObject *val, void *) {
+  if (!PyBool_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Audio.loop must be a boolean");
+    return -1;
+  }
+  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  a->setLooping(PyObject_IsTrue(val));
+  return 0;
+}
+
+static
+PyObject *Audio_getPlaying(PyObject *self, void *) {
+  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  if (a->isPlaying()) {
+    Py_RETURN_TRUE;
+  } else {
+    Py_RETURN_FALSE;
+  }
+}
+
 static PyGetSetDef Audio_getset[] = {
   { (char *) "name", Audio_getName, Audio_setName,
     (char *) "The current 'sound' name", NULL },
+  { (char *) "loop", Audio_getLoop, Audio_setLoop,
+    (char *) "Is the sound looping or playing only once", NULL },
+  { (char *) "playing", Audio_getPlaying, NULL,
+    (char *) "Is the sound currently playing", NULL },
   { NULL, NULL }
 };
 

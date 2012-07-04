@@ -34,7 +34,7 @@ def update(self, manager):
             cam.width = 100
             cam.height = 100
         if input.state.isKeyDown(cp.InputState.SPACE):
-            self.addComponent(cp.Audio("coin"))
+            self.addComponent(cp.Audio("coin", False))
         if input.state.isKeyDown(cp.InputState.NUM1):
             print("You are pressing 1")
             cam = self.getComponent(cp.Camera.TYPE)
@@ -51,8 +51,8 @@ def update(self, manager):
               (self.id(),
                len(self.getComponents()),
                ", ".join(c.typeName() for c in self.getComponents())))
-        entities = manager.getEntities(cp.Transform.TYPE) #, cp.Visual)
         print("My tags are [%s]" % ", ".join(self.getTags()))
+        entities = manager.getEntities(cp.Transform.TYPE) #, cp.Visual)
         print("There are %d Transform entities" % len(entities))
         print("dict=%s" % self.getDict())
     if self.times < 3:
@@ -71,6 +71,13 @@ def update(self, manager):
         print("t={%f,%f}" % (t.x, t.y))
         m = self.getComponent(cp.Mobile.TYPE)
         print("Current speed: (%f, %f)" % m.speed)
+        for entity in manager.getEntities(cp.Audio.TYPE):
+            audio = entity.getComponent(cp.Audio.TYPE)
+            print("%s is %splaying %sin loop" %
+                  (audio.name,
+                   "not " if not audio.playing else "",
+                   "not " if not audio.loop else ""))
+                  
     if self.times > 60 and self.times < 180:
         #t = self.getComponent(cp.Transform.TYPE)
         #t.moveBy(5, 5)
@@ -87,3 +94,7 @@ def update(self, manager):
         self.addComponent(cp.Transform(100, 100))
         diffclock = time.time() - self.start
         print("240 frames in %f sec: %f FPS" % (diffclock, 240 / diffclock))
+
+    audio = self.getComponent(cp.Audio.TYPE)
+    if audio is not None:
+        print("%s playing %s" % (audio.name, audio.playing))

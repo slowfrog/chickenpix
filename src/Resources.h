@@ -84,7 +84,7 @@ public:
   virtual BVisual *makeSprite(string const &name) = 0;
   virtual BVisual *makeText(string const &text, string const &font,
                             CPColor const &color=CPColor::White) = 0;
-  virtual Audio *makeAudio(string const &name) = 0;
+  virtual Audio *makeAudio(string const &name, bool looping) = 0;
   
   virtual string toString() const;
 };
