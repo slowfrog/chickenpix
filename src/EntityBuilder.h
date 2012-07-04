@@ -70,6 +70,7 @@ protected:
   void buildComponentResourcesByKind( const std::string&, TiXmlElement*,  Entity*, Resources*);
   void buildComponentResourcesImage ( TiXmlElement*,  Entity*, Resources* );
   void buildComponentResourcesText  ( TiXmlElement*,  Entity*, Resources*);
+  void buildComponentResourcesAudio ( TiXmlElement*,  Entity*, Resources*);
   
   void buildStats( Character*, const std::string&, const CVariant&);
   

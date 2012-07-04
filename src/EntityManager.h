@@ -3,13 +3,18 @@
 #include <map>
 #include "Entity.h"
 
+typedef vector<Entity *>           TEntityList;
+typedef vector<Entity *>::iterator TEntityIterator;
+
 /**
- * An EntityManager manages entities (obviously). This means that Entity objects should only be created
- * by a manager (calling createEntity) and should only be deleted by calling destroyEntity().
- * Also tagging and un-tagging entities should be done through the manager, because it keeps track of
- * groups of entities by tag.
+ * An EntityManager manages entities (obviously). This means that Entity objects
+ * should only be created by a manager (calling createEntity) and should only be
+ * deleted by calling destroyEntity().
+ * Also tagging and un-tagging entities should be done through the manager,
+ * because it keeps track of groups of entities by tag.
  */
 class EntityManager {
+public:
 private:
   /** Name of the manager. Mostly useless. */
   string _name;
@@ -38,9 +43,9 @@ public:
    */
   void replaceEntity(Entity::Id id, Entity *replacement);
 
-  vector<Entity *> getEntities() const;
-  vector<Entity *> getEntities(Component::Type t);
-  vector<Entity *> getEntities(Component::Type t1, Component::Type t2);
+  TEntityList getEntities() const;
+  TEntityList  getEntities(Component::Type t);
+  TEntityList  getEntities(Component::Type t1, Component::Type t2);
   Entity *getEntity(Component::Type t);
 
   /**

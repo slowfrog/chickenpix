@@ -67,9 +67,9 @@ EntityManager::replaceEntity(Entity::Id id, Entity *replacement) {
   _entities[id] = replacement;
 }
 
-vector<Entity *>
+TEntityList
 EntityManager::getEntities(Component::Type t) {
-  vector<Entity *> ret;
+  TEntityList ret;
   for (unsigned int i = 1; i < _entities.size(); ++i) {
     Entity *ent = _entities[i];
     if ((ent != NULL) && (ent->hasComponent(t))) {
@@ -79,9 +79,9 @@ EntityManager::getEntities(Component::Type t) {
   return ret;
 }
 
-vector<Entity *>
+TEntityList
 EntityManager::getEntities() const {
-  vector<Entity *> ret;
+  TEntityList ret;
   for (unsigned int i = 1; i < _entities.size(); ++i) {
     Entity *ent = _entities[i];
     if (ent != NULL) {
@@ -91,9 +91,9 @@ EntityManager::getEntities() const {
   return ret;
 }
 
-vector<Entity *>
+TEntityList
 EntityManager::getEntities(Component::Type t1, Component::Type t2) {
-  vector<Entity *> ret;
+  TEntityList ret;
   for (unsigned int i = 1; i < _entities.size(); ++i) {
     Entity *ent = _entities[i];
     if ((ent != NULL) && (ent->hasComponents(t1, t2))) {

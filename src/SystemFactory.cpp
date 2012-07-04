@@ -18,5 +18,11 @@ CSystemFactory::createAnimation( EntityManager &em, const std::string &name){
   return new Animation( name, em);
 }
 
+// Sounds
+Sounds*
+CSystemFactory::createSounds( EntityManager &em, const std::string &name){
+  return new Sounds( name, em);
+}
+
 
 

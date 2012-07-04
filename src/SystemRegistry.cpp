@@ -4,6 +4,7 @@
 // to discuss !!!!!
 SystemType in_ex_itPath[]={
   RENDER_TYPE,
+  SOUNDS_TYPE,
   ANIMATION_TYPE,
   LOADER_TYPE,
   INPUTS_TYPE,
@@ -17,6 +18,7 @@ SystemType updatePath[]={
   SCRIPTING_TYPE,
   MOVEMENT_TYPE,
   ANIMATION_TYPE,
+  SOUNDS_TYPE,
   RENDER_TYPE,
   END_OF_LIST
 };

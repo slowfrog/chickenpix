@@ -37,6 +37,7 @@ runGame( CSystemFactory* pFac) {
   
   Render    *render     = pFac->createRender    ( *CSystemManager::get()->getCurrentEntityManager(), "Render", 800, 600);
   assert( render);
+  Sounds    *sounds     = pFac->createSounds    ( *CSystemManager::get()->getCurrentEntityManager(), "Sounds");
   Animation *anim       = pFac->createAnimation ( *CSystemManager::get()->getCurrentEntityManager(), "Animation");
   assert( anim);
   Loader    *loader     = pFac->createLoader    ( *CSystemManager::get()->getCurrentEntityManager(), "Loader", "resources/resources.xml", "resources/entities.xml");
@@ -60,6 +61,7 @@ runGame( CSystemFactory* pFac) {
    */
   
   CSystemManager::get()->registerSystem( "Main", render);
+  CSystemManager::get()->registerSystem( "Main", sounds);
   CSystemManager::get()->registerSystem( "Main", anim);
   CSystemManager::get()->registerSystem( "Main", loader);
   CSystemManager::get()->registerSystem( "Main", inputs);

@@ -171,6 +171,14 @@
             </component>
         </components>
     </entity>
+
+    <entity>
+      <components>
+        <component type="Resources" kind="audio">
+          <audio alias="background_music" />
+        </component>
+      </components>
+    </entity>
     
     <entity>
         <tags>

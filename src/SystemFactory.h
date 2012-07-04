@@ -7,6 +7,7 @@
 #include "Scripting.h"
 #include "Movement.h"
 #include "Animation.h"
+#include "Sounds.h"
 
 /*
  System Factory interface
@@ -27,4 +28,5 @@ public:
   Scripting *createScripting( EntityManager&, const std::string&);
   Movement  *createMovement ( EntityManager&, const std::string&);
   Animation *createAnimation( EntityManager&, const std::string&);
+  Sounds    *createSounds   ( EntityManager&, const std::string&);
 };

@@ -377,10 +377,11 @@ CEntityBuilder::buildComponentResourcesByKind( const std::string &kind, TiXmlEle
   if ( "image" == kind) {
     buildComponentResourcesImage( pNode,  e, pResource);
     return;
-  }
-  
-  if ( "font" == kind){
+  } else if ( "font" == kind){
     buildComponentResourcesText( pNode, e, pResource);
+    return;
+  } else if ( "audio" == kind){
+    buildComponentResourcesAudio( pNode, e, pResource);
     return;
   }
 }
@@ -453,6 +454,21 @@ CEntityBuilder::buildComponentResourcesText( TiXmlElement *pNode,  Entity *e, Re
 
     e->addComponent(textVis);
   }
+}
+
+void 
+CEntityBuilder::buildComponentResourcesAudio( TiXmlElement *pNode,  Entity *e, Resources *pResource ){
+  TiXmlElement *pChar = pNode->FirstChildElement("audio");
+  if ( pChar) {
+    std::string alias;
+    if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "alias", &alias)){
+      Audio *audio = pResource->makeAudio( alias);
+      e->addComponent( audio);
+      return;
+    }
+  }
+  LOG2ERR<<"Bad kind for  [Resources/Audio] component\n";
+  throw "Bad kind for  [Resources/Audio] component";
 }
 
 // Component Scriptable

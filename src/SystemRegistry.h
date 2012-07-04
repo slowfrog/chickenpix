@@ -9,6 +9,7 @@ typedef enum {
   SCRIPTING_TYPE,
   MOVEMENT_TYPE,
   ANIMATION_TYPE,
+  SOUNDS_TYPE,
   // - Do not add anything after this line!! (just before)
   END_OF_LIST,
   MAX_SYSTEM = END_OF_LIST
