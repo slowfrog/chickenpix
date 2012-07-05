@@ -13,5 +13,6 @@ const char *ComponentName[] = {
   "Character",
   "Controller",
   "Audio",
+  "Collider",
   0
 };

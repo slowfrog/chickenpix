@@ -13,6 +13,7 @@
 #include "Scriptable.h"
 #include "Camera.h"
 #include "Stats.h"
+#include "Collider.h"
 // owner
 #include "EntityBuilder.h"
 
@@ -30,6 +31,8 @@ static callbacks callers[]={
   clbCamera,
   clbCharacter,
   clbController,
+  clbAudio,
+  clbCollider,
   0 // last index marker
 };
 
@@ -56,10 +59,6 @@ void clbInput( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pRe
   eb->buildInput( node, e, pResource);
 }
 
-void clbController( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
-  eb->buildController( node, e, pResource);
-}
-
 void clbResources( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
   eb->buildResources( node, e, pResource);
 }
@@ -75,6 +74,19 @@ void clbCamera( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pR
 void clbCharacter( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
   eb->buildCharacter( node, e, pResource);
 }
+
+void clbAudio( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
+  eb->buildAudio( node, e, pResource);
+}
+
+void clbController( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
+  eb->buildController( node, e, pResource);
+}
+
+void clbCollider( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
+  eb->buildCollider( node, e, pResource);
+}
+
 
 /****************************************************************/
 /* class : CEntityBuilder                                       */
@@ -324,6 +336,12 @@ CEntityBuilder::buildVisual(TiXmlElement *pNode, Entity *e, Resources*){
   // ???
 }
 
+// Component Audio: generally managed by Resource
+void 
+CEntityBuilder::buildAudio(TiXmlElement *pNode, Entity *e, Resources*){
+  // ???
+}
+
 // Component Animated
 void 
 CEntityBuilder::buildAnimated(TiXmlElement *pNode, Entity *e, Resources*){
@@ -521,6 +539,25 @@ CEntityBuilder::buildCharacter ( TiXmlElement *pNode, Entity *e, Resources*){
       }
     }
     e->addComponent( character);
+  }
+}
+
+// Component Collider
+void 
+CEntityBuilder::buildCollider ( TiXmlElement *pNode, Entity *e, Resources*){
+  std::string solidStr;
+  bool solid = true;
+  float size;
+  if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "solid", &solidStr)) {
+    solid = (solidStr == "true");
+  }
+  if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "size", &size) ) {
+    Collider *collider = new Collider(solid, size);
+    e->addComponent(collider);
+    
+  } else {
+    LOG2ERR << "Bad xml description for [Collider] component, missing size\n";
+    throw "Bad xml description for [Collider] component, missing size\n";
   }
 }
 

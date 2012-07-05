@@ -26,6 +26,9 @@ extern void clbResources      ( CEntityBuilder*, TiXmlElement*, Entity*, Resourc
 extern void clbScriptable     ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbCamera         ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbCharacter      ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
+extern void clbController     ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
+extern void clbAudio          ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
+extern void clbCollider       ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 
 /*
 */
@@ -46,11 +49,13 @@ public:
   void buildVisual         ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildAnimated       ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildInput          ( TiXmlElement*, Entity*, Resources* = NULL);
-  void buildController     ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildResources      ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildScriptable     ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildCamera         ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildCharacter      ( TiXmlElement*, Entity*, Resources* = NULL);
+  void buildController     ( TiXmlElement*, Entity*, Resources* = NULL);
+  void buildAudio          ( TiXmlElement*, Entity*, Resources* = NULL);
+  void buildCollider       ( TiXmlElement*, Entity*, Resources* = NULL);
   
 protected:
   void init();

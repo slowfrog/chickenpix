@@ -1,10 +1,8 @@
 #pragma once
 
 #include <map>
+#include "Types.h"
 #include "Entity.h"
-
-typedef vector<Entity *>           TEntityList;
-typedef vector<Entity *>::iterator TEntityIterator;
 
 /**
  * An EntityManager manages entities (obviously). This means that Entity objects

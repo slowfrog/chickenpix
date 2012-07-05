@@ -175,6 +175,7 @@
                 <stats name="armor_class" value="3"/>
                 <stats name="damage" value="1"/>
             </component>
+            <component type="Collider" size="32" solid="true" />
         </components>
     </entity>
 
@@ -182,6 +183,7 @@
       <components>
         <component type="Transform"><position x="430" y="700"/></component>
         <component type="Animated"><image name="gold_coin" /></component>
+        <component type="Collider" solid="false" size="32"/>
       </components>
     </entity>
     

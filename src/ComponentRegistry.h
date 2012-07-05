@@ -11,7 +11,8 @@ enum ComponentType {
   CAMERA_TYPE     =  8,
   CHARACTER_TYPE  =  9,
   CONTROLLER_TYPE = 10,
-  AUDIO_TYPE      = 11
+  AUDIO_TYPE      = 11,
+  COLLIDER_TYPE   = 12
   // !!! Don't forget to update ComponentName values when adding a component type !!!
 };
 
