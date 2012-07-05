@@ -175,7 +175,7 @@
                 <stats name="armor_class" value="3"/>
                 <stats name="damage" value="1"/>
             </component>
-            <component type="Collider" size="32" solid="true" />
+            <component type="Collider" size="64" solid="true" />
         </components>
     </entity>
 

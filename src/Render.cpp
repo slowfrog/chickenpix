@@ -38,12 +38,16 @@ Render::update(int now) {
   Entity *cameraEntity = _em.getEntity(Camera::TYPE);
   Camera *camera = cameraEntity->getComponent<Camera>();
   Transform *transform = cameraEntity->getComponent<Transform>();
-  float offsetX = transform->getX() + camera->getOffsetX() - (vc->getWidth() / 2);
-  float offsetY = transform->getY() + camera->getOffsetY() - (vc->getHeight() / 2);
+  unsigned int width = (camera->getWidth() > 0 ?
+                        camera->getWidth() :
+                        vc->getWidth());
+  unsigned int height = (camera->getHeight() > 0 ?
+                         camera->getHeight() :
+                         vc->getHeight());
+  float offsetX = transform->getX() + camera->getOffsetX() - (width / 2);
+  float offsetY = transform->getY() + camera->getOffsetY() - (height / 2);
   float minX = offsetX;
   float minY = offsetY;
-  unsigned int width = camera->getWidth() > 0 ? camera->getWidth() : vc->getWidth();
-  unsigned int height = camera->getHeight() > 0 ? camera->getHeight() : vc->getHeight();
   float maxX = minX + width;
   float maxY = minY + height;
   

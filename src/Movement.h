@@ -1,6 +1,7 @@
 #pragma once
 
 #include "System.h"
+class Collider;
 
 class Movement: public System {
 public:
@@ -14,4 +15,9 @@ public:
   inline SystemType getType() const { return MOVEMENT_TYPE;}
 
   virtual string toString() const;
+
+private:
+  TEntityList findCollisions(Entity *ecol, Collider *col) const;
+  static bool collide(Entity *ecol1, Collider *col1,
+                      Entity *ecol2, Collider *col2);
 };

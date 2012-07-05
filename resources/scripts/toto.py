@@ -91,6 +91,9 @@ def update(self, manager):
     if self.times == 180:
         t = self.getComponent(cp.Transform.TYPE)
         t.moveTo(0, 0)
+        c = self.getComponent(cp.Camera.TYPE)
+        c.offsetX = 0
+        c.offsetY = 0
     if self.times == 240:
         self.removeComponent(cp.Transform.TYPE)
         self.addComponent(cp.Transform(100, 100))
