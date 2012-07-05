@@ -66,16 +66,16 @@ Movement::collide(Entity *ecol1, Collider *col1, Entity *ecol2, Collider *col2) 
   assert(ecol2->hasComponent(Collider::TYPE));
   Transform *t1 = ecol1->getComponent<Transform>();
   Transform *t2 = ecol2->getComponent<Transform>();
-  float minx1 = t1->getX();
-  float minx2 = t2->getX();
+  float minx1 = t1->getX() - (col1->getSize() / 2);
+  float minx2 = t2->getX() - (col2->getSize() / 2);
   float maxx1 = minx1 + col1->getSize();
   float maxx2 = minx2 + col2->getSize();
   if ((minx1 > maxx2) || (minx2 > maxx1)) {
     return false;
   }
   
-  float miny1 = t1->getY();
-  float miny2 = t2->getY();
+  float miny1 = t1->getY() - (col1->getSize() / 2);
+  float miny2 = t2->getY() - (col2->getSize() / 2);
   float maxy1 = miny1 + col1->getSize();
   float maxy2 = miny2 + col2->getSize();
   if ((miny1 > maxy2) || (miny2 > maxy1)) {

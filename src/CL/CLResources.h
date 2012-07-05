@@ -83,7 +83,7 @@ inline CL_SoundBuffer &CLResAudio::get() {
 //
 class CLResources: public Resources {
 private:
-  CLVisualContext vc;
+  CLVisualContext vc_;
 public:
   CLResources(CL_DisplayWindow &window);
   virtual ~CLResources();

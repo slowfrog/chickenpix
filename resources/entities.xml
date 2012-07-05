@@ -153,7 +153,7 @@
 		</tags>
         <components>
             <component type="Transform">
-                <position x="410" y="620"/>
+                <position x="435" y="640"/>
             </component>
             <component type="Animated">
                 <image name="man_stand_down"/>
@@ -167,7 +167,7 @@
             <component type="Mobile">
             </component>
             <component type="Camera"
-                       offsetX="100" offsetY="100"
+                       offsetX="0" offsetY="0"
                        width="600" height="600" />
             <component type="Character">
                 <stats name="initiative" value="5"/>

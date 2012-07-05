@@ -33,6 +33,10 @@ SFMLVisualSprite::draw(VisualContext &vc, float x, float y, int delta) {
 
     timeLeft_ += frames_[frame_].duration;
   }
+
+  // For debugging: show a red outline
+  rt.Draw(sf::Shape::Rectangle(x, y, x + getWidth(vc), y + getHeight(vc),
+                               sf::Color(0, 0, 0, 0), 1, sf::Color::Red));
 }
 
 int

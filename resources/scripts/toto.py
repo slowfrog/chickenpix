@@ -80,23 +80,23 @@ def update(self, manager):
                    "not " if not audio.playing else "",
                    "not " if not audio.loop else ""))
                   
-    if self.times > 60 and self.times < 180:
-        #t = self.getComponent(cp.Transform.TYPE)
-        #t.moveBy(5, 5)
-        m = self.getComponent(cp.Mobile.TYPE)
-        m.speed = (5, 5)
-        c = self.getComponent(cp.Camera.TYPE)
-        c.offsetX = random.randint(-20, 20)
-        c.offsetY = random.randint(-20, 20)
-    if self.times == 180:
-        t = self.getComponent(cp.Transform.TYPE)
-        t.moveTo(0, 0)
-        c = self.getComponent(cp.Camera.TYPE)
-        c.offsetX = 0
-        c.offsetY = 0
+    # if self.times > 60 and self.times < 180:
+    #     #t = self.getComponent(cp.Transform.TYPE)
+    #     #t.moveBy(5, 5)
+    #     m = self.getComponent(cp.Mobile.TYPE)
+    #     m.speed = (5, 5)
+    #     c = self.getComponent(cp.Camera.TYPE)
+    #     c.offsetX = random.randint(-20, 20)
+    #     c.offsetY = random.randint(-20, 20)
+    # if self.times == 180:
+    #     t = self.getComponent(cp.Transform.TYPE)
+    #     t.moveTo(0, 0)
+    #     c = self.getComponent(cp.Camera.TYPE)
+    #     c.offsetX = 0
+    #     c.offsetY = 0
     if self.times == 240:
-        self.removeComponent(cp.Transform.TYPE)
-        self.addComponent(cp.Transform(100, 100))
+        #self.removeComponent(cp.Transform.TYPE)
+        #self.addComponent(cp.Transform(100, 100))
         diffclock = time.time() - self.start
         print("240 frames in %f sec: %f FPS" % (diffclock, 240 / diffclock))
 

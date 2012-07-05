@@ -95,7 +95,7 @@ inline sf::SoundBuffer &SFMLResAudio::get() {
 //
 class SFMLResources: public Resources {
 private:
-  SFMLVisualContext vc;
+  SFMLVisualContext vc_;
 public:
   SFMLResources(sf::RenderWindow &rw);
   virtual ~SFMLResources();

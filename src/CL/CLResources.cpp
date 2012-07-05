@@ -7,7 +7,7 @@
 #include "CLVisualText.h"
 
 CLResources::CLResources(CL_DisplayWindow &window):
-  Resources(), vc(window) {
+  Resources(), vc_(window) {
 }
 
 CLResources::~CLResources() {
@@ -15,7 +15,7 @@ CLResources::~CLResources() {
 
 VisualContext &
 CLResources::getVisualContext() {
-  return vc;
+  return vc_;
 }
 
 BVisual *
@@ -47,7 +47,9 @@ CLResources::makeSprite(string const &name) {
   }
   CL_Sprite *ret = new CL_Sprite();
   ret->clone(resSprite->get());
-  return new CLVisualSprite(ret);
+  CLVisualSprite *sprite = new CLVisualSprite(ret);
+  sprite->setCenter(sprite->getWidth(vc_) / 2, sprite->getHeight(vc_) / 2);
+  return sprite;
 }
 
 BVisual *

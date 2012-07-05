@@ -1,7 +1,11 @@
 #include "BVisual.h"
 
+BVisual::BVisual(float cx, float cy, int zOrder, bool gui):
+  Component(TYPE), cx_(cx), cy_(cy), zOrder_(zOrder), gui_(gui) {
+}
+
 BVisual::BVisual(int zOrder, bool gui):
-  Component(TYPE), zOrder_(zOrder), gui_(gui) {
+  Component(TYPE), cx_(0), cy_(0), zOrder_(zOrder), gui_(gui) {
 }
 
 BVisual::~BVisual() {

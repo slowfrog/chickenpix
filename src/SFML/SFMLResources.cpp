@@ -8,7 +8,7 @@
 #include "SFMLVisualText.h"
 
 SFMLResources::SFMLResources(sf::RenderWindow &rw):
-  Resources(), vc(rw) {
+  Resources(), vc_(rw) {
 }
 
 SFMLResources::~SFMLResources() {
@@ -16,7 +16,7 @@ SFMLResources::~SFMLResources() {
 
 VisualContext &
 SFMLResources::getVisualContext() {
-  return vc;
+  return vc_;
 }
 
 BVisual *
@@ -46,8 +46,11 @@ SFMLResources::makeSprite(string const &name) {
     cerr << "Cannot find sprite: " << name << endl;
     assert(!(resSprite == NULL));
   }
-  return new SFMLVisualSprite(resSprite->getImage(), resSprite->getFrames(),
-                              resSprite->isPingPong());
+ SFMLVisualSprite *sprite = new SFMLVisualSprite(resSprite->getImage(),
+                                                 resSprite->getFrames(),
+                                                 resSprite->isPingPong());
+ sprite->setCenter(sprite->getWidth(vc_) / 2, sprite->getHeight(vc_) / 2);
+ return sprite;
 }
 
 BVisual *

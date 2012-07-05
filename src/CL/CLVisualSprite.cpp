@@ -15,6 +15,7 @@ CLVisualSprite::draw(VisualContext &vc, float x, float y, int delta) {
   sprite->draw(gc, x, y);
   sprite->update(delta);
 
+  // For debugging: show a red outline
   CL_Draw::box(gc, x, y, x + getWidth(vc), y + getHeight(vc), CL_Colorf::red);
 }
 

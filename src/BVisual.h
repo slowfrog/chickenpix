@@ -5,15 +5,40 @@
 // This class is called BVisual, because Visual is already used in XWindows
 class BVisual: public Component {
 private:
+  float cx_;
+  float cy_;
   int zOrder_;
   bool gui_;
   
 public:
   static const Type TYPE = VISUAL_TYPE;
   
+  BVisual(float cx, float cy, int zOrder=0, bool gui=false);
   BVisual(int zOrder=0, bool gui=false);
   virtual ~BVisual();
 
+  inline
+  float getCenterX() const {
+    return cx_;
+  }
+  inline
+  void setCenterX(float cx) {
+    cx_ = cx;
+  }
+  inline
+  float getCenterY() const {
+    return cy_;
+  }
+  inline
+  void setCenterY(float cy) {
+    cy_ = cy;
+  }
+  inline
+  void setCenter(float cx, float cy) {
+    cx_ = cx;
+    cy_ = cy;
+  }
+  
   inline
   int getZOrder() const {
     return zOrder_;
