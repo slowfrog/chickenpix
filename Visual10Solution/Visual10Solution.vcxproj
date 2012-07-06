@@ -75,6 +75,7 @@
     <ClCompile Include="..\src\ButtonController.cpp" />
     <ClCompile Include="..\src\BVisual.cpp" />
     <ClCompile Include="..\src\Camera.cpp" />
+    <ClCompile Include="..\src\Collider.cpp" />
     <ClCompile Include="..\src\Component.cpp" />
     <ClCompile Include="..\src\ComponentRegistry.cpp" />
     <ClCompile Include="..\src\Controller.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="..\src\ButtonController.h" />
     <ClInclude Include="..\src\BVisual.h" />
     <ClInclude Include="..\src\Camera.h" />
+    <ClInclude Include="..\src\Collider.h" />
     <ClInclude Include="..\src\Component.h" />
     <ClInclude Include="..\src\ComponentRegistry.h" />
     <ClInclude Include="..\src\Controller.h" />
@@ -178,6 +180,7 @@
     <ClInclude Include="..\src\TmxParser\TmxTileset.h" />
     <ClInclude Include="..\src\TmxParser\TmxUtil.h" />
     <ClInclude Include="..\src\Transform.h" />
+    <ClInclude Include="..\src\Types.h" />
     <ClInclude Include="..\src\Utils.h" />
     <ClInclude Include="..\src\variant.h" />
     <ClInclude Include="..\src\VisualContext.h" />
