@@ -112,5 +112,11 @@
       </image>
       <animation loop="yes" speed="100" />
     </sprite>
+    <sprite name="barrel">
+      <image file="img/barrel.png">
+        <grid pos="0,10" size="32,38" array="1,1" />
+      </image>
+      <animation loop="yes" speed="100" />
+    </sprite>
   </section>
 </resources>

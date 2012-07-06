@@ -27,7 +27,7 @@
         <resource kind="image">
             <image path="resources/img/wall.png" alias="wall"/>
         </resource>
-        
+
         <resource kind="font">
             <image path="resources/fonts/BerkshireSwash-Regular.ttf" alias="sans_big" size="30"/>
         </resource>
@@ -64,6 +64,9 @@
         </resource>
         <resource kind="sprite">
             <image path="sprites/gold_coin" alias="gold_coin"/>
+        </resource>
+        <resource kind="sprite">
+            <image path="sprites/barrel" alias="barrel"/>
         </resource>
 
         <resource kind="audio">
@@ -184,6 +187,14 @@
         <component type="Transform"><position x="430" y="700"/></component>
         <component type="Animated"><image name="gold_coin" /></component>
         <component type="Collider" solid="false" size="32"/>
+      </components>
+    </entity>
+    
+    <entity>
+      <components>
+        <component type="Transform"><position x="380" y="700"/></component>
+        <component type="Animated"><image name="barrel" /></component>
+        <component type="Collider" solid="true" size="32"/>
       </components>
     </entity>
     

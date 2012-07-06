@@ -25,21 +25,39 @@ Movement::update(int now) {
     Mobile *m = entity->getComponent<Mobile>();
     Transform *t = entity->getComponent<Transform>();
 
+    // First, try to do the move
+    float prevX = t->getX();
+    float prevY = t->getY();
+    t->moveBy(m->getSpeedX(), m->getSpeedY());
+
     bool moveAllowed = true;
     if (entity->hasComponent(Collider::TYPE)) {
       Collider *col = entity->getComponent<Collider>();
       if (col->isSolid()) {
-        TEntityList colls = findCollisions(entity, col);
-        if (colls.size() > 0) {
-          LOG2 << "COLLISION\n";
-        }
+        moveAllowed = resolveCollisions(entity, col);
       }
     }
 
-    if (moveAllowed) {
-      t->moveBy(m->getSpeedX(), m->getSpeedY());
+    // If collision detected that the move was not allowed, revert to the
+    // previous position
+    if (!moveAllowed) {
+      t->moveTo(prevX, prevY);
     }
   }
+}
+
+bool
+Movement::resolveCollisions(Entity *ecol, Collider *col) const {
+  bool moveAllowed = true;
+  TEntityList colls = findCollisions(ecol, col);
+  for (TEntityIterator it = colls.begin(); it < colls.end(); ++it) {
+    Collider *coll = (*it)->getComponent<Collider>();
+    if (coll->isSolid()) {
+      moveAllowed = false;
+    }
+    col->addCollision(*it);
+  }
+  return moveAllowed;
 }
 
 TEntityList
