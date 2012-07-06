@@ -49,7 +49,8 @@ SFMLResources::makeSprite(string const &name) {
  SFMLVisualSprite *sprite = new SFMLVisualSprite(resSprite->getImage(),
                                                  resSprite->getFrames(),
                                                  resSprite->isPingPong());
- sprite->setCenter(sprite->getWidth(vc_) / 2, sprite->getHeight(vc_) / 2);
+ sprite->setCenter((float) sprite->getWidth(vc_) / 2, 
+                   (float) sprite->getHeight(vc_) / 2);
  return sprite;
 }
 

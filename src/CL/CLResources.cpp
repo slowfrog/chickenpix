@@ -48,7 +48,8 @@ CLResources::makeSprite(string const &name) {
   CL_Sprite *ret = new CL_Sprite();
   ret->clone(resSprite->get());
   CLVisualSprite *sprite = new CLVisualSprite(ret);
-  sprite->setCenter(sprite->getWidth(vc_) / 2, sprite->getHeight(vc_) / 2);
+  sprite->setCenter((float) sprite->getWidth(vc_) / 2, 
+                    (float) sprite->getHeight(vc_) / 2);
   return sprite;
 }
 
