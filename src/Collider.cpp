@@ -2,7 +2,15 @@
 #include "Collider.h"
 
 Collider::Collider(bool solid, float size):
-  Component(TYPE), solid_(solid), size_(size), collisions_() {
+  Component(TYPE), solid_(solid),
+  left_(size), top_(size), right_(size), bottom_(size), 
+  collisions_() {
+}
+
+Collider::Collider(bool solid, float left, float top, float right, float bottom):
+  Component(TYPE), solid_(solid),
+  left_(left), top_(top), right_(right), bottom_(bottom), 
+  collisions_() {
 }
 
 Collider::~Collider() {
@@ -26,7 +34,8 @@ Collider::getCollisions() const {
 string
 Collider::toString() const {
   ostringstream out;
-  out << "{Collider " << (solid_ ? "solid" : "not solid") << " size=" <<
-    size_ << " collisions:" << collisions_.size() << "}" << ends;
+  out << "{Collider " << (solid_ ? "solid" : "not solid") << " left=" <<
+    left_ << " top=" << top_ << " right=" << right_ << " bottom=" << bottom_ <<
+    " collisions:" << collisions_.size() << "}" << ends;
   return out.str();
 }

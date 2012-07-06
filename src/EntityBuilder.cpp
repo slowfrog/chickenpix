@@ -547,7 +547,7 @@ void
 CEntityBuilder::buildCollider ( TiXmlElement *pNode, Entity *e, Resources*){
   std::string solidStr;
   bool solid = true;
-  float size;
+  float size, left, top, right, bottom;
   if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "solid", &solidStr)) {
     solid = (solidStr == "true");
   }
@@ -555,9 +555,18 @@ CEntityBuilder::buildCollider ( TiXmlElement *pNode, Entity *e, Resources*){
     Collider *collider = new Collider(solid, size);
     e->addComponent(collider);
     
+  } else if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "left", &left) && 
+              TIXML_SUCCESS == pNode->QueryValueAttribute( "top", &top) &&
+              TIXML_SUCCESS == pNode->QueryValueAttribute( "right", &right) &&
+              TIXML_SUCCESS == pNode->QueryValueAttribute( "bottom", &bottom) ) {
+    Collider *collider = new Collider(solid, left, top, right, bottom);
+    e->addComponent(collider);
+    
   } else {
-    LOG2ERR << "Bad xml description for [Collider] component, missing size\n";
-    throw "Bad xml description for [Collider] component, missing size\n";
+    LOG2ERR << "Bad xml description for [Collider] component, missing size "
+      "or box bounds (left, top, right bottom) \n";
+    throw "Bad xml description for [Collider] component, missing size size "
+      "or box bounds (left, top, right bottom) \n";
   }
 }
 

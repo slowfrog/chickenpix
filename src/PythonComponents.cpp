@@ -706,12 +706,6 @@ int Collider_setSolid(PyObject *self, PyObject *val, void *) {
 }
 
 static
-PyObject *Collider_getSize(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
-  return PyFloat_FromDouble(a->getSize());
-}
-
-static
 int Collider_setSize(PyObject *self, PyObject *val, void *) {
   if (!PyNumber_Check(val)) {
     PyErr_SetString(PyExc_TypeError, "Collider.size must be a number");
@@ -719,6 +713,74 @@ int Collider_setSize(PyObject *self, PyObject *val, void *) {
   }
   Collider *a = (Collider *) ((PyCollider *) self)->component;
   a->setSize(PyFloat_AsDouble(val));
+  return 0;
+}
+
+static
+PyObject *Collider_getLeft(PyObject *self, void *) {
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  return PyFloat_FromDouble(a->getLeft());
+}
+
+static
+int Collider_setLeft(PyObject *self, PyObject *val, void *) {
+  if (!PyNumber_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Collider.left must be a number");
+    return -1;
+  }
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  a->setLeft(PyFloat_AsDouble(val));
+  return 0;
+}
+
+static
+PyObject *Collider_getTop(PyObject *self, void *) {
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  return PyFloat_FromDouble(a->getTop());
+}
+
+static
+int Collider_setTop(PyObject *self, PyObject *val, void *) {
+  if (!PyNumber_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Collider.top must be a number");
+    return -1;
+  }
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  a->setTop(PyFloat_AsDouble(val));
+  return 0;
+}
+
+static
+PyObject *Collider_getRight(PyObject *self, void *) {
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  return PyFloat_FromDouble(a->getRight());
+}
+
+static
+int Collider_setRight(PyObject *self, PyObject *val, void *) {
+  if (!PyNumber_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Collider.right must be a number");
+    return -1;
+  }
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  a->setRight(PyFloat_AsDouble(val));
+  return 0;
+}
+
+static
+PyObject *Collider_getBottom(PyObject *self, void *) {
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  return PyFloat_FromDouble(a->getBottom());
+}
+
+static
+int Collider_setBottom(PyObject *self, PyObject *val, void *) {
+  if (!PyNumber_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Collider.bottom must be a number");
+    return -1;
+  }
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  a->setBottom(PyFloat_AsDouble(val));
   return 0;
 }
 
@@ -739,25 +801,22 @@ static PyGetSetDef Collider_getset[] = {
   { (char *) "solid", Collider_getSolid, Collider_setSolid,
     (char *) "Flags indicating if the collider is solid (cannot overlap with "
     "another solid collider)", NULL },
-  { (char *) "size", Collider_getSize, Collider_setSize,
-    (char *) "Size of the collision box", NULL },
+  { (char *) "size", NULL, Collider_setSize,
+    (char *) "Size of the collision box (write-only)", NULL },
+  { (char *) "left", Collider_getLeft, Collider_setLeft,
+    (char *) "Distance between transform and left side of collision box", NULL },
+  { (char *) "top", Collider_getTop, Collider_setTop,
+    (char *) "Distance between transform and top side of collision box", NULL },
+  { (char *) "right", Collider_getRight, Collider_setRight,
+    (char *) "Distance between transform and right side of collision box",
+    NULL },
+  { (char *) "bottom", Collider_getBottom, Collider_setBottom,
+    (char *) "Distance between transform and bottom side of collision box",
+    NULL },
   { (char *) "collisions", Collider_getCollisions, NULL,
     (char *) "IDs of currently colliding entities", NULL },
   { NULL, NULL }
 };
-
-// static
-// PyObject *Collider_stop(PyCollider *audio) {
-//   Collider *a = (Collider *) audio->component;
-//   a->stop();
-//   Py_RETURN_NONE;
-// }
-
-// static PyMethodDef Collider_methods[] = {
-//   { "stop", (PyCFunction) Collider_stop, METH_NOARGS,
-//     "Stop a sound that is currently playing" },
-//   { NULL }
-// };
 
 // Real initialization ----------------------------------------------------------
 void

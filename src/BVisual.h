@@ -59,6 +59,10 @@ public:
     gui_ = gui;
   }
   virtual void draw(VisualContext &vc, float x, float y, int delta=-1) = 0;
+  virtual void debugDraw(VisualContext &vc, float x, float y, int delta,
+                         float left, float top, float right, float bottom) {
+    draw(vc, x, y, delta);
+  }
   virtual int getWidth(VisualContext &vc) const = 0;
   virtual int getHeight(VisualContext &vc) const = 0;
 

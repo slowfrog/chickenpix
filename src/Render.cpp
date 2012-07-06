@@ -5,6 +5,7 @@
 #include "Render.h"
 #include "BVisual.h"
 #include "Camera.h"
+#include "Collider.h"
 #include "VisualContext.h"
 
 Render::Render(string const &name, EntityManager &em):
@@ -72,7 +73,14 @@ Render::update(int now) {
         continue; // Off screen: don't draw
       }
       painted++;
-      v->draw(*vc, x0 - offsetX, y0 - offsetY, delta);
+      if (entity->hasComponent(Collider::TYPE)) {
+        Collider *coll = entity->getComponent<Collider>();
+        v->debugDraw(*vc, x0 - offsetX, y0 - offsetY, delta,
+                     coll->getLeft(), coll->getTop(),
+                     coll->getRight(), coll->getBottom());
+      } else {
+        v->draw(*vc, x0 - offsetX, y0 - offsetY, delta);
+      }
       
     } else { // GUI elements are fixed
       painted++;

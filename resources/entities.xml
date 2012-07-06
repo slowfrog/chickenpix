@@ -178,7 +178,8 @@
                 <stats name="armor_class" value="3"/>
                 <stats name="damage" value="1"/>
             </component>
-            <component type="Collider" size="64" solid="true" />
+            <component type="Collider" solid="true"
+                       left="15" top="18" right="15" bottom="28"/>
         </components>
     </entity>
 
@@ -186,7 +187,8 @@
       <components>
         <component type="Transform"><position x="430" y="700"/></component>
         <component type="Animated"><image name="gold_coin" /></component>
-        <component type="Collider" solid="false" size="32"/>
+        <component type="Collider" solid="false"
+                   left="8" top="16" right="8" bottom="16"/>
       </components>
       <tags><tag name="GOLD" /></tags>
     </entity>
@@ -194,7 +196,8 @@
       <components>
         <component type="Transform"><position x="430" y="740"/></component>
         <component type="Animated"><image name="gold_coin" /></component>
-        <component type="Collider" solid="false" size="32"/>
+        <component type="Collider" solid="false"
+                   left="8" top="16" right="8" bottom="16"/>
       </components>
       <tags><tag name="GOLD" /></tags>
     </entity>
@@ -202,7 +205,8 @@
       <components>
         <component type="Transform"><position x="435" y="780"/></component>
         <component type="Animated"><image name="gold_coin" /></component>
-        <component type="Collider" solid="false" size="32"/>
+        <component type="Collider" solid="false"
+                   left="8" top="16" right="8" bottom="16"/>
       </components>
       <tags><tag name="GOLD" /></tags>
     </entity>
@@ -210,7 +214,8 @@
       <components>
         <component type="Transform"><position x="440" y="820"/></component>
         <component type="Animated"><image name="gold_coin" /></component>
-        <component type="Collider" solid="false" size="32"/>
+        <component type="Collider" solid="false"
+                   left="8" top="16" right="8" bottom="16"/>
       </components>
       <tags><tag name="GOLD" /></tags>
     </entity>
@@ -218,20 +223,47 @@
       <components>
         <component type="Transform"><position x="450" y="860"/></component>
         <component type="Animated"><image name="gold_coin" /></component>
-        <component type="Collider" solid="false" size="32"/>
+        <component type="Collider" solid="false"
+                   left="8" top="16" right="8" bottom="16"/>
       </components>
       <tags><tag name="GOLD" /></tags>
     </entity>
     
     <entity>
       <components>
+        <component type="Transform"><position x="378" y="628"/></component>
+        <component type="Animated"><image name="barrel" /></component>
+        <component type="Collider" solid="true"
+                   left="15" top="12" right="15" bottom="19" />
+      </components>
+      <tags><tag name="PROPS" /></tags>
+    </entity>
+    <entity>
+      <components>
+        <component type="Transform"><position x="381" y="645"/></component>
+        <component type="Animated"><image name="barrel" /></component>
+        <component type="Collider" solid="true"
+                   left="15" top="12" right="15" bottom="19" />
+      </components>
+      <tags><tag name="PROPS" /></tags>
+    </entity>
+    <entity>
+      <components>
+        <component type="Transform"><position x="380" y="675"/></component>
+        <component type="Animated"><image name="barrel" /></component>
+        <component type="Collider" solid="true"
+                   left="15" top="12" right="15" bottom="19" />
+      </components>
+      <tags><tag name="PROPS" /></tags>
+    </entity>
+    <entity>
+      <components>
         <component type="Transform"><position x="380" y="700"/></component>
         <component type="Animated"><image name="barrel" /></component>
-        <component type="Collider" solid="true" size="32"/>
+        <component type="Collider" solid="true"
+                   left="15" top="12" right="15" bottom="19" />
       </components>
-      <tags>
-        <tag name="PROPS" />
-      </tags>
+      <tags><tag name="PROPS" /></tags>
     </entity>
     
     <entity>

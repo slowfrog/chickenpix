@@ -14,14 +14,6 @@ def update(self, manager):
     self.times += 1
     input = self.getComponent(cp.Input.TYPE)
     if input is not None:
-        # if input.state.isKeyDown(cp.InputState.DOWN):
-        #     print("The down arrow is pressed")
-        # if input.state.isKeyDown(cp.InputState.UP):
-        #     print("The up arrow is pressed")
-        # if input.state.isKeyDown(cp.InputState.LEFT):
-        #     print("The left arrow is pressed")
-        # if input.state.isKeyDown(cp.InputState.RIGHT):
-        #     print("The right arrow is pressed")
         if input.state.isButtonDown(cp.InputState.LEFT_BUTTON):
             print("The left button is pressed at %d,%d" %
                   input.state.getMousePosition())
@@ -35,10 +27,6 @@ def update(self, manager):
                   (cam.offsetX, cam.offsetY, cam.width, cam.height))
             cam.width = 100
             cam.height = 100
-        if input.state.isKeyDown(cp.InputState.SPACE):
-            if self.getComponent(cp.Audio.TYPE) is None:
-                print("BLING BLING")
-                self.addComponent(cp.Audio("coin", False))
         if input.state.isKeyDown(cp.InputState.NUM1):
             print("You are pressing 1")
             cam = self.getComponent(cp.Camera.TYPE)
@@ -71,7 +59,8 @@ def update(self, manager):
         print("There are %d Transform entities" % len(entities))
         print("dict=%s" % self.getDict())
         coll = self.getComponent(cp.Collider.TYPE)
-        print("My collider size is %f. Am I solid? %s" % (coll.size, coll.solid))
+        print("My collider box is (%.1f, %.1f, %.1f, %.1f). Am I solid? %s" %
+              (coll.left, coll.top, coll.right, coll.bottom, coll.solid))
         
     if self.times < 3:
         labels = manager.getByTag("LABEL")
