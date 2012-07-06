@@ -22,7 +22,8 @@ def update(self, manager):
         # if input.state.isKeyDown(cp.InputState.RIGHT):
         #     print("The right arrow is pressed")
         if input.state.isButtonDown(cp.InputState.LEFT_BUTTON):
-            print("The left button is pressed at %d,%d" % input.state.getMousePosition())
+            print("The left button is pressed at %d,%d" %
+                  input.state.getMousePosition())
             anim = self.getComponent(cp.Animated.TYPE)
             print("Current anim is %s" % anim.animation)
             anim.animation = "man_still"
@@ -45,9 +46,20 @@ def update(self, manager):
             cam.width = 600
             cam.height = 600
         if input.state.isButtonDown(cp.InputState.RIGHT_BUTTON):
-            print("The right button is pressed at %d,%d" % input.state.getMousePosition())
+            print("The right button is pressed at %d,%d" %
+                  input.state.getMousePosition())
         if input.state.isButtonDown(cp.InputState.MIDDLE_BUTTON):
-            print("The middle button is pressed at %d,%d" % input.state.getMousePosition())
+            print("The middle button is pressed at %d,%d" %
+                  input.state.getMousePosition())
+
+    collider = self.getComponent(cp.Collider.TYPE)
+    collisions = collider.collisions
+    if collisions:
+        print("Currently colliding with %s" %
+              ", ".join(("[" + ":".join(manager.getById(i).getTags()) + "]")
+                        for i in collisions))
+            
+            
     if self.times == 0:
         print("TOTO: My id is %d and I have %d components: %s" %
               (self.id(),
@@ -57,6 +69,9 @@ def update(self, manager):
         entities = manager.getEntities(cp.Transform.TYPE) #, cp.Visual)
         print("There are %d Transform entities" % len(entities))
         print("dict=%s" % self.getDict())
+        coll = self.getComponent(cp.Collider.TYPE)
+        print("My collider size is %f. Am I solid? %s" % (coll.size, coll.solid))
+        
     if self.times < 3:
         labels = manager.getByTag("LABEL")
         print("There are %d entities tagged LABEL" % len(labels))

@@ -29,14 +29,15 @@ public:
   int getSize() const;
   
   Entity *createEntity();
-  Entity *getEntity(Entity::Id id);
+  Entity *getById(Entity::Id id);
   void destroyEntity(Entity::Id id);
   void destroyEntity(Entity *entity);
   
   /**
-   * When you need to store entities of a more specific type, you should call replaceEntity to notify
-   * the manager that it has changed. The caller is responsible for copying all the contents of the
-   * entity that is replaced. Don't keep a reference to the previous entity: the manager will destroy
+   * When you need to store entities of a more specific type, you should call
+   * replaceEntity to notify the manager that it has changed. The caller is
+   * responsible for copying all the contents of the entity that is replaced.
+   * Don't keep a reference to the previous entity: the manager will destroy
    * it in this function.
    */
   void replaceEntity(Entity::Id id, Entity *replacement);
@@ -44,7 +45,7 @@ public:
   TEntityList getEntities() const;
   TEntityList  getEntities(Component::Type t);
   TEntityList  getEntities(Component::Type t1, Component::Type t2);
-  Entity *getEntity(Component::Type t);
+  Entity *getFirst(Component::Type t);
 
   /**
    * Tags management
@@ -61,7 +62,7 @@ public:
 
 template<class T>
 T *EntityManager::getComponent() {
-  Entity *entity = getEntity(T::TYPE);
+  Entity *entity = getFirst(T::TYPE);
   Component *comp = entity->getComponent(T::TYPE);
   return (T *)comp;
 }

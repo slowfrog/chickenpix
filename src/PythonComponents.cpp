@@ -1,6 +1,7 @@
 #include <Python.h>
 #include "log.h"
 #include "PythonComponents.h"
+#include "WrappedEntity.h"
 #include "Animated.h"
 #include "Audio.h"
 #include "Camera.h"
@@ -8,7 +9,10 @@
 #include "InputState.h"
 #include "Mobile.h"
 #include "Transform.h"
+#include "Collider.h"
 
+
+//
 static PyObject *NO_ARGS = PyTuple_New(0);
 static PyObject *NO_KWDS = PyDict_New();
 
@@ -19,6 +23,7 @@ typedef PyComponent PyAnimated;
 typedef PyComponent PyAudio;
 typedef PyComponent PyInput;
 typedef PyComponent PyCamera;
+typedef PyComponent PyCollider;
 
 // Transform type and methods ---------------------------------------------------
 static PyTypeObject PyTransformType = {
@@ -98,8 +103,7 @@ PyObject *Transform_moveTo(PyTransform *self, PyObject *args) {
   } else {
     t->moveTo(x, y);
   }
-  Py_INCREF(Py_None);
-  return Py_None;
+  Py_RETURN_NONE;
 }
 
 static
@@ -113,8 +117,7 @@ PyObject *Transform_moveBy(PyTransform *self, PyObject *args) {
   } else {
     t->moveBy(x, y);
   }
-  Py_INCREF(Py_None);
-  return Py_None;
+  Py_RETURN_NONE;
 }
 
 static PyMethodDef Transform_methods[] = {
@@ -407,8 +410,7 @@ PyObject *InputState_isKeyDown(PyInputState *self, PyObject *args) {
     if (PyErr_Occurred()) {
       PyErr_Print();
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
   }
   if (self->state->isKeyDown((InputState::Key) key)) {
     Py_RETURN_TRUE;
@@ -424,8 +426,7 @@ PyObject *InputState_isButtonDown(PyInputState *self, PyObject *args) {
     if (PyErr_Occurred()) {
       PyErr_Print();
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
   }
   if (self->state->isButtonDown((InputState::MouseButton) button)) {
     Py_RETURN_TRUE;
@@ -659,6 +660,105 @@ static PyGetSetDef Camera_getset[] = {
   { NULL, NULL }
 };
 
+// Collider type and methods ----------------------------------------------------
+static PyTypeObject PyColliderType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Collider",
+  sizeof(PyCollider),
+};
+
+static
+int Collider_init(PyTransform *self, PyObject *args, PyObject *kwds) {
+  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
+    return -1;
+  }
+  if (PyErr_Occurred()) {
+    PyErr_Clear();
+  }
+  
+  PyObject *solidObj;
+  PyObject *size;
+  if (!PyArg_ParseTuple(args, "Of", &solidObj, &size)) {
+    return -1;
+  }
+
+  bool solid = (PyObject_IsTrue(solidObj) != 0);
+  self->component = new Collider(solid, PyFloat_AsDouble(size));
+  return 0;
+}
+
+static
+PyObject *Collider_getSolid(PyObject *self, void *) {
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  if (a->isSolid()) {
+    Py_RETURN_TRUE;
+  } else {
+    Py_RETURN_FALSE;
+  }
+}
+
+static
+int Collider_setSolid(PyObject *self, PyObject *val, void *) {
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  a->setSolid(PyObject_IsTrue(val));
+  return 0;
+}
+
+static
+PyObject *Collider_getSize(PyObject *self, void *) {
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  return PyFloat_FromDouble(a->getSize());
+}
+
+static
+int Collider_setSize(PyObject *self, PyObject *val, void *) {
+  if (!PyNumber_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "Collider.size must be a number");
+    return -1;
+  }
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  a->setSize(PyFloat_AsDouble(val));
+  return 0;
+}
+
+static
+PyObject *Collider_getCollisions(PyObject *self, void *) {
+  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  const TEntityIdList &entityIds = a->getCollisions();
+  int size = entityIds.size();
+  PyObject *ret = PyList_New(size);
+  for (int i = 0; i < size; ++i) {
+    Entity::Id id = entityIds[i];
+    PyList_SetItem(ret, i, PyInt_FromLong(id));
+  }
+  return ret;
+}
+
+static PyGetSetDef Collider_getset[] = {
+  { (char *) "solid", Collider_getSolid, Collider_setSolid,
+    (char *) "Flags indicating if the collider is solid (cannot overlap with "
+    "another solid collider)", NULL },
+  { (char *) "size", Collider_getSize, Collider_setSize,
+    (char *) "Size of the collision box", NULL },
+  { (char *) "collisions", Collider_getCollisions, NULL,
+    (char *) "IDs of currently colliding entities", NULL },
+  { NULL, NULL }
+};
+
+// static
+// PyObject *Collider_stop(PyCollider *audio) {
+//   Collider *a = (Collider *) audio->component;
+//   a->stop();
+//   Py_RETURN_NONE;
+// }
+
+// static PyMethodDef Collider_methods[] = {
+//   { "stop", (PyCFunction) Collider_stop, METH_NOARGS,
+//     "Stop a sound that is currently playing" },
+//   { NULL }
+// };
+
 // Real initialization ----------------------------------------------------------
 void
 initComponents(PyObject *module) {
@@ -778,6 +878,23 @@ initComponents(PyObject *module) {
   type = PyInt_FromLong(Camera::TYPE);
   PyDict_SetItemString(PyCameraType.tp_dict, "TYPE", type);
   Py_DECREF(type);
+  
+  // Collider
+  PyColliderType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
+  PyColliderType.tp_doc = "Type of Collider components";
+  //PyColliderType.tp_methods = XXX
+  PyColliderType.tp_base = &PyComponentType;
+  PyColliderType.tp_init = (initproc) Collider_init;
+  PyColliderType.tp_getset = Collider_getset;
+  if (PyType_Ready(&PyColliderType) < 0) {
+    LOG2 << "Cannot create Collider type\n";
+    return;
+  }
+  Py_INCREF(&PyColliderType);
+  PyModule_AddObject(module, "Collider", (PyObject *) &PyColliderType);
+  type = PyInt_FromLong(Collider::TYPE);
+  PyDict_SetItemString(PyColliderType.tp_dict, "TYPE", type);
+  Py_DECREF(type);
 }
 
 PyObject *
@@ -822,6 +939,13 @@ wrapCamera(Camera *c) {
   return (PyObject *) pyc;
 }
 
+PyObject *
+wrapCollider(Collider *c) {
+  PyCollider *pyc = (PyCollider *) PyColliderType.tp_alloc(&PyColliderType, 0);
+  pyc->component = c;
+  return (PyObject *) pyc;
+}
+
 
 PyObject *
 wrapRealComponent(Component *c) {
@@ -838,6 +962,8 @@ wrapRealComponent(Component *c) {
     return wrapInput((Input *) c);
   case Camera::TYPE:
     return wrapCamera((Camera *) c);
+  case Collider::TYPE:
+    return wrapCollider((Collider *) c);
   default:
     return NULL;
   }

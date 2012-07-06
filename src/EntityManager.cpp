@@ -38,7 +38,7 @@ EntityManager::createEntity() {
 }
 
 Entity *
-EntityManager::getEntity(Entity::Id id) {
+EntityManager::getById(Entity::Id id) {
   if ((id > 0) && (id < _entities.size())) {
     return _entities[id];
   }
@@ -104,7 +104,7 @@ EntityManager::getEntities(Component::Type t1, Component::Type t2) {
 }
 
 Entity *
-EntityManager::getEntity(Component::Type t) {
+EntityManager::getFirst(Component::Type t) {
   for (unsigned int i = 1; i < _entities.size(); ++i) {
     Entity *ent = _entities[i];
     if ((ent != NULL) && (ent->hasComponent(t))) {

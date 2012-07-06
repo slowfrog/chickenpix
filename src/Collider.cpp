@@ -15,10 +15,10 @@ Collider::clearCollisions() {
 
 void
 Collider::addCollision(Entity *entity) {
-  collisions_.push_back(entity);
+  collisions_.push_back(entity->getId());
 }
 
-const TEntityList &
+const TEntityIdList &
 Collider::getCollisions() const {
   return collisions_;
 }

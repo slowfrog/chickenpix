@@ -188,6 +188,9 @@
         <component type="Animated"><image name="gold_coin" /></component>
         <component type="Collider" solid="false" size="32"/>
       </components>
+      <tags>
+        <tag name="GOLD" />
+      </tags>
     </entity>
     
     <entity>
@@ -196,6 +199,9 @@
         <component type="Animated"><image name="barrel" /></component>
         <component type="Collider" solid="true" size="32"/>
       </components>
+      <tags>
+        <tag name="PROPS" />
+      </tags>
     </entity>
     
     <entity>

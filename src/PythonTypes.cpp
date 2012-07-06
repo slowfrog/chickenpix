@@ -42,6 +42,20 @@ EntityManager_size(PyEntityManager *self) {
   return ret;
 }
 
+// Utility function
+PyObject *
+wrapEntityList(EntityManager &em, const TEntityList &entities) {
+  int size = entities.size();
+  PyObject *ret = PyList_New(size);
+  for (int i = 0; i < size; ++i) {
+    Entity *entity = entities[i];
+    PyObject *pentity = WrappedEntity::wrap(em, entity)->getWrapper();
+    Py_INCREF(pentity); // Because PyList_SetItem steals the reference
+    PyList_SetItem(ret, i, pentity);
+  }
+  return ret;
+}
+
 static PyObject *
 EntityManager_getEntities(PyEntityManager *self, PyObject *args) {
   EntityManager *em = self->em;
@@ -52,23 +66,36 @@ EntityManager_getEntities(PyEntityManager *self, PyObject *args) {
     if (PyErr_Occurred()) {
       PyErr_Print();
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
   }
   vector<Entity *> const &entities =
     (type1 == 0) ? em->getEntities() :
     (type2 == 0) ? em->getEntities(type1) :
     em->getEntities(type1, type2);
 
-  int size = entities.size();
-  PyObject *ret = PyList_New(size);
-  for (int i = 0; i < size; ++i) {
-    Entity *entity = entities[i];
-    PyObject *pentity = WrappedEntity::wrap(*em, entity)->getWrapper();
-    Py_INCREF(pentity); // Because PyList_SetItem steals the reference
-    PyList_SetItem(ret, i, pentity);
+  return wrapEntityList(*em, entities);
+}
+
+static PyObject *
+EntityManager_getById(PyEntityManager *self, PyObject *args) {
+  EntityManager *em = self->em;
+
+  int id = 0;
+  if (!PyArg_ParseTuple(args, "i", &id)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    Py_RETURN_NONE;
   }
-  return ret;
+
+  Entity *entity = em->getById(id);
+  if (entity == NULL) {
+    Py_RETURN_NONE;
+  } else {
+    PyObject *ret = WrappedEntity::wrap(*em, entity)->getWrapper();
+    Py_INCREF(ret);
+    return ret;
+  }
 }
 
 static PyObject *
@@ -81,12 +108,10 @@ EntityManager_tagEntity(PyEntityManager *self, PyObject *args) {
     if (PyErr_Occurred()) {
       PyErr_Print();
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
   }
   em->tagEntity(entity->wentity, tag);
-  Py_INCREF(Py_None);
-  return Py_None;
+  Py_RETURN_NONE;
 }
 
 static PyObject *
@@ -99,12 +124,10 @@ EntityManager_untagEntity(PyEntityManager *self, PyObject *args) {
     if (PyErr_Occurred()) {
       PyErr_Print();
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
   }
   em->untagEntity(entity->wentity, tag);
-  Py_INCREF(Py_None);
-  return Py_None;
+  Py_RETURN_NONE;
 }
 
 static PyObject *
@@ -116,15 +139,15 @@ EntityManager_getByTag(PyEntityManager *self, PyObject *args) {
     if (PyErr_Occurred()) {
       PyErr_Print();
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
   }
 
   vector<Entity::Id> const &entities = em->getByTag(tag);
   int size = entities.size();
   PyObject *ret = PyList_New(size);
   for (int i = 0; i < size; ++i) {
-    WrappedEntity *wentity = WrappedEntity::wrap(*em, em->getEntity(entities[i]));
+    WrappedEntity *wentity =
+      WrappedEntity::wrap(*em, em->getById(entities[i]));
     PyObject *pentity = wentity->getWrapper();
     Py_INCREF(pentity); // Because PyList_SetItem steals the reference
     PyList_SetItem(ret, i, pentity);
@@ -133,12 +156,20 @@ EntityManager_getByTag(PyEntityManager *self, PyObject *args) {
 }
 
 static PyMethodDef EntityManager_methods[] = {
-  {"name", (PyCFunction) EntityManager_name, METH_NOARGS, "Name of the EntityManager" },
-  {"size", (PyCFunction) EntityManager_size, METH_NOARGS, "Number of entities" },
-  {"getEntities", (PyCFunction) EntityManager_getEntities, METH_VARARGS, "List of all entities" },
-  {"getByTag", (PyCFunction) EntityManager_getByTag, METH_VARARGS, "List entities with the given tag" },
-  {"tagEntity", (PyCFunction) EntityManager_tagEntity, METH_VARARGS, "Tag an existing entity" },
-  {"untagEntity", (PyCFunction) EntityManager_untagEntity, METH_VARARGS, "Remove tag from existing entity" },
+  {"name", (PyCFunction) EntityManager_name, METH_NOARGS,
+   "Name of the EntityManager" },
+  {"size", (PyCFunction) EntityManager_size, METH_NOARGS,
+   "Number of entities" },
+  {"getEntities", (PyCFunction) EntityManager_getEntities, METH_VARARGS,
+   "List of all entities" },
+  {"getById", (PyCFunction) EntityManager_getById, METH_VARARGS,
+   "Get one entity by its id" },
+  {"getByTag", (PyCFunction) EntityManager_getByTag, METH_VARARGS,
+   "List entities with the given tag" },
+  {"tagEntity", (PyCFunction) EntityManager_tagEntity, METH_VARARGS,
+   "Tag an existing entity" },
+  {"untagEntity", (PyCFunction) EntityManager_untagEntity, METH_VARARGS,
+   "Remove tag from existing entity" },
   {NULL} /* End of list */
 };
 
@@ -172,12 +203,10 @@ Entity_getComponent(PyEntity *self, PyObject *args) {
     if (PyErr_Occurred()) {
       PyErr_Print();
     }
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
   }
   if (!entity->hasComponent(ctype)) {
-    Py_INCREF(Py_None);
-    return Py_None;
+    Py_RETURN_NONE;
   } else {
     Component *comp = entity->getComponent(ctype);
     return wrapComponent(comp);
@@ -195,8 +224,7 @@ Entity_addComponent(PyEntity *self, PyObject *args) {
   } else {
     entity->addComponent(((PyComponent *) comp)->component);
   }
-  Py_INCREF(Py_None);
-  return Py_None;
+  Py_RETURN_NONE;
 }
 
 static PyObject *
@@ -210,8 +238,7 @@ Entity_removeComponent(PyEntity *self, PyObject *args) {
   } else {
     entity->removeComponent(ctype);
   }
-  Py_INCREF(Py_None);
-  return Py_None;
+  Py_RETURN_NONE;
 }
 
 static PyObject *

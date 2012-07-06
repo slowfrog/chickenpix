@@ -19,6 +19,8 @@ Movement::init() {
 
 void
 Movement::update(int now) {
+  clearCollisions();
+  
   TEntityList entities = _em.getEntities(Mobile::TYPE, Transform::TYPE);
   for (TEntityIterator it = entities.begin(); it < entities.end(); ++it) {
     Entity *entity = *it;
@@ -43,6 +45,15 @@ Movement::update(int now) {
     if (!moveAllowed) {
       t->moveTo(prevX, prevY);
     }
+  }
+}
+
+void
+Movement::clearCollisions() const {
+  TEntityList entities = _em.getEntities(Collider::TYPE);
+  for (TEntityIterator it = entities.begin(); it < entities.end(); ++it) {
+    Collider *coll = (*it)->getComponent<Collider>();
+    coll->clearCollisions();
   }
 }
 

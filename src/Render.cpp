@@ -35,7 +35,7 @@ Render::update(int now) {
   // - offset by the specific camera position
   // - clipped to the width and height of the view of the camera (if != 0)
   // - centered on the screen
-  Entity *cameraEntity = _em.getEntity(Camera::TYPE);
+  Entity *cameraEntity = _em.getFirst(Camera::TYPE);
   Camera *camera = cameraEntity->getComponent<Camera>();
   Transform *transform = cameraEntity->getComponent<Transform>();
   unsigned int width = (camera->getWidth() > 0 ?

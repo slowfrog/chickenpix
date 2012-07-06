@@ -1,6 +1,8 @@
 #pragma once
 
-#include "PythonTypes.h"
+#include "Types.h"
+
+class EntityManager;
 
 void initComponents(PyObject *module);
 PyObject *wrapRealComponent(Component *c);

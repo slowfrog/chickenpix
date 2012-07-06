@@ -93,12 +93,13 @@ CTagEntityMng::getFirstEntityByTag(const std::string& tag) const {
   return NOT_FOUND;
 }
 
+static CTagEntityMng::TCollectionTag EMPTY_COLLECTION;
+
 const CTagEntityMng::TCollectionTag&      
 CTagEntityMng::getTagsByEntity( const unsigned long entityId) const{
   CTagEntityMng::TMapEntityTagCIt it = mETag.find( entityId);
   if ( it != mETag.end() ){
     return (*it).second;
   }
-  LOG2ERR<<"Entity id ["<< entityId<<"] not found\n";
-  throw -1;
+  return EMPTY_COLLECTION;
 }

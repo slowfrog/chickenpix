@@ -23,7 +23,7 @@ ButtonController::update(EntityManager &em, Entity &entity,
   float minX = trans->getX();
   float minY = trans->getY();
   if (!visu->isGUI()) {
-    const Entity *cameraEntity = em.getEntity(Camera::TYPE);
+    const Entity *cameraEntity = em.getFirst(Camera::TYPE);
     if (cameraEntity) {
       const Camera *camera = cameraEntity->getComponent<Camera>();
       minX -= camera->getOffsetX();

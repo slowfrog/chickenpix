@@ -20,7 +20,7 @@ void
 Animation::update(int now) {
   Resources *resources = _em.getComponent<Resources>();
 
-  Entity *entity = _em.getEntity(_em.getFirstByTag("HERO"));
+  Entity *entity = _em.getById(_em.getFirstByTag("HERO"));
   Mobile *m = entity->getComponent<Mobile>();
   Animated *a = entity->getComponent<Animated>();
   if (m->getSpeedX() < 0) {

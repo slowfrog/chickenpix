@@ -17,6 +17,7 @@ public:
   virtual string toString() const;
 
 private:
+  void clearCollisions() const;
   bool resolveCollisions(Entity *ecol, Collider *col) const;
   TEntityList findCollisions(Entity *ecol, Collider *col) const;
   static bool collide(Entity *ecol1, Collider *col1,

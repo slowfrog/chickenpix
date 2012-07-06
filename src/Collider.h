@@ -10,7 +10,7 @@ private:
   /** Size of the box used for collision computation. */
   float size_;
   /** List of entities that collide. */
-  TEntityList collisions_;
+  TEntityIdList collisions_;
 
 public:
   static const Type TYPE = COLLIDER_TYPE;
@@ -36,7 +36,7 @@ public:
 
   void clearCollisions();
   void addCollision(Entity *entity);
-  const TEntityList &getCollisions() const;
+  const TEntityIdList &getCollisions() const;
     
   
   virtual string toString() const;
