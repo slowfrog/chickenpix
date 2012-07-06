@@ -188,9 +188,39 @@
         <component type="Animated"><image name="gold_coin" /></component>
         <component type="Collider" solid="false" size="32"/>
       </components>
-      <tags>
-        <tag name="GOLD" />
-      </tags>
+      <tags><tag name="GOLD" /></tags>
+    </entity>
+    <entity>
+      <components>
+        <component type="Transform"><position x="430" y="740"/></component>
+        <component type="Animated"><image name="gold_coin" /></component>
+        <component type="Collider" solid="false" size="32"/>
+      </components>
+      <tags><tag name="GOLD" /></tags>
+    </entity>
+    <entity>
+      <components>
+        <component type="Transform"><position x="435" y="780"/></component>
+        <component type="Animated"><image name="gold_coin" /></component>
+        <component type="Collider" solid="false" size="32"/>
+      </components>
+      <tags><tag name="GOLD" /></tags>
+    </entity>
+    <entity>
+      <components>
+        <component type="Transform"><position x="440" y="820"/></component>
+        <component type="Animated"><image name="gold_coin" /></component>
+        <component type="Collider" solid="false" size="32"/>
+      </components>
+      <tags><tag name="GOLD" /></tags>
+    </entity>
+    <entity>
+      <components>
+        <component type="Transform"><position x="450" y="860"/></component>
+        <component type="Animated"><image name="gold_coin" /></component>
+        <component type="Collider" solid="false" size="32"/>
+      </components>
+      <tags><tag name="GOLD" /></tags>
     </entity>
     
     <entity>

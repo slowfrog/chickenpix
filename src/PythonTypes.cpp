@@ -99,6 +99,21 @@ EntityManager_getById(PyEntityManager *self, PyObject *args) {
 }
 
 static PyObject *
+EntityManager_destroyEntity(PyEntityManager *self, PyObject *args) {
+ EntityManager *em = self->em;
+
+  PyEntity *entity;
+  if (!PyArg_ParseTuple(args, "O!", &PyEntityType, &entity)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    Py_RETURN_NONE;
+  }
+  em->destroyEntity(entity->wentity);
+  Py_RETURN_NONE;
+}
+
+static PyObject *
 EntityManager_tagEntity(PyEntityManager *self, PyObject *args) {
   EntityManager *em = self->em;
 
@@ -164,6 +179,8 @@ static PyMethodDef EntityManager_methods[] = {
    "List of all entities" },
   {"getById", (PyCFunction) EntityManager_getById, METH_VARARGS,
    "Get one entity by its id" },
+  {"destroyEntity", (PyCFunction) EntityManager_destroyEntity, METH_VARARGS,
+   "Destroys one entity" },
   {"getByTag", (PyCFunction) EntityManager_getByTag, METH_VARARGS,
    "List entities with the given tag" },
   {"tagEntity", (PyCFunction) EntityManager_tagEntity, METH_VARARGS,

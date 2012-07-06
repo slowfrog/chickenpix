@@ -5,6 +5,7 @@ import cp
 def init(self, manager):
     """This method is called on an entity only once, before any call to update"""
     self.times = -1
+    self.gold = 0
     self.start = time.time()
     print("start=%f" % time.time())
 
@@ -53,12 +54,12 @@ def update(self, manager):
                   input.state.getMousePosition())
 
     collider = self.getComponent(cp.Collider.TYPE)
-    collisions = collider.collisions
-    if collisions:
-        print("Currently colliding with %s" %
-              ", ".join(("[" + ":".join(manager.getById(i).getTags()) + "]")
-                        for i in collisions))
-            
+    for coll in collider.collisions:
+        collentity = manager.getById(coll)
+        if "GOLD" in collentity.getTags():
+            manager.destroyEntity(collentity)
+            self.gold += 10
+            self.addComponent(cp.Audio("coin", False))
             
     if self.times == 0:
         print("TOTO: My id is %d and I have %d components: %s" %
