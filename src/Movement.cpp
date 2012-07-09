@@ -28,23 +28,20 @@ Movement::update(int now) {
     Transform *t = entity->getComponent<Transform>();
 
     // First, try to do the move
-    float prevX = t->getX();
-    float prevY = t->getY();
-    t->moveBy(m->getSpeedX(), m->getSpeedY());
+    float dx = m->getSpeedX();
+    float dy = m->getSpeedY();
 
+    float dxAllowed = dx;
+    float dyAllowed = dy;
     bool moveAllowed = true;
     if (entity->hasComponent(Collider::TYPE)) {
       Collider *col = entity->getComponent<Collider>();
       if (col->isSolid()) {
-        moveAllowed = resolveCollisions(entity, col);
+        moveAllowed = resolveCollisions(entity, col, dx, dy,
+                                        dxAllowed, dyAllowed);
       }
     }
-
-    // If collision detected that the move was not allowed, revert to the
-    // previous position
-    if (!moveAllowed) {
-      t->moveTo(prevX, prevY);
-    }
+    t->moveBy(dxAllowed, dyAllowed);
   }
 }
 
@@ -58,23 +55,10 @@ Movement::clearCollisions() const {
 }
 
 bool
-Movement::resolveCollisions(Entity *ecol, Collider *col) const {
+Movement::resolveCollisions(Entity *ecol, Collider *col, float dx, float dy,
+                            float &dxAllowed, float &dyAllowed) const {
   bool moveAllowed = true;
-  TEntityList colls = findCollisions(ecol, col);
-  for (TEntityIterator it = colls.begin(); it < colls.end(); ++it) {
-    Collider *coll = (*it)->getComponent<Collider>();
-    if (coll->isSolid()) {
-      moveAllowed = false;
-    }
-    col->addCollision(*it);
-  }
-  return moveAllowed;
-}
 
-TEntityList
-Movement::findCollisions(Entity *ecol, Collider *col) const {
-  TEntityList collisions;
-  
   TEntityList allColl = _em.getEntities(Collider::TYPE);
   for (TEntityIterator it = allColl.begin(); it < allColl.end(); ++it) {
     Entity *ecol2 = *it;
@@ -82,15 +66,29 @@ Movement::findCollisions(Entity *ecol, Collider *col) const {
       continue; // Don't collide with myself
     }
     Collider *col2 = ecol2->getComponent<Collider>();
-    if (Movement::collide(ecol, col, ecol2, col2)) {
-      collisions.push_back(ecol2);
+    if (Movement::collide(ecol, col, ecol2, col2,
+                          dx, dy, dxAllowed, dyAllowed)) {
+      col->addCollision(ecol2);
     }
   }
-  return collisions;
+  return moveAllowed;
 }
 
 bool
-Movement::collide(Entity *ecol1, Collider *col1, Entity *ecol2, Collider *col2) {
+Movement::overlap(float minx1, float maxx1, float miny1, float maxy1,
+                  float minx2, float maxx2, float miny2, float maxy2) {
+  if ((minx1 > maxx2) || (minx2 > maxx1)) {
+    return false;
+  }
+  if ((miny1 > maxy2) || (miny2 > maxy1)) {
+    return false;
+  }
+  return true;
+}
+
+bool
+Movement::collide(Entity *ecol1, Collider *col1, Entity *ecol2, Collider *col2,
+                  float dx, float dy, float &dxAllowed, float &dyAllowed) {
   assert(ecol1->hasComponent(Collider::TYPE));
   assert(ecol2->hasComponent(Collider::TYPE));
   Transform *t1 = ecol1->getComponent<Transform>();
@@ -99,19 +97,34 @@ Movement::collide(Entity *ecol1, Collider *col1, Entity *ecol2, Collider *col2) 
   float minx2 = t2->getX() - col2->getLeft();
   float maxx1 = t1->getX() + col1->getRight();
   float maxx2 = t2->getX() + col2->getRight();
-  if ((minx1 > maxx2) || (minx2 > maxx1)) {
-    return false;
-  }
-  
   float miny1 = t1->getY() - col1->getTop();
   float miny2 = t2->getY() - col2->getTop();
   float maxy1 = t1->getY() + col1->getBottom();
   float maxy2 = t2->getY() + col2->getBottom();
-  if ((miny1 > maxy2) || (miny2 > maxy1)) {
-    return false;
-  }
+  bool collide = overlap(minx1 + dx, maxx1 + dx, miny1 + dy, maxy1 + dy,
+                         minx2, maxx2, miny2, maxy2);
 
-  return true;
+  if (collide) {
+    if (overlap(minx1 + dxAllowed, maxx1 + dxAllowed,
+                miny1 + dyAllowed, maxy1 + dyAllowed,
+                minx2, maxx2, miny2, maxy2)) {
+      if (!overlap(minx1, maxx1,
+                   miny1 + dyAllowed, maxy1 + dyAllowed,
+                   minx2, maxx2, miny2, maxy2)) {
+        dxAllowed = 0;
+        
+      } else if (!overlap(minx1 + dxAllowed, maxx1 + dxAllowed,
+                          miny1, maxy1,
+                          minx2, maxx2, miny2, maxy2)) {
+        dyAllowed = 0;
+        
+      } else {
+        dxAllowed = 0;
+        dyAllowed = 0;
+      }
+    }
+  }
+  return collide;
 }
 
 void

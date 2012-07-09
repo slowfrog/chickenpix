@@ -18,8 +18,11 @@ public:
 
 private:
   void clearCollisions() const;
-  bool resolveCollisions(Entity *ecol, Collider *col) const;
-  TEntityList findCollisions(Entity *ecol, Collider *col) const;
+  bool resolveCollisions(Entity *ecol, Collider *col, float dx, float dy,
+                         float &dxAllowed, float &dyAllowed) const;
+  static bool overlap(float minx1, float maxx1, float miny1, float maxy1,
+                      float minx2, float maxx2, float miny2, float maxy2);
   static bool collide(Entity *ecol1, Collider *col1,
-                      Entity *ecol2, Collider *col2);
+                      Entity *ecol2, Collider *col2,
+                      float dx, float dy, float &dxAllowed, float &dyAllowed);
 };
