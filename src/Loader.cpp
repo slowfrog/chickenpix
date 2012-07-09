@@ -210,8 +210,9 @@ Loader::loadTmxMap(string const &name) const {
                                       (float) y * map.GetTileHeight(),
                                       BASE_MAP_ZORDER + i, resources);
             if (tileCollider[gid]) {
-              img->addComponent(new Collider(true, 0, 0, map.GetTileWidth(),
-                                             map.GetTileHeight()));
+              img->addComponent(new Collider(true, 0, 0, 
+                                             (float) map.GetTileWidth(),
+                                             (float) map.GetTileHeight()));
             }
           }
           // cout << "]" << endl;

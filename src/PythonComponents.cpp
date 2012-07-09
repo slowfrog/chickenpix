@@ -684,7 +684,7 @@ int Collider_init(PyTransform *self, PyObject *args, PyObject *kwds) {
   }
 
   bool solid = (PyObject_IsTrue(solidObj) != 0);
-  self->component = new Collider(solid, PyFloat_AsDouble(size));
+  self->component = new Collider(solid, (float) PyFloat_AsDouble(size));
   return 0;
 }
 
@@ -701,7 +701,7 @@ PyObject *Collider_getSolid(PyObject *self, void *) {
 static
 int Collider_setSolid(PyObject *self, PyObject *val, void *) {
   Collider *a = (Collider *) ((PyCollider *) self)->component;
-  a->setSolid(PyObject_IsTrue(val));
+  a->setSolid(PyObject_IsTrue(val) != 0);
   return 0;
 }
 
@@ -712,7 +712,7 @@ int Collider_setSize(PyObject *self, PyObject *val, void *) {
     return -1;
   }
   Collider *a = (Collider *) ((PyCollider *) self)->component;
-  a->setSize(PyFloat_AsDouble(val));
+  a->setSize((float) PyFloat_AsDouble(val));
   return 0;
 }
 
@@ -729,7 +729,7 @@ int Collider_setLeft(PyObject *self, PyObject *val, void *) {
     return -1;
   }
   Collider *a = (Collider *) ((PyCollider *) self)->component;
-  a->setLeft(PyFloat_AsDouble(val));
+  a->setLeft((float) PyFloat_AsDouble(val));
   return 0;
 }
 
@@ -746,7 +746,7 @@ int Collider_setTop(PyObject *self, PyObject *val, void *) {
     return -1;
   }
   Collider *a = (Collider *) ((PyCollider *) self)->component;
-  a->setTop(PyFloat_AsDouble(val));
+  a->setTop((float) PyFloat_AsDouble(val));
   return 0;
 }
 
@@ -763,7 +763,7 @@ int Collider_setRight(PyObject *self, PyObject *val, void *) {
     return -1;
   }
   Collider *a = (Collider *) ((PyCollider *) self)->component;
-  a->setRight(PyFloat_AsDouble(val));
+  a->setRight((float) PyFloat_AsDouble(val));
   return 0;
 }
 
@@ -780,7 +780,7 @@ int Collider_setBottom(PyObject *self, PyObject *val, void *) {
     return -1;
   }
   Collider *a = (Collider *) ((PyCollider *) self)->component;
-  a->setBottom(PyFloat_AsDouble(val));
+  a->setBottom((float) PyFloat_AsDouble(val));
   return 0;
 }
 
