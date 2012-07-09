@@ -30,8 +30,8 @@ public:
   // Build entity
   void setEntitiesDesc( const std::string&); 
 private:
-  void createImage(ImagePart const &part, float x, float y, int zOrder,
-                   Resources *resources) const;
+  Entity *createImage(ImagePart const &part, float x, float y, int zOrder,
+                      Resources *resources) const;
   void loadTmxMap(string const &name) const;
   
 private:

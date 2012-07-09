@@ -179,7 +179,7 @@
                 <stats name="damage" value="1"/>
             </component>
             <component type="Collider" solid="true"
-                       left="15" top="18" right="15" bottom="28"/>
+                       left="15" top="8" right="15" bottom="28"/>
         </components>
     </entity>
 

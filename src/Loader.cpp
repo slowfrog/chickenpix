@@ -12,9 +12,10 @@
 #include "Mobile.h"
 #include "Resources.h"
 #include "Scriptable.h"
+#include "Collider.h"
 #include "log.h"
 
-static const int BASE_MAP_ZORDER = -5;
+static const int BASE_MAP_ZORDER = -10;
 
 Loader::Loader(string const &name, EntityManager &em, string const &resourceFile):
 System(name, em), resourceFile(resourceFile) {
@@ -65,7 +66,7 @@ void
 Loader::exit() {
 }
 
-void
+Entity *
 Loader::createImage(ImagePart const &part, float x, float y, int zOrder,
                     Resources *resources) const {
   Entity *img = _em.createEntity();
@@ -73,6 +74,7 @@ Loader::createImage(ImagePart const &part, float x, float y, int zOrder,
   BVisual *image = resources->makeImage(part);
   image->setZOrder(zOrder);
   img->addComponent(image);
+  return img;
 }
 
 void
@@ -141,6 +143,7 @@ Loader::loadTmxMap(string const &name) const {
     
     // Load tilesets
     std::map<int, ImagePart> tilesetImages;
+    std::map<int, bool> tileCollider;
     for (int i = 0; i < map.GetNumTilesets(); ++i) {
       Tmx::Tileset const *tileset = map.GetTileset(i);
       string imageFile;
@@ -163,7 +166,16 @@ Loader::loadTmxMap(string const &name) const {
           
           int gid = tileset->GetFirstGid() + j;
           tilesetImages[gid] = ImagePart(imageFile, x, y,
-                                         tileset->GetTileWidth(), tileset->GetTileHeight());
+                                         tileset->GetTileWidth(),
+                                         tileset->GetTileHeight());
+
+          bool collide = false;
+          const Tmx::Tile *tile = tileset->GetTile(j);
+          if (tile != NULL) {
+            const Tmx::PropertySet &tileProps = tile->GetProperties();
+            collide = (tileProps.GetList()["wall"] != "");
+          }
+          tileCollider[gid] = collide;
           //cout << gid << " ";
           // cout << "Tile #" << (tileset->GetFirstGid() + j) << ": " <<
           //   x << "," << y << "-" << (x + tileset->GetTileWidth()) << "," <<
@@ -192,9 +204,15 @@ Loader::loadTmxMap(string const &name) const {
             }
             const Tmx::Tileset *tileset = map.GetTileset(tile.tilesetId);
             // cout << tile.tilesetId << "|" << tileset->GetFirstGid() + tile.id << " ";
-            createImage(tilesetImages[tileset->GetFirstGid() + tile.id],
-                        (float) x * map.GetTileWidth(), (float) y * map.GetTileHeight(),
-                        BASE_MAP_ZORDER + i, resources);
+            int gid = tileset->GetFirstGid() + tile.id;
+            Entity *img = createImage(tilesetImages[gid],
+                                      (float) x * map.GetTileWidth(),
+                                      (float) y * map.GetTileHeight(),
+                                      BASE_MAP_ZORDER + i, resources);
+            if (tileCollider[gid]) {
+              img->addComponent(new Collider(true, 0, 0, map.GetTileWidth(),
+                                             map.GetTileHeight()));
+            }
           }
           // cout << "]" << endl;
         }
