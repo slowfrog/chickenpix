@@ -5,13 +5,14 @@
 
 #include "../tinyxml/tinyxml.h"
 
+#include "../log.h"
 #include "../Utils.h"
-#include "SFMLLoader.h"
 #include "../Animated.h"
 #include "../Input.h"
 #include "../Resources.h"
 #include "../Scriptable.h"
 #include "../Transform.h"
+#include "SFMLLoader.h"
 #include "SFMLResources.h"
 #include "SFMLVisualContext.h"
 #include "SFMLVisualImage.h"
@@ -25,8 +26,8 @@ splitXY(string const &str, int *res) {
 }
 
 static string YES = "yes";
-SFMLLoader::SFMLLoader(string const &name, EntityManager &em, string const &resourceFile):
-  Loader(name, em, resourceFile), doc(NULL) {
+SFMLLoader::SFMLLoader( string const &name):
+  Loader(name) {
 }
 
 SFMLLoader::~SFMLLoader() {
@@ -35,15 +36,136 @@ SFMLLoader::~SFMLLoader() {
   }
 }
 
-void
-SFMLLoader::initResources() {
-  doc = new TiXmlDocument( resourceFile);
-  doc->LoadFile();
-  if (doc->Error()) {
-    cerr << "Error parsing file: " << resourceFile << ", " << doc->ErrorDesc() << endl;
-  }
-}
+// void 
+// SFMLLoader::prepareXml(){
+//   doc = new TiXmlDocument( resourceFile);
+//   assert( doc);
+//   doc->LoadFile();
+//   if (doc->Error()) {
+//     LOG2ERR << "Error parsing file: " << resourceFile << ", " << doc->ErrorDesc() << "\n";
+//   }
+// }
 
+
+// // Resources parsers
+// // -----------------------------------------
+
+// // !!! Code a factoriser peut etre !!!
+
+// // Image from XML
+// void 
+// SFMLLoader::addImage( Resources *resources){
+//   const TiXmlElement *pNode    = doc->FirstChildElement("resources");
+//   const TiXmlElement *pImgNode = findChild(pNode, "images");
+//   // loop on image
+//   for ( pImgNode = pImgNode->FirstChildElement("image");
+//         pImgNode;
+//         pImgNode = pImgNode->NextSiblingElement())
+//   {
+//     // Name
+//     std::string name;
+//     pImgNode->QueryValueAttribute( "name", &name);
+//     // File
+//     std::string file, anti_alias;
+//     const TiXmlElement *pImgFileNode = pImgNode->FirstChildElement("image");
+//     if ( pImgFileNode) {
+//       pImgFileNode->QueryValueAttribute( "file", &file);
+//     }
+    
+//     if ( !name.empty() && !file.empty()){ 
+//       addImage(  "resources/" + file, resources, name); 
+//     }
+//     else {
+//       LOG2ERR<<"Mismatch attribute when creating image resources\n";
+//     }
+//   }
+// }
+
+// // Font from XML
+// void 
+// SFMLLoader::addFont( Resources *resources){
+//   const TiXmlElement *pNode    = doc->FirstChildElement("resources");
+//   const TiXmlElement *pImgNode = findChild(pNode, "fonts");
+//   // loop on font
+//   for ( pImgNode = pImgNode->FirstChildElement("font");
+//         pImgNode;
+//         pImgNode = pImgNode->NextSiblingElement())
+//   {
+//     // Name
+//     std::string name;
+//     pImgNode->QueryValueAttribute( "name", &name);
+//     // Style
+//     std::string file;
+//     int         height(0);
+//     const TiXmlElement *pImgFileNode = pImgNode->FirstChildElement("freetype");
+//     if ( pImgFileNode) {
+//       pImgFileNode->QueryValueAttribute( "file", &file);
+//       pImgFileNode->QueryValueAttribute( "height", &height);
+//     }
+    
+//     if ( !name.empty() && !file.empty()){ 
+//       addFont( "resources/" + file, height, resources, name); 
+//     }
+//     else {
+//       LOG2ERR<<"Mismatch attribute when creating font resources\n";
+//     }
+//   }
+// }
+
+// // Sprite from XML
+// void 
+// SFMLLoader::addSprites( Resources *resources){
+//   const TiXmlElement *pNode    = doc->FirstChildElement("resources");
+//   const TiXmlElement *pImgNode = findChild(pNode, "sprites");
+//   // loop on font
+//   for ( pImgNode = pImgNode->FirstChildElement("sprite");
+//         pImgNode;
+//         pImgNode = pImgNode->NextSiblingElement())
+//   {
+//     // Name
+//     std::string name;
+//     pImgNode->QueryValueAttribute( "name", &name);
+//     if ( !name.empty()){ 
+//       addSprite( "sprites/" + name, resources, name); 
+//     }
+//     else {
+//       LOG2ERR<<"Mismatch attribute when creating font resources\n";
+//     }
+//   }
+// }
+
+// // Audio from XML
+// void 
+// SFMLLoader::addAudio( Resources *resources){
+//   const TiXmlElement *pNode    = doc->FirstChildElement("resources");
+//   const TiXmlElement *pImgNode = findChild(pNode, "samples");
+//   // loop on font
+//   for ( pImgNode = pImgNode->FirstChildElement("sample");
+//         pImgNode;
+//         pImgNode = pImgNode->NextSiblingElement())
+//   {
+//     // Name
+//     std::string name;
+//     pImgNode->QueryValueAttribute( "name", &name);
+//     // Style
+//     std::string file, anti_alias;
+//     const TiXmlElement *pImgFileNode = pImgNode->FirstChildElement("sample");
+//     if ( pImgFileNode) {
+//       pImgFileNode->QueryValueAttribute( "file", &file);
+//     }
+    
+//     if ( !name.empty() && !file.empty()){ 
+//       addAudio( "resources/" + file, resources, name); 
+//     }
+//     else {
+//       LOG2ERR<<"Mismatch attribute when creating font resources\n";
+//     }
+//   }
+  
+// }
+
+// Resources builders
+// -----------------------------------------
 void
 SFMLLoader::addImage(string const &path, Resources *resources, string const &alias) const {
   sf::Image *img = new sf::Image();
@@ -51,7 +173,7 @@ SFMLLoader::addImage(string const &path, Resources *resources, string const &ali
     cerr << "Error loading image: " << path << endl;
     return;
   }
-  img->SetSmooth(false);
+  img->SetSmooth( false);
   resources->setImage(path, new SFMLResImage(img));
   if (alias.length() > 0) {
     resources->setImage(alias, new SFMLResImage(img));
@@ -72,17 +194,17 @@ SFMLLoader::addFont(string const &path, int size, Resources *resources, string c
   }
 }
 
-const TiXmlElement *
-findChild(const TiXmlElement *parent, string const &name) {
-  for (const TiXmlElement *elem = parent->FirstChildElement();
-       elem != NULL;
-       elem = elem->NextSiblingElement()) {
-    if (elem && elem->Attribute("name") && (name == elem->Attribute("name"))) {
-      return elem;
-    }
-  }
-  return NULL;
-}
+// const TiXmlElement *
+// SFMLLoader::findChild(const TiXmlElement *parent, string const &name) {
+//   for (const TiXmlElement *elem = parent->FirstChildElement();
+//        elem != NULL;
+//        elem = elem->NextSiblingElement()) {
+//     if (elem && elem->Attribute("name") && (name == elem->Attribute("name"))) {
+//       return elem;
+//     }
+//   }
+//   return NULL;
+// }
 
 void
 SFMLLoader::loadSpriteFromXML(string const &directory, TiXmlDocument *doc, string const &path,

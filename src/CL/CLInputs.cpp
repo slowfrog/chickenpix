@@ -26,8 +26,8 @@ int KEYMAP[] = {
 };
 
 
-CLInputs::CLInputs(string const &name, EntityManager &em):
-  Inputs(name, em), keyboard_(NULL), mouse_(NULL), state_(NULL) {
+CLInputs::CLInputs(string const &name):
+  Inputs(name), keyboard_(NULL), mouse_(NULL), state_(NULL) {
 }
 
 CLInputs::~CLInputs() {
@@ -36,9 +36,9 @@ CLInputs::~CLInputs() {
 }
 
 void
-CLInputs::init() {
-  Inputs::init();
-  Resources *resources = _em.getComponent<Resources>();
+CLInputs::init(EntityManager &em) {
+  Inputs::init(em);
+  Resources *resources = em.getComponent<Resources>();
   CLVisualContext &vc = (CLVisualContext &) resources->getVisualContext();
   keyboard_ = &(vc.getWindow().get_ic().get_keyboard());
   mouse_ = &(vc.getWindow().get_ic().get_mouse());
@@ -57,7 +57,7 @@ CLInputs::getInputState() const {
 }
 
 void
-CLInputs::exit() {
+CLInputs::exit(EntityManager &em) {
 }
 
 string

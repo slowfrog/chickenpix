@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <cassert>
 #include "Types.h"
 #include "Entity.h"
 
@@ -30,6 +31,7 @@ public:
   
   Entity *createEntity();
   Entity *getById(Entity::Id id);
+  void addEntity    ( Entity*);
   void destroyEntity(Entity::Id id);
   void destroyEntity(Entity *entity);
   
@@ -43,9 +45,9 @@ public:
   void replaceEntity(Entity::Id id, Entity *replacement);
 
   TEntityList getEntities() const;
-  TEntityList  getEntities(Component::Type t);
-  TEntityList  getEntities(Component::Type t1, Component::Type t2);
-  Entity *getFirst(Component::Type t);
+  TEntityList getEntities(Component::Type t);
+  TEntityList getEntities(Component::Type t1, Component::Type t2);
+  Entity      *getFirst (Component::Type t);
 
   /**
    * Tags management
@@ -63,6 +65,7 @@ public:
 template<class T>
 T *EntityManager::getComponent() {
   Entity *entity = getFirst(T::TYPE);
+  assert( entity);
   Component *comp = entity->getComponent(T::TYPE);
   return (T *)comp;
 }

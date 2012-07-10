@@ -8,8 +8,8 @@
 #include "Input.h"
 #include "InputState.h"
 
-Inputs::Inputs(string const &name, EntityManager &em):
-  System(name, em), exitRequested_(false), fightMode_(false) {
+Inputs::Inputs( string const &name):
+  System( name), exitRequested_(false), fightMode_(false) {
 }
 
 Inputs::~Inputs() {
@@ -19,13 +19,13 @@ static map<string, void(*)(EntityManager &, Entity &, InputState const &, int)>
 CONTROLLERS;
 
 void
-Inputs::init() {
+Inputs::init( EntityManager &em) {
   CONTROLLERS["HeroController"] = HeroController::update;
   CONTROLLERS["ButtonController"] = ButtonController::update;
 }
 
 void
-Inputs::update(int now) {
+Inputs::update(EntityManager &em, int now) {
   pumpEvents();
 
   InputState const *state = getInputState();
@@ -34,7 +34,7 @@ Inputs::update(int now) {
     return;
   }
   
-  vector<Entity *> entities =_em.getEntities(Input::TYPE);
+  vector<Entity *> entities = em.getEntities(Input::TYPE);
   for (vector<Entity *>::iterator it = entities.begin();
        it < entities.end(); ++it) {
     Entity *entity = *it;
@@ -42,14 +42,14 @@ Inputs::update(int now) {
     input->setInputState(state);
   }
 
-  entities = _em.getEntities(Controller::TYPE);
+  entities = em.getEntities(Controller::TYPE);
   for (vector<Entity *>::iterator it = entities.begin();
        it < entities.end(); ++it) {
     Entity *entity = *it;
     Controller *c = entity->getComponent<Controller>();
     const string &name = c->getName();
     if (CONTROLLERS.find(name) != CONTROLLERS.end()) {
-      CONTROLLERS[name](_em, *entity, *state, now);
+      CONTROLLERS[name]( em, *entity, *state, now);
     } else {
       // TODO find a script with the right name
       LOG2 << "Controller not found for name: " << name << "\n";

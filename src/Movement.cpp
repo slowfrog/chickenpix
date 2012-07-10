@@ -6,22 +6,21 @@
 #include "Transform.h"
 #include "Collider.h"
 
-Movement::Movement(string const &name, EntityManager &em):
-  System(name, em) {
+Movement::Movement(string const &name):
+  System( name) {
 }
 
 Movement::~Movement() {
 }
 
 void
-Movement::init() {
+Movement::init( EntityManager&) {
 }
 
 void
-Movement::update(int now) {
-  clearCollisions();
-  
-  TEntityList entities = _em.getEntities(Mobile::TYPE, Transform::TYPE);
+Movement::update(EntityManager &em, int now) {
+  clearCollisions(em);
+  TEntityList entities = em.getEntities(Mobile::TYPE, Transform::TYPE);
   for (TEntityIterator it = entities.begin(); it < entities.end(); ++it) {
     Entity *entity = *it;
     Mobile *m = entity->getComponent<Mobile>();
@@ -37,7 +36,7 @@ Movement::update(int now) {
     if (entity->hasComponent(Collider::TYPE)) {
       Collider *col = entity->getComponent<Collider>();
       if (col->isSolid()) {
-        moveAllowed = resolveCollisions(entity, col, dx, dy,
+        moveAllowed = resolveCollisions(em, entity, col, dx, dy,
                                         dxAllowed, dyAllowed);
       }
     }
@@ -46,8 +45,8 @@ Movement::update(int now) {
 }
 
 void
-Movement::clearCollisions() const {
-  TEntityList entities = _em.getEntities(Collider::TYPE);
+Movement::clearCollisions(EntityManager &em) const {
+  TEntityList entities = em.getEntities(Collider::TYPE);
   for (TEntityIterator it = entities.begin(); it < entities.end(); ++it) {
     Collider *coll = (*it)->getComponent<Collider>();
     coll->clearCollisions();
@@ -55,11 +54,12 @@ Movement::clearCollisions() const {
 }
 
 bool
-Movement::resolveCollisions(Entity *ecol, Collider *col, float dx, float dy,
+Movement::resolveCollisions(EntityManager &em, Entity *ecol, Collider *col,
+                            float dx, float dy,
                             float &dxAllowed, float &dyAllowed) const {
   bool moveAllowed = true;
 
-  TEntityList allColl = _em.getEntities(Collider::TYPE);
+  TEntityList allColl = em.getEntities(Collider::TYPE);
   for (TEntityIterator it = allColl.begin(); it < allColl.end(); ++it) {
     Entity *ecol2 = *it;
     if (ecol2 == ecol) {
@@ -128,7 +128,7 @@ Movement::collide(Entity *ecol1, Collider *col1, Entity *ecol2, Collider *col2,
 }
 
 void
-Movement::exit() {
+Movement::exit( EntityManager&) {
 }
 
 string

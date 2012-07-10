@@ -11,8 +11,8 @@
 #include "../Scriptable.h"
 #include "../Transform.h"
 
-CLLoader::CLLoader(string const &name, EntityManager &em, string const &resourceFile):
-  Loader(name, em, resourceFile), clresources(NULL) {
+CLLoader::CLLoader(string const &name):
+  Loader(name), clresources(NULL) {
 }
 
 CLLoader::~CLLoader() {
@@ -133,6 +133,22 @@ CLLoader::addAudio(string const &path, CL_ResourceManager *clresources,
     cerr << "Error building CL_SoundBuffer: " << e.what() << endl;
   }
 }
+
+// void
+// CLLoader::addImage  ( Resources *resources) {
+// }
+
+// void
+// CLLoader::addSprites( Resources *resources) {
+// }
+
+// void
+// CLLoader::addFont   ( Resources *resources) {
+// }
+
+// void
+// CLLoader::addAudio  ( Resources *resources) {
+// }
 
 string
 CLLoader::toString() const {

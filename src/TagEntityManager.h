@@ -36,15 +36,16 @@ public:
   
   /* API */
   void resetTagCollection();
-  void registerTag(const unsigned long, const std::string&, const bool =false); 
-  void unregisterTag(const std::string&);
-  void unregisterTagForEntity( const unsigned long, const std::string&);
+  void registerTag            ( const unsigned long, const std::string&, const bool =false); 
+  void unregisterTag          ( const std::string&);
+  void unregisterTagForEntity ( const unsigned long, const std::string&);
   
-  const TEntityId            getEntityByTag(const std::string&) const;
-  const TCollectionIdEntity& getEntitiesByTag(const std::string&) const;
-  const TEntityId            getFirstEntityByTag(const std::string&) const;
+  const TEntityId            getEntityByTag     ( const std::string&) const;
+  const TCollectionIdEntity& getEntitiesByTag   ( const std::string&) const;
+  const TEntityId            getFirstEntityByTag( const std::string&) const;
   
-  const TCollectionTag&      getTagsByEntity( const unsigned long) const;
+  const TCollectionTag&      getTagsByEntity    ( const unsigned long) const;
+  bool  hasTag( const TEntityId, const TTag&);
     
 private:
   // List of entity by tag

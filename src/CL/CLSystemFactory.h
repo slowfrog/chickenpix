@@ -12,8 +12,13 @@ public:
   virtual ~CLSystemFactory();
   
   // Specific system
-  virtual Loader *createLoader( EntityManager&, const std::string&, const std::string&, const std::string&);
-  virtual Render *createRender( EntityManager&, const std::string&, const unsigned int, const unsigned int);
-  virtual Inputs *createInputs( EntityManager&, const std::string&);
+  virtual
+  Loader *createLoader( const std::string &sysName, const std::string &resName,
+                        const std::string &entName, const std::string &lvlName);
+  virtual
+  Render *createRender( const std::string &name, const unsigned int w,
+                        const unsigned int h);
+  virtual
+  Inputs *createInputs( const std::string &name);
 };
 

@@ -6,15 +6,19 @@ class Render: public System {
 private:
   int last;
 public:
-  Render(string const &name, EntityManager &em);
+  Render( string const &name);
   virtual ~Render();
 
-  virtual void init() = 0;
+  // System interface
+  virtual void init   ( EntityManager&) = 0;
+  virtual void update ( EntityManager&, int now);
+  virtual void exit   ( EntityManager&) = 0;
+  
+  // Render interface
   virtual VisualContext *getVisualContext() = 0;
-  virtual void clear(VisualContext &vc) = 0;
-  virtual void update(int now);
-  virtual void paint(VisualContext &vc) = 0;
-  virtual void exit() = 0;
+  virtual void clear( VisualContext &vc) = 0;
+  virtual void paint( VisualContext &vc) = 0;
+  
   
   inline SystemType getType() const { return RENDER_TYPE;}
 

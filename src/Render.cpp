@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 #include <sstream>
 #include <algorithm>
@@ -8,13 +9,7 @@
 #include "Collider.h"
 #include "VisualContext.h"
 
-Render::Render(string const &name, EntityManager &em):
-  System(name, em), last(-1) {
-}
-
-Render::~Render() {
-}
-
+// z-order comparator
 static bool
 compareEntitiesOnZOrder(Entity * const &entity1, Entity * const &entity2) {
   BVisual *vis1 = entity1->getComponent<BVisual>();
@@ -22,9 +17,15 @@ compareEntitiesOnZOrder(Entity * const &entity1, Entity * const &entity2) {
   return BVisual::compareZOrder(*vis1, *vis2);
 }
 
+Render::Render(string const &name):
+  System( name), last( -1) {
+}
+
+Render::~Render() {
+}
 
 void
-Render::update(int now) {
+Render::update( EntityManager &em, int now) {
   int delta = (last == -1) ? 0 : (now - last);
   last = now;
   
@@ -36,9 +37,13 @@ Render::update(int now) {
   // - offset by the specific camera position
   // - clipped to the width and height of the view of the camera (if != 0)
   // - centered on the screen
-  Entity *cameraEntity = _em.getFirst(Camera::TYPE);
+  Entity *cameraEntity = em.getFirst(Camera::TYPE);
+  assert( cameraEntity);
   Camera *camera = cameraEntity->getComponent<Camera>();
+  assert( camera);
   Transform *transform = cameraEntity->getComponent<Transform>();
+  assert( transform);
+  
   unsigned int width = (camera->getWidth() > 0 ?
                         camera->getWidth() :
                         vc->getWidth());
@@ -53,7 +58,7 @@ Render::update(int now) {
   float maxY = minY + height;
   
   // Visual
-  vector<Entity *> visuals = _em.getEntities(BVisual::TYPE, Transform::TYPE);
+  vector<Entity *> visuals = em.getEntities(BVisual::TYPE, Transform::TYPE);
   // Sort by z-order
   stable_sort(visuals.begin(), visuals.end(), compareEntitiesOnZOrder);
 

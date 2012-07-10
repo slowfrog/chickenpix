@@ -8,8 +8,8 @@
 #include "PythonTypes.h"
 #include "WrappedEntity.h"
 
-Scripting::Scripting(string const &name, EntityManager &em):
-  System(name, em) {
+Scripting::Scripting(string const &name):
+  System( name) {
 }
 
 Scripting::~Scripting() {
@@ -24,7 +24,7 @@ Scripting::~Scripting() {
 }
 
 void
-Scripting::init() {
+Scripting::init( EntityManager &em) {
   Py_NoSiteFlag = 1;
   Py_Initialize();
 
@@ -38,7 +38,7 @@ Scripting::init() {
     }
     Py_DECREF(path);
   }
-  initcp(&_em);
+  initcp(&em);
 }
 
 PyObject *
@@ -80,13 +80,13 @@ Scripting::getScript(string const &name) {
 }
 
 void
-Scripting::update(int now) {
-  PyObject *pyem = wrapEntityManager(&_em);
+Scripting::update(EntityManager &em, int now) {
+  PyObject *pyem = wrapEntityManager(&em);
 
-  vector<Entity *> scripts = _em.getEntities(Scriptable::TYPE);
+  vector<Entity *> scripts = em.getEntities(Scriptable::TYPE);
   for (vector<Entity *>::iterator it = scripts.begin(); it < scripts.end(); it++) {
 
-    WrappedEntity *wentity = WrappedEntity::wrap(_em, *it);
+    WrappedEntity *wentity = WrappedEntity::wrap( em, *it);
     Scriptable *scriptable = wentity->getComponent<Scriptable>();
     ScriptInfo *info = getScript(scriptable->getName());
     if (info) {
@@ -124,7 +124,7 @@ Scripting::update(int now) {
 }
 
 void
-Scripting::exit() {
+Scripting::exit( EntityManager&) {
   Py_Finalize();
 }
 

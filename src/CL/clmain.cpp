@@ -43,7 +43,7 @@ public:
       CL_SoundOutput output(44100);
       
       pCLFactory = new CLSystemFactory;
-      assert( pCLFactory);
+      assert( pCLFactory );
       runGame<CLTimer>( pCLFactory);
     }
     catch(CL_Exception &exception)

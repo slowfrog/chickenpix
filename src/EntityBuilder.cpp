@@ -150,7 +150,7 @@ CEntityBuilder::parseResources( Loader *pLoader, Resources *pResource){
 
 void
 CEntityBuilder::buildResourcesByKind( const std::string &kind, TiXmlElement *pElem, Loader *pLoader, Resources *pResource){
-  if ( "image" == kind){
+ /* if ( "image" == kind){
     buildResourcesImage(pElem, pLoader, pResource);
   } else if ( "font" == kind) {
     buildResourcesFont(pElem, pLoader, pResource);
@@ -158,12 +158,13 @@ CEntityBuilder::buildResourcesByKind( const std::string &kind, TiXmlElement *pEl
     buildResourcesSprite(pElem, pLoader, pResource);
   } else if ( "audio" == kind) {
     buildResourcesAudio(pElem, pLoader, pResource);
-  }
+  }*/
 }
 
 /*
  * Build resources with Loader
  */
+/*
 void 
 CEntityBuilder::buildResourcesImage( TiXmlElement *pNode, Loader *pLoader, Resources *pResource){
   TiXmlElement *pChar = pNode->FirstChildElement( "image");
@@ -225,7 +226,7 @@ CEntityBuilder::buildResourcesAudio( TiXmlElement *pNode, Loader *pLoader, Resou
   LOG2ERR<<"Bad xml description for [Audio] Resources\n";
   throw "Bad xml description for [Audio] Resources";
 }
-
+*/
 /*
  * Parse all entities and build them
 */

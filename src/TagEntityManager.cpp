@@ -1,6 +1,9 @@
 #include "log.h"
 #include "TagEntityManager.h"
 
+// Global
+CTagEntityMng::TCollectionTag EmptyTag; // pas top
+
 void 
 CTagEntityMng::resetTagCollection(){
   mTagE.clear();
@@ -9,6 +12,11 @@ CTagEntityMng::resetTagCollection(){
 
 void 
 CTagEntityMng::registerTag(const unsigned long entityId, const std::string &tag, const bool unique){
+  // Tag already exists
+  if ( hasTag( entityId, tag)){
+    return;
+  }
+  
   // Add into map(tag,entity)
   if( !unique ){
     CTagEntityMng::TMapTagEntityIt it = mTagE.find( tag);
@@ -55,6 +63,7 @@ CTagEntityMng::unregisterTagForEntity( const unsigned long id, const std::string
     for( ; vit != vId.end(); vit++){
       if ( (*vit) == id){
         vId.erase( vit);
+        break;
       }
     }
   }
@@ -103,3 +112,16 @@ CTagEntityMng::getTagsByEntity( const unsigned long entityId) const{
   }
   return EMPTY_COLLECTION;
 }
+
+bool  
+CTagEntityMng::hasTag( const TEntityId id, const TTag& tag){
+  TCollectionTag tagCol = getTagsByEntity( id);
+  TCollectionTag::const_iterator it = tagCol.begin();
+  for (it; it != tagCol.end(); it++) {
+    if ( (*it) == tag ) {
+      return true;
+    }
+  }
+  return false;
+}
+

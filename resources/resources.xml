@@ -22,6 +22,13 @@
     <section name="images">
       <image name="house"><image file="img/house.png"/></image>
       <image name="map"><image file="img/map.png" /></image>
+      <image name="pig"><image file="img/cochon.png" /></image>
+      <image name="streetboy"><image file="img/garcon_des_rues.png" /></image>
+      <image name="wizard"><image file="img/magicien.png" /></image>
+      <image name="mayor"><image file="img/maire.png" /></image>
+      <image name="princess"><image file="img/princesse.png" /></image>
+      <image name="richard"><image file="img/richard.png" /></image>
+      <image name="wall"><image file="img/wall.png" /></image>
     </section>
     
     <!-- Sprites -->
@@ -92,7 +99,7 @@
               array="1,1" />
       </image>
     </sprite>
-    <sprite name="wait">
+    <sprite name="still">
       <image file="img/male_blur.png">
         <grid pos="0,0"
               size="64,64"
@@ -118,5 +125,10 @@
       </image>
       <animation loop="yes" speed="100" />
     </sprite>
+  </section>
+  <!-- Audio -->
+  <section name="samples">
+    <sample name="background_music"><sample file="music/Calmtown.ogg"/></sample>
+    <sample name="coin"><sample file="sound/coin.wav"/></sample>
   </section>
 </resources>

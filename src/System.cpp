@@ -1,13 +1,14 @@
 #include <sstream>
 #include "System.h"
 
-System::System(string const &name, EntityManager &em):
-  _name(name), _em(em) {
-}
+// Constructor
+System::System(const std::string& name):
+_name( name){}
 
 System::~System() {
 }
 
+// 
 string const &
 System::getName() const {
   return _name;

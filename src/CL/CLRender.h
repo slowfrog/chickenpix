@@ -9,14 +9,14 @@ private:
   CL_DisplayWindow *window_;
   
 public:
-  CLRender(string const &name, EntityManager &em, unsigned int width, unsigned int height);
+  CLRender(string const &name, unsigned int width, unsigned int height);
   virtual ~CLRender();
 
-  virtual void init();
+  virtual void init(EntityManager &em);
   virtual VisualContext *getVisualContext();
   virtual void clear(VisualContext &vc);
   virtual void paint(VisualContext &vc);
-  virtual void exit();
+  virtual void exit(EntityManager &em);
 
   virtual string toString() const;
 };

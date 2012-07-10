@@ -54,6 +54,10 @@
 		5A22FCA21593CD9000745D05 /* PythonTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FCA01593CD9000745D05 /* PythonTypes.cpp */; };
 		5A255475159CF3DC0032BBF8 /* TagEntityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A255473159CF3DC0032BBF8 /* TagEntityManager.cpp */; };
 		5A2554C5159CFD8B0032BBF8 /* EntityBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */; };
+		5A4DA4B415A64AE300329455 /* Collider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A4DA4B215A64AE300329455 /* Collider.cpp */; };
+		5A740E1B15A4D3A0005DF65D /* Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A740E1715A4D3A0005DF65D /* Audio.cpp */; };
+		5A740E1C15A4D3A0005DF65D /* Sounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A740E1915A4D3A0005DF65D /* Sounds.cpp */; };
+		5A740E1F15A4D3B6005DF65D /* SFMLAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A740E1D15A4D3B6005DF65D /* SFMLAudio.cpp */; };
 		5A89202C1592817A0088CDE0 /* Scriptable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A8920281592817A0088CDE0 /* Scriptable.cpp */; };
 		5A89202D1592817A0088CDE0 /* Scripting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A89202A1592817A0088CDE0 /* Scripting.cpp */; };
 		5AB6A09F15A37A2600454601 /* ButtonController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AB6A09D15A37A2600454601 /* ButtonController.cpp */; };
@@ -192,6 +196,15 @@
 		5A2554C3159CFD8B0032BBF8 /* EntityBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EntityBuilder.h; path = src/EntityBuilder.h; sourceTree = "<group>"; };
 		5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityBuilder.cpp; path = src/EntityBuilder.cpp; sourceTree = "<group>"; };
 		5A2A2E851598DD8C009389E6 /* Stats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stats.h; path = src/Stats.h; sourceTree = "<group>"; };
+		5A4DA4B215A64AE300329455 /* Collider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Collider.cpp; path = src/Collider.cpp; sourceTree = "<group>"; };
+		5A4DA4B315A64AE300329455 /* Collider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Collider.h; path = src/Collider.h; sourceTree = "<group>"; };
+		5A4DA4B515A64AFE00329455 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = src/Types.h; sourceTree = "<group>"; };
+		5A740E1715A4D3A0005DF65D /* Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Audio.cpp; path = src/Audio.cpp; sourceTree = "<group>"; };
+		5A740E1815A4D3A0005DF65D /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Audio.h; path = src/Audio.h; sourceTree = "<group>"; };
+		5A740E1915A4D3A0005DF65D /* Sounds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sounds.cpp; path = src/Sounds.cpp; sourceTree = "<group>"; };
+		5A740E1A15A4D3A0005DF65D /* Sounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sounds.h; path = src/Sounds.h; sourceTree = "<group>"; };
+		5A740E1D15A4D3B6005DF65D /* SFMLAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SFMLAudio.cpp; path = src/SFML/SFMLAudio.cpp; sourceTree = "<group>"; };
+		5A740E1E15A4D3B6005DF65D /* SFMLAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLAudio.h; path = src/SFML/SFMLAudio.h; sourceTree = "<group>"; };
 		5A8920281592817A0088CDE0 /* Scriptable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scriptable.cpp; path = src/Scriptable.cpp; sourceTree = "<group>"; };
 		5A8920291592817A0088CDE0 /* Scriptable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scriptable.h; path = src/Scriptable.h; sourceTree = "<group>"; };
 		5A89202A1592817A0088CDE0 /* Scripting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scripting.cpp; path = src/Scripting.cpp; sourceTree = "<group>"; };
@@ -255,7 +268,7 @@
 		5A00358D158FCF3900B483F8 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
-				5AB6A0A015A37A5900454601 /* SFML.h */,
+				5A4DA4B515A64AFE00329455 /* Types.h */,
 				5AB6A09D15A37A2600454601 /* ButtonController.cpp */,
 				5AB6A09E15A37A2600454601 /* ButtonController.h */,
 				5AEA4BE615A23DF000658BF8 /* Main.h */,
@@ -283,6 +296,13 @@
 		5A00358E158FCF3F00B483F8 /* SFML */ = {
 			isa = PBXGroup;
 			children = (
+				5AB6A0A015A37A5900454601 /* SFML.h */,
+				5A003593158FCF5800B483F8 /* SFMLRender.cpp */,
+				5A003594158FCF5800B483F8 /* SFMLRender.h */,
+				5A003591158FCF5800B483F8 /* SFMLLoader.cpp */,
+				5A003592158FCF5800B483F8 /* SFMLLoader.h */,
+				5A740E1D15A4D3B6005DF65D /* SFMLAudio.cpp */,
+				5A740E1E15A4D3B6005DF65D /* SFMLAudio.h */,
 				5AEA4C0E15A2467800658BF8 /* SFMLSystemFactory.h */,
 				5AEA4C0F15A2467800658BF8 /* SFMLSystemFactory.cpp */,
 				5AEA4BDC15A2372A00658BF8 /* SFMLInputState.cpp */,
@@ -297,10 +317,6 @@
 				5A0035EA158FD2A300B483F8 /* smain.cpp */,
 				5A00358F158FCF5800B483F8 /* SFMLInputs.cpp */,
 				5A003590158FCF5800B483F8 /* SFMLInputs.h */,
-				5A003591158FCF5800B483F8 /* SFMLLoader.cpp */,
-				5A003592158FCF5800B483F8 /* SFMLLoader.h */,
-				5A003593158FCF5800B483F8 /* SFMLRender.cpp */,
-				5A003594158FCF5800B483F8 /* SFMLRender.h */,
 				5A003599158FCF5800B483F8 /* SFMLVisualImage.cpp */,
 				5A00359A158FCF5800B483F8 /* SFMLVisualImage.h */,
 			);
@@ -312,12 +328,14 @@
 			children = (
 				5AB6A29615A3A78700454601 /* SystemRegistry.cpp */,
 				5AB6A29715A3A78700454601 /* SystemRegistry.h */,
-				5A0035AF158FCF6D00B483F8 /* Loader.cpp */,
-				5A0035B0158FCF6D00B483F8 /* Loader.h */,
-				5A0035B3158FCF6D00B483F8 /* Render.cpp */,
-				5A0035B4158FCF6D00B483F8 /* Render.h */,
 				5A0035B7158FCF6D00B483F8 /* System.cpp */,
 				5A0035B8158FCF6D00B483F8 /* System.h */,
+				5A0035B3158FCF6D00B483F8 /* Render.cpp */,
+				5A0035B4158FCF6D00B483F8 /* Render.h */,
+				5A0035AF158FCF6D00B483F8 /* Loader.cpp */,
+				5A0035B0158FCF6D00B483F8 /* Loader.h */,
+				5A740E1915A4D3A0005DF65D /* Sounds.cpp */,
+				5A740E1A15A4D3A0005DF65D /* Sounds.h */,
 				5ADCACF51592693A00E29849 /* Inputs.cpp */,
 				5ADCACF61592693A00E29849 /* Inputs.h */,
 				5A89202A1592817A0088CDE0 /* Scripting.cpp */,
@@ -333,6 +351,10 @@
 		5A1394EE15A0B26A009F373F /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5A4DA4B215A64AE300329455 /* Collider.cpp */,
+				5A4DA4B315A64AE300329455 /* Collider.h */,
+				5A740E1715A4D3A0005DF65D /* Audio.cpp */,
+				5A740E1815A4D3A0005DF65D /* Audio.h */,
 				5AEA4BD615A236F100658BF8 /* Controller.cpp */,
 				5AEA4BD715A236F100658BF8 /* Controller.h */,
 				5AEA4BD815A236F100658BF8 /* HeroController.cpp */,
@@ -640,6 +662,10 @@
 				5AEA4C3B15A2582D00658BF8 /* SystemFactory.cpp in Sources */,
 				5AB6A09F15A37A2600454601 /* ButtonController.cpp in Sources */,
 				5AB6A29815A3A78700454601 /* SystemRegistry.cpp in Sources */,
+				5A740E1B15A4D3A0005DF65D /* Audio.cpp in Sources */,
+				5A740E1C15A4D3A0005DF65D /* Sounds.cpp in Sources */,
+				5A740E1F15A4D3B6005DF65D /* SFMLAudio.cpp in Sources */,
+				5A4DA4B415A64AE300329455 /* Collider.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,6 +678,10 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = ./src;
 				GCC_PREPROCESSOR_DEFINITIONS = TIXML_USE_STL;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = NO;
+				GCC_WARN_SHADOW = NO;
+				GCC_WARN_SIGN_COMPARE = YES;
 				HEADER_SEARCH_PATHS = (
 					./src/tinyxml,
 					/usr/include/python2.6,
@@ -686,6 +716,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PREBINDING = NO;

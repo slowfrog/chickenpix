@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entities>
+    
+    <!-- Load resources -->
+    <resources>
+        <resource kind="image">
+            <image path="resources/img/richard.png" alias="richard"/>
+        </resource>
+        <resource kind="image">
+            <image path="resources/img/wall.png" alias="wall"/>
+        </resource>
+        
+        <resource kind="font">
+            <image path="resources/fonts/BerkshireSwash-Regular.ttf" alias="sans_big" size="30"/>
+        </resource>
+        <resource kind="font">
+            <image path="resources/fonts/BerkshireSwash-Regular.ttf" alias="sans_small" size="8"/>
+        </resource>
+        
+    </resources>
+    
+	<!-- create entity -->
+    <entity>
+        <tags>
+            <tag name="LABEL"></tag>
+		</tags>
+        <components>
+            <component type="Transform">
+                <position x="200" y="200"/>
+            </component>
+            <component type="Resources" kind="font" z-order="99">
+                <text>Start Game</text>
+                <police name="sans_big"/>
+            </component>
+        </components>
+    </entity>
+    
+    <entity>
+        <tags>
+            <tag name="LABEL"></tag>
+		</tags>
+        <components>
+            <component type="Camera"
+                       offsetX="100" offsetY="100"
+                       width="600" height="600" />
+            <component type="Transform">
+                <position x="200" y="250"/>
+            </component>
+            <component type="Resources" kind="font" z-order="99">
+                <text>Quit Game</text>
+                <police name="sans_big"/>
+                <color r="255" g="255" b="0" a="128"/>
+            </component>
+        </components>
+    </entity>
+    
+</entities>

@@ -4,12 +4,12 @@
 
 class Animation: public System {
 public:
-  Animation(string const &name, EntityManager &em);
+  Animation(string const &name);
   virtual ~Animation();
 
-  virtual void init();
-  virtual void update(int);
-  virtual void exit();
+  virtual void init   ( EntityManager &);
+  virtual void update ( EntityManager &, int);
+  virtual void exit   ( EntityManager &);
   
   inline SystemType getType() const { return ANIMATION_TYPE;}
   

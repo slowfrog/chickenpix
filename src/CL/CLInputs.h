@@ -9,12 +9,12 @@ private:
   CL_InputDevice *mouse_;
   CLInputState *state_;
 public:
-  CLInputs(string const &name, EntityManager &em);
+  CLInputs(string const &name);
   virtual ~CLInputs();
 
-  virtual void init();
+  virtual void init   ( EntityManager &em);
+  virtual void exit   ( EntityManager &em);
   virtual void pumpEvents();
-  virtual void exit();
   virtual InputState const *getInputState() const;
   
   virtual string toString() const;

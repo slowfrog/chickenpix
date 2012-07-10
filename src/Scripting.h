@@ -21,12 +21,13 @@ private:
   ScriptInfo *getScript(string const &name);
   
 public:
-  Scripting(string const &name, EntityManager &em);
+  Scripting(string const &name);
   virtual ~Scripting();
 
-  virtual void init();
-  virtual void update(int now);
-  virtual void exit();
+  virtual void init   ( EntityManager&);
+  virtual void update ( EntityManager&, int now);
+  virtual void exit   ( EntityManager&);
+  
   virtual string toString() const;
   
   inline SystemType getType() const { return SCRIPTING_TYPE;}

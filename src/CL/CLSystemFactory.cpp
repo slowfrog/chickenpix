@@ -14,20 +14,31 @@ CLSystemFactory::~CLSystemFactory(){
 
 // Specific system
 Loader*
-CLSystemFactory::createLoader( EntityManager &em, const std::string &name, const std::string &res, const std::string &ent){
-  CLLoader *loader = new CLLoader( name, em, res);
+CLSystemFactory::createLoader(const std::string &sysName,
+                              const std::string &resName,
+                              const std::string &entName,
+                              const std::string &lvlName){
+  CLLoader *loader = new CLLoader(sysName);
   assert(loader );
-  loader->setEntitiesDesc( ent);
+  loader->setResources( resName);
+  loader->setEntities( entName);
+  loader->setLevel( lvlName);
+  
+  // Check and init Xml ???
+  loader->prepareXml();
+
+  loader->initResources();
   return loader; 
 }
 
 Render* 
-CLSystemFactory::createRender( EntityManager &em, const std::string &name, const unsigned int w, const unsigned int h){
-  return new CLRender( name, em, w, h);
+CLSystemFactory::createRender( const std::string &name,
+                               const unsigned int w, const unsigned int h){
+  return new CLRender( name, w, h);
 }
 
 Inputs*
-CLSystemFactory::createInputs( EntityManager &em, const std::string &name){
-  return new CLInputs( name, em);
+CLSystemFactory::createInputs( const std::string &name){
+  return new CLInputs( name);
 }
 

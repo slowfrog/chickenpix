@@ -6,7 +6,6 @@
 #include "SystemManager.h" 
 #include "TagEntityManager.h"
 
-
 // Template function of the main game loop
 template<class TimerClass>
 void
@@ -16,61 +15,63 @@ runGame( CSystemFactory* pFac) {
   // Init
   CTagEntityMng::get()->resetTagCollection();
   
-  CSystemManager::get()->createEntityManager("Main");
-  CSystemManager::get()->setCurrent("Main");
-  //EntityManager em("Main");
+  // Managers (entities)
+  CSystemManager  SysMng;
+  SysMng.createEntityManager( "Main");
+  SysMng.createEntityManager( "Menu");
+  //SysMng.createEntityManager( "Fight");
   
-  /*RenderClass render("Render", em, 800, 600);
-  render.init();
-  Animation anim("Animation", em);
-  anim.init();
-  LoaderClass loader("Loader", em, "resources/resources.xml");
-  loader.setEntitiesDesc( "resources/entities.xml");
-  loader.init();
-  InputsClass inputs("Inputs", em);
-  inputs.init();
-  Scripting scripting("Scripting", em);
-  scripting.init();
-  Movement movement("Movement", em);
-  movement.init();
-   */
-  
-  Render    *render     = pFac->createRender    ( *CSystemManager::get()->getCurrentEntityManager(), "Render", 800, 600);
+  // Systems Main
+  Render    *render     = pFac->createRender    ( "Render", 800, 600);
   assert( render);
-  Sounds    *sounds     = pFac->createSounds    ( *CSystemManager::get()->getCurrentEntityManager(), "Sounds");
-  Animation *anim       = pFac->createAnimation ( *CSystemManager::get()->getCurrentEntityManager(), "Animation");
+  Sounds    *sounds     = pFac->createSounds    ( "Sounds");
+  assert( sounds);
+  Animation *anim       = pFac->createAnimation ( "Animation");
   assert( anim);
-  Loader    *loader     = pFac->createLoader    ( *CSystemManager::get()->getCurrentEntityManager(), "Loader", "resources/resources.xml", "resources/entities.xml");
+  Loader    *loader     = pFac->createLoader    ( "Loader",                   // System name
+                                                  "resources/resources.xml",  // Resources
+                                                  "resources/entities.xml",   // Entities desc
+                                                  "beach"                     // Level name
+                                                 );                   
   assert( loader);
-  Inputs    *inputs     = pFac->createInputs    ( *CSystemManager::get()->getCurrentEntityManager(), "Inputs");
+  Inputs    *inputs     = pFac->createInputs    ( "Inputs");
   assert( inputs);
-  Scripting *scripting  = pFac->createScripting( *CSystemManager::get()->getCurrentEntityManager(), "Scripting");
+  Scripting *scripting  = pFac->createScripting ( "Scripting");
   assert( scripting);
-  Movement *movement    = pFac->createMovement  ( *CSystemManager::get()->getCurrentEntityManager(), "Movement");
+  Movement *movement    = pFac->createMovement  ( "Movement");
   assert( movement);
+  // Register Sytem to manager
+  SysMng.registerSystem( "Main", render);
+  SysMng.registerSystem( "Main", sounds);
+  SysMng.registerSystem( "Main", anim);
+  SysMng.registerSystem( "Main", loader);
+  SysMng.registerSystem( "Main", inputs);
+  SysMng.registerSystem( "Main", scripting);
+  SysMng.registerSystem( "Main", movement);
+  // Call init on all system for "Main"
+  SysMng.SystemInit   ( SysMng.getByName( "Main"));
   
-  
-  
-  // !!!AIE!!! l odre des system a l air important, il faudrait du coup prevoir un ordre d init ....
-  /*render->init();
-  anim->init();
-  loader->init();
-  inputs->init();
-  scripting->init();
-  movement->init();
-   */
-  
-  CSystemManager::get()->registerSystem( "Main", render);
-  CSystemManager::get()->registerSystem( "Main", sounds);
-  CSystemManager::get()->registerSystem( "Main", anim);
-  CSystemManager::get()->registerSystem( "Main", loader);
-  CSystemManager::get()->registerSystem( "Main", inputs);
-  CSystemManager::get()->registerSystem( "Main", scripting);
-  CSystemManager::get()->registerSystem( "Main", movement);
-  
-  CSystemManager::get()->SystemInit();
-
-  cout << CSystemManager::get()->getCurrentEntityManager()->toString() << endl;
+  // Systems Menu
+  Loader *loaderMenu  = pFac->createLoader( "LMenu",
+                                            "resources/resources.xml",     // Resources (repeat)
+                                            "resources/menu_entities.xml", // Entities desc
+                                            ""                             // Level name
+                                          ); 
+  assert( loaderMenu);
+  Inputs  *inputsMenu = pFac->createInputs    ( "Inputs");
+  assert( inputsMenu);
+  // Register system tp manager
+  SysMng.registerSystem( "Menu", render);
+  SysMng.registerSystem( "Menu", loaderMenu);
+  SysMng.registerSystem( "Menu", inputsMenu);
+  // Call init on all system for "Main"
+  SysMng.SystemInit   ( SysMng.getByName( "Menu"));
+    
+  // Set current at starting
+  SysMng.setCurrent( "Menu");
+  cout << "Menu "<<SysMng.getByName( "Menu").toString() << endl;
+  cout << "Main "<<SysMng.getByName( "Main").toString() << endl;
+  std::string NextMode("Main");
 
   TimerClass timer;
   int prev = timer.getTime();
@@ -80,26 +81,17 @@ runGame( CSystemFactory* pFac) {
     int now = timer.getTime();
 
     // Process inputs
-    CSystemManager::get()->SystemUpdate( now);
-    //inputs->update(now);
-    
+    SysMng.SystemUpdate( SysMng.getByRef(), now);
     
     // hehe c est tres moche mais bon ...
-    if ( ((Inputs*)CSystemManager::get()->getSystemByType( INPUTS_TYPE))->isExitRequested() ){
+    if ( ((Inputs*)SysMng.getCurrentSystemByType( INPUTS_TYPE))->isExitRequested() ){
     //if (inputs->isExitRequested()) {
-      break;
+      std::string tmp = SysMng.getName();
+      SysMng.setCurrent( NextMode);
+      NextMode = tmp;
+      //break;
     }
 
-    /*
-    // Execute scripts
-    scripting->update(now);
-    // "Physics" engine
-    movement->update(now);
-    // Update animations
-    anim->update(now);
-    // Render update
-    render->update(now);
-      */  
     prev = now;
         
     // Do ~60FPS
@@ -110,15 +102,9 @@ runGame( CSystemFactory* pFac) {
     timer.sleep(sleepTime);
   }
 
-  CSystemManager::get()->SystemExit();
-  /*movement->exit();
-  scripting->exit();
-  inputs->exit();
-  loader->exit();
-  render->exit();
-  anim->exit();
-   */
-  
+  SysMng.SystemExit( SysMng.getByName( "Menu"));
+  SysMng.SystemExit( SysMng.getByName( "Main"));
+    
   // At this step all pointers still valids
   // delete them
   delete render;

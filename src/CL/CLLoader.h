@@ -7,9 +7,14 @@ class CLLoader: public Loader {
 private:
   CL_ResourceManager *clresources;
 public:
-  CLLoader(string const &name, EntityManager &em, string const &resourceFile);
+  CLLoader(string const &name);
   virtual ~CLLoader();
 
+  // virtual void addImage  ( Resources *resources);
+  // virtual void addSprites( Resources *resources);
+  // virtual void addFont   ( Resources *resources);
+  // virtual void addAudio  ( Resources *resources);
+  
   virtual void initResources();
   virtual void addImage(string const &path, Resources *resources,
                         string const &alias="") const;

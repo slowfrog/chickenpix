@@ -70,7 +70,7 @@ sortByInitiative(const CFighter& a, const CFighter& b){
 
 /**
  */
-CFightSystem::CFightSystem( const std::string &name,EntityManager &em): System( name, em), endOfFight(false){
+CFightSystem::CFightSystem( const std::string &name, EntityManager &em): System( name), endOfFight(false){
 	/*curState = new CRoundInit;
 	if ( !curState ) throw "[CFightEngine] failed.";
     CDice<>::init();*/

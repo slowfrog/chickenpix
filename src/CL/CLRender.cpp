@@ -5,19 +5,19 @@
 #include "../BVisual.h"
 #include "CLVisualContext.h"
 
-CLRender::CLRender(string const &name, EntityManager &em, unsigned int width, unsigned int height):
-  Render(name, em), width_(width), height_(height), window_(NULL) {
+CLRender::CLRender(string const &name, unsigned int width, unsigned int height):
+  Render(name), width_(width), height_(height), window_(NULL) {
 }
 
 CLRender::~CLRender() {
 }
 
 void
-CLRender::init() {
+CLRender::init(EntityManager &em) {
   window_ = new CL_DisplayWindow("CL chickenpix", width_, height_);
   window_->set_size(width_, height_, true); // Must re-set the size on Linux, otherwise the window
                                             // frame eats some client area
-  Entity *clstate = _em.createEntity();
+  Entity *clstate = em.createEntity();
   clstate->addComponent(new CLResources(*window_));
 }
 
@@ -38,7 +38,7 @@ CLRender::paint(VisualContext &vc) {
 }
 
 void
-CLRender::exit() {
+CLRender::exit(EntityManager &em) {
   delete window_;
   window_ = NULL;
 }

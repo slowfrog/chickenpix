@@ -42,7 +42,7 @@ EntityManager::getById(Entity::Id id) {
   if ((id > 0) && (id < _entities.size())) {
     return _entities[id];
   }
-  throw string("No such entity to get");
+  return NULL;
 }
 
 void
@@ -112,6 +112,13 @@ EntityManager::getFirst(Component::Type t) {
     }
   }
   return NULL;
+}
+
+void EntityManager::addEntity( Entity *e){
+  assert(e);
+  if ( !getFirst( e->getId())) {
+    _entities.push_back( e);
+  }
 }
 
 void
