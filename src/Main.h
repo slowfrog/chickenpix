@@ -34,7 +34,7 @@ runGame( CSystemFactory* pFac) {
                                                   "beach"                     // Level name
                                                  );                   
   assert( loader);
-  Inputs    *inputs     = pFac->createInputs    ( "Inputs");
+  Inputs    *inputs     = pFac->createInputs    ( "MainInputs");
   assert( inputs);
   Scripting *scripting  = pFac->createScripting ( "Scripting");
   assert( scripting);
@@ -58,12 +58,12 @@ runGame( CSystemFactory* pFac) {
                                             ""                             // Level name
                                           ); 
   assert( loaderMenu);
-  Inputs  *inputsMenu = pFac->createInputs    ( "Inputs");
-  assert( inputsMenu);
+  //Inputs  *inputsMenu = pFac->createInputs    ( "MenuInputs");
+  //assert( inputsMenu);
   // Register system tp manager
   SysMng.registerSystem( "Menu", render);
   SysMng.registerSystem( "Menu", loaderMenu);
-  SysMng.registerSystem( "Menu", inputsMenu);
+  SysMng.registerSystem( "Menu", inputs);
   // Call init on all system for "Main"
   SysMng.SystemInit   ( SysMng.getByName( "Menu"));
     
@@ -84,9 +84,14 @@ runGame( CSystemFactory* pFac) {
     SysMng.SystemUpdate( SysMng.getByRef(), now);
     
     // hehe c est tres moche mais bon ...
-    if ( ((Inputs*)SysMng.getCurrentSystemByType( INPUTS_TYPE))->isExitRequested() ){
-    //if (inputs->isExitRequested()) {
+    Inputs *curInputs = (Inputs*) SysMng.getCurrentSystemByType( INPUTS_TYPE);
+    if (curInputs->isExitRequested()) {
+      break;
+    }
+    if (curInputs->getInputState()->isKeyDown(InputState::Tab)) {
       std::string tmp = SysMng.getName();
+      cout << "Switching from " << tmp << " to " << NextMode <<
+        " (curInputs is " << curInputs->toString() << ")" << endl;
       SysMng.setCurrent( NextMode);
       NextMode = tmp;
       //break;

@@ -17,7 +17,8 @@ static int KEYMAP[] = {
   CL_KEY_DOWN,
   CL_KEY_LEFT,
   CL_KEY_RIGHT,
-  CL_KEY_ESCAPE
+  CL_KEY_ESCAPE,
+  CL_KEY_TAB
 };
 
 static int BUTTONMAP[] = {

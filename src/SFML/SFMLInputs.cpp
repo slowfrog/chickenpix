@@ -49,7 +49,7 @@ SFMLInputs::getInputState() const {
 string
 SFMLInputs::toString() const {
   ostringstream out;
-  out << "{SFMLInputs-System}" << ends;
+  out << "{SFMLInputs-System " << getName() << "}" << ends;
   return out.str();
 }
 

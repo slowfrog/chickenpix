@@ -63,7 +63,7 @@ CLInputs::exit(EntityManager &em) {
 string
 CLInputs::toString() const {
   ostringstream out;
-  out << "{CLInputs-System}" << ends;
+  out << "{CLInputs-System " << getName() << "}" << ends;
   return out.str();
 }
 

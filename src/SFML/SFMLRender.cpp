@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include "../log.h"
 #include "../SystemRegistry.h"
 #include "../TagEntityManager.h"
 #include "../Transform.h"
@@ -52,9 +53,13 @@ SFMLRender::paint(VisualContext &vc) {
 
 void
 SFMLRender::exit( EntityManager&) {
-  window_->Close();
-  delete window_;
-  window_ = NULL;
+  if (window_ != NULL) {
+    window_->Close();
+    delete window_;
+    window_ = NULL;
+  } else {
+    LOG2 << "SFMLRender::exit has already been called\n";
+  }
 }
 
 string

@@ -15,8 +15,10 @@ Inputs::Inputs( string const &name):
 Inputs::~Inputs() {
 }
 
-static map<string, void(*)(EntityManager &, Entity &, InputState const &, int)>
-CONTROLLERS;
+typedef void (*ControllerUpdate)(EntityManager &, Entity &,
+                                 InputState const &, int);
+
+static map<string, ControllerUpdate> CONTROLLERS;
 
 void
 Inputs::init( EntityManager &em) {
@@ -29,9 +31,7 @@ Inputs::update(EntityManager &em, int now) {
   pumpEvents();
 
   InputState const *state = getInputState();
-  if (state->isKeyDown(InputState::Escape)) {
-    exitRequested_ = true;
-  }
+  exitRequested_ = state->isKeyDown(InputState::Escape);
   
   vector<Entity *> entities = em.getEntities(Input::TYPE);
   for (vector<Entity *>::iterator it = entities.begin();
@@ -42,6 +42,7 @@ Inputs::update(EntityManager &em, int now) {
   }
 
   if (exitRequested_) {
+    LOG2 << "Exit requested at " << now << "\n";
     return;
   }
 

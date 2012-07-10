@@ -1,4 +1,5 @@
 #include <sstream>
+#include "../log.h"
 #include "CLRender.h"
 #include "CLResources.h"
 #include "../Transform.h"
@@ -39,8 +40,12 @@ CLRender::paint(VisualContext &vc) {
 
 void
 CLRender::exit(EntityManager &em) {
-  delete window_;
-  window_ = NULL;
+  if (window_ != NULL) {
+    delete window_;
+    window_ = NULL;
+  } else {
+    LOG2 << "CLRender::exit has already been called\n";
+  }
 }
 
 string

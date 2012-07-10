@@ -20,6 +20,7 @@ sf::Key::Code KEYMAP[] = {
   sf::Key::Left,
   sf::Key::Right,
   sf::Key::Escape,
+  sf::Key::Tab,
 };
 
 static

@@ -40,7 +40,8 @@ public:
     Down = 12,
     Left = 13,
     Right = 14,
-    Escape = 15
+    Escape = 15,
+    Tab =16
   };
 
   inline
