@@ -6,26 +6,6 @@
 #include "../Resources.h"
 #include "../Transform.h"
 
-int KEYMAP[] = {
-  CL_KEY_0,
-  CL_KEY_1,
-  CL_KEY_2,
-  CL_KEY_3,
-  CL_KEY_4,
-  CL_KEY_5,
-  CL_KEY_6,
-  CL_KEY_7,
-  CL_KEY_8,
-  CL_KEY_9,
-  CL_KEY_SPACE,
-  CL_KEY_UP,
-  CL_KEY_DOWN,
-  CL_KEY_LEFT,
-  CL_KEY_RIGHT,
-  CL_KEY_ESCAPE
-};
-
-
 CLInputs::CLInputs(string const &name):
   Inputs(name), keyboard_(NULL), mouse_(NULL), state_(NULL) {
 }

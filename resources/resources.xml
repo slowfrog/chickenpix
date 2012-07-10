@@ -99,7 +99,7 @@
               array="1,1" />
       </image>
     </sprite>
-    <sprite name="still">
+    <sprite name="man_still">
       <image file="img/male_blur.png">
         <grid pos="0,0"
               size="64,64"

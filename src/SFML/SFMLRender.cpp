@@ -21,19 +21,16 @@ SFMLRender::~SFMLRender() {
 
 void
 SFMLRender::init( EntityManager &em) {
-  CTagEntityMng::TEntityId id = CTagEntityMng::get()->getEntityByTag( RENDER);
-  Entity *clstate = em.getById( id);
-  
-  if ( !mWindowReady){
-    window_ = new sf::RenderWindow(sf::VideoMode(width_, height_, 32), "SFML chickenpix",
-                                   sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close);
-     mWindowReady = true;
+  if (window_ == NULL) {
+    window_ = new sf::RenderWindow(sf::VideoMode(width_, height_, 32),
+                                   "SFML chickenpix",
+                                   sf::Style::Titlebar | sf::Style::Resize |
+                                   sf::Style::Close);
+    mWindowReady = true;
   }
   
-  if ( !clstate){
-    clstate = em.createEntity();
-    clstate->addComponent(new SFMLResources(*window_));
-  }
+  Entity *clstate = em.createEntity();
+  clstate->addComponent(new SFMLResources(*window_));
 }
 
 VisualContext *

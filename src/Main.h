@@ -58,12 +58,12 @@ runGame( CSystemFactory* pFac) {
                                             ""                             // Level name
                                           ); 
   assert( loaderMenu);
-  //Inputs  *inputsMenu = pFac->createInputs    ( "MenuInputs");
-  //assert( inputsMenu);
+  Inputs  *inputsMenu = pFac->createInputs    ( "MenuInputs");
+  assert( inputsMenu);
   // Register system tp manager
   SysMng.registerSystem( "Menu", render);
   SysMng.registerSystem( "Menu", loaderMenu);
-  SysMng.registerSystem( "Menu", inputs);
+  SysMng.registerSystem( "Menu", inputsMenu);
   // Call init on all system for "Main"
   SysMng.SystemInit   ( SysMng.getByName( "Menu"));
     
@@ -76,6 +76,7 @@ runGame( CSystemFactory* pFac) {
   TimerClass timer;
   int prev = timer.getTime();
 
+  bool justSwitched = false;
   // One step
   while (true) {
     int now = timer.getTime();
@@ -89,12 +90,17 @@ runGame( CSystemFactory* pFac) {
       break;
     }
     if (curInputs->getInputState()->isKeyDown(InputState::Tab)) {
-      std::string tmp = SysMng.getName();
-      cout << "Switching from " << tmp << " to " << NextMode <<
-        " (curInputs is " << curInputs->toString() << ")" << endl;
-      SysMng.setCurrent( NextMode);
-      NextMode = tmp;
-      //break;
+      if (!justSwitched) {
+        justSwitched = true;
+        std::string tmp = SysMng.getName();
+        cout << "Switching from " << tmp << " to " << NextMode <<
+          " (curInputs is " << curInputs->toString() << ")" << endl;
+        SysMng.setCurrent( NextMode);
+        NextMode = tmp;
+        //break;
+      }
+    } else {
+      justSwitched = false;
     }
 
     prev = now;

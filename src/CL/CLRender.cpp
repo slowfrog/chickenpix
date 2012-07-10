@@ -15,9 +15,12 @@ CLRender::~CLRender() {
 
 void
 CLRender::init(EntityManager &em) {
-  window_ = new CL_DisplayWindow("CL chickenpix", width_, height_);
-  window_->set_size(width_, height_, true); // Must re-set the size on Linux, otherwise the window
-                                            // frame eats some client area
+  if (window_ == NULL) {
+    window_ = new CL_DisplayWindow("CL chickenpix", width_, height_);
+    // Must re-set the size on Linux, otherwise the window
+    // frame eats some client area
+    window_->set_size(width_, height_, true);
+  }                                      
   Entity *clstate = em.createEntity();
   clstate->addComponent(new CLResources(*window_));
 }
