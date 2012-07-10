@@ -73,6 +73,10 @@ Scripting::getScript(string const &name) {
     PyObject *initFunc = getFunction(pModule, "init", name);
     PyObject *updateFunc = getFunction(pModule, "update", name);
     PyObject *exitFunc = getFunction(pModule, "exit", name);
+    if (PyErr_Occurred()) {
+      // If one of the functions has not been found, don't care
+      PyErr_Clear();
+    }
     ScriptInfo info = {pModule, initFunc, updateFunc, exitFunc};
     _scriptCache[name] = info;
   }

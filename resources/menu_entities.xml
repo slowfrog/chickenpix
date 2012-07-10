@@ -21,12 +21,23 @@
     
 	<!-- create entity -->
     <entity>
+      <components>
+        <component type="Transform"><position x="400" y="300" /></component>
+        <component type="Camera"
+                   offsetX="0" offsetY="0"
+                   width="800" height="600" />
+        <component type="Scriptable"><script name="menu" /></component>
+        <component type="Input" />
+      </components>
+    </entity>
+    <entity>
         <tags>
-            <tag name="LABEL"></tag>
+            <tag name="START"></tag>
+            <tag name="SELECTED"></tag>
 		</tags>
         <components>
             <component type="Transform">
-                <position x="200" y="200"/>
+                <position x="300" y="170"/>
             </component>
             <component type="Resources" kind="font" z-order="99">
                 <text>Start Game</text>
@@ -34,20 +45,31 @@
             </component>
         </components>
     </entity>
-    
     <entity>
         <tags>
-            <tag name="LABEL"></tag>
+            <tag name="QUIT"></tag>
 		</tags>
         <components>
-            <component type="Camera"
-                       offsetX="100" offsetY="100"
-                       width="600" height="600" />
             <component type="Transform">
-                <position x="200" y="250"/>
+                <position x="300" y="270"/>
             </component>
             <component type="Resources" kind="font" z-order="99">
                 <text>Quit Game</text>
+                <police name="sans_big"/>
+                <color r="255" g="255" b="0" a="128"/>
+            </component>
+        </components>
+    </entity>
+    <entity>
+        <tags>
+            <tag name="CREDITS"></tag>
+		</tags>
+        <components>
+            <component type="Transform">
+                <position x="300" y="370"/>
+            </component>
+            <component type="Resources" kind="font" z-order="99">
+                <text>Credits</text>
                 <police name="sans_big"/>
                 <color r="255" g="255" b="0" a="128"/>
             </component>

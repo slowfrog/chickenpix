@@ -64,6 +64,7 @@ runGame( CSystemFactory* pFac) {
   SysMng.registerSystem( "Menu", render);
   SysMng.registerSystem( "Menu", loaderMenu);
   SysMng.registerSystem( "Menu", inputsMenu);
+  SysMng.registerSystem( "Menu", scripting);
   // Call init on all system for "Main"
   SysMng.SystemInit   ( SysMng.getByName( "Menu"));
     

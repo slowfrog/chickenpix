@@ -51,8 +51,8 @@ def update(self, manager):
             
     if self.times == 0:
         print("TOTO: My id is %d and I have %d components: %s" %
-              (self.id(),
-               len(self.getComponents()),
+              (self.id,
+               len(self.components),
                ", ".join(c.typeName() for c in self.getComponents())))
         print("My tags are [%s]" % ", ".join(self.getTags()))
         entities = manager.getEntities(cp.Transform.TYPE) #, cp.Visual)

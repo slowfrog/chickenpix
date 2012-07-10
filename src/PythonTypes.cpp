@@ -192,14 +192,16 @@ static PyMethodDef EntityManager_methods[] = {
 
 // Entity methods
 static PyObject *
-Entity_id(PyEntity *self) {
-  PyObject *ret = PyInt_FromLong(self->wentity->getId());
+Entity_id(PyObject *self, void *) {
+  PyEntity *pyent = (PyEntity *) self;
+  PyObject *ret = PyInt_FromLong(pyent->wentity->getId());
   return ret;
 }
 
 static PyObject *
-Entity_getComponents(PyEntity *self) {
-  Entity *entity = self->wentity;
+Entity_getComponents(PyObject *self, void *) {
+  PyEntity *pyent = (PyEntity *) self;
+  Entity *entity = pyent->wentity;
   vector<Component *> const &components = entity->getComponents();
   int size = components.size();
   PyObject *ret = PyList_New(size);
@@ -280,9 +282,14 @@ Entity_getDict(PyEntity *self) {
   return ret;
 }
 
+static PyGetSetDef Entity_getset[] = {
+  { (char *) "id", Entity_id, NULL, (char *) "The id of the entity" },
+  { (char *) "components", Entity_getComponents, NULL,
+    (char *) "All components of the entity" },
+  {NULL} /* End of list */
+};
+
 static PyMethodDef Entity_methods[] = {
-  {"id", (PyCFunction) Entity_id, METH_NOARGS, "Id of the entity" },
-  {"getComponents", (PyCFunction) Entity_getComponents, METH_NOARGS, "Get all components of the entity" },
   {"getComponent", (PyCFunction) Entity_getComponent, METH_VARARGS, "Get the component with a given type" },
   {"addComponent", (PyCFunction) Entity_addComponent, METH_VARARGS, "Add a component to the entity" },
   {"removeComponent", (PyCFunction) Entity_removeComponent, METH_VARARGS, "Remove a component from the entity" },
@@ -291,20 +298,45 @@ static PyMethodDef Entity_methods[] = {
   {NULL} /* End of list */
 };
 
+static PyGetSetDef *My_FindGetSet(PyGetSetDef *getset, char *name) {
+  for (int i = 0; getset[i].name != NULL; ++i) {
+    if (strcmp(getset[i].name, name) == 0) {
+      return &getset[i];
+    }
+  }
+  return NULL;
+}
+
 static int
 Entity_setAttr(PyObject *self, PyObject *key, PyObject *val) {
   PyObject *method = Py_FindMethod(Entity_methods, self, PyString_AsString(key));
   if (method != NULL) {
     ostringstream out;
-    out << "Trying to override method: '" << PyString_AsString(key) << "'" << ends;
+    out << "Trying to override method: '" << PyString_AsString(key) << "'" <<
+      ends;
     PyErr_SetString(PyExc_RuntimeError, out.str().c_str());
     return -1;
-  } else {
-    PyErr_Clear();
-    WrappedEntity *wentity = ((PyEntity *) self)->wentity;
-    int ret = wentity->setItem(key, val);
-    return ret;
   }
+  
+  PyGetSetDef *getset = My_FindGetSet(Entity_getset, PyString_AsString(key));
+  if (getset != NULL) {
+    if (getset->set == NULL) {
+      ostringstream out;
+      out << "Trying to override read-only attribute: '" <<
+        PyString_AsString(key) << "'" << ends;
+      PyErr_SetString(PyExc_RuntimeError, out.str().c_str());
+      return -1;
+      
+    } else {
+      PyErr_Clear();
+      return getset->set(self, val, getset->closure);
+    }
+  }
+
+  PyErr_Clear();
+  WrappedEntity *wentity = ((PyEntity *) self)->wentity;
+  int ret = wentity->setItem(key, val);
+  return ret;
 }
 
 static PyObject *
@@ -312,11 +344,17 @@ Entity_getAttr(PyObject *self, PyObject *key) {
   PyObject *method = Py_FindMethod(Entity_methods, self, PyString_AsString(key));
   if (method != NULL) {
     return method;
-  } else {
-    PyErr_Clear();
-    WrappedEntity *wentity = ((PyEntity *) self)->wentity;
-    return wentity->getItem(key);
   }
+  
+  PyGetSetDef *getset = My_FindGetSet(Entity_getset, PyString_AsString(key));
+  if (getset != NULL) {
+    PyErr_Clear();
+    return getset->get(self, getset->closure);
+  }
+  
+  PyErr_Clear();
+  WrappedEntity *wentity = ((PyEntity *) self)->wentity;
+  return wentity->getItem(key);
 }
 
 // Component methods
@@ -362,6 +400,7 @@ initcp(EntityManager *em) {
   PyEntityType.tp_doc = "Type of entities";
   PyEntityType.tp_new = PyType_GenericNew; // Remove ?
   PyEntityType.tp_methods = Entity_methods;
+  PyEntityType.tp_getset = Entity_getset;
   PyEntityType.tp_getattro = Entity_getAttr;
   PyEntityType.tp_setattro = Entity_setAttr;
   if (PyType_Ready(&PyEntityType) < 0) {
