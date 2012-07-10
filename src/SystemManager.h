@@ -1,7 +1,6 @@
 #pragma once
 #include <map>
 #include <vector>
-#include "Singleton.h"
 #include "System.h"
 #include "EntityManager.h"
 
@@ -10,7 +9,7 @@
  Goal : manage several systems from one entity Manager
         Allow switch between entity manager
  */
-class CSystemManager : public CSingleton<CSystemManager> {
+class CSystemManager {
 public:
   typedef std::string                       TId;  // Entity Manager name
   
@@ -29,14 +28,20 @@ public:
   void registerSystem         ( const std::string&, System*);
   void setCurrent             ( const std::string&);
   
-  void SystemInit   ();
+  void SystemInit   ( EntityManager&);
+  void SystemInit   ( );
+  void SystemUpdate ( EntityManager&, int);
   void SystemUpdate ( int);
-  void SystemExit   ();
+  void SystemExit   ( EntityManager&);
+  void SystemExit   ( );
   
-  // Accessor
-  EntityManager     *getCurrentEntityManager();
+  // Accessor(s)
+  EntityManager     &getByName( const std::string&);
+  EntityManager     &getByRef();
   TSystemCollection &getCurrentSystem();
-  System            *getSystemByType( const SystemType); 
+  System            *getCurrentSystemByType( const SystemType);
+  
+  const TId         getName() const;
   
 protected:
   // Get entity manager by its name
@@ -49,7 +54,6 @@ private:
   TMapEMSystem          mMapEMSys;
   TEntityMngCollection  mvEM;
   // Manage current elments
-  TId                   mCurEMName;
   TSystemCollection     *mCurVecSys;
-  EntityManager         *mCurEM;
+  EntityManager         *mEMng;
 };

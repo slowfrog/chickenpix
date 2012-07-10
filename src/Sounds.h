@@ -6,12 +6,12 @@ class EntityManager;
 
 class Sounds: public System {
 public:
-  Sounds(const string &name, EntityManager &em);
+  Sounds(const string &name);
   virtual ~Sounds();
 
-  virtual void init();
-  virtual void update(int now);
-  virtual void exit();
+  virtual void init   ( EntityManager &em);
+  virtual void update ( EntityManager &em, int now);
+  virtual void exit   ( EntityManager &em);
 
   inline
   virtual SystemType getType() const {

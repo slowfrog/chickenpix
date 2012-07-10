@@ -12,8 +12,9 @@ public:
   virtual ~SFMLSystemFactory();
   
   // Specific system
-  virtual Loader *createLoader( EntityManager&, const std::string&, const std::string&, const std::string&);
-  virtual Render *createRender( EntityManager&, const std::string&, const unsigned int, const unsigned int);
-  virtual Inputs *createInputs( EntityManager&, const std::string&);
+  virtual Loader *createLoader( const std::string&, const std::string&,
+                                const std::string&, const std::string&);
+  virtual Render *createRender( const std::string&, const unsigned int, const unsigned int);
+  virtual Inputs *createInputs( const std::string&);
 };
 

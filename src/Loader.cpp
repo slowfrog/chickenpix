@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 #include <sstream>
 #include <map>
@@ -16,59 +17,75 @@
 
 static const int BASE_MAP_ZORDER = -5;
 
-Loader::Loader(string const &name, EntityManager &em, string const &resourceFile):
-System(name, em), resourceFile(resourceFile) {
+Loader::Loader( string const &name):
+System( name), resourceFile( ""), meFile( ""), mLevel( "") {
 }
 
 Loader::~Loader() {
 }
 
+// Setter(s)
+void 
+Loader::setResources( const std::string &aFile){
+  resourceFile = aFile;
+}
+
+void 
+Loader::setEntities ( const std::string &aFile){
+  meFile = aFile;
+}
+
+void 
+Loader::setLevel( const std::string &alevel){
+  mLevel = alevel;
+}
+
+// System Interface(s)
 void
-Loader::init() {
-  // Load resources
-  initResources();
-  // Add resources
-  //Resources *resources = _em.getComponent<Resources>();
-  
-  /*
-  addImage("resources/img/map.png", resources, "map");
-  addImage("resources/img/cochon.png", resources, "pig");
-  addImage("resources/img/garcon_des_rues.png", resources, "streetboy");
-  addImage("resources/img/magicien.png", resources, "wizard");
-  addImage("resources/img/maire.png", resources, "mayor");
-  addImage("resources/img/princesse.png", resources, "princess");
-  addImage("resources/img/richard.png", resources, "richard");
-  
-  addFont("resources/fonts/BerkshireSwash-Regular.ttf", 30, resources, "sans_big");
-  addFont("resources/fonts/BerkshireSwash-Regular.ttf", 8, resources, "sans_small");
-  
-  addSprite("sprites/walk_up", resources, "man_walk_up");
-  addSprite("sprites/walk_left", resources, "man_walk_left");
-  addSprite("sprites/walk_down", resources, "man_walk_down");
-  addSprite("sprites/walk_right", resources, "man_walk_right");
-  addSprite("sprites/stand_up", resources, "man_stand_up");
-  addSprite("sprites/stand_left", resources, "man_stand_left");
-  addSprite("sprites/stand_down", resources, "man_stand_down");
-  addSprite("sprites/stand_right", resources, "man_stand_right");
-  addSprite("sprites/wait", resources, "man_still");
-   */
-  
-  // Load start level
-  loadLevel("beach");
+Loader::init( EntityManager &em) {
+  // Create resources
+  initResources ( em);
+  // Load entities and level
+  loadEntities  ( em);
+  loadLevel     ( em);
 }
 
 void
-Loader::update(int now) {
+Loader::update( EntityManager&, int) {
 }
 
 void
-Loader::exit() {
+Loader::exit( EntityManager&) {
+}
+
+// Build and init resources/entities
+void 
+Loader::initResources( EntityManager &em){
+  if ( !resourceFile.empty()) {
+    // get resources
+    Resources *resources = em.getComponent<Resources>();
+    assert( resources);
+    // Add resources
+    addImage  ( resources);
+    addFont   ( resources);
+    addSprites( resources);
+    addAudio  ( resources);
+  }
 }
 
 void
-Loader::createImage(ImagePart const &part, float x, float y, int zOrder,
-                    Resources *resources) const {
-  Entity *img = _em.createEntity();
+Loader::createImage(
+                    EntityManager     &em,
+                    ImagePart const   &part, 
+                    float             x, 
+                    float             y, 
+                    int               zOrder,
+                    Resources         *resources
+                    ) const 
+{
+  // Create entity
+  Entity *img = em.createEntity();
+  // Set properties
   img->addComponent(new Transform(x, y));
   BVisual *image = resources->makeImage(part);
   image->setZOrder(zOrder);
@@ -76,59 +93,33 @@ Loader::createImage(ImagePart const &part, float x, float y, int zOrder,
 }
 
 void
-Loader::loadLevel(string const &name) {
-  // Get resources
-  Resources *resources = _em.getComponent<Resources>();
-  if ( !resFile.empty() ){
-    // Use Builder to create resources
-    CEntityBuilder eb( resFile); // File is hardcoded but this should be change
-    eb.parseResources( this, resources);
-    // Load map (tmx)
-    loadTmxMap(string("resources/maps/") + name + ".tmx");
-    // Use builder to create entities
-    eb.parseEntity   ( _em, resources);
-  }else {
-    throw "xml desc file for entities is missing";
+Loader::loadLevel( EntityManager &em) {
+  if ( !mLevel.empty() ) {
+    // Load map
+    loadTmxMap(em, string("resources/maps/") + mLevel + ".tmx");
   }
+}
 
-  
-  
-  // Hard coded start level
-  //createImage("map", -150, -250, resources);
-  
-  //createImage("pig", 210, 635, resources);
-  
-  // createImage("streetboy", 50, 350, resources);
-  // createImage("mayor", 90, 350, resources);
-  // createImage("princess", 130, 350, resources);
-  // createImage("wizard", 170, 350, resources);
-  // createImage("richard", 210, 350, resources);
-  
-  /*
-  Entity *hero = _em.createEntity();
-  hero->addComponent(new Transform(410, 620));
-  hero->addComponent(new Animated("man_stand_down"));
-  hero->addComponent(new Input());
-  hero->addComponent(new Scriptable("toto"));
-  hero->addComponent(new Mobile());
-  hero->addComponent(new Camera());
-  _em.tagEntity(hero, "HERO", true);
-  _em.tagEntity(hero, "DummyTag");
-  
-  Entity *text = _em.createEntity();
-  text->addComponent(new Transform(290, 475));
-  text->addComponent(resources->makeText("Chickenpix!", "sans_big", CPColor(255, 255, 0, 128)));
-  _em.tagEntity(text, "LABEL");
-  text = _em.createEntity();
-  text->addComponent(new Transform(235, 365));
-  text->addComponent(resources->makeText("Press [ESC] to quit...", "sans_small"));
-  _em.tagEntity(text, "LABEL");
-  */
+void 
+Loader::loadEntities( EntityManager &em){
+
+  if ( !meFile.empty()){
+    // Get resources
+    Resources *resources = em.getComponent<Resources>();
+    assert( resources);
+    // Use Builder to create resources
+    CEntityBuilder eb( meFile);
+    // Use builder to create entities
+    eb.parseEntity   ( em, resources);
+  }
+  else {
+    LOG2ERR<< "Cannot access xml file for entities description\n";
+  }
 }
 
 void
-Loader::loadTmxMap(string const &name) const {
-  Resources *resources = _em.getComponent<Resources>();
+Loader::loadTmxMap( EntityManager &em, string const &name) const {
+  Resources *resources = em.getComponent<Resources>();
   
   // Tmx Parser
   Tmx::Map map;
@@ -192,20 +183,15 @@ Loader::loadTmxMap(string const &name) const {
             }
             const Tmx::Tileset *tileset = map.GetTileset(tile.tilesetId);
             // cout << tile.tilesetId << "|" << tileset->GetFirstGid() + tile.id << " ";
-            createImage(tilesetImages[tileset->GetFirstGid() + tile.id],
-                        (float) x * map.GetTileWidth(), (float) y * map.GetTileHeight(),
-                        BASE_MAP_ZORDER + i, resources);
+            createImage( em, tilesetImages[tileset->GetFirstGid() + tile.id],
+                         (float) x * map.GetTileWidth(), (float) y * map.GetTileHeight(),
+                         BASE_MAP_ZORDER + i, resources);
           }
           // cout << "]" << endl;
         }
       }
     }
   }
-}
-
-void 
-Loader::setEntitiesDesc( const std::string& file){
-  resFile = file;
 }
 
 string

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <cassert>
 #include "Types.h"
 #include "Entity.h"
 
@@ -29,9 +30,10 @@ public:
   int getSize() const;
   
   Entity *createEntity();
-  Entity *getEntity(Entity::Id id);
-  void destroyEntity(Entity::Id id);
-  void destroyEntity(Entity *entity);
+  Entity *getEntity ( Entity::Id id);
+  void addEntity    ( Entity*);
+  void destroyEntity( Entity::Id id);
+  void destroyEntity( Entity *entity);
   
   /**
    * When you need to store entities of a more specific type, you should call replaceEntity to notify
@@ -42,9 +44,9 @@ public:
   void replaceEntity(Entity::Id id, Entity *replacement);
 
   TEntityList getEntities() const;
-  TEntityList  getEntities(Component::Type t);
-  TEntityList  getEntities(Component::Type t1, Component::Type t2);
-  Entity *getEntity(Component::Type t);
+  TEntityList getEntities(Component::Type t);
+  TEntityList getEntities(Component::Type t1, Component::Type t2);
+  Entity      *getEntity (Component::Type t);
 
   /**
    * Tags management
@@ -62,6 +64,7 @@ public:
 template<class T>
 T *EntityManager::getComponent() {
   Entity *entity = getEntity(T::TYPE);
+  assert( entity);
   Component *comp = entity->getComponent(T::TYPE);
   return (T *)comp;
 }

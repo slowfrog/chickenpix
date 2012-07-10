@@ -20,13 +20,16 @@ public:
   virtual ~CSystemFactory(){}
   
   // Specific
-  virtual Loader *createLoader( EntityManager&, const std::string&, const std::string&, const std::string&) =0;
-  virtual Render *createRender( EntityManager&, const std::string&, const unsigned int, const unsigned int) =0;
-  virtual Inputs *createInputs( EntityManager&, const std::string&) =0;
+  virtual Loader *createLoader( const std::string&, const std::string&,
+                                const std::string&, const std::string&) =0;
+  virtual Render *createRender( const std::string&, const unsigned int, const unsigned int) =0;
+  virtual Inputs *createInputs( const std::string&) =0;
   
   // Common
-  Scripting *createScripting( EntityManager&, const std::string&);
-  Movement  *createMovement ( EntityManager&, const std::string&);
-  Animation *createAnimation( EntityManager&, const std::string&);
-  Sounds    *createSounds   ( EntityManager&, const std::string&);
+  Scripting *createScripting( const std::string&);
+  Movement  *createMovement ( const std::string&);
+  Animation *createAnimation( const std::string&);
+  Sounds    *createSounds   ( const std::string&);
 };
+
+

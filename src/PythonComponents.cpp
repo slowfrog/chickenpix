@@ -410,7 +410,7 @@ PyObject *InputState_isKeyDown(PyInputState *self, PyObject *args) {
     Py_INCREF(Py_None);
     return Py_None;
   }
-  if (self->state->isKeyDown((InputState::Key) key)) {
+  if (self->state && self->state->isKeyDown((InputState::Key) key)) {
     Py_RETURN_TRUE;
   } else {
     Py_RETURN_FALSE;
@@ -427,7 +427,7 @@ PyObject *InputState_isButtonDown(PyInputState *self, PyObject *args) {
     Py_INCREF(Py_None);
     return Py_None;
   }
-  if (self->state->isButtonDown((InputState::MouseButton) button)) {
+  if ( self->state && self->state->isButtonDown((InputState::MouseButton) button)) {
     Py_RETURN_TRUE;
   } else {
     Py_RETURN_FALSE;

@@ -5,22 +5,22 @@
 #include "Resources.h"
 #include "Mobile.h"
 
-Animation::Animation(string const &name, EntityManager &em):
-  System(name, em) {
+Animation::Animation( string const &name):
+  System( name) {
 }
 
 Animation::~Animation() {
 }
 
 void
-Animation::init() {
+Animation::init( EntityManager&) {
 }
 
 void
-Animation::update(int now) {
-  Resources *resources = _em.getComponent<Resources>();
+Animation::update(EntityManager &em, int now) {
+  Resources *resources = em.getComponent<Resources>();
 
-  Entity *entity = _em.getEntity(_em.getFirstByTag("HERO"));
+  Entity *entity = em.getEntity( em.getFirstByTag("HERO"));
   Mobile *m = entity->getComponent<Mobile>();
   Animated *a = entity->getComponent<Animated>();
   if (m->getSpeedX() < 0) {
@@ -38,7 +38,7 @@ Animation::update(int now) {
     }
   }
   
-  vector<Entity *> anims = _em.getEntities(Animated::TYPE);
+  vector<Entity *> anims = em.getEntities(Animated::TYPE);
   for (vector<Entity *>::iterator it = anims.begin(); it < anims.end(); it++) {
     Entity *entity = *it;
     Animated *anim = entity->getComponent<Animated>();
@@ -51,7 +51,7 @@ Animation::update(int now) {
 }
 
 void
-Animation::exit() {
+Animation::exit( EntityManager&) {
 }
 
 string

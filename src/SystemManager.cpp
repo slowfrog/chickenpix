@@ -1,13 +1,15 @@
 #include <cassert>
 #include <algorithm>
 #include "log.h"
+#include "SystemRegistry.h"
+#include "TagEntityManager.h"
 #include "SystemManager.h"
 
 // Constants
 #define BAD_INDEX -1
 
 // Constructor / Destuctor
-CSystemManager::CSystemManager():mCurEMName(""), mCurEM(0){
+CSystemManager::CSystemManager():mEMng( NULL), mCurVecSys( NULL){
 }
 
 CSystemManager::~CSystemManager(){
@@ -41,7 +43,7 @@ CSystemManager::createEntityManager( const std::string &name){
   if ( it == mMapEMSys.end() ){
     mvEM.push_back( new EntityManager( name));
     TSystemCollection vSystem;
-    vSystem.resize( MAX_SYSTEM);
+    vSystem.resize( MAX_SYSTEM); // size for all systems
     LOG2 << "["<< name<<"][Systems].size()=" << vSystem.size()<< "\n";
     mMapEMSys.insert( std::pair<TId, TSystemCollection>( name, vSystem));
   }
@@ -54,7 +56,7 @@ void
 CSystemManager::registerSystem( const std::string &name, System *sys){
   // Check system
   if ( !sys){
-    LOG2 << "Try to register [NULL] System to entity Manager [" << name<<"]\n";
+    LOG2ERR << "Try to register [NULL] System to entity Manager [" << name<<"]\n";
     return;
   }
   // Add new system
@@ -65,11 +67,11 @@ CSystemManager::registerSystem( const std::string &name, System *sys){
       (*it).second[ sys->getType()] = sys;
     }
     else {
-      LOG2 << "System ["<<sys->getName()<<"] already in manager ["<<name<<"]\n";
+      LOG2ERR << "System ["<<sys->getName()<<"] already in manager ["<<name<<"]\n";
     }
   }
   else{
-    throw "Register system [" + sys->getName() + "] to unused manager " + name;
+    throw "Register system [" + sys->getName() + "] to unused manager [" + name +"]";
   }
 }
 
@@ -77,18 +79,21 @@ void
 CSystemManager::setCurrent( const std::string &name){
   TMapEMSystem::iterator it = mMapEMSys.find( name);
   if ( it != mMapEMSys.end()){
-    mCurEMName  = name;
     mCurVecSys  = &((*it).second);
-    mCurEM      = getEM( name);
+    mEMng       = getEM( name);
   }
   else{
     throw "Could not access current EntityManager ["+ name + "], not found."; 
   }
 }
 
-EntityManager* 
-CSystemManager::getCurrentEntityManager(){
-  return mCurEM;
+EntityManager&
+CSystemManager::getByRef(){
+  return *mEMng;
+}
+EntityManager&
+CSystemManager::getByName( const std::string& name){
+  return *getEM( name);
 }
 
 CSystemManager::TSystemCollection&
@@ -97,32 +102,69 @@ CSystemManager::getCurrentSystem(){
 }
 
 System*
-CSystemManager::getSystemByType( const SystemType type){
+CSystemManager::getCurrentSystemByType( const SystemType type){
   if ( type >=0 && type <END_OF_LIST){
     return (*mCurVecSys)[type];
   }
   throw "System type out of bound";
 }
 
+const CSystemManager::TId  
+CSystemManager::getName() const {
+  return mEMng->getName();
+}
+
 void 
+CSystemManager::SystemInit( EntityManager &em){
+  TSystemCollection  *pCollec(NULL);
+  TMapEMSystem::iterator it = mMapEMSys.find( em.getName());
+  pCollec = &((*it).second);
+  
+  if ( pCollec){
+    for (int i = 0; in_ex_itPath[i] != END_OF_LIST; ++i) {
+      System *sys = (*pCollec)[in_ex_itPath[i]];
+      if (sys) {
+        sys->init( em);
+      }
+    }
+  }
+}
+
+void
 CSystemManager::SystemInit(){
-  if ( mCurVecSys){
+  if ( mCurVecSys && mEMng){
     for (int i = 0; in_ex_itPath[i] != END_OF_LIST; ++i) {
       System *sys = (*mCurVecSys)[in_ex_itPath[i]];
       if (sys) {
-        sys->init();
+        sys->init( *mEMng);
       }
     }
   }
 }
 
 void 
-CSystemManager::SystemUpdate(int now){
-  if ( mCurVecSys){
+CSystemManager::SystemUpdate( int now){
+  if ( mCurVecSys && mEMng){
     for (int i = 0; updatePath[i] != END_OF_LIST; ++i) {
       System *sys = (*mCurVecSys)[updatePath[i]];
       if (sys) {
-        sys->update(now);
+        sys->update( *mEMng, now);
+      }
+    }
+  }
+}
+
+void 
+CSystemManager::SystemUpdate( EntityManager &em, int now){
+  TSystemCollection  *pCollec(NULL);
+  TMapEMSystem::iterator it = mMapEMSys.find( em.getName());
+  pCollec = &((*it).second);
+  
+  if ( pCollec){
+    for (int i = 0; updatePath[i] != END_OF_LIST; ++i) {
+      System *sys = (*pCollec)[updatePath[i]];
+      if (sys) {
+        sys->update( em, now);
       }
     }
   }
@@ -134,7 +176,23 @@ CSystemManager::SystemExit(){
     for (int i = END_OF_LIST - 1; i >= 0; --i) {
       System *sys = (*mCurVecSys)[in_ex_itPath[i]];
       if (sys) {
-        sys->exit();
+        sys->exit( *mEMng);
+      }
+    }
+  }
+}
+
+void 
+CSystemManager::SystemExit( EntityManager &em){
+  TSystemCollection  *pCollec(NULL);
+  TMapEMSystem::iterator it = mMapEMSys.find( em.getName());
+  pCollec = &((*it).second);
+  
+  if ( pCollec){
+    for (int i = END_OF_LIST - 1; i >= 0; --i) {
+      System *sys = (*pCollec)[in_ex_itPath[i]];
+      if (sys) {
+        sys->exit( em);
       }
     }
   }

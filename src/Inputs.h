@@ -10,13 +10,14 @@ protected:
   // Game state
   bool  fightMode_;
 public:
-  Inputs(string const &name, EntityManager &em);
+  Inputs(string const &name);
   virtual ~Inputs();
 
-  virtual void init();
+  virtual void init   ( EntityManager &em);
+  virtual void update ( EntityManager &em, int now);
+  virtual void exit   ( EntityManager &em) = 0;
+  
   virtual void pumpEvents() = 0;
-  virtual void update(int now);
-  virtual void exit() = 0;
   virtual InputState const *getInputState() const = 0;
 
   bool isExitRequested() const;

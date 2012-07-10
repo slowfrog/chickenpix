@@ -1,5 +1,14 @@
 #pragma once
 
+// List ofsystem Tags
+#define RENDER    "Render"
+#define LOADER    "Loader"
+#define INPUTS    "Inputs"
+#define SCRIPTING "Scripting"
+#define MOVEMENT  "Movement"
+#define ANIMATION "Animation"
+#define SOUNDS    "Sounds"
+
 // List of system available
 // Add here new system
 typedef enum {

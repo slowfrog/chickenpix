@@ -8,8 +8,8 @@
 #include "../Resources.h"
 
 
-SFMLInputs::SFMLInputs(string const &name, EntityManager &em):
-  Inputs(name, em), window_(NULL), state_(NULL) {
+SFMLInputs::SFMLInputs( string const &name):
+  Inputs( name), window_(NULL), state_(NULL) {
 }
 
 SFMLInputs::~SFMLInputs() {
@@ -18,9 +18,9 @@ SFMLInputs::~SFMLInputs() {
 }
 
 void
-SFMLInputs::init() {
-  Inputs::init();
-  Resources *resources = _em.getComponent<Resources>();
+SFMLInputs::init( EntityManager &em) {
+  Inputs::init( em);
+  Resources *resources = em.getComponent<Resources>();
   SFMLVisualContext &vc = (SFMLVisualContext &) resources->getVisualContext();
   window_ = &vc.getRenderWindow();
   state_ = new SFMLInputState(vc, window_);
@@ -38,7 +38,7 @@ SFMLInputs::pumpEvents() {
 }
 
 void
-SFMLInputs::exit() {
+SFMLInputs::exit( EntityManager&) {
 }
 
 InputState const *

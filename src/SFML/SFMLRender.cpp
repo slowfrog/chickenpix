@@ -1,24 +1,38 @@
 #include <iostream>
 #include <sstream>
+#include "../SystemRegistry.h"
+#include "../TagEntityManager.h"
 #include "../Transform.h"
-#include "SFMLRender.h"
 #include "../BVisual.h"
+#include "SFMLRender.h"
 #include "SFMLResources.h"
 #include "SFMLVisualContext.h"
 
-SFMLRender::SFMLRender(string const &name, EntityManager &em, unsigned int width, unsigned int height):
-  Render(name, em), width_(width), height_(height), window_(NULL) {
+// Init
+bool SFMLRender::mWindowReady = false;
+
+SFMLRender::SFMLRender(string const &name, unsigned int width, unsigned int height):
+  Render( name), width_(width), height_(height), window_(NULL) {
 }
 
 SFMLRender::~SFMLRender() {
 }
 
 void
-SFMLRender::init() {
-  window_ = new sf::RenderWindow(sf::VideoMode(width_, height_, 32), "SFML chickenpix",
-                                 sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close);
-  Entity *clstate = _em.createEntity();
-  clstate->addComponent(new SFMLResources(*window_));
+SFMLRender::init( EntityManager &em) {
+  CTagEntityMng::TEntityId id = CTagEntityMng::get()->getEntityByTag( RENDER);
+  Entity *clstate = em.getEntity( id);
+  
+  if ( !mWindowReady){
+    window_ = new sf::RenderWindow(sf::VideoMode(width_, height_, 32), "SFML chickenpix",
+                                   sf::Style::Titlebar | sf::Style::Resize | sf::Style::Close);
+     mWindowReady = true;
+  }
+  
+  if ( !clstate){
+    clstate = em.createEntity();
+    clstate->addComponent(new SFMLResources(*window_));
+  }
 }
 
 VisualContext *
@@ -37,7 +51,7 @@ SFMLRender::paint(VisualContext &vc) {
 }
 
 void
-SFMLRender::exit() {
+SFMLRender::exit( EntityManager&) {
   window_->Close();
   delete window_;
   window_ = NULL;

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="26" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" source="../img/cementstair.tsx"/>
+ <layer name="Tile Layer 1" width="26" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjY2BgYCOAGYhQQyxmQDIPnUa3jwGLHmxmYDMHm3pizCXHrbjU4KMJuZXa4U5tjC0caGEHNnuoYRd6mJPCHqn2UAJonR5H8SgexdTHAFsJCm8=
+  </data>
+ </layer>
+</map>

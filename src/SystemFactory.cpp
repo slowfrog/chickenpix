@@ -2,26 +2,26 @@
 
 // Scripting
 Scripting*
-CSystemFactory::createScripting( EntityManager &em, const std::string &name){
-  return new Scripting( name, em);
+CSystemFactory::createScripting( const std::string &name){
+  return new Scripting( name);
 }
 
 // Movement
 Movement* 
-CSystemFactory::createMovement( EntityManager &em, const std::string &name){
-  return new Movement( name, em);
+CSystemFactory::createMovement( const std::string &name){
+  return new Movement( name);
 }
 
 // Animation
 Animation*
-CSystemFactory::createAnimation( EntityManager &em, const std::string &name){
-  return new Animation( name, em);
+CSystemFactory::createAnimation( const std::string &name){
+  return new Animation( name);
 }
 
 // Sounds
 Sounds*
-CSystemFactory::createSounds( EntityManager &em, const std::string &name){
-  return new Sounds( name, em);
+CSystemFactory::createSounds( const std::string &name){
+  return new Sounds( name);
 }
 
 

@@ -6,20 +6,20 @@
 #include "Transform.h"
 #include "Collider.h"
 
-Movement::Movement(string const &name, EntityManager &em):
-  System(name, em) {
+Movement::Movement(string const &name):
+  System( name) {
 }
 
 Movement::~Movement() {
 }
 
 void
-Movement::init() {
+Movement::init( EntityManager&) {
 }
 
 void
-Movement::update(int now) {
-  TEntityList entities = _em.getEntities(Mobile::TYPE, Transform::TYPE);
+Movement::update(EntityManager &em, int now) {
+  TEntityList entities = em.getEntities(Mobile::TYPE, Transform::TYPE);
   for (TEntityIterator it = entities.begin(); it < entities.end(); ++it) {
     Entity *entity = *it;
     Mobile *m = entity->getComponent<Mobile>();
@@ -29,7 +29,7 @@ Movement::update(int now) {
     if (entity->hasComponent(Collider::TYPE)) {
       Collider *col = entity->getComponent<Collider>();
       if (col->isSolid()) {
-        TEntityList colls = findCollisions(entity, col);
+        TEntityList colls = findCollisions( em, entity, col);
         if (colls.size() > 0) {
           LOG2 << "COLLISION\n";
         }
@@ -43,10 +43,10 @@ Movement::update(int now) {
 }
 
 TEntityList
-Movement::findCollisions(Entity *ecol, Collider *col) const {
+Movement::findCollisions(EntityManager &em, Entity *ecol, Collider *col) const {
   TEntityList collisions;
   
-  TEntityList allColl = _em.getEntities(Collider::TYPE);
+  TEntityList allColl = em.getEntities(Collider::TYPE);
   for (TEntityIterator it = allColl.begin(); it < allColl.end(); ++it) {
     Entity *ecol2 = *it;
     if (ecol2 == ecol) {
@@ -86,7 +86,7 @@ Movement::collide(Entity *ecol1, Collider *col1, Entity *ecol2, Collider *col2) 
 }
 
 void
-Movement::exit() {
+Movement::exit( EntityManager&) {
 }
 
 string

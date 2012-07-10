@@ -11,16 +11,16 @@ using namespace std;
 class System {
 protected:
   string _name;
-  EntityManager &_em;
   
 public:
-  System(string const &name, EntityManager &em);
+  System(const std::string&);
   virtual ~System();
+  
   string const &getName() const;
 
-  virtual void init() = 0;
-  virtual void update(int) = 0;
-  virtual void exit() = 0;
+  virtual void init   ( EntityManager &)      = 0;
+  virtual void update ( EntityManager &, int) = 0;
+  virtual void exit   ( EntityManager &)      = 0;
   
   virtual SystemType getType() const =0;
   
