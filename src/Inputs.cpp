@@ -31,7 +31,6 @@ Inputs::update(EntityManager &em, int now) {
   InputState const *state = getInputState();
   if (state->isKeyDown(InputState::Escape)) {
     exitRequested_ = true;
-    return;
   }
   
   vector<Entity *> entities = em.getEntities(Input::TYPE);
@@ -40,6 +39,10 @@ Inputs::update(EntityManager &em, int now) {
     Entity *entity = *it;
     Input *input = entity->getComponent<Input>();
     input->setInputState(state);
+  }
+
+  if (exitRequested_) {
+    return;
   }
 
   entities = em.getEntities(Controller::TYPE);
