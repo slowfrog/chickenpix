@@ -9,7 +9,7 @@
 #define BAD_INDEX -1
 
 // Constructor / Destuctor
-CSystemManager::CSystemManager():mEMng( NULL), mCurVecSys( NULL){
+CSystemManager::CSystemManager():mCurVecSys( NULL), mEMng( NULL) {
 }
 
 CSystemManager::~CSystemManager(){

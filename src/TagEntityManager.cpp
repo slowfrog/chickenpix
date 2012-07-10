@@ -116,8 +116,8 @@ CTagEntityMng::getTagsByEntity( const unsigned long entityId) const{
 bool  
 CTagEntityMng::hasTag( const TEntityId id, const TTag& tag){
   TCollectionTag tagCol = getTagsByEntity( id);
-  TCollectionTag::const_iterator it = tagCol.begin();
-  for (it; it != tagCol.end(); it++) {
+  for (TCollectionTag::const_iterator it = tagCol.begin();
+       it != tagCol.end(); it++) {
     if ( (*it) == tag ) {
       return true;
     }
