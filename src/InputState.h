@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+using namespace std;
+
 class VisualContext;
 
 /** This is an interface allowing to ask for the current state of all input
@@ -42,8 +45,35 @@ public:
     Right = 14,
     Escape = 15,
     Tab =16,
-    Q = 17
+    A = 17,
+    B = 18,
+    C = 19,
+    D = 20,
+    E = 21,
+    F = 22,
+    G = 23,
+    H = 24,
+    I = 25,
+    J = 26,
+    K = 27,
+    L = 28,
+    M = 29,
+    N = 30,
+    O = 31,
+    P = 32,
+    Q = 33,
+    R = 34,
+    S = 35,
+    T = 36,
+    U = 37,
+    V = 38,
+    W = 39,
+    X = 40,
+    Y = 41,
+    Z = 42
   };
+
+  static string KEY_NAMES[];
 
   inline
   InputState() {};

@@ -21,7 +21,32 @@ sf::Key::Code KEYMAP[] = {
   sf::Key::Right,
   sf::Key::Escape,
   sf::Key::Tab,
-  sf::Key::Q
+  sf::Key::A,
+  sf::Key::B,
+  sf::Key::C,
+  sf::Key::D,
+  sf::Key::E,
+  sf::Key::F,
+  sf::Key::G,
+  sf::Key::H,
+  sf::Key::I,
+  sf::Key::J,
+  sf::Key::K,
+  sf::Key::L,
+  sf::Key::M,
+  sf::Key::N,
+  sf::Key::O,
+  sf::Key::P,
+  sf::Key::Q,
+  sf::Key::R,
+  sf::Key::S,
+  sf::Key::T,
+  sf::Key::U,
+  sf::Key::V,
+  sf::Key::W,
+  sf::Key::X,
+  sf::Key::Y,
+  sf::Key::Z
 };
 
 static

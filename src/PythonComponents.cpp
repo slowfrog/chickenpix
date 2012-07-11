@@ -576,57 +576,12 @@ static
 void
 exposeInputStateConstants() {
   PyObject *val;
-  val = PyInt_FromLong(InputState::Num0);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM0", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Num1);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM1", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Num2);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM2", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Num3);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM3", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Num4);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM4", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Num5);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM5", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Num6);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM6", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Num7);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM7", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Num8);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM8", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Num9);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "NUM9", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Space);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "SPACE", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Space);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "SPACE", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Up);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "UP", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Down);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "DOWN", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Left);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "LEFT", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Right);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "RIGHT", val);
-  Py_DECREF(val);
-  val = PyInt_FromLong(InputState::Escape);
-  PyDict_SetItemString(PyInputStateType.tp_dict, "ESCAPE", val);
-  Py_DECREF(val);
+  for (int i = 0; InputState::KEY_NAMES[i] != ""; ++i) {
+    val = PyInt_FromLong(i);
+    PyDict_SetItemString(PyInputStateType.tp_dict,
+                         InputState::KEY_NAMES[i].c_str(), val);
+    Py_DECREF(val);
+  }
   //-- Mouse buttons
   val = PyInt_FromLong(InputState::LeftButton);
   PyDict_SetItemString(PyInputStateType.tp_dict, "LEFT_BUTTON", val);
