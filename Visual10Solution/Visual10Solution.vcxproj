@@ -82,10 +82,12 @@
     <ClCompile Include="..\src\Entity.cpp" />
     <ClCompile Include="..\src\EntityBuilder.cpp" />
     <ClCompile Include="..\src\EntityManager.cpp" />
+    <ClCompile Include="..\src\FightController.cpp" />
     <ClCompile Include="..\src\FightSystem.cpp" />
     <ClCompile Include="..\src\HeroController.cpp" />
     <ClCompile Include="..\src\Input.cpp" />
     <ClCompile Include="..\src\Inputs.cpp" />
+    <ClCompile Include="..\src\InputState.cpp" />
     <ClCompile Include="..\src\Loader.cpp" />
     <ClCompile Include="..\src\log.cpp" />
     <ClCompile Include="..\src\Mobile.cpp" />
@@ -121,6 +123,7 @@
     <ClCompile Include="..\src\TmxParser\TmxUtil.cpp" />
     <ClCompile Include="..\src\Transform.cpp" />
     <ClCompile Include="..\src\Utils.cpp" />
+    <ClCompile Include="..\src\VisualText.cpp" />
     <ClCompile Include="..\src\WrappedEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +140,7 @@
     <ClInclude Include="..\src\Entity.h" />
     <ClInclude Include="..\src\EntityBuilder.h" />
     <ClInclude Include="..\src\EntityManager.h" />
+    <ClInclude Include="..\src\FightController.h" />
     <ClInclude Include="..\src\FightSystem.h" />
     <ClInclude Include="..\src\HeroController.h" />
     <ClInclude Include="..\src\Image.h" />
@@ -184,6 +188,7 @@
     <ClInclude Include="..\src\Utils.h" />
     <ClInclude Include="..\src\variant.h" />
     <ClInclude Include="..\src\VisualContext.h" />
+    <ClInclude Include="..\src\VisualText.h" />
     <ClInclude Include="..\src\WrappedEntity.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

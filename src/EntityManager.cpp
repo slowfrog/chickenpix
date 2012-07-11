@@ -128,7 +128,7 @@ EntityManager::getFirst(Component::Type t) {
 
 void EntityManager::addEntity( Entity *e){
   assert(e);
-  if ( !getFirst( e->getId())) {
+  if ( !getById( e->getId())) {
     _entities.push_back( e);
   }
 }
