@@ -3,6 +3,7 @@
 #include "PythonComponents.h"
 #include "WrappedEntity.h"
 #include "Animated.h"
+#include "VisualText.h"
 #include "Audio.h"
 #include "Camera.h"
 #include "Input.h"
@@ -20,6 +21,7 @@ static PyObject *NO_KWDS = PyDict_New();
 typedef PyComponent PyTransform;
 typedef PyComponent PyMobile;
 typedef PyComponent PyAnimated;
+typedef PyComponent PyVisual;
 typedef PyComponent PyAudio;
 typedef PyComponent PyInput;
 typedef PyComponent PyCamera;
@@ -233,6 +235,125 @@ static PyGetSetDef Mobile_getset[] = {
   { (char *) "speed", Mobile_getSpeed, Mobile_setSpeed,
     (char *) "The speed as a tuple of two numbers", NULL },
   { NULL, NULL }
+};
+
+// Visual type and methods ----------------------------------------------------
+static PyTypeObject PyVisualType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Visual",
+  sizeof(PyVisual),
+};
+
+static
+int Visual_init(PyTransform *self, PyObject *args, PyObject *kwds) {
+  // Should not be called...
+  
+  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
+    return -1;
+  }
+  if (PyErr_Occurred()) {
+    PyErr_Clear();
+  }
+  
+  //self->component = new Mobile(speedX, speedY);
+  return 0;
+}
+
+
+static
+PyObject *Visual_getText(PyObject *self, void *) {
+  BVisual *visual = (BVisual *) ((PyVisual *) self)->component;
+  if (!visual->isText()) {
+    PyErr_SetString(PyExc_TypeError, "Visual is not a text");
+    return NULL;
+  }
+  VisualText *vtext = (VisualText *) visual;
+  return PyString_FromString(vtext->getText().c_str());
+}
+
+static
+int Visual_setText(PyObject *self, PyObject *val, void *) {
+  BVisual *visual = (BVisual *) ((PyVisual *) self)->component;
+  if (!visual->isText()) {
+    PyErr_SetString(PyExc_TypeError, "Visual is not a text");
+    return -1;
+  }
+  if (!PyString_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "text must be a string");
+    return -1;
+  }
+  VisualText *vtext = (VisualText *) visual;
+  vtext->setText(PyString_AsString(val));
+  return 0;
+}
+
+static
+PyObject *Visual_getColor(PyObject *self, void *) {
+  BVisual *visual = (BVisual *) ((PyVisual *) self)->component;
+  if (!visual->isText()) {
+    PyErr_SetString(PyExc_TypeError, "Visual is not a text");
+    return NULL;
+  }
+  VisualText *vtext = (VisualText *) visual;
+  const CPColor &color = vtext->getColor();
+  PyObject *ret = PyTuple_Pack(4,
+                               PyInt_FromLong(color.r),
+                               PyInt_FromLong(color.g),
+                               PyInt_FromLong(color.b),
+                               PyInt_FromLong(color.a));
+  return ret;
+}
+
+static
+int Visual_setColor(PyObject *self, PyObject *val, void *) {
+  BVisual *visual = (BVisual *) ((PyVisual *) self)->component;
+  if (!visual->isText()) {
+    PyErr_SetString(PyExc_TypeError, "Visual is not a text");
+    return -1;
+  }
+  if (!PyTuple_Check(val)) {
+    PyErr_SetString(PyExc_TypeError, "color must be a tuple");
+    return -1;
+  }
+  // TODO: also accept 3-tuple
+  if (PyTuple_Size(val) != 4) {
+    PyErr_SetString(PyExc_TypeError, "color must be a 4-value tuple");
+    return -1;
+  }
+  
+  VisualText *vtext = (VisualText *) visual;
+  CPColor color((int) PyInt_AsLong(PyTuple_GetItem(val, 0)),
+                (int) PyInt_AsLong(PyTuple_GetItem(val, 1)),
+                (int) PyInt_AsLong(PyTuple_GetItem(val, 2)),
+                (int) PyInt_AsLong(PyTuple_GetItem(val, 3)));
+  vtext->setColor(color);
+  return 0;
+}
+
+
+static PyGetSetDef Visual_getset[] = {
+  { (char *) "text", Visual_getText, Visual_setText,
+    (char *) "The text of a 'textual' visual" },
+  { (char *) "color", Visual_getColor, Visual_setColor,
+    (char *) "The color of a 'textual' visual" },
+  {NULL}
+};
+
+static PyObject *
+Visual_isText(PyVisual *self) {
+  BVisual *visual = (BVisual *) self->component;
+  if (visual->isText()) {
+    Py_RETURN_TRUE;
+  } else {
+    Py_RETURN_FALSE;
+  }
+};
+
+static PyMethodDef Visual_methods[] = {
+  {"isText", (PyCFunction) Visual_isText, METH_NOARGS,
+   "Checks if a Visual is a 'textual' one"},
+  {NULL}
 };
 
 // Animated type and methods ----------------------------------------------------
@@ -857,6 +978,24 @@ initComponents(PyObject *module) {
   PyDict_SetItemString(PyMobileType.tp_dict, "TYPE", type);
   Py_DECREF(type);
 
+  // Visual
+  PyVisualType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
+  PyVisualType.tp_doc = "Type of Visual components";
+  //PyVisualType.tp_methods = XXX
+  PyVisualType.tp_base = &PyComponentType;
+  PyVisualType.tp_init = (initproc) Visual_init;
+  PyVisualType.tp_getset = Visual_getset;
+  PyVisualType.tp_methods = Visual_methods;
+  if (PyType_Ready(&PyVisualType) < 0) {
+    LOG2 << "Cannot create Visual type\n";
+    return;
+  }
+  Py_INCREF(&PyVisualType);
+  PyModule_AddObject(module, "Visual", (PyObject *) &PyVisualType);
+  type = PyInt_FromLong(BVisual::TYPE);
+  PyDict_SetItemString(PyVisualType.tp_dict, "TYPE", type);
+  Py_DECREF(type);
+
   // Animated
   PyAnimatedType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
   PyAnimatedType.tp_doc = "Type of Animated components";
@@ -971,6 +1110,13 @@ wrapMobile(Mobile *c) {
 }
 
 PyObject *
+wrapVisual(BVisual *v) {
+  PyVisual *pyv = (PyVisual *) PyVisualType.tp_alloc(&PyVisualType, 0);
+  pyv->component = v;
+  return (PyObject *) pyv;
+}
+
+PyObject *
 wrapAnimated(Animated *a) {
   PyAnimated *pya = (PyAnimated *) PyAnimatedType.tp_alloc(&PyAnimatedType, 0);
   pya->component = a;
@@ -1013,6 +1159,8 @@ wrapRealComponent(Component *c) {
     return wrapTransform((Transform *) c);
   case Mobile::TYPE:
     return wrapMobile((Mobile *) c);
+  case BVisual::TYPE:
+    return wrapVisual((BVisual *) c);
   case Animated::TYPE:
     return wrapAnimated((Animated *) c);
   case Audio::TYPE:

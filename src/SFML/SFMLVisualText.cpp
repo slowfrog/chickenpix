@@ -46,6 +46,7 @@ SFMLVisualText::getColor() const {
 void
 SFMLVisualText::setColor(const CPColor &color) {
   color_ = sf::Color(color.r, color.g, color.b, color.a);
+  str_.SetColor(color_);
 }
 
 

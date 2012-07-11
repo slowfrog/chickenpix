@@ -66,5 +66,10 @@ public:
   virtual int getWidth(VisualContext &vc) const = 0;
   virtual int getHeight(VisualContext &vc) const = 0;
 
+  virtual inline
+  bool isText() const {
+    return false;
+  }
+
   virtual string toString() const;
 };

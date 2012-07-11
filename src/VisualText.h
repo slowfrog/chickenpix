@@ -10,6 +10,10 @@ public:
   VisualText(const string &text);
   virtual ~VisualText();
 
+  virtual inline
+  bool isText() const {
+    return true;
+  }
   virtual const string &getText() const;
   virtual void setText(const string &text);
   virtual CPColor getColor() const=0;
