@@ -84,6 +84,7 @@
     <ClCompile Include="..\src\EntityManager.cpp" />
     <ClCompile Include="..\src\FightController.cpp" />
     <ClCompile Include="..\src\FightSystem.cpp" />
+    <ClCompile Include="..\src\HandleTransition.cpp" />
     <ClCompile Include="..\src\HeroController.cpp" />
     <ClCompile Include="..\src\Input.cpp" />
     <ClCompile Include="..\src\Inputs.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="..\src\EntityManager.h" />
     <ClInclude Include="..\src\FightController.h" />
     <ClInclude Include="..\src\FightSystem.h" />
+    <ClInclude Include="..\src\HandleTransition.h" />
     <ClInclude Include="..\src\HeroController.h" />
     <ClInclude Include="..\src\Image.h" />
     <ClInclude Include="..\src\Input.h" />

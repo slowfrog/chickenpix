@@ -200,8 +200,8 @@ Loader::loadTmxMap( EntityManager &em, string const &name) const {
                                       (float) y * map.GetTileHeight(),
                                       BASE_MAP_ZORDER + i, resources);
             if (tileCollider[gid]) {
-              float w = map.GetTileWidth() / 2;
-              float h = map.GetTileHeight() / 2;
+              float w = map.GetTileWidth() / 2.0f;
+              float h = map.GetTileHeight() / 2.0f;
               img->addComponent(new Collider(true, w, h, w, h));
             }
           }
