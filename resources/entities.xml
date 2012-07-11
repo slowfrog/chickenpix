@@ -182,6 +182,30 @@
                        left="15" top="8" right="15" bottom="28"/>
         </components>
     </entity>
+    
+    <entity>
+      <tags>
+        <tag name="Mayor" unique="true"/>
+        <tag name="Foe" unique="true"/>
+      </tags>
+      
+      <components>
+        <component type="Resources" kind="image">
+                <image alias="mayor"/>
+            </component>
+        <component type="Transform">
+          <position x="435" y="800"/>
+        </component>
+        <component type="Character">
+          <stats name="initiative" value="5"/>
+          <stats name="health" value="50"/>
+          <stats name="armor_class" value="3"/>
+          <stats name="damage" value="1"/>
+        </component>
+        <component type="Collider" solid="true"
+                   left="15" top="8" right="15" bottom="28"/>
+      </components>
+    </entity>
 
     <entity>
       <components>

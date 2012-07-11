@@ -170,6 +170,21 @@ EntityManager_getByTag(PyEntityManager *self, PyObject *args) {
   return ret;
 }
 
+static PyObject *
+EntityManager_setSwitch(PyEntityManager *self, PyObject *args) {
+  EntityManager *em = self->em;
+  
+  const char *name;
+  if (!PyArg_ParseTuple(args, "s", &name)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    Py_RETURN_NONE;
+  }
+  em->setSwitch( name);
+  Py_RETURN_NONE;
+}
+
 static PyMethodDef EntityManager_methods[] = {
   {"name", (PyCFunction) EntityManager_name, METH_NOARGS,
    "Name of the EntityManager" },
@@ -187,6 +202,8 @@ static PyMethodDef EntityManager_methods[] = {
    "Tag an existing entity" },
   {"untagEntity", (PyCFunction) EntityManager_untagEntity, METH_VARARGS,
    "Remove tag from existing entity" },
+  {"setSwitch", (PyCFunction) EntityManager_setSwitch, METH_VARARGS,
+   "Tag an existing entity" },
   {NULL} /* End of list */
 };
 

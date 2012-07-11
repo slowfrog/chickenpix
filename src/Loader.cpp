@@ -45,7 +45,7 @@ Loader::setLevel( const std::string &alevel){
 void
 Loader::init( EntityManager &em) {
   // Create resources
-  initResources ( em);
+    initResources ( em);
   // Load entities and level
   loadEntities  ( em);
   loadLevel     ( em);

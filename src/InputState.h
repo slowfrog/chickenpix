@@ -41,7 +41,8 @@ public:
     Left = 13,
     Right = 14,
     Escape = 15,
-    Tab =16
+    Tab =16,
+    Q = 17
   };
 
   inline

@@ -3,7 +3,7 @@
 #include "EntityManager.h"
 
 EntityManager::EntityManager(string const &name):
-  _name(name), _entities(1) {
+  _name(name), _entities(1), nameRequired( name) {
 }
 
 EntityManager::~EntityManager() {
@@ -19,6 +19,18 @@ int
 EntityManager::getSize() const {
   return _entities.size();
 }
+
+// Gestion temporaire du switch
+void 
+EntityManager::setSwitch( const std::string &name){
+  nameRequired = name;
+}
+
+bool 
+EntityManager::switchRequired() const {
+  return (nameRequired != _name);
+}
+// </>
 
 Entity *
 EntityManager::createEntity() {

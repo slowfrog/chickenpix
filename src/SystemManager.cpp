@@ -81,6 +81,7 @@ CSystemManager::setCurrent( const std::string &name){
   if ( it != mMapEMSys.end()){
     mCurVecSys  = &((*it).second);
     mEMng       = getEM( name);
+    mEMng->setSwitch( name);  // avoid "switch" again
   }
   else{
     throw "Could not access current EntityManager ["+ name + "], not found."; 

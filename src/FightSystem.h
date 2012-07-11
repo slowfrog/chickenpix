@@ -22,15 +22,19 @@ typedef Character  CFighter;
 /****************************************************************/
 class IRoundState {
 public:
-    virtual IRoundState* addFighter     ( CFightSystem&, const CFighter&, const bool)   { return 0;}
-    virtual IRoundState* start          ( CFightSystem&) { return 0; }
-    virtual IRoundState* popFighter     ( CFightSystem&) { return 0; }
-    virtual IRoundState* chooseTarget   ( CFightSystem&) { return 0; }
-    virtual IRoundState* chooseSkill    ( CFightSystem&) { return 0; }
-    virtual IRoundState* doFight        ( CFightSystem&) { return 0; }
-    virtual IRoundState* next           ( CFightSystem&) { return 0; }
-
-    virtual std::string toString() =0;
+  virtual IRoundState* addFighter     ( CFightSystem&, const CFighter&, const bool)   { return 0;}
+  virtual IRoundState* start          ( CFightSystem&) { return 0; }
+  virtual IRoundState* popFighter     ( CFightSystem&) { return 0; }
+  virtual IRoundState* chooseTarget   ( CFightSystem&) { return 0; }
+  virtual IRoundState* chooseSkill    ( CFightSystem&) { return 0; }
+  virtual IRoundState* doFight        ( CFightSystem&) { return 0; }
+  virtual IRoundState* next           ( CFightSystem&) { return 0; }
+  
+  virtual void update ( EntityManager &, int) = 0;
+  virtual void init   ( EntityManager &){}
+  virtual void exit   ( EntityManager &){}
+  
+  virtual std::string toString() =0;
 };
 
 /****************************************************************/
@@ -40,6 +44,8 @@ class CRoundInit : public IRoundState {
 public:
   virtual IRoundState* addFighter ( CFightSystem&, const CFighter&, const bool);
   virtual IRoundState* start      ( CFightSystem&);
+  
+  virtual void update ( EntityManager &, int);
   virtual std::string toString() {static std::string ret("CRoundInit"); return ret;}
 };
 
@@ -48,12 +54,13 @@ public:
 /****************************************************************/
 class CRoundPrepare : public IRoundState {
 public:
-    virtual IRoundState* popFighter     ( CFightSystem&);
-    virtual IRoundState* chooseTarget   ( CFightSystem&);
-    virtual IRoundState* chooseSkill    ( CFightSystem&);
-    virtual IRoundState* doFight        ( CFightSystem&);
+  virtual IRoundState* popFighter     ( CFightSystem&);
+  virtual IRoundState* chooseTarget   ( CFightSystem&);
+  virtual IRoundState* chooseSkill    ( CFightSystem&);
+  virtual IRoundState* doFight        ( CFightSystem&);
 
-    virtual std::string toString() {return "CRoundPrepare";}
+  virtual void update ( EntityManager &, int);
+  virtual std::string toString() {return "CRoundPrepare";}
 };
 
 /****************************************************************/
@@ -61,9 +68,10 @@ public:
 /****************************************************************/
 class CRoundFight : public IRoundState {
 public:    
-    virtual IRoundState* next( CFightSystem&);
+  virtual IRoundState* next( CFightSystem&);
 
-    virtual std::string toString() {return "CRoundFight";}
+  virtual void update ( EntityManager &, int);
+  virtual std::string toString() {return "CRoundFight";}
 };
 
 /****************************************************************/
@@ -71,7 +79,8 @@ public:
 /****************************************************************/
 class CRoundFinish : public IRoundState {
 public:
-    virtual std::string toString() {return "CRoundFinish";}
+  virtual void update ( EntityManager &, int);
+  virtual std::string toString() {return "CRoundFinish";}
 };
 
 /****************************************************************/
@@ -97,8 +106,10 @@ class CFightSystem : public System {
   
 public:
   // Constructor/destructor
-  CFightSystem( const std::string&, EntityManager&);
+  CFightSystem( const std::string&);
   virtual	~CFightSystem();
+  
+   inline SystemType getType() const { return FIGHT_TYPE;}
 	
   // API
   void addFoe (const CFighter&);
@@ -106,9 +117,9 @@ public:
   void processRounds();
   
   // System API
-  void init();
-  void update(int);
-  void exit();
+  void init( EntityManager &);
+  void update(EntityManager &, int);
+  void exit( EntityManager &);
   
   // Display info
   std::string toString();

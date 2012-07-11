@@ -21,6 +21,8 @@ private:
   vector<Entity *> _entities;
   /** Entities grouped by tags. */
   map<string, vector<Entity::Id> > _tags;
+  /** Switch needed */
+  std::string nameRequired;
 
 public:
   EntityManager(string const &name);
@@ -28,6 +30,10 @@ public:
 
   string getName() const;
   int getSize() const;
+  
+  void setSwitch( const std::string&);
+  bool switchRequired() const;
+  inline const std::string& requiredName() const { return nameRequired;}
   
   Entity *createEntity();
   Entity *getById(Entity::Id id);
