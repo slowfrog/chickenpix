@@ -8,7 +8,7 @@
 #include "Entity.h"
 
 // Contants
-#define NOT_FOUND     -1
+#define NOT_FOUND     999999999
 
 /**/
 class CTagEntityMng : public CSingleton<CTagEntityMng>

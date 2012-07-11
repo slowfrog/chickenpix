@@ -60,6 +60,13 @@
 		5A740E1F15A4D3B6005DF65D /* SFMLAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A740E1D15A4D3B6005DF65D /* SFMLAudio.cpp */; };
 		5A89202C1592817A0088CDE0 /* Scriptable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A8920281592817A0088CDE0 /* Scriptable.cpp */; };
 		5A89202D1592817A0088CDE0 /* Scripting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A89202A1592817A0088CDE0 /* Scripting.cpp */; };
+		5AB3E82E15AD849E00CCE218 /* fight_entities.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5AB3E82D15AD849E00CCE218 /* fight_entities.xml */; };
+		5AB3E84815AD9D5700CCE218 /* menu.py in Resources */ = {isa = PBXBuildFile; fileRef = 5AB3E84615AD9D5700CCE218 /* menu.py */; };
+		5AB3E84915AD9D5700CCE218 /* toto.py in Resources */ = {isa = PBXBuildFile; fileRef = 5AB3E84715AD9D5700CCE218 /* toto.py */; };
+		5AB3E97D15ADE41700CCE218 /* FightController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AB3E97B15ADE41700CCE218 /* FightController.cpp */; };
+		5AB3E98615ADE77B00CCE218 /* VisualText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AB3E98415ADE77B00CCE218 /* VisualText.cpp */; };
+		5AB3E9A615ADED2300CCE218 /* InputState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AB3E9A515ADED2300CCE218 /* InputState.cpp */; };
+		5AB3EA2815AE163900CCE218 /* HandleTransition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AB3EA2715AE163900CCE218 /* HandleTransition.cpp */; };
 		5AB6A09F15A37A2600454601 /* ButtonController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AB6A09D15A37A2600454601 /* ButtonController.cpp */; };
 		5AB6A0A715A37B0000454601 /* entities.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5AB6A0A515A37B0000454601 /* entities.xml */; };
 		5AB6A0A815A37B0000454601 /* resources.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5AB6A0A615A37B0000454601 /* resources.xml */; };
@@ -209,6 +216,16 @@
 		5A8920291592817A0088CDE0 /* Scriptable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scriptable.h; path = src/Scriptable.h; sourceTree = "<group>"; };
 		5A89202A1592817A0088CDE0 /* Scripting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scripting.cpp; path = src/Scripting.cpp; sourceTree = "<group>"; };
 		5A89202B1592817A0088CDE0 /* Scripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scripting.h; path = src/Scripting.h; sourceTree = "<group>"; };
+		5AB3E82D15AD849E00CCE218 /* fight_entities.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = fight_entities.xml; path = resources/fight_entities.xml; sourceTree = "<group>"; };
+		5AB3E84615AD9D5700CCE218 /* menu.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = menu.py; path = resources/scripts/menu.py; sourceTree = "<group>"; };
+		5AB3E84715AD9D5700CCE218 /* toto.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = toto.py; path = resources/scripts/toto.py; sourceTree = "<group>"; };
+		5AB3E97B15ADE41700CCE218 /* FightController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FightController.cpp; path = src/FightController.cpp; sourceTree = "<group>"; };
+		5AB3E97C15ADE41700CCE218 /* FightController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FightController.h; path = src/FightController.h; sourceTree = "<group>"; };
+		5AB3E98415ADE77B00CCE218 /* VisualText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisualText.cpp; path = src/VisualText.cpp; sourceTree = "<group>"; };
+		5AB3E98515ADE77B00CCE218 /* VisualText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisualText.h; path = src/VisualText.h; sourceTree = "<group>"; };
+		5AB3E9A515ADED2300CCE218 /* InputState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InputState.cpp; path = src/InputState.cpp; sourceTree = "<group>"; };
+		5AB3EA1815AE109400CCE218 /* HandleTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandleTransition.h; path = src/HandleTransition.h; sourceTree = "<group>"; };
+		5AB3EA2715AE163900CCE218 /* HandleTransition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HandleTransition.cpp; path = src/HandleTransition.cpp; sourceTree = "<group>"; };
 		5AB6A09D15A37A2600454601 /* ButtonController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ButtonController.cpp; path = src/ButtonController.cpp; sourceTree = "<group>"; };
 		5AB6A09E15A37A2600454601 /* ButtonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonController.h; path = src/ButtonController.h; sourceTree = "<group>"; };
 		5AB6A0A015A37A5900454601 /* SFML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFML.h; path = src/SFML/SFML.h; sourceTree = "<group>"; };
@@ -268,9 +285,12 @@
 		5A00358D158FCF3900B483F8 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				5AB3EA2715AE163900CCE218 /* HandleTransition.cpp */,
+				5AB3EA1815AE109400CCE218 /* HandleTransition.h */,
+				5AB3E9A515ADED2300CCE218 /* InputState.cpp */,
+				5AB3E98415ADE77B00CCE218 /* VisualText.cpp */,
+				5AB3E98515ADE77B00CCE218 /* VisualText.h */,
 				5A4DA4B515A64AFE00329455 /* Types.h */,
-				5AB6A09D15A37A2600454601 /* ButtonController.cpp */,
-				5AB6A09E15A37A2600454601 /* ButtonController.h */,
 				5AEA4BE615A23DF000658BF8 /* Main.h */,
 				5AEA4BDF15A2373900658BF8 /* InputState.h */,
 				5A2554C3159CFD8B0032BBF8 /* EntityBuilder.h */,
@@ -357,8 +377,6 @@
 				5A740E1815A4D3A0005DF65D /* Audio.h */,
 				5AEA4BD615A236F100658BF8 /* Controller.cpp */,
 				5AEA4BD715A236F100658BF8 /* Controller.h */,
-				5AEA4BD815A236F100658BF8 /* HeroController.cpp */,
-				5AEA4BD915A236F100658BF8 /* HeroController.h */,
 				5A2A2E851598DD8C009389E6 /* Stats.h */,
 				5A0E1311159BA1A100B253AB /* Stats.cpp */,
 				5A0035A7158FCF6D00B483F8 /* ComponentRegistry.h */,
@@ -465,6 +483,28 @@
 			name = TinyXml;
 			sourceTree = "<group>";
 		};
+		5AB3E84515AD9D3F00CCE218 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				5AB3E84615AD9D5700CCE218 /* menu.py */,
+				5AB3E84715AD9D5700CCE218 /* toto.py */,
+			);
+			name = Scripts;
+			sourceTree = "<group>";
+		};
+		5AB3E86E15ADCB6700CCE218 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5AB3E97B15ADE41700CCE218 /* FightController.cpp */,
+				5AB3E97C15ADE41700CCE218 /* FightController.h */,
+				5AEA4BD915A236F100658BF8 /* HeroController.h */,
+				5AEA4BD815A236F100658BF8 /* HeroController.cpp */,
+				5AB6A09D15A37A2600454601 /* ButtonController.cpp */,
+				5AB6A09E15A37A2600454601 /* ButtonController.h */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		A01FB69A0F07CF63000AAC7B = {
 			isa = PBXGroup;
 			children = (
@@ -499,6 +539,7 @@
 		A01FB6B10F07CF7C000AAC7B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5AB3E82D15AD849E00CCE218 /* fight_entities.xml */,
 				5AB6A0A515A37B0000454601 /* entities.xml */,
 				5AB6A0A615A37B0000454601 /* resources.xml */,
 				A01FB6AC0F07CF6E000AAC7B /* Info.plist */,
@@ -509,6 +550,8 @@
 		A01FB6B20F07CF80000AAC7B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5AB3E86E15ADCB6700CCE218 /* Controllers */,
+				5AB3E84515AD9D3F00CCE218 /* Scripts */,
 				5A1394EF15A0B35E009F373F /* Python */,
 				5A1394EE15A0B26A009F373F /* Components */,
 				5A1394ED15A0B25E009F373F /* System */,
@@ -576,6 +619,9 @@
 			files = (
 				5AB6A0A715A37B0000454601 /* entities.xml in Resources */,
 				5AB6A0A815A37B0000454601 /* resources.xml in Resources */,
+				5AB3E82E15AD849E00CCE218 /* fight_entities.xml in Resources */,
+				5AB3E84815AD9D5700CCE218 /* menu.py in Resources */,
+				5AB3E84915AD9D5700CCE218 /* toto.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,6 +712,10 @@
 				5A740E1C15A4D3A0005DF65D /* Sounds.cpp in Sources */,
 				5A740E1F15A4D3B6005DF65D /* SFMLAudio.cpp in Sources */,
 				5A4DA4B415A64AE300329455 /* Collider.cpp in Sources */,
+				5AB3E97D15ADE41700CCE218 /* FightController.cpp in Sources */,
+				5AB3E98615ADE77B00CCE218 /* VisualText.cpp in Sources */,
+				5AB3E9A615ADED2300CCE218 /* InputState.cpp in Sources */,
+				5AB3EA2815AE163900CCE218 /* HandleTransition.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

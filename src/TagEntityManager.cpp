@@ -2,7 +2,8 @@
 #include "TagEntityManager.h"
 
 // Global
-CTagEntityMng::TCollectionTag EmptyTag; // pas top
+static CTagEntityMng::TCollectionTag      EMPTY_TAG_COLLECTION;
+static CTagEntityMng::TCollectionIdEntity EMPTY_ENTITY_COLLECTION;
 
 void 
 CTagEntityMng::resetTagCollection(){
@@ -78,7 +79,7 @@ CTagEntityMng::getEntityByTag(const std::string& tag) const{
   if ( it != mTagUniqE.end()){
     return (*it).second;
   }
-  LOG2ERR<<"Tag ["<< tag<<"] not found\n";
+  LOG2ERR<<"No entity found with tag ["<< tag<<"]\n";
   return NOT_FOUND;
 }
 
@@ -88,8 +89,8 @@ CTagEntityMng::getEntitiesByTag(const std::string& tag) const {
   if ( it != mTagE.end()){
     return (*it).second;
   }
-  LOG2ERR<<"Tag ["<< tag<<"] not found\n";
-  throw -1;
+  LOG2ERR<<"No entity found with tag ["<< tag<<"]\n";
+  return EMPTY_ENTITY_COLLECTION;
 }
 
 const CTagEntityMng::TEntityId
@@ -98,11 +99,9 @@ CTagEntityMng::getFirstEntityByTag(const std::string& tag) const {
   if ( it != mTagE.end()){
     return (*it).second.front();
   }
-  LOG2ERR<<"Tag ["<< tag<<"] not found\n";
+  LOG2ERR<<"No entity found with tag ["<< tag<<"]\n";
   return NOT_FOUND;
 }
-
-static CTagEntityMng::TCollectionTag EMPTY_COLLECTION;
 
 const CTagEntityMng::TCollectionTag&      
 CTagEntityMng::getTagsByEntity( const unsigned long entityId) const{
@@ -110,7 +109,8 @@ CTagEntityMng::getTagsByEntity( const unsigned long entityId) const{
   if ( it != mETag.end() ){
     return (*it).second;
   }
-  return EMPTY_COLLECTION;
+  LOG2ERR<<"No Tag found for entity ["<< entityId<<"]\n";
+  return EMPTY_TAG_COLLECTION;
 }
 
 bool  

@@ -5,6 +5,7 @@
 #include "SystemFactory.h"
 #include "SystemManager.h" 
 #include "TagEntityManager.h"
+#include "HandleTransition.h"
 
 // Template function of the main game loop
 template<class TimerClass>
@@ -104,6 +105,11 @@ runGame( CSystemFactory* pFac) {
     
     if ( SysMng.getByRef().switchRequired() ){
       LOG2<<"Switch to :"<< SysMng.getByRef().requiredName()<<"\n";
+      // Prepare switch
+      HandleTransition ht;
+      std::string nm = SysMng.getByRef().requiredName();
+      ht.transit(SysMng.getByRef(), SysMng.getByName( nm), "HERO");
+      // Switch mode
       SysMng.setCurrent( SysMng.getByRef().requiredName());
     }
     

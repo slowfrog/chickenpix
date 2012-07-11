@@ -14,15 +14,5 @@ FightController::update(
   if (input.isKeyDown(InputState::Q)) {
     // Switch
     em.setSwitch( "Main");
-    
-    // Move entity to avoid switch again
-    Mobile *m = NULL;
-    if (!entity.hasComponent(Mobile::TYPE)) {
-      m = new Mobile();
-      entity.addComponent(m);
-    } else {
-      m = entity.getComponent<Mobile>();
-    }
-    m->setSpeed(-50, 0);
   }
 }
