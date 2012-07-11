@@ -8,6 +8,7 @@
 #include "Movement.h"
 #include "Animation.h"
 #include "Sounds.h"
+#include "FightSystem.h"
 
 /*
  System Factory interface
@@ -26,10 +27,11 @@ public:
   virtual Inputs *createInputs( const std::string&) =0;
   
   // Common
-  Scripting *createScripting( const std::string&);
-  Movement  *createMovement ( const std::string&);
-  Animation *createAnimation( const std::string&);
-  Sounds    *createSounds   ( const std::string&);
+  Scripting     *createScripting  ( const std::string&);
+  Movement      *createMovement   ( const std::string&);
+  Animation     *createAnimation  ( const std::string&);
+  Sounds        *createSounds     ( const std::string&);
+  CFightSystem  *createFightSystem( const std::string&);
 };
 
 

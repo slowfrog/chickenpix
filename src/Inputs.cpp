@@ -4,6 +4,7 @@
 #include "Controller.h"
 #include "HeroController.h"
 #include "ButtonController.h"
+#include "FightController.h"
 #include "Inputs.h"
 #include "Input.h"
 #include "InputState.h"
@@ -22,8 +23,9 @@ static map<string, ControllerUpdate> CONTROLLERS;
 
 void
 Inputs::init( EntityManager &em) {
-  CONTROLLERS["HeroController"] = HeroController::update;
+  CONTROLLERS["HeroController"]   = HeroController::update;
   CONTROLLERS["ButtonController"] = ButtonController::update;
+  CONTROLLERS["FightController"]  = FightController::update;
 }
 
 void

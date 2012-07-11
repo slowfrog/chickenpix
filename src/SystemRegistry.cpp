@@ -10,6 +10,7 @@ SystemType in_ex_itPath[]={
   INPUTS_TYPE,
   SCRIPTING_TYPE,
   MOVEMENT_TYPE,
+  FIGHT_TYPE,
   END_OF_LIST
 };
 
@@ -20,5 +21,6 @@ SystemType updatePath[]={
   ANIMATION_TYPE,
   SOUNDS_TYPE,
   RENDER_TYPE,
+  FIGHT_TYPE,
   END_OF_LIST
 };

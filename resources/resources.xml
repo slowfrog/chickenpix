@@ -29,6 +29,7 @@
       <image name="princess"><image file="img/princesse.png" /></image>
       <image name="richard"><image file="img/richard.png" /></image>
       <image name="wall"><image file="img/wall.png" /></image>
+      <image name="FightMap"><image file="img/FightMap.png"/></image>
     </section>
     
     <!-- Sprites -->

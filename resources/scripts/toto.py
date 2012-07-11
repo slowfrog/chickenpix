@@ -48,6 +48,9 @@ def update(self, manager):
             manager.destroyEntity(collentity)
             self.gold += 10
             self.addComponent(cp.Audio("coin", False))
+        if "Foe" in collentity.getTags():
+            print("Enemy !!! banzai !!!")
+            manager.setSwitch("Fight")
             
     if self.times == 0:
         print("TOTO: My id is %d and I have %d components: %s" %

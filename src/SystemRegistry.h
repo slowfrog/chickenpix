@@ -8,6 +8,7 @@
 #define MOVEMENT  "Movement"
 #define ANIMATION "Animation"
 #define SOUNDS    "Sounds"
+#define FIGHT     "Fight"
 
 // List of system available
 // Add here new system
@@ -19,6 +20,7 @@ typedef enum {
   MOVEMENT_TYPE,
   ANIMATION_TYPE,
   SOUNDS_TYPE,
+  FIGHT_TYPE,
   // - Do not add anything after this line!! (just before)
   END_OF_LIST,
   MAX_SYSTEM = END_OF_LIST

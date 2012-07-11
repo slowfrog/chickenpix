@@ -19,7 +19,7 @@ runGame( CSystemFactory* pFac) {
   CSystemManager  SysMng;
   SysMng.createEntityManager( "Main");
   SysMng.createEntityManager( "Menu");
-  //SysMng.createEntityManager( "Fight");
+  SysMng.createEntityManager( "Fight");
   
   // Systems Main
   Render    *render     = pFac->createRender    ( "Render", 800, 600);
@@ -65,9 +65,26 @@ runGame( CSystemFactory* pFac) {
   SysMng.registerSystem( "Menu", loaderMenu);
   SysMng.registerSystem( "Menu", inputsMenu);
   SysMng.registerSystem( "Menu", scripting);
-  // Call init on all system for "Main"
+  // Call init on all system for "Menu"
   SysMng.SystemInit   ( SysMng.getByName( "Menu"));
-    
+  
+  // System Fight
+  Loader *loaderFight  = pFac->createLoader( "LFight",
+                                             "resources/resources.xml",     // Resources (repeat)
+                                             "resources/fight_entities.xml", // Entities desc
+                                             ""                             // Level name
+                                           ); 
+  assert( loaderFight);
+  CFightSystem  *fight  = pFac->createFightSystem( "FightRound");
+  assert( fight);
+  // Register system tp manager
+  SysMng.registerSystem( "Fight", render);
+  SysMng.registerSystem( "Fight", loaderFight);
+  SysMng.registerSystem( "Fight", inputs);
+  SysMng.registerSystem( "Fight", fight);
+  // Call init on all system for "Menu"
+  SysMng.SystemInit   ( SysMng.getByName( "Fight"));
+
   // Set current at starting
   SysMng.setCurrent( "Menu");
   cout << "Menu "<<SysMng.getByName( "Menu").toString() << endl;
@@ -84,6 +101,11 @@ runGame( CSystemFactory* pFac) {
 
     // Process inputs
     SysMng.SystemUpdate( SysMng.getByRef(), now);
+    
+    if ( SysMng.getByRef().switchRequired() ){
+      LOG2<<"Switch to :"<< SysMng.getByRef().requiredName()<<"\n";
+      SysMng.setCurrent( SysMng.getByRef().requiredName());
+    }
     
     // hehe c est tres moche mais bon ...
     Inputs *curInputs = (Inputs*) SysMng.getCurrentSystemByType( INPUTS_TYPE);

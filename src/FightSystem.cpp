@@ -20,6 +20,11 @@ CRoundInit::start( CFightSystem& fe){
     return new CRoundPrepare;
 }
 
+void 
+CRoundInit::update( EntityManager &em, int now){
+  // Update or draw something
+}
+
 /****************************************************************/
 /* CRoundPrepare                                                */
 /****************************************************************/
@@ -47,6 +52,11 @@ CRoundPrepare::doFight( CFightSystem& fe){
     return new CRoundFight;
 }
 
+void 
+CRoundPrepare::update( EntityManager &em, int now){
+  // Update or draw something
+}
+
 /****************************************************************/
 /* CRoundFight                                                  */
 /****************************************************************/
@@ -54,6 +64,11 @@ IRoundState*
 CRoundFight::next( CFightSystem& fe){
     fe.nextRound();
     return new CRoundPrepare;
+}
+
+void 
+CRoundFight::update( EntityManager &em, int now){
+  // Update or draw something
 }
 
 /****************************************************************/
@@ -70,7 +85,7 @@ sortByInitiative(const CFighter& a, const CFighter& b){
 
 /**
  */
-CFightSystem::CFightSystem( const std::string &name, EntityManager &em): System( name), endOfFight(false){
+CFightSystem::CFightSystem( const std::string &name): System( name), endOfFight(false){
 	/*curState = new CRoundInit;
 	if ( !curState ) throw "[CFightEngine] failed.";
     CDice<>::init();*/
@@ -117,15 +132,15 @@ CFightSystem::processRounds(){
 	setState( curState->start( *this));
 	// main loop
 	while ( !fightOver() ) {
-        setState( curState->popFighter   ( *this));		// Update fighter
-        setState( curState->chooseTarget ( *this));	  // Choose enemy if more than one
-        setState( curState->chooseSkill  ( *this));	  // Choose skill/weapon/...
-        //
-        setState( curState->doFight      ( *this));		// appliquer les lance de dés en fonction de caracteristique arme + perso applique les degats, historise les coups
-        setState( curState->next         ( *this));	  // next round
+    setState( curState->popFighter   ( *this));		// Update fighter
+    setState( curState->chooseTarget ( *this));	  // Choose enemy if more than one
+    setState( curState->chooseSkill  ( *this));	  // Choose skill/weapon/...
+    //
+    setState( curState->doFight      ( *this));		// appliquer les lance de dés en fonction de caracteristique arme + perso applique les degats, historise les coups
+    setState( curState->next         ( *this));	  // next round
     
-        // Debug
-        LOG2DBG <<"Next ...\n";
+    // Debug
+    LOG2DBG <<"Next ...\n";
 	}
 }
 
@@ -272,16 +287,20 @@ CFightSystem::toString(){
  System API
  */
 // Init
-void CFightSystem::init(){
+void CFightSystem::init( EntityManager &em){
   curState = new CRoundInit;
 	if ( !curState ) throw "[CFightEngine] failed.";
+  curState->init( em);
   CDice<>::init();
 }
 
 // Update
-void CFightSystem::update(int){
+void CFightSystem::update( EntityManager &em, int now){
+  curState->update(em, now);
 }
 
 // Exit
-void CFightSystem::exit(){
+void CFightSystem::exit( EntityManager &em){
+  curState->exit( em);
 }
+  

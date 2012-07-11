@@ -21,6 +21,7 @@ sf::Key::Code KEYMAP[] = {
   sf::Key::Right,
   sf::Key::Escape,
   sf::Key::Tab,
+  sf::Key::Q
 };
 
 static

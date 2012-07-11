@@ -24,5 +24,11 @@ CSystemFactory::createSounds( const std::string &name){
   return new Sounds( name);
 }
 
+// Fight System
+CFightSystem*
+CSystemFactory::createFightSystem( const std::string &name){
+  return new CFightSystem( name);
+}
+
 
 
