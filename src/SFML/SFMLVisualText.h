@@ -1,9 +1,9 @@
 #pragma once
 
 #include "SFML.h"
-#include "../BVisual.h"
+#include "../VisualText.h"
 
-class SFMLVisualText: public BVisual {
+class SFMLVisualText: public VisualText {
 private:
   sf::String	str_;
   sf::Font		&font_;
@@ -18,4 +18,8 @@ public:
   virtual int getHeight(VisualContext &vc) const;
   
   virtual string toString() const;
+
+  virtual void setText(const string &text);
+  virtual CPColor getColor() const;
+  virtual void setColor(const CPColor &color);
 };

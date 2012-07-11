@@ -3,8 +3,9 @@
 #include "CLVisualContext.h"
 #include "CLVisualText.h"
 
-CLVisualText::CLVisualText(string const &text, CL_Font &font, CL_Colorf const &color):
-  text_(text), font_(font), color_(color), width_(-1), height_(-1) {
+CLVisualText::CLVisualText(string const &text, CL_Font &font,
+                           CL_Colorf const &color):
+  VisualText(text), font_(font), color_(color), width_(-1), height_(-1) {
 }
 
 CLVisualText::~CLVisualText() {
@@ -20,7 +21,8 @@ CLVisualText::draw(VisualContext &vc, float x, float y, int delta) {
 
 void
 CLVisualText::computeSize(VisualContext &vc) const {
-  CL_Size size = font_.get_text_size(((CLVisualContext &) vc).getGraphicContext(), text_);
+  CL_Size size =
+    font_.get_text_size(((CLVisualContext &) vc).getGraphicContext(), text_);
   width_ = size.width;
   height_ = size.height;
 }
@@ -39,6 +41,17 @@ CLVisualText::getHeight(VisualContext &vc) const {
     computeSize(vc);
   }
   return height_;
+}
+
+CPColor
+CLVisualText::getColor() const {
+  return CPColor(color_.get_red(), color_.get_green(), color_.get_blue(),
+                 color_.get_alpha());
+}
+
+void
+CLVisualText::setColor(const CPColor &color) {
+  color_ = CL_Colorf(color.r, color.g, color.b, color.a);
 }
 
 string

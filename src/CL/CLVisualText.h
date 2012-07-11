@@ -1,10 +1,9 @@
 #pragma once
 #include "CL.h"
-#include "../BVisual.h"
+#include "../VisualText.h"
 
-class CLVisualText: public BVisual {
+class CLVisualText: public VisualText {
 private:
-  string text_;
   CL_Font &font_;
   CL_Colorf color_;
   mutable int width_;
@@ -19,6 +18,9 @@ public:
   virtual int getHeight(VisualContext &vc) const;
   
   virtual string toString() const;
+
+  virtual CPColor getColor() const;
+  virtual void setColor(const CPColor &color);
 
 private:
   void computeSize(VisualContext &vc) const;

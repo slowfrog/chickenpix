@@ -3,7 +3,9 @@
 #include "SFMLVisualContext.h"
 #include "SFMLVisualText.h"
 
-SFMLVisualText::SFMLVisualText(string const &text, sf::Font &font, sf::Color const &color):
+SFMLVisualText::SFMLVisualText(string const &text, sf::Font &font,
+                               sf::Color const &color):
+  VisualText(text),
   str_(text), font_(font), color_(color) {
   str_.SetSize((float) font_.GetCharacterSize());
   str_.SetFont(font_);
@@ -29,6 +31,23 @@ int
 SFMLVisualText::getHeight(VisualContext &) const {
   return (int) str_.GetRect().GetHeight();
 }
+
+void
+SFMLVisualText::setText(const string &text) {
+  VisualText::setText(text);
+  str_.SetText(text);
+}
+
+CPColor
+SFMLVisualText::getColor() const {
+  return CPColor(color_.r, color_.g, color_.b, color_.a);
+}
+
+void
+SFMLVisualText::setColor(const CPColor &color) {
+  color_ = sf::Color(color.r, color.g, color.b, color.a);
+}
+
 
 string
 SFMLVisualText::toString() const {

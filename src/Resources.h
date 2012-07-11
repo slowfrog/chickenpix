@@ -35,8 +35,27 @@ public:
   unsigned char b;
   unsigned char a;
 
-  CPColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a=255):
+  CPColor(unsigned char r, unsigned char g, unsigned char b,
+          unsigned char a=255):
     r(r), g(g), b(b), a(a) {
+  }
+  
+  CPColor(int r, int g, int b, int a=255):
+    r((unsigned char) r),
+    g((unsigned char) g),
+    b((unsigned char) b),
+    a((unsigned char) a) {
+  }
+
+  CPColor(float r, float g, float b, float a=1):
+    r((unsigned char) (r * 255)),
+    g((unsigned char) (g * 255)),
+    b((unsigned char) (b * 255)),
+    a((unsigned char) (a * 255)) {
+  }
+
+  CPColor(const CPColor &src):
+    r(src.r), g(src.g), b(src.b), a(src.a) {
   }
 
   static CPColor White;
