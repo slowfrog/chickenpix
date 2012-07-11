@@ -26,7 +26,10 @@ SFMLResources::makeImage(string const &name) {
     cerr << "Cannot find image: " << name << endl;
     assert(!(resImage == NULL));
   }
-  return new SFMLVisualImage(resImage->get());
+  SFMLVisualImage *image = new SFMLVisualImage(resImage->get());
+  image->setCenter((float) image->getWidth(vc_) / 2, 
+                   (float) image->getHeight(vc_) / 2);
+  return image;
 }
 
 BVisual *
@@ -36,7 +39,10 @@ SFMLResources::makeImage(ImagePart const part) {
     cerr << "Cannot find image: " << part.name << endl;
     assert(!(resImage == NULL));
   }
-  return new SFMLVisualImage(resImage->get(), part.rect);
+  SFMLVisualImage *image = new SFMLVisualImage(resImage->get(), part.rect);
+  image->setCenter((float) image->getWidth(vc_) / 2, 
+                   (float) image->getHeight(vc_) / 2);
+  return image;
 }
 
 BVisual *

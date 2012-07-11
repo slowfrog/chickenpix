@@ -80,7 +80,8 @@
 	<!-- create entity -->
     <entity>    
         <components>
-            <component type="Resources" kind="image" gui="true" z-order="100">
+            <component type="Resources" kind="image"
+                       gui="true" center="false" z-order="100">
                 <image alias="wall"/>
             </component>
             <component type="Transform">
@@ -147,6 +148,43 @@
     </entity>
     -->
     
+    <entity>
+      <components>
+        <component type="Transform"><position x="378" y="628"/></component>
+        <component type="Animated"><image name="barrel" /></component>
+        <component type="Collider" solid="true"
+                   left="15" top="12" right="15" bottom="19" />
+      </components>
+      <tags><tag name="PROPS" /></tags>
+    </entity>
+    <entity>
+      <components>
+        <component type="Transform"><position x="381" y="645"/></component>
+        <component type="Animated"><image name="barrel" /></component>
+        <component type="Collider" solid="true"
+                   left="15" top="12" right="15" bottom="19" />
+      </components>
+      <tags><tag name="PROPS" /></tags>
+    </entity>
+    <entity>
+      <components>
+        <component type="Transform"><position x="380" y="675"/></component>
+        <component type="Animated"><image name="barrel" /></component>
+        <component type="Collider" solid="true"
+                   left="15" top="12" right="15" bottom="19" />
+      </components>
+      <tags><tag name="PROPS" /></tags>
+    </entity>
+    <entity>
+      <components>
+        <component type="Transform"><position x="380" y="700"/></component>
+        <component type="Animated"><image name="barrel" /></component>
+        <component type="Collider" solid="true"
+                   left="15" top="12" right="15" bottom="19" />
+      </components>
+      <tags><tag name="PROPS" /></tags>
+    </entity>
+    
 	<entity>
 		<!-- Tag list  -->
 		<tags>
@@ -179,7 +217,7 @@
                 <stats name="damage" value="1"/>
             </component>
             <component type="Collider" solid="true"
-                       left="15" top="8" right="15" bottom="28"/>
+                       left="14" top="8" right="14" bottom="28"/>
         </components>
     </entity>
     
@@ -194,7 +232,7 @@
                 <image alias="mayor"/>
             </component>
         <component type="Transform">
-          <position x="435" y="800"/>
+          <position x="475" y="800"/>
         </component>
         <component type="Character">
           <stats name="initiative" value="5"/>
@@ -203,7 +241,7 @@
           <stats name="damage" value="1"/>
         </component>
         <component type="Collider" solid="true"
-                   left="15" top="8" right="15" bottom="28"/>
+                   left="14" top="8" right="14" bottom="28"/>
       </components>
     </entity>
 
@@ -251,43 +289,6 @@
                    left="8" top="16" right="8" bottom="16"/>
       </components>
       <tags><tag name="GOLD" /></tags>
-    </entity>
-    
-    <entity>
-      <components>
-        <component type="Transform"><position x="378" y="628"/></component>
-        <component type="Animated"><image name="barrel" /></component>
-        <component type="Collider" solid="true"
-                   left="15" top="12" right="15" bottom="19" />
-      </components>
-      <tags><tag name="PROPS" /></tags>
-    </entity>
-    <entity>
-      <components>
-        <component type="Transform"><position x="381" y="645"/></component>
-        <component type="Animated"><image name="barrel" /></component>
-        <component type="Collider" solid="true"
-                   left="15" top="12" right="15" bottom="19" />
-      </components>
-      <tags><tag name="PROPS" /></tags>
-    </entity>
-    <entity>
-      <components>
-        <component type="Transform"><position x="380" y="675"/></component>
-        <component type="Animated"><image name="barrel" /></component>
-        <component type="Collider" solid="true"
-                   left="15" top="12" right="15" bottom="19" />
-      </components>
-      <tags><tag name="PROPS" /></tags>
-    </entity>
-    <entity>
-      <components>
-        <component type="Transform"><position x="380" y="700"/></component>
-        <component type="Animated"><image name="barrel" /></component>
-        <component type="Collider" solid="true"
-                   left="15" top="12" right="15" bottom="19" />
-      </components>
-      <tags><tag name="PROPS" /></tags>
     </entity>
     
     <entity>

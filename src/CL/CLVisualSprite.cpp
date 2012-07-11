@@ -24,8 +24,6 @@ CLVisualSprite::debugDraw(VisualContext &vc, float x, float y, int delta,
 
   // For debugging: show a red outline
   CL_GraphicContext &gc = ((CLVisualContext &)vc).getGraphicContext();
-  sprite->draw(gc, x, y);
-  sprite->update(delta);
   float cx = x + getWidth(vc) / 2;
   float cy = y + getHeight(vc) / 2;
   CL_Draw::box(gc, cx - left, cy - top, cx + right, cy + bottom,

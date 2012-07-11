@@ -25,7 +25,10 @@ CLResources::makeImage(string const &name) {
     cerr << "Cannot find image: " << name << endl;
     assert(!(resImage == NULL));
   }
-  return new CLVisualImage(resImage->get());
+  CLVisualImage *image = new CLVisualImage(resImage->get());
+  image->setCenter((float) image->getWidth(vc_) / 2, 
+                   (float) image->getHeight(vc_) / 2);
+  return image;
 }
 
 BVisual *
@@ -35,7 +38,10 @@ CLResources::makeImage(ImagePart const part) {
     cerr << "Cannot find image: " << part.name << endl;
     assert(!(resImage == NULL));
   }
-  return new CLVisualImage(resImage->get(), part.rect);
+  CLVisualImage *image = new CLVisualImage(resImage->get(), part.rect);
+  image->setCenter((float) image->getWidth(vc_) / 2, 
+                   (float) image->getHeight(vc_) / 2);
+  return image;
 }
 
 BVisual *

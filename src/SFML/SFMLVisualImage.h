@@ -14,6 +14,8 @@ public:
   virtual ~SFMLVisualImage();
 
   virtual void draw(VisualContext &vc, float x, float y, int delta=-1);
+  virtual void debugDraw(VisualContext &vc, float x, float y, int delta,
+                         float left, float top, float right, float bottom);
   virtual int getWidth(VisualContext &vc) const;
   virtual int getHeight(VisualContext &vc) const;
   

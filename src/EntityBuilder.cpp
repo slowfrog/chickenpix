@@ -420,6 +420,12 @@ CEntityBuilder::buildComponentResourcesImage( TiXmlElement *pNode,  Entity *e, R
           image->setGUI(false);
         }
       }
+      std::string center;
+      if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "center", &center)) {
+        if (center == "false") {
+          image->setCenter(0, 0);
+        }
+      }
       int zOrder;
       if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "z-order", &zOrder)) {
         image->setZOrder(zOrder);
