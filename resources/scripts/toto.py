@@ -53,7 +53,7 @@ def update(self, manager):
         print("TOTO: My id is %d and I have %d components: %s" %
               (self.id,
                len(self.components),
-               ", ".join(c.typeName() for c in self.getComponents())))
+               ", ".join(c.typeName() for c in self.components)))
         print("My tags are [%s]" % ", ".join(self.getTags()))
         entities = manager.getEntities(cp.Transform.TYPE) #, cp.Visual)
         print("There are %d Transform entities" % len(entities))

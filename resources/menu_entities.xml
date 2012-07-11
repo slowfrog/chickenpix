@@ -31,9 +31,21 @@
       </components>
     </entity>
     <entity>
+        <components>
+            <component type="Transform">
+                <position x="250" y="30"/>
+            </component>
+            <component type="Resources" kind="font" z-order="99">
+                <text>Chickenpix</text>
+                <police name="sans_huge"/>
+                <color r="255" g="150" b="0" a="255" />
+            </component>
+        </components>
+    </entity>
+    <entity>
         <tags><tag name="POINTER"></tag></tags>
         <components>
-            <component type="Transform"><position x="250" y="170"/></component>
+            <component type="Transform"><position x="250" y="200"/></component>
             <component type="Resources" kind="font" z-order="99">
                 <text>&gt;&gt;</text>
                 <police name="sans_big"/>
@@ -47,7 +59,7 @@
 		</tags>
         <components>
             <component type="Transform">
-                <position x="300" y="170"/>
+                <position x="300" y="200"/>
             </component>
             <component type="Resources" kind="font" z-order="99">
                 <text>Start Game</text>
@@ -61,7 +73,7 @@
 		</tags>
         <components>
             <component type="Transform">
-                <position x="300" y="270"/>
+                <position x="300" y="300"/>
             </component>
             <component type="Resources" kind="font" z-order="99">
                 <text>Quit Game</text>
@@ -76,7 +88,7 @@
 		</tags>
         <components>
             <component type="Transform">
-                <position x="300" y="370"/>
+                <position x="300" y="400"/>
             </component>
             <component type="Resources" kind="font" z-order="99">
                 <text>Credits</text>

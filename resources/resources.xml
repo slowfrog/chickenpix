@@ -8,6 +8,10 @@
 
     <!-- Fonts -->
     <section name="fonts">
+      <font name="sans_huge">
+        <freetype file="fonts/BerkshireSwash-Regular.ttf" height="60"
+                  anti_alias="true" subpixel="false" />
+      </font>
       <font name="sans_big">
         <freetype file="fonts/BerkshireSwash-Regular.ttf" height="40"
                   anti_alias="true" subpixel="false" />
