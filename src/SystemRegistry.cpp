@@ -16,8 +16,8 @@ SystemType in_ex_itPath[]={
 
 SystemType updatePath[]={
   INPUTS_TYPE,
-  SCRIPTING_TYPE,
   MOVEMENT_TYPE,
+  SCRIPTING_TYPE,
   ANIMATION_TYPE,
   SOUNDS_TYPE,
   RENDER_TYPE,
