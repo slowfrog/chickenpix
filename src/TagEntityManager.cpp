@@ -109,7 +109,6 @@ CTagEntityMng::getTagsByEntity( const unsigned long entityId) const{
   if ( it != mETag.end() ){
     return (*it).second;
   }
-  LOG2ERR<<"No Tag found for entity ["<< entityId<<"]\n";
   return EMPTY_TAG_COLLECTION;
 }
 
