@@ -16,6 +16,10 @@
         <freetype file="fonts/BerkshireSwash-Regular.ttf" height="40"
                   anti_alias="true" subpixel="false" />
       </font>
+      <font name="sans_norm">
+        <freetype file="fonts/BerkshireSwash-Regular.ttf" height="20"
+                  anti_alias="true" subpixel="false" />
+      </font>
       <font name="sans_small">
         <freetype file="fonts/BerkshireSwash-Regular.ttf" height="11"
                   anti_alias="true" subpixel="true" />

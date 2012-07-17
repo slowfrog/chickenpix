@@ -1,82 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <entities>
-    
-    <!-- Load resources -->
-    <resources>
-        <resource kind="image">
-            <image path="resources/img/map.png" alias="map"/>
-        </resource>
-        <resource kind="image">
-            <image path="resources/img/cochon.png" alias="pig"/>
-        </resource>
-        <resource kind="image">
-            <image path="resources/img/garcon_des_rues.png" alias="streetboy"/>
-        </resource>
-        <resource kind="image">
-            <image path="resources/img/magicien.png" alias="wizard"/>
-        </resource>
-        <resource kind="image">
-            <image path="resources/img/maire.png" alias="mayor"/>
-        </resource>
-        <resource kind="image">
-            <image path="resources/img/princesse.png" alias="princess"/>
-        </resource>
-        <resource kind="image">
-            <image path="resources/img/richard.png" alias="richard"/>
-        </resource>
-        <resource kind="image">
-            <image path="resources/img/wall.png" alias="wall"/>
-        </resource>
-
-        <resource kind="font">
-            <image path="resources/fonts/BerkshireSwash-Regular.ttf" alias="sans_big" size="30"/>
-        </resource>
-        <resource kind="font">
-            <image path="resources/fonts/BerkshireSwash-Regular.ttf" alias="sans_small" size="8"/>
-        </resource>
-        
-        <resource kind="sprite">
-            <image path="sprites/walk_up" alias="man_walk_up"/>
-        </resource>
-        <resource kind="sprite">
-            <image path="sprites/walk_left" alias="man_walk_left"/>
-        </resource>
-        <resource kind="sprite">
-            <image path="sprites/walk_down" alias="man_walk_down"/>
-        </resource>
-        <resource kind="sprite">
-            <image path="sprites/walk_right" alias="man_walk_right"/>
-        </resource>
-        <resource kind="sprite">
-            <image path="sprites/stand_up" alias="man_stand_up"/>
-        </resource>
-        <resource kind="sprite">
-            <image path="sprites/stand_left" alias="man_stand_left"/>
-        </resource>
-        <resource kind="sprite">
-            <image path="sprites/stand_down" alias="man_stand_down"/>
-        </resource>
-        <resource kind="sprite">
-            <image path="sprites/stand_right" alias="man_stand_right"/>
-        </resource>
-        <resource kind="sprite">
-            <image path="sprites/wait" alias="man_still"/>
-        </resource>
-        <resource kind="sprite">
-            <image path="sprites/gold_coin" alias="gold_coin"/>
-        </resource>
-        <resource kind="sprite">
-            <image path="sprites/barrel" alias="barrel"/>
-        </resource>
-
-        <resource kind="audio">
-          <audio path="resources/music/Calmtown.ogg" alias="background_music" />
-        </resource>
-        <resource kind="audio">
-          <audio path="resources/sound/coin.wav" alias="coin" />
-        </resource>
-    </resources>
-    
 	<!-- create entity -->
     <entity>    
         <components>
@@ -210,7 +133,7 @@
             <component type="Camera"
                        offsetX="0" offsetY="0"
                        width="600" height="600" />
-            <component type="Character">
+            <component type="Character" nickname="richard">
                 <stats name="initiative" value="5"/>
                 <stats name="health" value="50"/>
                 <stats name="armor_class" value="3"/>
@@ -234,10 +157,10 @@
         <component type="Transform">
           <position x="475" y="800"/>
         </component>
-        <component type="Character">
-          <stats name="initiative" value="5"/>
-          <stats name="health" value="50"/>
-          <stats name="armor_class" value="3"/>
+        <component type="Character" nickname="mayor">
+          <stats name="initiative" value="4"/>
+          <stats name="health" value="35"/>
+          <stats name="armor_class" value="2"/>
           <stats name="damage" value="1"/>
         </component>
         <component type="Collider" solid="true"

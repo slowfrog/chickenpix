@@ -9,7 +9,7 @@
       </component>
       <component type="Camera"
                        offsetX="0" offsetY="0"
-                       width="600" height="600" />
+                       width="800" height="600" />
       <component type="Transform">
         <position x="0" y="0"/>
       </component>
@@ -17,10 +17,11 @@
     </components>
   </entity>
   
+  
   <entity>    
         <components>
             <component type="Resources" kind="image"
-                       gui="true" center="false" z-order="100">
+                       gui="true" center="false" z-order="50">
                 <image alias="wall"/>
             </component>
             <component type="Transform">
@@ -29,7 +30,7 @@
             <component type="Controller" name="ButtonController" />
         </components>
     </entity>
-    
+    <!--
     <entity>
       <components>
             <component type="Transform">
@@ -41,5 +42,6 @@
             </component>
         </components>
     </entity>
+    -->
 </entities>
 

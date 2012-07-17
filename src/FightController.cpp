@@ -1,6 +1,7 @@
 #include "EntityManager.h"
 #include "InputState.h"
 #include "Mobile.h"
+#include "Collider.h"
 #include "FightController.h"
 
 void
@@ -14,5 +15,10 @@ FightController::update(
   if (input.isKeyDown(InputState::Q)) {
     // Switch
     em.setSwitch( "Main");
+  }
+  
+  // Manage "continue"
+  if (input.isKeyDown(InputState::C)) {
+    return;
   }
 }

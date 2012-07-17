@@ -19,6 +19,7 @@ public:
   // Copy entities with tag "tag"
   void transit( EntityManager &from, EntityManager &to, const std::string &tag);
   void transit( EntityManager &from, EntityManager &to, const TTagCollection &vtag);
+
 private:
   
 };

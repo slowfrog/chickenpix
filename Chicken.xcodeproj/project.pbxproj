@@ -54,6 +54,8 @@
 		5A22FCA21593CD9000745D05 /* PythonTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A22FCA01593CD9000745D05 /* PythonTypes.cpp */; };
 		5A255475159CF3DC0032BBF8 /* TagEntityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A255473159CF3DC0032BBF8 /* TagEntityManager.cpp */; };
 		5A2554C5159CFD8B0032BBF8 /* EntityBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */; };
+		5A4B3FFA15B1DD34004463D1 /* FightGUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B3FF915B1DD34004463D1 /* FightGUI.cpp */; };
+		5A4B423A15B2272D004463D1 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B423915B2272D004463D1 /* Main.cpp */; };
 		5A4DA4B415A64AE300329455 /* Collider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A4DA4B215A64AE300329455 /* Collider.cpp */; };
 		5A740E1B15A4D3A0005DF65D /* Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A740E1715A4D3A0005DF65D /* Audio.cpp */; };
 		5A740E1C15A4D3A0005DF65D /* Sounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A740E1915A4D3A0005DF65D /* Sounds.cpp */; };
@@ -203,6 +205,9 @@
 		5A2554C3159CFD8B0032BBF8 /* EntityBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EntityBuilder.h; path = src/EntityBuilder.h; sourceTree = "<group>"; };
 		5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityBuilder.cpp; path = src/EntityBuilder.cpp; sourceTree = "<group>"; };
 		5A2A2E851598DD8C009389E6 /* Stats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stats.h; path = src/Stats.h; sourceTree = "<group>"; };
+		5A4B3FF815B1DD34004463D1 /* FightGUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FightGUI.h; path = src/FightGUI.h; sourceTree = "<group>"; };
+		5A4B3FF915B1DD34004463D1 /* FightGUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FightGUI.cpp; path = src/FightGUI.cpp; sourceTree = "<group>"; };
+		5A4B423915B2272D004463D1 /* Main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Main.cpp; path = src/Main.cpp; sourceTree = "<group>"; };
 		5A4DA4B215A64AE300329455 /* Collider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Collider.cpp; path = src/Collider.cpp; sourceTree = "<group>"; };
 		5A4DA4B315A64AE300329455 /* Collider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Collider.h; path = src/Collider.h; sourceTree = "<group>"; };
 		5A4DA4B515A64AFE00329455 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = src/Types.h; sourceTree = "<group>"; };
@@ -292,6 +297,7 @@
 				5AB3E98515ADE77B00CCE218 /* VisualText.h */,
 				5A4DA4B515A64AFE00329455 /* Types.h */,
 				5AEA4BE615A23DF000658BF8 /* Main.h */,
+				5A4B423915B2272D004463D1 /* Main.cpp */,
 				5AEA4BDF15A2373900658BF8 /* InputState.h */,
 				5A2554C3159CFD8B0032BBF8 /* EntityBuilder.h */,
 				5A2554C4159CFD8B0032BBF8 /* EntityBuilder.cpp */,
@@ -453,6 +459,8 @@
 			children = (
 				5A0584FF1593D357003C67F6 /* FightSystem.h */,
 				5A0584FE1593D357003C67F6 /* FightSystem.cpp */,
+				5A4B3FF815B1DD34004463D1 /* FightGUI.h */,
+				5A4B3FF915B1DD34004463D1 /* FightGUI.cpp */,
 			);
 			name = RoundFight;
 			sourceTree = "<group>";
@@ -716,6 +724,8 @@
 				5AB3E98615ADE77B00CCE218 /* VisualText.cpp in Sources */,
 				5AB3E9A615ADED2300CCE218 /* InputState.cpp in Sources */,
 				5AB3EA2815AE163900CCE218 /* HandleTransition.cpp in Sources */,
+				5A4B3FFA15B1DD34004463D1 /* FightGUI.cpp in Sources */,
+				5A4B423A15B2272D004463D1 /* Main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

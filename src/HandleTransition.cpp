@@ -2,7 +2,7 @@
 #include "EntityManager.h"
 #include "HandleTransition.h"
 
-// Add entities from surce "from" to target "to" (hahaha good naming)
+// Add entities from source "from" to target "to" (hahaha good naming)
 void 
 HandleTransition::transit(  EntityManager     &from, 
                             EntityManager     &to, 

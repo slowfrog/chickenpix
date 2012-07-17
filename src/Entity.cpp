@@ -62,7 +62,7 @@ Entity::getComponent(Component::Type t) const {
       return *it;
     }
   }
-  throw 0;
+  return NULL;
 }
 
 bool

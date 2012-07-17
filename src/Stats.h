@@ -14,6 +14,11 @@
 #define ARMOR_CLASS                 0x000300
 #define INITIATIVE                  0x000400
 
+#define TAG_HEALTH                  "Health"
+#define TAG_DAMAGE                  "Damage"
+#define TAG_ARMOR                   "Armor"
+#define TAG_INITATIVE               "Initiative"
+
 #define DEFAULT_NAME_CH             "---"
 #define DEFAULT_ID_CH               9999999L
 #define DEFAULT_LIFE_THRESHOLD_CH   0L
@@ -34,6 +39,7 @@ public:
 /* Stats                                                        */
 /****************************************************************/
 class Stats {
+public:
     typedef std::map<long, CVariant>    TMapVariant;
     typedef TMapVariant::iterator       TMapVariantIt;
     typedef TMapVariant::const_iterator TMapVariantCIt;
@@ -47,12 +53,14 @@ public:
     void setStat(const long, const CVariant&);
     CVariant& getStat(const long);
     const CVariant& getStat(const long)const ;
+  
+  const TMapVariant& get() const { return _mstats;}
 
     std::string toString() const;
   
 protected:
     // Data    
-    std::map<long, CVariant> _mstats;
+    TMapVariant _mstats;
 };
 
 
@@ -64,7 +72,7 @@ class Character : public Component
 public:
   static const Type TYPE = CHARACTER_TYPE;
 public:
-  Character(const unsigned long id= DEFAULT_ID_CH, const std::string &name=DEFAULT_NAME_CH, long lt=DEFAULT_LIFE_THRESHOLD_CH)
+  Character(const std::string &name=DEFAULT_NAME_CH, const unsigned long id= DEFAULT_ID_CH, long lt=DEFAULT_LIFE_THRESHOLD_CH)
   : Component( CHARACTER_TYPE), _id( id), _name( name), _lifeThreshold( lt)
   { 
     // Mandatory stats
@@ -86,6 +94,9 @@ public:
   bool isDead() { return _stats.getStat(HEALTH) <= _lifeThreshold; }
   CVariant& get(const unsigned long id) { return _stats.getStat( id);}
   const CVariant& get(const unsigned long id) const { return _stats.getStat( id);}
+  
+  const Stats& getStats() const { return _stats;}
+  
   std::string toString() const;
   
 private:

@@ -30,7 +30,7 @@ public:
   virtual IRoundState* doFight        ( CFightSystem&) { return 0; }
   virtual IRoundState* next           ( CFightSystem&) { return 0; }
   
-  virtual void update ( EntityManager &, int) = 0;
+  virtual void update ( EntityManager &, CFightSystem&, int) = 0;
   virtual void init   ( EntityManager &){}
   virtual void exit   ( EntityManager &){}
   
@@ -45,7 +45,7 @@ public:
   virtual IRoundState* addFighter ( CFightSystem&, const CFighter&, const bool);
   virtual IRoundState* start      ( CFightSystem&);
   
-  virtual void update ( EntityManager &, int);
+  virtual void update ( EntityManager &, CFightSystem&, int);
   virtual std::string toString() {static std::string ret("CRoundInit"); return ret;}
 };
 
@@ -59,7 +59,7 @@ public:
   virtual IRoundState* chooseSkill    ( CFightSystem&);
   virtual IRoundState* doFight        ( CFightSystem&);
 
-  virtual void update ( EntityManager &, int);
+  virtual void update ( EntityManager &, CFightSystem&, int);
   virtual std::string toString() {return "CRoundPrepare";}
 };
 
@@ -70,7 +70,7 @@ class CRoundFight : public IRoundState {
 public:    
   virtual IRoundState* next( CFightSystem&);
 
-  virtual void update ( EntityManager &, int);
+  virtual void update ( EntityManager &, CFightSystem&, int);
   virtual std::string toString() {return "CRoundFight";}
 };
 
@@ -79,7 +79,7 @@ public:
 /****************************************************************/
 class CRoundFinish : public IRoundState {
 public:
-  virtual void update ( EntityManager &, int);
+  virtual void update ( EntityManager &, CFightSystem&, int);
   virtual std::string toString() {return "CRoundFinish";}
 };
 

@@ -534,18 +534,24 @@ CEntityBuilder::buildCamera( TiXmlElement *pNode, Entity *e, Resources*){
 // Component Character
 void 
 CEntityBuilder::buildCharacter ( TiXmlElement *pNode, Entity *e, Resources*){
-  TiXmlElement *pChar = pNode->FirstChildElement("stats");
-  if ( pChar ){
-    Character *character = new Character;
-    for(; pChar; pChar= pChar->NextSiblingElement()){
-      std::string name;
-      long        value(0);
-      if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "name", &name) &&
-           TIXML_SUCCESS == pChar->QueryValueAttribute( "value", &value)){
-        buildStats( character, name, CVariant( value));
+  if ( pNode ){
+    // Check nickname to identify entity
+    std::string nickname ("XXX");
+    pNode->QueryValueAttribute( "nickname", &nickname);
+    // Parse stats
+    TiXmlElement *pChar = pNode->FirstChildElement("stats");
+    if ( pChar ){
+      Character *character = new Character( nickname);
+      for(; pChar; pChar= pChar->NextSiblingElement()){
+        std::string name;
+        long        value(0);
+        if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "name", &name) &&
+            TIXML_SUCCESS == pChar->QueryValueAttribute( "value", &value)){
+          buildStats( character, name, CVariant( value));
+        }
       }
+      e->addComponent( character);
     }
-    e->addComponent( character);
   }
 }
 
@@ -578,7 +584,7 @@ CEntityBuilder::buildCollider ( TiXmlElement *pNode, Entity *e, Resources*){
 }
 
 void 
-CEntityBuilder::buildStats( Character *c, const std::string &name, const CVariant &v)
+  CEntityBuilder::buildStats( Character *c, const std::string &name, const CVariant &v)
 {
   // Ok, not very generic !! must be enhanced later
   if ( name == "initiative"){
@@ -591,7 +597,7 @@ CEntityBuilder::buildStats( Character *c, const std::string &name, const CVarian
     return;
   }
   
-  if ( name == "ca"){
+  if ( name == "armor_class"){
     c->addStats( ARMOR_CLASS, v);
     return;
   }
@@ -600,5 +606,4 @@ CEntityBuilder::buildStats( Character *c, const std::string &name, const CVarian
     c->addStats( DAMAGE, v);
     return;
   }
-
 }

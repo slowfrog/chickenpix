@@ -3,26 +3,48 @@
 #include <algorithm>
 #include <time.h>
 #include "log.h"
+#include "Resources.h"
+#include "Transform.h"
+#include "Stats.h"
+#include "TagEntityManager.h"
+#include "FightGUI.h"
 #include "FightSystem.h"
 
 /****************************************************************/
 /* CRoundInit                                                   */
 /****************************************************************/
 IRoundState* 
-CRoundInit::addFighter( CFightSystem& fe, const CFighter& f, const bool ally){
-    fe.add( f, ally);
+CRoundInit::addFighter( CFightSystem& fs, const CFighter& f, const bool ally){
+    fs.add( f, ally);
     return this;
 }
 
 IRoundState*
-CRoundInit::start( CFightSystem& fe){
-    fe.startRound();
+CRoundInit::start( CFightSystem& fs){
+    fs.startRound();
     return new CRoundPrepare;
 }
 
 void 
-CRoundInit::update( EntityManager &em, int now){
-  // Update or draw something
+CRoundInit::update( EntityManager &em, CFightSystem &fs, int now){
+  // Check if stats already presents (avoid to create them again)
+  FightGUI fg( em);
+  Entity::Id id = em.getFirstByTag( TAG_STATS);
+  if ( id == NOT_FOUND){
+    
+    CFightSystem::TCollectionFighterIt it = fs.vAlly.begin();
+    for (it; it != fs.vAlly.end(); it++) {
+      fg.displayAllyStats( &(*it));
+    }
+    
+    it = fs.vFoe.begin();
+    for (it; it != fs.vFoe.end(); it++) {
+      fg.displayFoeStats( &(*it));
+    }
+  }
+  // Display text
+  fg.readyToStart( "Press [q] to quit", now);
+  
 }
 
 /****************************************************************/
@@ -53,7 +75,7 @@ CRoundPrepare::doFight( CFightSystem& fe){
 }
 
 void 
-CRoundPrepare::update( EntityManager &em, int now){
+CRoundPrepare::update( EntityManager &em, CFightSystem &fs, int now){
   // Update or draw something
 }
 
@@ -67,7 +89,7 @@ CRoundFight::next( CFightSystem& fe){
 }
 
 void 
-CRoundFight::update( EntityManager &em, int now){
+CRoundFight::update( EntityManager &em, CFightSystem &fs, int now){
   // Update or draw something
 }
 
@@ -296,11 +318,11 @@ void CFightSystem::init( EntityManager &em){
 
 // Update
 void CFightSystem::update( EntityManager &em, int now){
-  curState->update(em, now);
+  curState->update(em, *this, now);
 }
 
 // Exit
 void CFightSystem::exit( EntityManager &em){
   curState->exit( em);
 }
-  
+    

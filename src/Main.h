@@ -3,9 +3,13 @@
 #include <cassert>
 #include "log.h"
 #include "SystemFactory.h"
-#include "SystemManager.h" 
+#include "SystemManager.h"
+#include "InputState.h"
 #include "TagEntityManager.h"
 #include "HandleTransition.h"
+
+// Prepare fight
+void prepareFight( EntityManager&, CFightSystem*);
 
 // Template function of the main game loop
 template<class TimerClass>
@@ -87,7 +91,7 @@ runGame( CSystemFactory* pFac) {
   SysMng.SystemInit   ( SysMng.getByName( "Fight"));
 
   // Set current at starting
-  SysMng.setCurrent( "Menu");
+  SysMng.setCurrent( "Main");
   cout << "Menu "<<SysMng.getByName( "Menu").toString() << endl;
   cout << "Main "<<SysMng.getByName( "Main").toString() << endl;
   std::string NextMode("Main");
@@ -109,8 +113,12 @@ runGame( CSystemFactory* pFac) {
       HandleTransition ht;
       std::string nm = SysMng.getByRef().requiredName();
       ht.transit(SysMng.getByRef(), SysMng.getByName( nm), "HERO");
+      ht.transit(SysMng.getByRef(), SysMng.getByName( nm), "FoeInFight");
       // Switch mode
       SysMng.setCurrent( SysMng.getByRef().requiredName());
+      
+      // Preapre ficght if needed
+      prepareFight( SysMng.getByRef(), fight);
     }
     
     // hehe c est tres moche mais bon ...
@@ -118,6 +126,7 @@ runGame( CSystemFactory* pFac) {
     if (curInputs->isExitRequested()) {
       break;
     }
+    
     if (curInputs->getInputState()->isKeyDown(InputState::Tab)) {
       if (!justSwitched) {
         justSwitched = true;

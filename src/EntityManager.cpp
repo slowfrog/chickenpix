@@ -1,5 +1,6 @@
 #include <sstream>
 #include "TagEntityManager.h"
+#include "Stats.h"
 #include "EntityManager.h"
 
 EntityManager::EntityManager(string const &name):
@@ -51,8 +52,12 @@ EntityManager::createEntity() {
 
 Entity *
 EntityManager::getById(Entity::Id id) {
-  if ((id > 0) && (id < _entities.size())) {
-    return _entities[id];
+  if ( id >= 1) {
+    for( std::size_t i = 1; i<_entities.size(); i++){
+      if ( _entities[i] && id == _entities[i]->getId()) {
+        return _entities[i];
+      }
+    }
   }
   return NULL;
 }
@@ -171,7 +176,7 @@ EntityManager::getFirstByTag(string const &tag) {
   // Search first in the map of unique tag, 
   // if not found look in the other map 
   Entity::Id l_id = CTagEntityMng::get()->getEntityByTag( tag);
-  if ( l_id >= 0){
+  if ( l_id != NOT_FOUND){
     return l_id;
   }
   else {

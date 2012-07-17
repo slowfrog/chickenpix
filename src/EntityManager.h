@@ -5,6 +5,11 @@
 #include "Types.h"
 #include "Entity.h"
 
+// Constants
+#define MENU  "Menu"
+#define MAIN  "Main"
+#define FIGHT "Fight"
+
 /**
  * An EntityManager manages entities (obviously). This means that Entity objects
  * should only be created by a manager (calling createEntity) and should only be
@@ -63,8 +68,12 @@ public:
   vector<Entity::Id> const &getByTag(const string &tag);
   Entity::Id getFirstByTag(const string &tag);
 
+  /**
+   * Components access
+   */
   template<class T> T *getComponent();
   
+  // Debug
   string toString() const;
 };
 

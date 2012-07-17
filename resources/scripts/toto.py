@@ -51,6 +51,7 @@ def update(self, manager):
         if "Foe" in collentity.getTags():
             print("Enemy !!! banzai !!!")
             manager.setSwitch("Fight")
+            manager.tagEntity(collentity, "FoeInFight")
             
     if self.times == 0:
         print("TOTO: My id is %d and I have %d components: %s" %
