@@ -2,6 +2,7 @@
 #include "InputState.h"
 #include "Mobile.h"
 #include "Collider.h"
+#include "FightSystem.h"
 #include "FightController.h"
 
 void
@@ -19,6 +20,6 @@ FightController::update(
   
   // Manage "continue"
   if (input.isKeyDown(InputState::C)) {
-    return;
+    NotificationCenter::get()->Notify( FS_NOTIFIER_KEY_C);
   }
 }

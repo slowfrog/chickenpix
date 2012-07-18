@@ -1,6 +1,7 @@
 #include <cassert>
 #include <algorithm>
 #include "log.h"
+#include "Notification.h"
 #include "SystemRegistry.h"
 #include "TagEntityManager.h"
 #include "SystemManager.h"
@@ -146,6 +147,7 @@ CSystemManager::SystemInit(){
 void 
 CSystemManager::SystemUpdate( int now){
   if ( mCurVecSys && mEMng){
+    // Update all sytem
     for (int i = 0; updatePath[i] != END_OF_LIST; ++i) {
       System *sys = (*mCurVecSys)[updatePath[i]];
       if (sys) {

@@ -84,6 +84,7 @@
 		5AEA4BDE15A2372A00658BF8 /* SFMLInputState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEA4BDC15A2372A00658BF8 /* SFMLInputState.cpp */; };
 		5AEA4C1015A2467800658BF8 /* SFMLSystemFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEA4C0F15A2467800658BF8 /* SFMLSystemFactory.cpp */; };
 		5AEA4C3B15A2582D00658BF8 /* SystemFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEA4C3A15A2582D00658BF8 /* SystemFactory.cpp */; };
+		5AF9BD9D15B6CCAF004055E6 /* Notification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AF9BD9C15B6CCAF004055E6 /* Notification.cpp */; };
 		A0072ADE0F1D0EC500B4A594 /* sfml-system.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A01FB6CB0F07CFF2000AAC7B /* sfml-system.framework */; };
 		A0072ADF0F1D0EC500B4A594 /* sfml-window.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A01FB6CC0F07CFF2000AAC7B /* sfml-window.framework */; };
 		A0072AE00F1D0EC500B4A594 /* sfml-graphics.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A01FB6CA0F07CFF2000AAC7B /* sfml-graphics.framework */; };
@@ -263,6 +264,8 @@
 		5AEA4C0E15A2467800658BF8 /* SFMLSystemFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMLSystemFactory.h; path = src/SFML/SFMLSystemFactory.h; sourceTree = "<group>"; };
 		5AEA4C0F15A2467800658BF8 /* SFMLSystemFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SFMLSystemFactory.cpp; path = src/SFML/SFMLSystemFactory.cpp; sourceTree = "<group>"; };
 		5AEA4C3A15A2582D00658BF8 /* SystemFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SystemFactory.cpp; path = src/SystemFactory.cpp; sourceTree = "<group>"; };
+		5AF9BD9B15B6CCAF004055E6 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notification.h; path = src/Notification.h; sourceTree = "<group>"; };
+		5AF9BD9C15B6CCAF004055E6 /* Notification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Notification.cpp; path = src/Notification.cpp; sourceTree = "<group>"; };
 		A01FB6A90F07CF6E000AAC7B /* Chicken.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chicken.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A01FB6AC0F07CF6E000AAC7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A01FB6CA0F07CFF2000AAC7B /* sfml-graphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-graphics.framework"; path = "/Library/Frameworks/sfml-graphics.framework"; sourceTree = "<absolute>"; };
@@ -474,6 +477,8 @@
 				5A0E14B9159BC3A900B253AB /* log.h */,
 				5A0E14B8159BC3A900B253AB /* log.cpp */,
 				5A255486159CF55B0032BBF8 /* Singleton.h */,
+				5AF9BD9B15B6CCAF004055E6 /* Notification.h */,
+				5AF9BD9C15B6CCAF004055E6 /* Notification.cpp */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -726,6 +731,7 @@
 				5AB3EA2815AE163900CCE218 /* HandleTransition.cpp in Sources */,
 				5A4B3FFA15B1DD34004463D1 /* FightGUI.cpp in Sources */,
 				5A4B423A15B2272D004463D1 /* Main.cpp in Sources */,
+				5AF9BD9D15B6CCAF004055E6 /* Notification.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

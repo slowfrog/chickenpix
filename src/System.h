@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Notification.h"
 #include "SystemRegistry.h"
 #include "EntityManager.h"
 
@@ -25,4 +26,13 @@ public:
   virtual SystemType getType() const =0;
   
   virtual string toString() const;
+};
+
+/*
+ System Notifier
+*/
+class SystemNotifier : public System, public INotifier {
+public:
+  SystemNotifier( const std::string &name):System( name){}
+  virtual ~SystemNotifier(){}
 };

@@ -8,6 +8,10 @@
 #include "System.h"
 #include "Stats.h"
 
+// Constant(s)
+#define FS_NOTIFIER_ID      10000
+#define FS_NOTIFIER_KEY_C   "Key_C_Pressed"
+
 // Forward
 class CFightSystem; 
 
@@ -86,7 +90,7 @@ public:
 /****************************************************************/
 /* CFightEngine                                                 */
 /****************************************************************/
-class CFightSystem : public System {
+class CFightSystem : public SystemNotifier {
   friend class CRoundInit;
   friend class CRoundPrepare;
   friend class CRoundFight;
@@ -109,7 +113,9 @@ public:
   CFightSystem( const std::string&);
   virtual	~CFightSystem();
   
-   inline SystemType getType() const { return FIGHT_TYPE;}
+  inline SystemType getType() const { return FIGHT_TYPE;}
+  
+  const long getId() const { return FS_NOTIFIER_ID;}
 	
   // API
   void addFoe (const CFighter&);
@@ -120,6 +126,9 @@ public:
   void init( EntityManager &);
   void update(EntityManager &, int);
   void exit( EntityManager &);
+  
+  // Notifier API
+  void apply( const Notification&); 
   
   // Display info
   std::string toString();

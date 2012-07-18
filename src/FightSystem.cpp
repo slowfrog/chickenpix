@@ -43,7 +43,7 @@ CRoundInit::update( EntityManager &em, CFightSystem &fs, int now){
     }
   }
   // Display text
-  fg.readyToStart( "Press [q] to quit", now);
+  fg.readyToStart( "Press [c] to continue", now);
   
 }
 
@@ -107,10 +107,9 @@ sortByInitiative(const CFighter& a, const CFighter& b){
 
 /**
  */
-CFightSystem::CFightSystem( const std::string &name): System( name), endOfFight(false){
-	/*curState = new CRoundInit;
-	if ( !curState ) throw "[CFightEngine] failed.";
-    CDice<>::init();*/
+CFightSystem::CFightSystem( const std::string &name): SystemNotifier( name), endOfFight(false){
+  // Register event
+  NotificationCenter::get()->registerNotification( this, FS_NOTIFIER_KEY_C);
 }
 
 /**
@@ -120,6 +119,8 @@ CFightSystem::~CFightSystem(){
 		delete curState;
 	}
 	curState = NULL;
+  
+  NotificationCenter::get()->unregisterNotification( this, FS_NOTIFIER_KEY_C);
 }
 
 /**
@@ -325,4 +326,12 @@ void CFightSystem::update( EntityManager &em, int now){
 void CFightSystem::exit( EntityManager &em){
   curState->exit( em);
 }
+
+/*
+ Notifier API
+ */
+void CFightSystem::apply( const Notification &evt){
+  LOG2 << "TEST NOTIFICATION\n";
+}
+
     
