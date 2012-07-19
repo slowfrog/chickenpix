@@ -83,6 +83,7 @@
     <ClCompile Include="..\src\EntityBuilder.cpp" />
     <ClCompile Include="..\src\EntityManager.cpp" />
     <ClCompile Include="..\src\FightController.cpp" />
+    <ClCompile Include="..\src\FightGUI.cpp" />
     <ClCompile Include="..\src\FightSystem.cpp" />
     <ClCompile Include="..\src\HandleTransition.cpp" />
     <ClCompile Include="..\src\HeroController.cpp" />
@@ -91,8 +92,10 @@
     <ClCompile Include="..\src\InputState.cpp" />
     <ClCompile Include="..\src\Loader.cpp" />
     <ClCompile Include="..\src\log.cpp" />
+    <ClCompile Include="..\src\Main.cpp" />
     <ClCompile Include="..\src\Mobile.cpp" />
     <ClCompile Include="..\src\Movement.cpp" />
+    <ClCompile Include="..\src\Notification.cpp" />
     <ClCompile Include="..\src\PythonComponents.cpp" />
     <ClCompile Include="..\src\PythonTypes.cpp" />
     <ClCompile Include="..\src\Render.cpp" />
@@ -142,6 +145,7 @@
     <ClInclude Include="..\src\EntityBuilder.h" />
     <ClInclude Include="..\src\EntityManager.h" />
     <ClInclude Include="..\src\FightController.h" />
+    <ClInclude Include="..\src\FightGUI.h" />
     <ClInclude Include="..\src\FightSystem.h" />
     <ClInclude Include="..\src\HandleTransition.h" />
     <ClInclude Include="..\src\HeroController.h" />
@@ -154,6 +158,7 @@
     <ClInclude Include="..\src\Main.h" />
     <ClInclude Include="..\src\Mobile.h" />
     <ClInclude Include="..\src\Movement.h" />
+    <ClInclude Include="..\src\Notification.h" />
     <ClInclude Include="..\src\PythonComponents.h" />
     <ClInclude Include="..\src\PythonTypes.h" />
     <ClInclude Include="..\src\Render.h" />

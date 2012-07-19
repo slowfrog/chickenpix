@@ -86,9 +86,9 @@ FightGUI::displayStats( Character *c, const float startX, const float startY){
   for ( ; it != vs.end(); it++) {
     std::string name;
     getStatsName( (*it).first, name);
-    addText( "sans_norm", color, startX, startY+(inc*25.), name);
+    addText( "sans_norm", color, startX, startY+(inc*25.0f), name);
     CVariant v = (*it).second;
-    addText( "sans_norm", color, startX+LENGHT_TXT, startY+(inc*25.), v);
+    addText( "sans_norm", color, startX+LENGHT_TXT, startY+(inc*25.0f), v);
     inc++;
   }
 }
@@ -107,7 +107,7 @@ FightGUI::readyToStart( const std::string& text, int now)
   assert( ent);
   // Properties
   // A revoir pour plus de souplesse avec les properties de la camera, approx de la police aussi
-  float x = (800./2.-200) - (text.length()*45)/2.;
+  float x = (800.0f/2-200) - (text.length()*45)/2;
   if (x < -400) x = -( 800. - 200.)/2.;
   addText( "sans_big", CPColor( now%255, 128, 0, now%255), x, -200, text);
 }
