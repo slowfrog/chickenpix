@@ -83,7 +83,7 @@ FightGUI::displayStats( Character *c, const float startX, const float startY){
   Stats::TMapVariantIt it = vs.begin();
   float inc(0.);
   CPColor color( 255, 255, 0, 200);
-  for ( it; it != vs.end(); it++) {
+  for ( ; it != vs.end(); it++) {
     std::string name;
     getStatsName( (*it).first, name);
     addText( "sans_norm", color, startX, startY+(inc*25.), name);

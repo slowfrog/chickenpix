@@ -22,7 +22,7 @@ void prepareFight( EntityManager &em, CFightSystem *fs)
   TEntityIdList vid = em.getByTag( "FoeInFight");
   if ( !vid.empty()){
     TEntityIdList::iterator it = vid.begin();
-    for( it; it != vid.end(); it++){
+    for( ; it != vid.end(); it++){
       e = em.getById( (*it));
       if ( e){
         Character *c = e->getComponent<Character>();

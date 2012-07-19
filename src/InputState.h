@@ -70,7 +70,8 @@ public:
     W = 39,
     X = 40,
     Y = 41,
-    Z = 42
+    Z = 42,
+    Enter = 43
   };
 
   static string KEY_NAMES[];

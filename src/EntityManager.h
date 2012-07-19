@@ -19,15 +19,17 @@
  */
 class EntityManager {
 public:
+  static string EXIT;
+  
 private:
   /** Name of the manager. Mostly useless. */
-  string _name;
+  string name_;
   /** Currently owned entities. Some entries might be NULL. */
-  vector<Entity *> _entities;
+  vector<Entity *> entities_;
   /** Entities grouped by tags. */
-  map<string, vector<Entity::Id> > _tags;
+  map<string, vector<Entity::Id> > tags_;
   /** Switch needed */
-  std::string nameRequired;
+  std::string nameRequired_;
 
 public:
   EntityManager(string const &name);
@@ -36,9 +38,10 @@ public:
   string getName() const;
   int getSize() const;
   
-  void setSwitch( const std::string&);
+  void setSwitch(const string&);
   bool switchRequired() const;
-  inline const std::string& requiredName() const { return nameRequired;}
+  bool exitRequested() const;
+  inline const string& requiredName() const { return nameRequired_; }
   
   Entity *createEntity();
   Entity *getById(Entity::Id id);

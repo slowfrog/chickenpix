@@ -14,6 +14,8 @@ def update(self, manager):
     self.times += 1
     input = self.getComponent(cp.Input.TYPE)
     if input is not None:
+        if input.state.isKeyDown(cp.InputState.ESCAPE):
+            manager.setSwitch("EXIT")
         if input.state.isButtonDown(cp.InputState.LEFT_BUTTON):
             print("The left button is pressed at %d,%d" %
                   input.state.getMousePosition())

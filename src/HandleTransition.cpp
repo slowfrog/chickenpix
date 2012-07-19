@@ -23,7 +23,7 @@ HandleTransition::transit(  EntityManager     &from,
   // Add entities
   if ( !vEnt.empty() ) {
     CTagEntityMng::TCollectionIdEntity::iterator it = vEnt.begin();
-    for (it; it != vEnt.end(); it++) {
+    for (; it != vEnt.end(); it++) {
       // Get entity from source EM 
       Entity *e = from.getById( (*it));
       // Check if exist in target EM, if not, add it
@@ -43,7 +43,7 @@ HandleTransition::transit(  EntityManager         &from,
 {
   // Loop on tag list
   TTagCollection::const_iterator it = vtag.begin();
-  for (it; it != vtag.end(); it++){
+  for (; it != vtag.end(); it++){
     transit( from, to, (*it));
   }
 }

@@ -91,7 +91,7 @@ runGame( CSystemFactory* pFac) {
   SysMng.SystemInit   ( SysMng.getByName( "Fight"));
 
   // Set current at starting
-  SysMng.setCurrent( "Main");
+  SysMng.setCurrent( "Menu");
   cout << "Menu "<<SysMng.getByName( "Menu").toString() << endl;
   cout << "Main "<<SysMng.getByName( "Main").toString() << endl;
   std::string NextMode("Main");
@@ -106,6 +106,9 @@ runGame( CSystemFactory* pFac) {
 
     // Process inputs
     SysMng.SystemUpdate( SysMng.getByRef(), now);
+    if (SysMng.exitRequested()) {
+      break;
+    }
     
     if ( SysMng.getByRef().switchRequired() ){
       LOG2<<"Switch to :"<< SysMng.getByRef().requiredName()<<"\n";
@@ -123,9 +126,6 @@ runGame( CSystemFactory* pFac) {
     
     // hehe c est tres moche mais bon ...
     Inputs *curInputs = (Inputs*) SysMng.getCurrentSystemByType( INPUTS_TYPE);
-    if (curInputs->isExitRequested()) {
-      break;
-    }
     
     if (curInputs->getInputState()->isKeyDown(InputState::Tab)) {
       if (!justSwitched) {
@@ -153,6 +153,7 @@ runGame( CSystemFactory* pFac) {
 
   SysMng.SystemExit( SysMng.getByName( "Menu"));
   SysMng.SystemExit( SysMng.getByName( "Main"));
+  SysMng.SystemExit( SysMng.getByName( "Fight"));
     
   // At this step all pointers still valids
   // delete them

@@ -33,12 +33,12 @@ CRoundInit::update( EntityManager &em, CFightSystem &fs, int now){
   if ( id == NOT_FOUND){
     
     CFightSystem::TCollectionFighterIt it = fs.vAlly.begin();
-    for (it; it != fs.vAlly.end(); it++) {
+    for (; it != fs.vAlly.end(); it++) {
       fg.displayAllyStats( &(*it));
     }
     
     it = fs.vFoe.begin();
-    for (it; it != fs.vFoe.end(); it++) {
+    for (; it != fs.vFoe.end(); it++) {
       fg.displayFoeStats( &(*it));
     }
   }
