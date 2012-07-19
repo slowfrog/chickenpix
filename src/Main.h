@@ -99,7 +99,7 @@ runGame( CSystemFactory* pFac) {
   TimerClass timer;
   int prev = timer.getTime();
 
-  bool justSwitched = false;
+  //bool justSwitched = false;
   // One step
   while (true) {
     int now = timer.getTime();
@@ -125,21 +125,21 @@ runGame( CSystemFactory* pFac) {
     }
     
     // hehe c est tres moche mais bon ...
-    Inputs *curInputs = (Inputs*) SysMng.getCurrentSystemByType( INPUTS_TYPE);
+    // Inputs *curInputs = (Inputs*) SysMng.getCurrentSystemByType( INPUTS_TYPE);
     
-    if (curInputs->getInputState()->isKeyDown(InputState::Tab)) {
-      if (!justSwitched) {
-        justSwitched = true;
-        std::string tmp = SysMng.getName();
-        cout << "Switching from " << tmp << " to " << NextMode <<
-          " (curInputs is " << curInputs->toString() << ")" << endl;
-        SysMng.setCurrent( NextMode);
-        NextMode = tmp;
-        //break;
-      }
-    } else {
-      justSwitched = false;
-    }
+    // if (curInputs->getInputState()->isKeyDown(InputState::Tab)) {
+    //   if (!justSwitched) {
+    //     justSwitched = true;
+    //     std::string tmp = SysMng.getName();
+    //     cout << "Switching from " << tmp << " to " << NextMode <<
+    //       " (curInputs is " << curInputs->toString() << ")" << endl;
+    //     SysMng.setCurrent( NextMode);
+    //     NextMode = tmp;
+    //     //break;
+    //   }
+    // } else {
+    //   justSwitched = false;
+    // }
 
     prev = now;
         

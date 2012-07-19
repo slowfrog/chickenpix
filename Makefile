@@ -1,4 +1,4 @@
-
+SUFFIXES += .d
 CC=g++ 
 
 SRC_DIR=src
@@ -24,12 +24,14 @@ TIX_SOURCES:=$(shell ls $(TIX_SRC_DIR)/*.cpp)
 TMX_SOURCES:=$(shell ls $(TMX_SRC_DIR)/*.cpp)
 CL_SOURCES=$(shell ls $(CL_SRC_DIR)/*.cpp)
 SF_SOURCES=$(shell ls $(SF_SRC_DIR)/*.cpp)
+ALL_SOURCES=$(SOURCES) $(TIX_SOURCES) $(TMX_SOURCES) $(CL_SOURCES) $(SF_SOURCES)
 
 OBJECTS=$(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o) 
 TMX_OBJECTS=$(TMX_SOURCES:$(TMX_SRC_DIR)/%.cpp=$(TMX_OBJ_DIR)/%.o) 
 TIX_OBJECTS=$(TIX_SOURCES:$(TIX_SRC_DIR)/%.cpp=$(TIX_OBJ_DIR)/%.o) 
 CL_OBJECTS=$(CL_SOURCES:$(CL_SRC_DIR)/%.cpp=$(CL_OBJ_DIR)/%.o)
 SF_OBJECTS=$(SF_SOURCES:$(SF_SRC_DIR)/%.cpp=$(SF_OBJ_DIR)/%.o)
+ALL_OBJECTS=$(OBJECTS) $(TIX_OBJECTS) $(TMX_OBJECTS) $(CL_OBJECTS) $(SF_OBJECTS)
 
 CL_EXECUTABLE=clmain
 SF_EXECUTABLE=smain
@@ -45,6 +47,12 @@ $(CL_EXECUTABLE): $(OBJECTS) $(TMX_OBJECTS) $(TIX_OBJECTS) $(CL_OBJECTS)
 
 $(SF_EXECUTABLE): $(OBJECTS) $(TMX_OBJECTS) $(TIX_OBJECTS) $(SF_OBJECTS) 
 	$(CC) $(SF_LDFLAGS) $(OBJECTS) $(TMX_OBJECTS) $(TIX_OBJECTS) $(SF_OBJECTS) -o $@ 
+
+$(CL_OBJ_DIR)/%.d: $(CL_OBJ_DIR)/%.o
+$(SF_OBJ_DIR)/%.d: $(SF_OBJ_DIR)/%.o
+$(TMX_OBJ_DIR)/%.d: $(TMX_OBJ_DIR)/%.o
+$(TIX_OBJ_DIR)/%.d: $(TIX_OBJ_DIR)/%.o
+$(OBJ_DIR)/%.d: $(OBJ_DIR)/%.o
 
 $(CL_OBJ_DIR)/%.o: $(CL_SRC_DIR)/%.cpp
 	@echo 'Building file: $<'
@@ -78,4 +86,6 @@ clean:
 
 purge:
 	-rm -rf $(CL_OBJ_DIR) $(SF_OBJ_DIR) $(TMX_OBJ_DIR) $(TIX_OBJ_DIR) $(OBJ_DIR) $(CL_EXECUTABLE) $(SF_EXECUTABLE) $(shell find . -name '*~') $(shell find . -name '*.pyc')
+
+-include $(ALL_OBJECTS:.o=.d)
 
