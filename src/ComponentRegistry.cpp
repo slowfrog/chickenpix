@@ -14,5 +14,6 @@ const char *ComponentName[] = {
   "Controller",
   "Audio",
   "Collider",
+  "Actionable",
   0
 };

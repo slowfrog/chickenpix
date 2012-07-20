@@ -111,4 +111,10 @@ def update(self, manager):
         diffclock = time.time() - self.start
         print("240 frames in %f sec: %f FPS" % (diffclock, 240 / diffclock))
 
-    audio = self.getComponent(cp.Audio.TYPE)
+    actionables = manager.getEntities(cp.Actionable.TYPE)
+    for actent in actionables:
+        act = actent.getComponent(cp.Actionable.TYPE)
+        if act.action != "":
+            print("Current action: %s" % act.action)
+            act.clearAction()
+            

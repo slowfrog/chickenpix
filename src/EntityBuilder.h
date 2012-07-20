@@ -29,6 +29,7 @@ extern void clbCharacter      ( CEntityBuilder*, TiXmlElement*, Entity*, Resourc
 extern void clbController     ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbAudio          ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbCollider       ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
+extern void clbActionable     ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 
 /*
 */
@@ -56,6 +57,7 @@ public:
   void buildController     ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildAudio          ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildCollider       ( TiXmlElement*, Entity*, Resources* = NULL);
+  void buildActionable     ( TiXmlElement*, Entity*, Resources* = NULL);
   
 protected:
   void init();

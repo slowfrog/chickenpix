@@ -14,6 +14,7 @@
 #include "Camera.h"
 #include "Stats.h"
 #include "Collider.h"
+#include "Actionable.h"
 // owner
 #include "EntityBuilder.h"
 
@@ -33,6 +34,7 @@ static callbacks callers[]={
   clbController,
   clbAudio,
   clbCollider,
+  clbActionable,
   0 // last index marker
 };
 
@@ -85,6 +87,10 @@ void clbController( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources
 
 void clbCollider( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
   eb->buildCollider( node, e, pResource);
+}
+
+void clbActionable( CEntityBuilder* eb, TiXmlElement* node, Entity* e, Resources *pResource){
+  eb->buildActionable( node, e, pResource);
 }
 
 
@@ -581,6 +587,13 @@ CEntityBuilder::buildCollider ( TiXmlElement *pNode, Entity *e, Resources*){
     throw "Bad xml description for [Collider] component, missing size size "
       "or box bounds (left, top, right bottom) \n";
   }
+}
+
+// Component Actionable
+void 
+CEntityBuilder::buildActionable ( TiXmlElement *pNode, Entity *e, Resources*){
+  Actionable *actionable = new Actionable();
+  e->addComponent(actionable);
 }
 
 void 

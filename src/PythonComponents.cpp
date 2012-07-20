@@ -11,6 +11,7 @@
 #include "Mobile.h"
 #include "Transform.h"
 #include "Collider.h"
+#include "Actionable.h"
 
 
 //
@@ -26,6 +27,7 @@ typedef PyComponent PyAudio;
 typedef PyComponent PyInput;
 typedef PyComponent PyCamera;
 typedef PyComponent PyCollider;
+typedef PyComponent PyActionable;
 
 // Transform type and methods ---------------------------------------------------
 static PyTypeObject PyTransformType = {
@@ -894,6 +896,59 @@ static PyGetSetDef Collider_getset[] = {
   { NULL, NULL }
 };
 
+// Actionable type and methods ----------------------------------------------------
+static PyTypeObject PyActionableType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Actionable",
+  sizeof(PyActionable),
+};
+
+static
+int Actionable_init(PyTransform *self, PyObject *args, PyObject *kwds) {
+  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
+    return -1;
+  }
+  if (PyErr_Occurred()) {
+    PyErr_Clear();
+  }
+  
+  self->component = new Actionable();
+  return 0;
+}
+
+static
+PyObject *Actionable_getAction(PyObject *self, void *) {
+  Actionable *a = (Actionable *) ((PyActionable *) self)->component;
+  return PyString_FromString(a->getAction().c_str());
+}
+
+static
+int Actionable_setAction(PyObject *self, PyObject *val, void *) {
+  Actionable *a = (Actionable *) ((PyActionable *) self)->component;
+  a->setAction(PyString_AsString(val));
+  return 0;
+}
+
+static PyGetSetDef Actionable_getset[] = {
+  { (char *) "action", Actionable_getAction, Actionable_setAction,
+    (char *) "Triggered action", NULL },
+  { NULL, NULL }
+};
+
+static
+PyObject *Actionable_clearAction(PyObject *self) {
+  Actionable *a = (Actionable *) ((PyActionable *) self)->component;
+  a->clearAction();
+  Py_RETURN_NONE;
+}
+
+static PyMethodDef Actionable_methods[] = {
+  { "clearAction", (PyCFunction) Actionable_clearAction, METH_NOARGS,
+    "Clear current action" },
+  { NULL }
+};
+
 // Real initialization ----------------------------------------------------------
 void
 initComponents(PyObject *module) {
@@ -1048,6 +1103,24 @@ initComponents(PyObject *module) {
   type = PyInt_FromLong(Collider::TYPE);
   PyDict_SetItemString(PyColliderType.tp_dict, "TYPE", type);
   Py_DECREF(type);
+
+  // Actionable
+  PyActionableType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
+  PyActionableType.tp_doc = "Type of Actionable components";
+  PyActionableType.tp_methods = Actionable_methods;
+  PyActionableType.tp_base = &PyComponentType;
+  PyActionableType.tp_init = (initproc) Actionable_init;
+  PyActionableType.tp_getset = Actionable_getset;
+  if (PyType_Ready(&PyActionableType) < 0) {
+    LOG2 << "Cannot create Actionable type\n";
+    return;
+  }
+  Py_INCREF(&PyActionableType);
+  PyModule_AddObject(module, "Actionable", (PyObject *) &PyActionableType);
+  type = PyInt_FromLong(Actionable::TYPE);
+  PyDict_SetItemString(PyActionableType.tp_dict, "TYPE", type);
+  Py_DECREF(type);
+
 }
 
 PyObject *
@@ -1106,6 +1179,13 @@ wrapCollider(Collider *c) {
   return (PyObject *) pyc;
 }
 
+PyObject *
+wrapActionable(Actionable *c) {
+  PyActionable *pyc = (PyActionable *) PyActionableType.tp_alloc(&PyActionableType, 0);
+  pyc->component = c;
+  return (PyObject *) pyc;
+}
+
 
 PyObject *
 wrapRealComponent(Component *c) {
@@ -1126,6 +1206,8 @@ wrapRealComponent(Component *c) {
     return wrapCamera((Camera *) c);
   case Collider::TYPE:
     return wrapCollider((Collider *) c);
+  case Actionable::TYPE:
+    return wrapActionable((Actionable *) c);
   default:
     return NULL;
   }
