@@ -97,10 +97,9 @@ def update(self, manager):
         diffclock = time.time() - self.start
         print("240 frames in %f sec: %f FPS" % (diffclock, 240 / diffclock))
 
-    for actent in manager.getEntities(cp.Actionable.TYPE):
-        act = actent.getComponent(cp.Actionable.TYPE)
-        if act.action == "ButtonClicked":
-            anim = self.getComponent(cp.Animated.TYPE)
-            print("You just clicked on something")
-            anim.animation = "man_still"
+    act = self.getComponent(cp.Actionable.TYPE)
+    if act and act.action == "ButtonClicked":
+        anim = self.getComponent(cp.Animated.TYPE)
+        print("You just clicked on Richard")
+        anim.animation = "man_still"
             

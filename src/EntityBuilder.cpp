@@ -376,7 +376,13 @@ void
 CEntityBuilder::buildController(TiXmlElement *pNode, Entity *e, Resources*){
   std::string name; 
   if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "name", &name)){
-    e->addComponent( new Controller(name));
+    if (!e->hasComponent(Controller::TYPE)) {
+      e->addComponent( new Controller(name));
+    } else {
+      LOG2 << "Found previous Controller component. Adding " << name << "\n";
+      Controller *prev = e->getComponent<Controller>();
+      prev->addName(name);
+    }
   } else {
     LOG2ERR << "Missing 'name' attribute for [Controller] component\n";
   }

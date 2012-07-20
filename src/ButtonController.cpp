@@ -5,6 +5,7 @@
 #include "BVisual.h"
 #include "Camera.h"
 #include "Transform.h"
+#include "Collider.h"
 #include "Actionable.h"
 
 const string &ButtonController::ButtonJustDown("ButtonJustDown");
@@ -19,12 +20,19 @@ ButtonController::update(EntityManager &em, Entity &entity,
     return;
   }
   const Transform *trans = entity.getComponent<Transform>();
-  
-  if (!entity.hasComponent(BVisual::TYPE)) {
-    LOG2 << "Missing BVisual component for ButtonController.\n";
+
+  const BVisual *visu = NULL;
+  const Collider *collider = NULL;
+  if (entity.hasComponent(Collider::TYPE)) {
+    collider = entity.getComponent<Collider>();
+  }
+  if (entity.hasComponent(BVisual::TYPE)) {
+    visu = entity.getComponent<BVisual>();
+  }
+  if ((collider == NULL) && (visu == NULL)) {
+    LOG2 << "Missing Collider or BVisual component for ButtonController.\n";
     return;
   }
-  const BVisual *visu = entity.getComponent<BVisual>();
 
   Actionable *actionable = NULL;
   if (!entity.hasComponent(Actionable::TYPE)) {
@@ -36,20 +44,42 @@ ButtonController::update(EntityManager &em, Entity &entity,
   
   float minX = trans->getX();
   float minY = trans->getY();
-  if (!visu->isGUI()) {
+  if ((visu != NULL) && (!visu->isGUI())) {
     const Entity *cameraEntity = em.getFirst(Camera::TYPE);
     if (cameraEntity) {
-      const Camera *camera = cameraEntity->getComponent<Camera>();
-      minX -= camera->getOffsetX();
-      minY -= camera->getOffsetY();
+      if (cameraEntity->hasComponent(Transform::TYPE)) {
+        const Transform *camtrans = cameraEntity->getComponent<Transform>();
+        const Camera *camera = cameraEntity->getComponent<Camera>();
+        minX -= (camtrans->getX() +
+                 camera->getOffsetX() - camera->getWidth() / 2);
+        minY -= (camtrans->getY() +
+                 camera->getOffsetY() - camera->getHeight() / 2);
+      } else {
+        LOG2 << "Camera entity has no Transform\n";
+      }
     }
   }
 
-  VisualContext &vc = input.getVisualContext();
-  float maxX = minX + visu->getWidth(vc);
-  float maxY = minY + visu->getHeight(vc);
-  InputState::MousePos mpos = input.getMousePosition();
+  if (collider != NULL) {
+    minX -= collider->getLeft();
+    minY -= collider->getTop();
+  } else {
+    minX -= visu->getCenterX();
+    minY -= visu->getCenterY();
+  }
 
+  float maxX = minX;
+  float maxY = minY;
+  if (collider != NULL) {
+    maxX += collider->getLeft() + collider->getRight();
+    maxY += collider->getTop() + collider->getBottom();
+  } else {
+    VisualContext &vc = input.getVisualContext();
+    maxX += visu->getWidth(vc);
+    maxY += visu->getHeight(vc);
+  }
+  
+  InputState::MousePos mpos = input.getMousePosition();
   const string &prevAction = actionable->getAction();
   const string *action = NULL;
   if ((mpos.x >= minX) && (mpos.x <= maxX) &&

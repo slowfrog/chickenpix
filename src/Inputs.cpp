@@ -53,12 +53,15 @@ Inputs::update(EntityManager &em, int now) {
        it < entities.end(); ++it) {
     Entity *entity = *it;
     Controller *c = entity->getComponent<Controller>();
-    const string &name = c->getName();
-    if (CONTROLLERS.find(name) != CONTROLLERS.end()) {
-      CONTROLLERS[name]( em, *entity, *state, now);
-    } else {
-      // TODO find a script with the right name
-      LOG2 << "Controller not found for name: " << name << "\n";
+    const vector<string> &names = c->getNames();
+    for (unsigned int i = 0; i < names.size(); ++i) {
+      const string &name = names[i];
+      if (CONTROLLERS.find(name) != CONTROLLERS.end()) {
+        CONTROLLERS[name]( em, *entity, *state, now);
+      } else {
+        // TODO find a script with the right name
+        LOG2 << "Controller not found for name: " << name << "\n";
+      }
     }
   }
 }

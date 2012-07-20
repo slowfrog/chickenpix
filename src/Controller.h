@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Component.h"
+#include <vector>
 
 class Controller: public Component {
 private:
-  string name_;
+  vector<string> names_;
+  
 public:
   static const Type TYPE = CONTROLLER_TYPE;
   
@@ -12,14 +14,12 @@ public:
   virtual ~Controller();
 
   inline
-  const string &getName() const {
-    return name_;
+  const vector<string> &getNames() const {
+    return names_;
   }
   
-  inline
-  void setName(const string &name) {
-    name_ = name;
-  }
+  void addName(const string &name);
+  void removeName(const string &name);
   
   virtual string toString() const;
 };
