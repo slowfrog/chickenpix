@@ -45,20 +45,23 @@ def change_selection(manager, entity, next):
     # Record the new selection
     entity.sel = next
 
-def update(entity, manager):
+def trigger_menu(entity, manager):
+    if entity.sel == ITEM_START:
+        manager.setSwitch("Main")
+        print("Starting...")
+    elif entity.sel == ITEM_QUIT:
+        manager.setSwitch("EXIT")
+        print("Quitting...")
+    elif entity.sel == ITEM_CREDITS:
+        print("Showing credits")
+    else:
+        raise Exception("Unknown selection %d" % entity.sel)
+    
+def handle_keys(entity, manager):
     input = entity.getComponent(cp.Input.TYPE)
     if (input.state.isKeyDown(cp.InputState.SPACE) or
         input.state.isKeyDown(cp.InputState.ENTER)):
-        if entity.sel == ITEM_START:
-            manager.setSwitch("Main")
-            print("Starting...")
-        elif entity.sel == ITEM_QUIT:
-            manager.setSwitch("EXIT")
-            print("Quitting...")
-        elif entity.sel == ITEM_CREDITS:
-            print("Showing credits")
-        else:
-            raise Exception("Unknown selection %d" % entity.sel)
+        trigger_menu(entity, manager)
         
     if input.state.isKeyDown(cp.InputState.DOWN):
         if not entity.downdown:
@@ -75,6 +78,22 @@ def update(entity, manager):
             entity.updown = True
     else:
         entity.updown = False
+
+def handle_controllers(entity, manager):
+    for actent in manager.getEntities(cp.Actionable.TYPE):
+        next = entity.items.index(actent)
+        if next < 0:
+            continue
+        act = actent.getComponent(cp.Actionable.TYPE)
+        if act.action == "ButtonJustDown":
+            change_selection(manager, entity, next)
+        elif act.action == "ButtonClicked":
+            trigger_menu(entity, manager)
+        
+# Main entry point
+def update(entity, manager):
+    handle_keys(entity, manager)
+    handle_controllers(entity, manager)
 
 def exit(entity, manager):
     pass

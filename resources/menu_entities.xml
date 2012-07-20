@@ -65,6 +65,7 @@
                 <text>Start Game</text>
                 <police name="sans_big"/>
             </component>
+            <component type="Controller" name="ButtonController" />
         </components>
     </entity>
     <entity>
@@ -80,6 +81,7 @@
                 <police name="sans_big"/>
                 <color r="255" g="255" b="0" a="128"/>
             </component>
+            <component type="Controller" name="ButtonController" />
         </components>
     </entity>
     <entity>
@@ -95,6 +97,7 @@
                 <police name="sans_big"/>
                 <color r="255" g="255" b="0" a="128"/>
             </component>
+            <component type="Controller" name="ButtonController" />
         </components>
     </entity>
     
