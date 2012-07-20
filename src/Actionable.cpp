@@ -16,7 +16,6 @@ Actionable::toString() const {
 
 void
 Actionable::setAction(const string &action) {
-  LOG2 << "SETTING ACTION: " << action << "\n";
   action_ = action;
 }
 

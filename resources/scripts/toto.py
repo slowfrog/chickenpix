@@ -16,12 +16,12 @@ def update(self, manager):
     if input is not None:
         if input.state.isKeyDown(cp.InputState.ESCAPE):
             manager.setSwitch("EXIT")
-        if input.state.isButtonDown(cp.InputState.LEFT_BUTTON):
-            print("The left button is pressed at %d,%d" %
-                  input.state.getMousePosition())
-            anim = self.getComponent(cp.Animated.TYPE)
-            print("Current anim is %s" % anim.animation)
-            anim.animation = "man_still"
+        #if input.state.isButtonDown(cp.InputState.LEFT_BUTTON):
+        #    print("The left button is pressed at %d,%d" %
+        #          input.state.getMousePosition())
+        #    anim = self.getComponent(cp.Animated.TYPE)
+        #    print("Current anim is %s" % anim.animation)
+        #    anim.animation = "man_still"
         if input.state.isKeyDown(cp.InputState.NUM0):
             print("You are pressing 0")
             cam = self.getComponent(cp.Camera.TYPE)
@@ -91,30 +91,16 @@ def update(self, manager):
                    "not " if not audio.playing else "",
                    "not " if not audio.loop else ""))
                   
-    # if self.times > 60 and self.times < 180:
-    #     #t = self.getComponent(cp.Transform.TYPE)
-    #     #t.moveBy(5, 5)
-    #     m = self.getComponent(cp.Mobile.TYPE)
-    #     m.speed = (5, 5)
-    #     c = self.getComponent(cp.Camera.TYPE)
-    #     c.offsetX = random.randint(-20, 20)
-    #     c.offsetY = random.randint(-20, 20)
-    # if self.times == 180:
-    #     t = self.getComponent(cp.Transform.TYPE)
-    #     t.moveTo(0, 0)
-    #     c = self.getComponent(cp.Camera.TYPE)
-    #     c.offsetX = 0
-    #     c.offsetY = 0
     if self.times == 240:
         #self.removeComponent(cp.Transform.TYPE)
         #self.addComponent(cp.Transform(100, 100))
         diffclock = time.time() - self.start
         print("240 frames in %f sec: %f FPS" % (diffclock, 240 / diffclock))
 
-    actionables = manager.getEntities(cp.Actionable.TYPE)
-    for actent in actionables:
+    for actent in manager.getEntities(cp.Actionable.TYPE):
         act = actent.getComponent(cp.Actionable.TYPE)
-        if act.action != "":
-            print("Current action: %s" % act.action)
-            act.clearAction()
+        if act.action == "ButtonClicked":
+            anim = self.getComponent(cp.Animated.TYPE)
+            print("You just clicked on something")
+            anim.animation = "man_still"
             

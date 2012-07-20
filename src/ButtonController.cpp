@@ -7,8 +7,9 @@
 #include "Transform.h"
 #include "Actionable.h"
 
-string
-ButtonController::ButtonDown("ButtonDown");
+const string &ButtonController::ButtonJustDown("ButtonJustDown");
+const string &ButtonController::ButtonDown("ButtonDown");
+const string &ButtonController::ButtonClicked("ButtonClicked");
 
 void
 ButtonController::update(EntityManager &em, Entity &entity,
@@ -48,17 +49,31 @@ ButtonController::update(EntityManager &em, Entity &entity,
   float maxX = minX + visu->getWidth(vc);
   float maxY = minY + visu->getHeight(vc);
   InputState::MousePos mpos = input.getMousePosition();
+
+  const string &prevAction = actionable->getAction();
+  const string *action = NULL;
   if ((mpos.x >= minX) && (mpos.x <= maxX) &&
       (mpos.y >= minY) && (mpos.y <= maxY)) {
     // Mouse is over button
     if (input.isButtonDown(InputState::LeftButton)) {
-      LOG2 << "Button clicked\n";
-      actionable->setAction(ButtonDown);
-      // button is pressed
-    } else {
-      actionable->clearAction();
-      // button is not pressed
+      // and left mouse button is down
+      if ((prevAction == ButtonJustDown) || (prevAction == ButtonDown)) {
+        action = &ButtonDown;
+      } else {
+        action = &ButtonJustDown;
+      }
+
+    } else if ((prevAction == ButtonJustDown) || (prevAction == ButtonDown)) {
+      // mouse button is released over the entity but was previouly down:
+      // it's a click
+      action = &ButtonClicked;
     }
+  }
+  
+  if (action != NULL) {
+    actionable->setAction(*action);
+  } else {
+    actionable->clearAction();
   }
   
 }
