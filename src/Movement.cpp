@@ -6,8 +6,11 @@
 #include "Transform.h"
 #include "Collider.h"
 
+// Max speed multiplier (in case FPS fall to low)
+static const float MULT_LIMIT = 5.0f;
+
 Movement::Movement(string const &name):
-  System( name) {
+  System( name), prev_(-1) {
 }
 
 Movement::~Movement() {
@@ -20,6 +23,13 @@ Movement::init( EntityManager&) {
 void
 Movement::update(EntityManager &em, int now) {
   clearCollisions(em);
+
+  int delta = (prev_ == -1) ? 0 : (now - prev_);
+  float mult = delta / 16.666f;
+  if (mult > MULT_LIMIT) {
+    mult = MULT_LIMIT;
+  }
+  
   TEntityList entities = em.getEntities(Mobile::TYPE, Transform::TYPE);
   for (TEntityIterator it = entities.begin(); it < entities.end(); ++it) {
     Entity *entity = *it;
@@ -27,8 +37,8 @@ Movement::update(EntityManager &em, int now) {
     Transform *t = entity->getComponent<Transform>();
 
     // First, try to do the move
-    float dx = m->getSpeedX();
-    float dy = m->getSpeedY();
+    float dx = m->getSpeedX() * mult;
+    float dy = m->getSpeedY() * mult;
 
     float dxAllowed = dx;
     float dyAllowed = dy;
@@ -42,6 +52,8 @@ Movement::update(EntityManager &em, int now) {
     }
     t->moveBy(dxAllowed, dyAllowed);
   }
+  
+  prev_ = now;
 }
 
 void

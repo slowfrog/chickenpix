@@ -4,6 +4,9 @@
 class Collider;
 
 class Movement: public System {
+private:
+  int prev_;
+  
 public:
   Movement( string const &name);
   virtual ~Movement();
