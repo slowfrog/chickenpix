@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Actionable.cpp" />
     <ClCompile Include="..\src\Animated.cpp" />
     <ClCompile Include="..\src\Animation.cpp" />
     <ClCompile Include="..\src\Audio.cpp" />
@@ -131,6 +132,7 @@
     <ClCompile Include="..\src\WrappedEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Actionable.h" />
     <ClInclude Include="..\src\Animated.h" />
     <ClInclude Include="..\src\Animation.h" />
     <ClInclude Include="..\src\Audio.h" />
