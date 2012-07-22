@@ -1,5 +1,9 @@
 #include <sstream>
 #include "Controller.h"
+#include "ComponentRegistry.h"
+
+Component::Type
+Controller::TYPE = CONTROLLER_TYPE;
 
 Controller::Controller(const string &name):
   Component(Controller::TYPE) {

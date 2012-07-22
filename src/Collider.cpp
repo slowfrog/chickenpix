@@ -1,5 +1,9 @@
 #include <sstream>
 #include "Collider.h"
+#include "ComponentRegistry.h"
+
+Component::Type
+Collider::TYPE = COLLIDER_TYPE;
 
 Collider::Collider(bool solid, float size):
   Component(TYPE), solid_(solid),

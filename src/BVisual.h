@@ -11,7 +11,7 @@ private:
   bool gui_;
   
 public:
-  static const Type TYPE = VISUAL_TYPE;
+  static Type TYPE;
   
   BVisual(float cx, float cy, int zOrder=0, bool gui=false);
   BVisual(int zOrder=0, bool gui=false);

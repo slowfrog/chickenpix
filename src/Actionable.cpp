@@ -1,6 +1,9 @@
 #include "log.h"
 #include "Actionable.h"
+#include "ComponentRegistry.h"
 
+Component::Type
+Actionable::TYPE = ACTIONABLE_TYPE;
 
 Actionable::Actionable():
   Component(TYPE) {

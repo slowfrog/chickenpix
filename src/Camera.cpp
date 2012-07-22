@@ -1,5 +1,9 @@
 #include <sstream>
 #include "Camera.h"
+#include "ComponentRegistry.h"
+
+Component::Type
+Camera::TYPE = CAMERA_TYPE;
 
 Camera::Camera():
   Component(Camera::TYPE), offsetX_(0.0f), offsetY_(0.0f), width_(0), height_(0) {

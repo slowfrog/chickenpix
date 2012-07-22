@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Stats.h"
+#include "ComponentRegistry.h"
 
 std::ostream& operator<<( std::ostream &os , const CVariant& v){
     if ( CVariant::eLong == v._kindOfValue )   return os<<v._lValue;
@@ -73,6 +74,19 @@ Stats::toString() const{
 
 /**
 */
+Component::Type
+Character::TYPE = CHARACTER_TYPE;
+
+Character::Character(const string &name, const unsigned long id, long lt):
+  Component(TYPE), _id( id), _name( name), _lifeThreshold( lt)
+{ 
+  // Mandatory stats
+  _stats.addStat( HEALTH,         DEFAULT_MIN_STAT);
+  _stats.addStat( DAMAGE,         DEFAULT_MIN_STAT);
+  _stats.addStat( ARMOR_CLASS,    DEFAULT_MIN_STAT);
+  _stats.addStat( INITIATIVE,     DEFAULT_MIN_STAT);
+}
+
 std::string 
 Character::toString() const {
   return _stats.toString();

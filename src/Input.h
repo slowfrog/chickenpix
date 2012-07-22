@@ -8,7 +8,7 @@ private:
   InputState const *state_;
   
 public:
-  static const Type TYPE = INPUT_TYPE;
+  static Type TYPE;
 
   Input();
   virtual ~Input();

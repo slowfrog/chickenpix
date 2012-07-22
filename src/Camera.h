@@ -8,7 +8,7 @@ private:
   unsigned int width_;
   unsigned int height_;
 public:
-  static const Type TYPE = CAMERA_TYPE;
+  static Type TYPE;
   Camera();
   Camera(float offsetX, float offsetY, unsigned int width, unsigned int height);
   virtual ~Camera();

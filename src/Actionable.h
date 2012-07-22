@@ -7,7 +7,7 @@ private:
   string action_;
   
 public:
-  static const Type TYPE = ACTIONABLE_TYPE;
+  static Type TYPE;
   
   Actionable();
   virtual ~Actionable();

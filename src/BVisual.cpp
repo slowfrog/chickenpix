@@ -1,4 +1,8 @@
 #include "BVisual.h"
+#include "ComponentRegistry.h"
+
+Component::Type
+BVisual::TYPE = VISUAL_TYPE;
 
 BVisual::BVisual(float cx, float cy, int zOrder, bool gui):
   Component(TYPE), cx_(cx), cy_(cy), zOrder_(zOrder), gui_(gui) {

@@ -8,7 +8,7 @@ private:
   vector<string> names_;
   
 public:
-  static const Type TYPE = CONTROLLER_TYPE;
+  static Type TYPE;
   
   Controller(const string &name);
   virtual ~Controller();

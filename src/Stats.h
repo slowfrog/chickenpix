@@ -70,19 +70,12 @@ protected:
 class Character : public Component
 {
 public:
-  static const Type TYPE = CHARACTER_TYPE;
+  static Type TYPE;
 public:
-  Character(const std::string &name=DEFAULT_NAME_CH, const unsigned long id= DEFAULT_ID_CH, long lt=DEFAULT_LIFE_THRESHOLD_CH)
-  : Component( CHARACTER_TYPE), _id( id), _name( name), _lifeThreshold( lt)
-  { 
-    // Mandatory stats
-    _stats.addStat( HEALTH,         DEFAULT_MIN_STAT);
-    _stats.addStat( DAMAGE,         DEFAULT_MIN_STAT);
-    _stats.addStat( ARMOR_CLASS,    DEFAULT_MIN_STAT);
-    _stats.addStat( INITIATIVE,     DEFAULT_MIN_STAT);
-  }
-  
-  ~Character(){}
+  Character(const string &name=DEFAULT_NAME_CH,
+            const unsigned long id= DEFAULT_ID_CH,
+            long lt=DEFAULT_LIFE_THRESHOLD_CH);
+  virtual ~Character(){}
   
   inline const unsigned long Id() const {return _id;}
   inline const std::string& Name() const {return _name;}

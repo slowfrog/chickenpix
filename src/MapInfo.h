@@ -10,7 +10,7 @@ private:
   float maxy_;
 
 public:
-  static const Type TYPE = MAPINFO_TYPE;
+  static Type TYPE;
   
   MapInfo(float minx, float miny, float maxx, float maxy);
   virtual ~MapInfo();

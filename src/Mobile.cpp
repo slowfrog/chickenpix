@@ -1,5 +1,9 @@
 #include <sstream>
 #include "Mobile.h"
+#include "ComponentRegistry.h"
+
+Component::Type
+Mobile::TYPE = MOBILE_TYPE;
 
 Mobile::Mobile():
   Component(TYPE), dx_(0.0f), dy_(0.0f) {

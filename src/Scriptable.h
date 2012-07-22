@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-
 #include "Component.h"
 
 class Scriptable: public Component {
@@ -10,7 +9,7 @@ private:
   bool initDone_;
   bool exitDone_;
 public:
-  static const Type TYPE = SCRIPTABLE_TYPE;
+  static Type TYPE;
   Scriptable(string const &name);
   virtual ~Scriptable();
 

@@ -7,7 +7,7 @@ private:
   float y;
   
 public:
-  static const Type TYPE = TRANSFORM_TYPE;
+  static Type TYPE;
   
   Transform(float x, float y);
   virtual ~Transform();

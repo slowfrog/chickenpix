@@ -2,6 +2,10 @@
 #include <sstream>
 
 #include "Scriptable.h"
+#include "ComponentRegistry.h"
+
+Component::Type
+Scriptable::TYPE = SCRIPTABLE_TYPE;
 
 Scriptable::Scriptable(string const &name):
   Component(TYPE), name_(name), initDone_(false), exitDone_(false) {
