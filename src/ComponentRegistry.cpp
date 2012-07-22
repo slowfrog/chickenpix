@@ -15,5 +15,6 @@ const char *ComponentName[] = {
   "Audio",
   "Collider",
   "Actionable",
+  "MapInfo",
   0
 };

@@ -14,6 +14,7 @@
 #include "Resources.h"
 #include "Scriptable.h"
 #include "Collider.h"
+#include "MapInfo.h"
 #include "log.h"
 
 static const int BASE_MAP_ZORDER = -10;
@@ -128,8 +129,16 @@ Loader::loadTmxMap( EntityManager &em, string const &name) const {
   if (map.HasError()) {
     LOG2 << "Map has error: " << map.GetErrorText() << "\n";
   } else {
-    LOG2 << "Map: " << map.GetWidth() << "x" << map.GetTileWidth() << "px - " <<
-    map.GetHeight() << "x" << map.GetTileHeight() << "px\n";
+    float twidth = map.GetTileWidth();
+    float theight = map.GetTileHeight();
+    LOG2 << "Map: " << map.GetWidth() << "x" << twidth << "px - " <<
+    map.GetHeight() << "x" << theight << "px\n";
+
+    Entity *mapEntity = em.createEntity();
+    MapInfo *mapInfo = new MapInfo(-twidth / 2, -theight / 2,
+                                   twidth * map.GetWidth() - twidth / 2,
+                                   theight * map.GetHeight() - theight / 2);
+    mapEntity->addComponent(mapInfo);
     
     // Load tilesets
     std::map<int, ImagePart> tilesetImages;
@@ -138,10 +147,12 @@ Loader::loadTmxMap( EntityManager &em, string const &name) const {
       Tmx::Tileset const *tileset = map.GetTileset(i);
       string imageFile;
       if (tileset->GetSource().length() == 0) {
-        imageFile = joinPaths(getDirectory(name), tileset->GetImage()->GetSource());
+        imageFile = joinPaths(getDirectory(name),
+                              tileset->GetImage()->GetSource());
       } else {
         string tsxFile = joinPaths(getDirectory(name), tileset->GetSource());
-        imageFile = joinPaths(getDirectory(tsxFile), tileset->GetImage()->GetSource());
+        imageFile = joinPaths(getDirectory(tsxFile),
+                              tileset->GetImage()->GetSource());
       }
       addImage(imageFile, resources); // Make sure to load the tileset image
       //tilesetImages[i] = imageFile;

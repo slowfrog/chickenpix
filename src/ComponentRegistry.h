@@ -13,7 +13,8 @@ enum ComponentType {
   CONTROLLER_TYPE = 10,
   AUDIO_TYPE      = 11,
   COLLIDER_TYPE   = 12,
-  ACTIONABLE_TYPE = 13
+  ACTIONABLE_TYPE = 13,
+  MAPINFO_TYPE    = 14
   // !!! Don't forget to update ComponentName values when adding a new type !!!
 };
 

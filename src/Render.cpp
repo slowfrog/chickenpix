@@ -7,6 +7,7 @@
 #include "BVisual.h"
 #include "Camera.h"
 #include "Collider.h"
+#include "MapInfo.h"
 #include "VisualContext.h"
 
 // z-order comparator
@@ -25,6 +26,36 @@ Render::~Render() {
 }
 
 void
+Render::applyCameraConstraints(EntityManager &em, Entity *cameraEntity) {
+  Entity *mapEntity = em.getFirst(MapInfo::TYPE);
+  if (!mapEntity) {
+    return;
+  }
+  MapInfo *mapinfo = mapEntity->getComponent<MapInfo>();
+  
+  Camera *camera = cameraEntity->getComponent<Camera>();
+  assert( camera);
+  Transform *transform = cameraEntity->getComponent<Transform>();
+  assert( transform);
+
+  float halfWidth = camera->getWidth() / 2;
+  float cameraX = transform->getX() + camera->getOffsetX();
+  if (cameraX - halfWidth < mapinfo->getMinX()) {
+    camera->setOffsetX(mapinfo->getMinX() + halfWidth - transform->getX());
+  } else if (cameraX + halfWidth > mapinfo->getMaxX()) {
+    camera->setOffsetX(mapinfo->getMaxX() - halfWidth - transform->getX());
+  }
+
+  float halfHeight = camera->getHeight() / 2;
+  float cameraY = transform->getY() + camera->getOffsetY();
+  if (cameraY - halfHeight < mapinfo->getMinY()) {
+    camera->setOffsetY(mapinfo->getMinY() + halfHeight - transform->getY());
+  } else if (cameraY + halfHeight > mapinfo->getMaxY()) {
+    camera->setOffsetY(mapinfo->getMaxY() - halfHeight - transform->getY());
+  }
+}
+
+void
 Render::update( EntityManager &em, int now) {
   int delta = (last == -1) ? 0 : (now - last);
   last = now;
@@ -39,8 +70,15 @@ Render::update( EntityManager &em, int now) {
   // - centered on the screen
   Entity *cameraEntity = em.getFirst(Camera::TYPE);
   assert( cameraEntity);
+  
   Camera *camera = cameraEntity->getComponent<Camera>();
   assert( camera);
+
+  // Save non-constrained camera offset (restored after drawing)
+  float prevOffsetX = camera->getOffsetX();
+  float prevOffsetY = camera->getOffsetY();
+  applyCameraConstraints(em, cameraEntity);
+  
   Transform *transform = cameraEntity->getComponent<Transform>();
   assert( transform);
   
@@ -96,7 +134,9 @@ Render::update( EntityManager &em, int now) {
   paint(*vc);
   delete vc;
 
-  //cout << "Painted: " << painted << "/" << visuals.size() << endl;
+  // Restore non-constrained camera offset
+  camera->setOffsetX(prevOffsetX);
+  camera->setOffsetY(prevOffsetY);
 }
 
 
