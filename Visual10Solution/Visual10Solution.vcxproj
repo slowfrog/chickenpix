@@ -94,6 +94,7 @@
     <ClCompile Include="..\src\Loader.cpp" />
     <ClCompile Include="..\src\log.cpp" />
     <ClCompile Include="..\src\Main.cpp" />
+    <ClCompile Include="..\src\MapInfo.cpp" />
     <ClCompile Include="..\src\Mobile.cpp" />
     <ClCompile Include="..\src\Movement.cpp" />
     <ClCompile Include="..\src\Notification.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="..\src\Loader.h" />
     <ClInclude Include="..\src\log.h" />
     <ClInclude Include="..\src\Main.h" />
+    <ClInclude Include="..\src\MapInfo.h" />
     <ClInclude Include="..\src\Mobile.h" />
     <ClInclude Include="..\src\Movement.h" />
     <ClInclude Include="..\src\Notification.h" />

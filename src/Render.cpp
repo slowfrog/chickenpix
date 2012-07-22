@@ -38,7 +38,7 @@ Render::applyCameraConstraints(EntityManager &em, Entity *cameraEntity) {
   Transform *transform = cameraEntity->getComponent<Transform>();
   assert( transform);
 
-  float halfWidth = camera->getWidth() / 2;
+  float halfWidth = camera->getWidth() / 2.0f;
   float cameraX = transform->getX() + camera->getOffsetX();
   if (cameraX - halfWidth < mapinfo->getMinX()) {
     camera->setOffsetX(mapinfo->getMinX() + halfWidth - transform->getX());
@@ -46,7 +46,7 @@ Render::applyCameraConstraints(EntityManager &em, Entity *cameraEntity) {
     camera->setOffsetX(mapinfo->getMaxX() - halfWidth - transform->getX());
   }
 
-  float halfHeight = camera->getHeight() / 2;
+  float halfHeight = camera->getHeight() / 2.0f;
   float cameraY = transform->getY() + camera->getOffsetY();
   if (cameraY - halfHeight < mapinfo->getMinY()) {
     camera->setOffsetY(mapinfo->getMinY() + halfHeight - transform->getY());

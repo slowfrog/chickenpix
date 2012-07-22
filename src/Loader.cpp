@@ -129,8 +129,8 @@ Loader::loadTmxMap( EntityManager &em, string const &name) const {
   if (map.HasError()) {
     LOG2 << "Map has error: " << map.GetErrorText() << "\n";
   } else {
-    float twidth = map.GetTileWidth();
-    float theight = map.GetTileHeight();
+    float twidth = (float) map.GetTileWidth();
+    float theight = (float) map.GetTileHeight();
     LOG2 << "Map: " << map.GetWidth() << "x" << twidth << "px - " <<
     map.GetHeight() << "x" << theight << "px\n";
 
