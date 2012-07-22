@@ -19,27 +19,8 @@
 static PyObject *NO_ARGS = PyTuple_New(0);
 static PyObject *NO_KWDS = PyDict_New();
 
-// Transform wrapper
-typedef PyComponent PyTransform;
-typedef PyComponent PyMobile;
-typedef PyComponent PyAnimated;
-typedef PyComponent PyVisual;
-typedef PyComponent PyAudio;
-typedef PyComponent PyInput;
-typedef PyComponent PyCamera;
-typedef PyComponent PyCollider;
-typedef PyComponent PyActionable;
-
-// Transform type and methods ---------------------------------------------------
-static PyTypeObject PyTransformType = {
-  PyObject_HEAD_INIT(NULL)
-  0,
-  "cp.Transform",
-  sizeof(PyTransform),
-};
-
 static
-int Transform_init(PyObject *self, PyObject *args, PyObject *kwds) {
+int Component_init(PyObject *self, Component *compo) {
   if (PyComponentType.tp_init(self, NO_ARGS, NO_KWDS) < 0) {
     return -1;
   }
@@ -47,17 +28,30 @@ int Transform_init(PyObject *self, PyObject *args, PyObject *kwds) {
     PyErr_Clear();
   }
   
+  ((PyComponent *) self)->component = compo;
+  return 0;
+}
+
+// Transform type and methods ---------------------------------------------------
+static PyTypeObject PyTransformType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Transform",
+  sizeof(PyComponent),
+};
+
+static
+int Transform_init(PyObject *self, PyObject *args, PyObject *kwds) {
   float x, y;
   if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
     return -1;
   }
-  ((PyComponent *) self)->component = new Transform(x, y);
-  return 0;
+  return Component_init(self, new Transform(x, y));
 }
 
 static
 PyObject *Transform_getx(PyObject *self, void *) {
-  Transform *t = (Transform *) ((PyTransform *) self)->component;
+  Transform *t = (Transform *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(t->getX());
 }
 
@@ -67,14 +61,14 @@ int Transform_setx(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Transform.x must be a number");
     return -1;
   }
-  Transform *t = (Transform *) ((PyTransform *) self)->component;
+  Transform *t = (Transform *) ((PyComponent *) self)->component;
   t->setX((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Transform_gety(PyObject *self, void *) {
-  Transform *t = (Transform *) ((PyTransform *) self)->component;
+  Transform *t = (Transform *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(t->getY());
 }
 
@@ -84,7 +78,7 @@ int Transform_sety(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Transform.y must be a number");
     return -1;
   }
-  Transform *t = (Transform *) ((PyTransform *) self)->component;
+  Transform *t = (Transform *) ((PyComponent *) self)->component;
   t->setY((float) PyFloat_AsDouble(val));
   return 0;
 }
@@ -98,7 +92,7 @@ static PyGetSetDef Transform_getset[] = {
 };
 
 static
-PyObject *Transform_moveTo(PyTransform *self, PyObject *args) {
+PyObject *Transform_moveTo(PyComponent *self, PyObject *args) {
   Transform *t = (Transform *) self->component;
   float x, y;
   if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
@@ -112,7 +106,7 @@ PyObject *Transform_moveTo(PyTransform *self, PyObject *args) {
 }
 
 static
-PyObject *Transform_moveBy(PyTransform *self, PyObject *args) {
+PyObject *Transform_moveBy(PyComponent *self, PyObject *args) {
   Transform *t = (Transform *) self->component;
   float x, y;
   if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
@@ -138,29 +132,21 @@ static PyTypeObject PyMobileType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Mobile",
-  sizeof(PyMobile),
+  sizeof(PyComponent),
 };
 
 static
 int Mobile_init(PyObject *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init(self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
   float speedX, speedY;
   if (!PyArg_ParseTuple(args, "ff", &speedX, &speedY)) {
     return -1;
   }
-  ((PyComponent *) self)->component = new Mobile(speedX, speedY);
-  return 0;
+  return Component_init(self, new Mobile(speedX, speedY));
 }
 
 static
 PyObject *Mobile_getSpeedX(PyObject *self, void *) {
-  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  Mobile *m = (Mobile *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(m->getSpeedX());
 }
 
@@ -170,14 +156,14 @@ int Mobile_setSpeedX(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Mobile.speedX must be a number");
     return -1;
   }
-  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  Mobile *m = (Mobile *) ((PyComponent *) self)->component;
   m->setSpeedX((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Mobile_getSpeedY(PyObject *self, void *) {
-  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  Mobile *m = (Mobile *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(m->getSpeedY());
 }
 
@@ -187,14 +173,14 @@ int Mobile_setSpeedY(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Mobile.speedY must be a number");
     return -1;
   }
-  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  Mobile *m = (Mobile *) ((PyComponent *) self)->component;
   m->setSpeedY((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Mobile_getSpeed(PyObject *self, void *) {
-  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  Mobile *m = (Mobile *) ((PyComponent *) self)->component;
   return PyTuple_Pack(2,
                       PyFloat_FromDouble(m->getSpeedX()),
                       PyFloat_FromDouble(m->getSpeedY()));
@@ -223,7 +209,7 @@ int Mobile_setSpeed(PyObject *self, PyObject *val, void *) {
     return -1;
   }
   
-  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  Mobile *m = (Mobile *) ((PyComponent *) self)->component;
   float sx = (float) PyFloat_AsDouble(psx);
   float sy = (float) PyFloat_AsDouble(psy);
   m->setSpeed(sx, sy);
@@ -245,27 +231,19 @@ static PyTypeObject PyVisualType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Visual",
-  sizeof(PyVisual),
+  sizeof(PyComponent),
 };
 
 static
 int Visual_init(PyObject *self, PyObject *args, PyObject *kwds) {
   // Should not be called...
-  
-  if (PyComponentType.tp_init(self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
-  return 0;
+  return Component_init(self, NULL);
 }
 
 
 static
 PyObject *Visual_getText(PyObject *self, void *) {
-  BVisual *visual = (BVisual *) ((PyVisual *) self)->component;
+  BVisual *visual = (BVisual *) ((PyComponent *) self)->component;
   if (!visual->isText()) {
     PyErr_SetString(PyExc_TypeError, "Visual is not a text");
     return NULL;
@@ -276,7 +254,7 @@ PyObject *Visual_getText(PyObject *self, void *) {
 
 static
 int Visual_setText(PyObject *self, PyObject *val, void *) {
-  BVisual *visual = (BVisual *) ((PyVisual *) self)->component;
+  BVisual *visual = (BVisual *) ((PyComponent *) self)->component;
   if (!visual->isText()) {
     PyErr_SetString(PyExc_TypeError, "Visual is not a text");
     return -1;
@@ -292,7 +270,7 @@ int Visual_setText(PyObject *self, PyObject *val, void *) {
 
 static
 PyObject *Visual_getColor(PyObject *self, void *) {
-  BVisual *visual = (BVisual *) ((PyVisual *) self)->component;
+  BVisual *visual = (BVisual *) ((PyComponent *) self)->component;
   if (!visual->isText()) {
     PyErr_SetString(PyExc_TypeError, "Visual is not a text");
     return NULL;
@@ -309,7 +287,7 @@ PyObject *Visual_getColor(PyObject *self, void *) {
 
 static
 int Visual_setColor(PyObject *self, PyObject *val, void *) {
-  BVisual *visual = (BVisual *) ((PyVisual *) self)->component;
+  BVisual *visual = (BVisual *) ((PyComponent *) self)->component;
   if (!visual->isText()) {
     PyErr_SetString(PyExc_TypeError, "Visual is not a text");
     return -1;
@@ -343,7 +321,7 @@ static PyGetSetDef Visual_getset[] = {
 };
 
 static PyObject *
-Visual_isText(PyVisual *self) {
+Visual_isText(PyComponent *self) {
   BVisual *visual = (BVisual *) self->component;
   if (visual->isText()) {
     Py_RETURN_TRUE;
@@ -363,29 +341,21 @@ static PyTypeObject PyAnimatedType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Animated",
-  sizeof(PyAnimated),
+  sizeof(PyComponent),
 };
 
 static
 int Animated_init(PyObject *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init(self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
   PyObject *name;
   if (!PyArg_ParseTuple(args, "S", &name)) {
     return -1;
   }
-  ((PyComponent *) self)->component = new Animated(PyString_AsString(name));
-  return 0;
+  return Component_init(self, new Animated(PyString_AsString(name)));
 }
 
 static
 PyObject *Animated_getAnimation(PyObject *self, void *) {
-  Animated *a = (Animated *) ((PyAnimated *) self)->component;
+  Animated *a = (Animated *) ((PyComponent *) self)->component;
   return PyString_FromString(a->getAnimation().c_str());
 }
 
@@ -395,7 +365,7 @@ int Animated_setAnimation(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Animated.animation must be a string");
     return -1;
   }
-  Animated *a = (Animated *) ((PyAnimated *) self)->component;
+  Animated *a = (Animated *) ((PyComponent *) self)->component;
   a->setAnimation(PyString_AsString(val));
   return 0;
 }
@@ -411,18 +381,11 @@ static PyTypeObject PyAudioType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Audio",
-  sizeof(PyAudio),
+  sizeof(PyComponent),
 };
 
 static
 int Audio_init(PyObject *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init(self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
   PyObject *name;
   PyObject *loop;
   if (!PyArg_ParseTuple(args, "S|O", &name, &loop)) {
@@ -438,14 +401,12 @@ int Audio_init(PyObject *self, PyObject *args, PyObject *kwds) {
       looping = (PyObject_IsTrue(loop) != 0);
     }
   }
-  ((PyComponent *) self)->component = new Audio(PyString_AsString(name),
-                                                looping);
-  return 0;
+  return Component_init(self, new Audio(PyString_AsString(name), looping));
 }
 
 static
 PyObject *Audio_getName(PyObject *self, void *) {
-  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  Audio *a = (Audio *) ((PyComponent *) self)->component;
   return PyString_FromString(a->getName().c_str());
 }
 
@@ -455,14 +416,14 @@ int Audio_setName(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Audio.name must be a string");
     return -1;
   }
-  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  Audio *a = (Audio *) ((PyComponent *) self)->component;
   a->setName(PyString_AsString(val));
   return 0;
 }
 
 static
 PyObject *Audio_getLoop(PyObject *self, void *) {
-  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  Audio *a = (Audio *) ((PyComponent *) self)->component;
   if (a->isLooping()) {
     Py_RETURN_TRUE;
   } else {
@@ -476,14 +437,14 @@ int Audio_setLoop(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Audio.loop must be a boolean");
     return -1;
   }
-  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  Audio *a = (Audio *) ((PyComponent *) self)->component;
   a->setLooping(PyObject_IsTrue(val) != 0);
   return 0;
 }
 
 static
 PyObject *Audio_getPlaying(PyObject *self, void *) {
-  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  Audio *a = (Audio *) ((PyComponent *) self)->component;
   if (a->isPlaying()) {
     Py_RETURN_TRUE;
   } else {
@@ -502,7 +463,7 @@ static PyGetSetDef Audio_getset[] = {
 };
 
 static
-PyObject *Audio_stop(PyAudio *audio) {
+PyObject *Audio_stop(PyComponent *audio) {
   Audio *a = (Audio *) audio->component;
   a->stop();
   Py_RETURN_NONE;
@@ -602,25 +563,17 @@ static PyTypeObject PyInputType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Input",
-  sizeof(PyInput),
+  sizeof(PyComponent),
 };
 
 static
 int Input_init(PyObject *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init(self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
-  ((PyComponent *) self)->component = new Input();
-  return 0;
+  return Component_init(self, new Input());
 }
 
 static
 PyObject *Input_getState(PyObject *self, void *) {
-  Input *input = (Input *) ((PyInput *) self)->component;
+  Input *input = (Input *) ((PyComponent *) self)->component;
   PyInputState *state =
     (PyInputState *) PyInputStateType.tp_alloc(&PyInputStateType, 0);
   state->state = input->getInputState();
@@ -638,31 +591,22 @@ static PyTypeObject PyCameraType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Camera",
-  sizeof(PyCamera),
+  sizeof(PyComponent),
 };
 
 static
 int Camera_init(PyObject *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init(self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
   float offsetX, offsetY;
   unsigned int width, height;
   if (!PyArg_ParseTuple(args, "ffII", &offsetX, &offsetY, &width, &height)) {
     return -1;
   }
-  ((PyComponent *) self)->component = new Camera(offsetX, offsetY,
-                                                 width, height);
-  return 0;
+  return Component_init(self, new Camera(offsetX, offsetY, width, height));
 }
 
 static
 PyObject *Camera_getOffsetX(PyObject *self, void *) {
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(c->getOffsetX());
 }
 
@@ -672,14 +616,14 @@ int Camera_setOffsetX(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Camera.offsetX must be a number");
     return -1;
   }
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   c->setOffsetX((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Camera_getOffsetY(PyObject *self, void *) {
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(c->getOffsetY());
 }
 
@@ -689,14 +633,14 @@ int Camera_setOffsetY(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Camera.offsetY must be a number");
     return -1;
   }
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   c->setOffsetY((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Camera_getWidth(PyObject *self, void *) {
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   return PyInt_FromLong(c->getWidth());
 }
 
@@ -706,14 +650,14 @@ int Camera_setWidth(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Camera.width must be a number");
     return -1;
   }
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   c->setWidth((unsigned int) PyInt_AsLong(val));
   return 0;
 }
 
 static
 PyObject *Camera_getHeight(PyObject *self, void *) {
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   return PyInt_FromLong(c->getHeight());
 }
 
@@ -723,7 +667,7 @@ int Camera_setHeight(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Camera.height must be a number");
     return -1;
   }
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   c->setHeight((unsigned int) PyInt_AsLong(val));
   return 0;
 }
@@ -745,18 +689,11 @@ static PyTypeObject PyColliderType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Collider",
-  sizeof(PyCollider),
+  sizeof(PyComponent),
 };
 
 static
 int Collider_init(PyObject *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init(self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
   PyObject *solidObj;
   PyObject *size;
   if (!PyArg_ParseTuple(args, "Of", &solidObj, &size)) {
@@ -764,14 +701,13 @@ int Collider_init(PyObject *self, PyObject *args, PyObject *kwds) {
   }
 
   bool solid = (PyObject_IsTrue(solidObj) != 0);
-  ((PyComponent *) self)->component =
-    new Collider(solid, (float) PyFloat_AsDouble(size));
-  return 0;
+  return Component_init(self, new Collider(solid,
+                                           (float) PyFloat_AsDouble(size)));
 }
 
 static
 PyObject *Collider_getSolid(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   if (a->isSolid()) {
     Py_RETURN_TRUE;
   } else {
@@ -781,7 +717,7 @@ PyObject *Collider_getSolid(PyObject *self, void *) {
 
 static
 int Collider_setSolid(PyObject *self, PyObject *val, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   a->setSolid(PyObject_IsTrue(val) != 0);
   return 0;
 }
@@ -792,14 +728,14 @@ int Collider_setSize(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Collider.size must be a number");
     return -1;
   }
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   a->setSize((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Collider_getLeft(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(a->getLeft());
 }
 
@@ -809,14 +745,14 @@ int Collider_setLeft(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Collider.left must be a number");
     return -1;
   }
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   a->setLeft((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Collider_getTop(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(a->getTop());
 }
 
@@ -826,14 +762,14 @@ int Collider_setTop(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Collider.top must be a number");
     return -1;
   }
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   a->setTop((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Collider_getRight(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(a->getRight());
 }
 
@@ -843,14 +779,14 @@ int Collider_setRight(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Collider.right must be a number");
     return -1;
   }
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   a->setRight((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Collider_getBottom(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(a->getBottom());
 }
 
@@ -860,14 +796,14 @@ int Collider_setBottom(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Collider.bottom must be a number");
     return -1;
   }
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   a->setBottom((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Collider_getCollisions(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   const TEntityIdList &entityIds = a->getCollisions();
   int size = entityIds.size();
   PyObject *ret = PyList_New(size);
@@ -904,31 +840,23 @@ static PyTypeObject PyActionableType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Actionable",
-  sizeof(PyActionable),
+  sizeof(PyComponent),
 };
 
 static
 int Actionable_init(PyObject *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init(self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
-  ((PyComponent *) self)->component = new Actionable();
-  return 0;
+  return Component_init(self, new Actionable());
 }
 
 static
 PyObject *Actionable_getAction(PyObject *self, void *) {
-  Actionable *a = (Actionable *) ((PyActionable *) self)->component;
+  Actionable *a = (Actionable *) ((PyComponent *) self)->component;
   return PyString_FromString(a->getAction().c_str());
 }
 
 static
 int Actionable_setAction(PyObject *self, PyObject *val, void *) {
-  Actionable *a = (Actionable *) ((PyActionable *) self)->component;
+  Actionable *a = (Actionable *) ((PyComponent *) self)->component;
   a->setAction(PyString_AsString(val));
   return 0;
 }
@@ -941,7 +869,7 @@ static PyGetSetDef Actionable_getset[] = {
 
 static
 PyObject *Actionable_clearAction(PyObject *self) {
-  Actionable *a = (Actionable *) ((PyActionable *) self)->component;
+  Actionable *a = (Actionable *) ((PyComponent *) self)->component;
   a->clearAction();
   Py_RETURN_NONE;
 }
