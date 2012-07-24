@@ -134,106 +134,6 @@ CEntityBuilder::init(){
 }
 
 /*
- * Parse all resources and build them
- */
-void
-CEntityBuilder::parseResources( Loader *pLoader, Resources *pResource){
-  // Loop on <resources>
-  TiXmlElement *pElem = mhRoot.FirstChildElement().Element();
-  if ( pElem){
-    for (pElem = pElem->FirstChildElement( "resource"); pElem; pElem = pElem->NextSiblingElement() ){
-      std::string kind = pElem->Attribute( "kind");
-      if ( !kind.empty()) {
-        buildResourcesByKind(kind, pElem, pLoader, pResource);
-      }
-    }
-  }
-  else{
-    LOG2ERR<<"Bad xml description for [Resources] component\n";
-    throw "Bad xml description for [Resources] component";
-  }
-}
-
-void
-CEntityBuilder::buildResourcesByKind( const std::string &kind, TiXmlElement *pElem, Loader *pLoader, Resources *pResource){
- /* if ( "image" == kind){
-    buildResourcesImage(pElem, pLoader, pResource);
-  } else if ( "font" == kind) {
-    buildResourcesFont(pElem, pLoader, pResource);
-  } else if ( "sprite" == kind) {
-    buildResourcesSprite(pElem, pLoader, pResource);
-  } else if ( "audio" == kind) {
-    buildResourcesAudio(pElem, pLoader, pResource);
-  }*/
-}
-
-/*
- * Build resources with Loader
- */
-/*
-void 
-CEntityBuilder::buildResourcesImage( TiXmlElement *pNode, Loader *pLoader, Resources *pResource){
-  TiXmlElement *pChar = pNode->FirstChildElement( "image");
-  if ( pChar ){
-    std::string path  = pChar->Attribute( "path");
-    std::string alias = pChar->Attribute( "alias");
-    if ( !path.empty() && !alias.empty() ){
-      pLoader->addImage(path, pResource, alias);
-      return;
-    }
-  }
-  LOG2ERR<<"Bad xml description for [Image] Resources\n";
-  throw "Bad xml description for [Image] Resources";
-}
-
-void 
-CEntityBuilder::buildResourcesFont( TiXmlElement *pNode, Loader *pLoader, Resources *pResource){
-  TiXmlElement *pChar = pNode->FirstChildElement( "image");
-  if ( pChar ){
-    std::string path  = pChar->Attribute( "path");
-    std::string alias = pChar->Attribute( "alias"); 
-    int         size  (8);
-    pChar->QueryIntAttribute( "size", &size);
-    if ( !path.empty() && !alias.empty() ){
-      pLoader->addFont(path, size, pResource, alias);
-      return;
-    }
-  }
-  LOG2ERR<<"Bad xml description for [Font] Resources\n";
-  throw "Bad xml description for [Font] Resources";
-}
-
-void 
-CEntityBuilder::buildResourcesSprite( TiXmlElement *pNode, Loader *pLoader, Resources *pResource){
-  TiXmlElement *pChar = pNode->FirstChildElement( "image");
-  if ( pChar ){
-    std::string path  = pChar->Attribute( "path");
-    std::string alias = pChar->Attribute( "alias");
-    if ( !path.empty() && !alias.empty() ){
-      pLoader->addSprite(path, pResource, alias);
-      return;
-    }
-  }
-  LOG2ERR<<"Bad xml description for [Sprite] Resources\n";
-  throw "Bad xml description for [Sprite] Resources";
-}
-
-void 
-CEntityBuilder::buildResourcesAudio( TiXmlElement *pNode, Loader *pLoader, Resources *pResource){
-  TiXmlElement *pChar = pNode->FirstChildElement( "audio");
-  if ( pChar ){
-    std::string path  = pChar->Attribute( "path");
-    std::string alias = pChar->Attribute( "alias");
-    if ( !path.empty() && !alias.empty() ){
-      pLoader->addAudio(path, pResource, alias);
-      return;
-    }
-  }
-  LOG2ERR<<"Bad xml description for [Audio] Resources\n";
-  throw "Bad xml description for [Audio] Resources";
-}
-*/
-/*
  * Parse all entities and build them
 */
 void 
@@ -417,6 +317,41 @@ CEntityBuilder::buildComponentResourcesByKind( const std::string &kind, TiXmlEle
   }
 }
 
+void
+CEntityBuilder::addCommonAttributes(TiXmlElement *pNode, Resources *pResources,
+                                    BVisual *visual) {
+  std::string gui;
+  if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "gui", &gui)) {
+    if (gui == "true") {
+      visual->setGUI(true);
+    } else {
+      visual->setGUI(false);
+    }
+  }
+
+  bool centered = !visual->isText();
+  std::string center;
+  if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "center", &center)) {
+    if (center == "false") {
+      centered = false;
+    } else if (center == "true") {
+      centered = true;
+    }
+  }
+  if (centered) {
+    VisualContext &vc = pResources->getVisualContext();
+    visual->setCenter((float) (visual->getWidth(vc) / 2),
+                      (float) (visual->getHeight(vc) / 2));
+  } else {
+    visual->setCenter(0, 0);
+  }
+  
+  int zOrder;
+  if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "z-order", &zOrder)) {
+    visual->setZOrder(zOrder);
+  }
+}
+
 void 
 CEntityBuilder::buildComponentResourcesImage( TiXmlElement *pNode,  Entity *e, Resources *pResource ){
   TiXmlElement *pChar = pNode->FirstChildElement("image");
@@ -424,24 +359,25 @@ CEntityBuilder::buildComponentResourcesImage( TiXmlElement *pNode,  Entity *e, R
     std::string alias;
     if ( TIXML_SUCCESS == pChar->QueryValueAttribute( "alias", &alias)){
       BVisual *image = pResource->makeImage( alias);
-      std::string gui;
-      if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "gui", &gui)) {
-        if (gui == "true") {
-          image->setGUI(true);
-        } else {
-          image->setGUI(false);
-        }
-      }
-      std::string center;
-      if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "center", &center)) {
-        if (center == "false") {
-          image->setCenter(0, 0);
-        }
-      }
-      int zOrder;
-      if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "z-order", &zOrder)) {
-        image->setZOrder(zOrder);
-      }
+      addCommonAttributes(pNode, pResource, image);
+      // std::string gui;
+      // if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "gui", &gui)) {
+      //   if (gui == "true") {
+      //     image->setGUI(true);
+      //   } else {
+      //     image->setGUI(false);
+      //   }
+      // }
+      // std::string center;
+      // if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "center", &center)) {
+      //   if (center == "false") {
+      //     image->setCenter(0, 0);
+      //   }
+      // }
+      // int zOrder;
+      // if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "z-order", &zOrder)) {
+      //   image->setZOrder(zOrder);
+      // }
       e->addComponent( image);
       return;
     }
@@ -484,10 +420,11 @@ CEntityBuilder::buildComponentResourcesText( TiXmlElement *pNode,  Entity *e, Re
       textVis = pResource->makeText( text, police);
     }
     
-    int zOrder;
-    if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "z-order", &zOrder)) {
-      textVis->setZOrder(zOrder);
-    }
+    addCommonAttributes(pNode, pResource, textVis);
+    // int zOrder;
+    // if ( TIXML_SUCCESS == pNode->QueryValueAttribute( "z-order", &zOrder)) {
+    //   textVis->setZOrder(zOrder);
+    // }
 
     e->addComponent(textVis);
   }

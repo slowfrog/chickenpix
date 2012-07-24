@@ -13,7 +13,20 @@
             <component type="Controller" name="ButtonController" />
         </components>
     </entity>
-        
+    <entity>    
+      <components>
+        <component type="Resources" kind="font" 
+                   gui="true" center="true" z-order="101">
+          <text>Gold: 000</text>
+          <police name="sans_norm"/>
+          <color r="255" g="127" b="0" a="255"/>
+        </component>
+        <component type="Transform">
+          <position x="700" y="360"/>
+        </component>
+      </components>
+    </entity>
+    
     <!-- 
     <entity>
         <components>

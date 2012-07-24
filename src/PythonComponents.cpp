@@ -883,7 +883,7 @@ static PyMethodDef Actionable_methods[] = {
 // Real initialization ----------------------------------------------------------
 static map<Component::Type, PyTypeObject *> PythonComponentTypes;
 
-void
+static void
 registerComponentType(PyObject *module,
                       Component::Type type,
                       PyTypeObject *pyType,

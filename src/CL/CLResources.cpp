@@ -66,7 +66,10 @@ CLResources::makeText(string const &text, string const &font, CPColor const &col
     cerr << "Cannot find font: " << font << endl;
     assert(!(resFont == NULL));
   }
-  return new CLVisualText(text, resFont->get(), CL_Colorf(color.r, color.g, color.b, color.a));
+  CLVisualText *vtext =
+    new CLVisualText(text, resFont->get(),
+                     CL_Colorf(color.r, color.g, color.b, color.a));
+  return vtext;
 }
 
 Audio *
