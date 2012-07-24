@@ -50,6 +50,8 @@ def update(self, manager):
             manager.destroyEntity(collentity)
             self.gold += 10
             self.addComponent(cp.Audio("coin", False))
+            score = manager.getByTag("SCORE")[0]
+            score.getComponent(cp.Visual.TYPE).text = ("Gold: %03d" % self.gold)
         if "Foe" in collentity.getTags():
             print("Enemy !!! banzai !!!")
             manager.setSwitch("Fight")

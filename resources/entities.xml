@@ -14,6 +14,9 @@
         </components>
     </entity>
     <entity>    
+      <tags>
+        <tag name="SCORE"></tag>
+      </tags>
       <components>
         <component type="Resources" kind="font" 
                    gui="true" center="true" z-order="101">
