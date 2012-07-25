@@ -79,7 +79,7 @@ CTagEntityMng::getEntityByTag(const std::string& tag) const{
   if ( it != mTagUniqE.end()){
     return (*it).second;
   }
-  LOG2ERR<<"No entity found with tag ["<< tag<<"]\n";
+  LOG2DBG<<"No entity found with tag ["<< tag<<"]\n";
   return NOT_FOUND;
 }
 
@@ -89,7 +89,7 @@ CTagEntityMng::getEntitiesByTag(const std::string& tag) const {
   if ( it != mTagE.end()){
     return (*it).second;
   }
-  LOG2ERR<<"No entity found with tag ["<< tag<<"]\n";
+  LOG2DBG<<"No entity found with tag ["<< tag<<"]\n";
   return EMPTY_ENTITY_COLLECTION;
 }
 
@@ -99,7 +99,7 @@ CTagEntityMng::getFirstEntityByTag(const std::string& tag) const {
   if ( it != mTagE.end()){
     return (*it).second.front();
   }
-  LOG2ERR<<"No entity found with tag ["<< tag<<"]\n";
+  LOG2DBG<<"No entity found with tag ["<< tag<<"]\n";
   return NOT_FOUND;
 }
 

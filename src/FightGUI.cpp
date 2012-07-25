@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "EntityManager.h"
 #include "TagEntityManager.h"
 #include "Transform.h"
@@ -21,6 +23,9 @@
 #define START_ALLY_ROUND_X  -295
 #define START_ALLY_ROUND_Y  -245
 
+#define START_ALLY_INFO_X   -295
+#define START_ALLY_INFO_Y   -200
+
 #define START_FOE_X         -30
 #define START_FOE_Y         START_ALLY_Y
 
@@ -36,130 +41,107 @@
 #define START_FOE_ROUND_X  -80
 #define START_FOE_ROUND_Y  START_ALLY_ROUND_Y
 
+#define START_FOE_INFO_X   -80
+#define START_FOE_INFO_Y   START_ALLY_INFO_Y
+
+#define START_CONSOLE_X     -380
+#define START_CONSOLE_Y     105
+
 #define LENGHT_TXT          100
 #define DELTA_SKILL         65
 #define ROUND_LENGTH        85
 
-#define HIGHLIGHT_TEXT_01   "HighLightText01"
+//
+#define SKILL_ATTACK        "SkillAttack"
+#define SKILL_QUIT          "SkillQuit"
 
-// Constrcutor
-FightGUI::FightGUI( EntityManager &em)
-:mEM(em), mRes(NULL), mAlpha(200){
-  mRes = em.getComponent<Resources>();
-  assert( mRes); // Can t work without resources
-}
+// 
+#define LEFT_PANEL_TAG      "leftPanel"
+#define RIGHT_PANEL_TAG     "RightPanel"
+#define CONSOLE             "Console"
 
-// Display all stats for Character
+#define FONT_S              "sans_small"
+#define FONT_N              "sans_norm"
+#define FONT_B              "sans_big"
+#define FONT_H              "sans_huge"
+
+#ifndef PI
+#define PI  3.14159
+#endif
+
+/**************************************************************/
+/* GUIEngine                                                  */
+/**************************************************************/
 void 
-FightGUI::displayAllyStats( Character *c, const bool hero){
-  // Display Skill (Hardcoded now)
-  addText( "sans_huge", CPColor( 255, 255, 0, 255), START_ALLY_SKILL_X, START_ALLY_SKILL_Y, "A");
-  addText( "sans_huge", CPColor( 255, 255, 0, 255), START_ALLY_SKILL_X + DELTA_SKILL, START_ALLY_SKILL_Y, "Q");
-  // Display stats
-  addText( "sans_norm", CPColor( 200, 200, 128, 200), START_ALLY_NAME_X, START_ALLY_NAME_Y, c->Name());
-  addText( "sans_norm", CPColor( 200, 200, 128, 200), START_ALLY_ROUND_X, START_ALLY_ROUND_Y, "Round :");
-  displayStats( c, START_ALLY_X, START_ALLY_Y);
-  addImage( c->Name(), START_ALLY_IMG_X, START_ALLY_IMG_Y);
-  
-  // TEST
-  addText( "sans_norm", CPColor( 200, 200, 128, 200), START_ALLY_ROUND_X+ROUND_LENGTH, START_ALLY_ROUND_Y, "Attack");
-}
-
-void 
-FightGUI::displayFoeStats( Character *c){
-  // Display Skill (Hardcoded now)
-  addText( "sans_huge", CPColor( 255, 255, 0, 200), START_FOE_SKILL_X, START_FOE_SKILL_Y, "-");
-  addText( "sans_huge", CPColor( 255, 255, 0, 200), START_FOE_SKILL_X + DELTA_SKILL, START_FOE_SKILL_Y, "-");
-  // Display stats
-  addText( "sans_norm", CPColor( 200, 200, 128, 200), START_FOE_NAME_X, START_FOE_NAME_Y, c->Name());
-  addText( "sans_norm", CPColor( 200, 200, 128, 200), START_FOE_ROUND_X, START_FOE_ROUND_Y, "Round :");
-  displayStats( c, START_FOE_X, START_FOE_Y);
-  addImage( c->Name(), START_FOE_IMG_X, START_FOE_IMG_Y);
+UIEngine::setResources( Resources *r){
+  mRes = r;
 }
 
 void 
-FightGUI::displayStats( Character *c, const float startX, const float startY){
-  Stats::TMapVariant    vs = c->getStats().get();
-  Stats::TMapVariantIt it = vs.begin();
-  float inc(0.);
-  CPColor color( 255, 255, 0, 200);
-  for ( it; it != vs.end(); it++) {
-    std::string name;
-    getStatsName( (*it).first, name);
-    addText( "sans_norm", color, startX, startY+(inc*25.), name);
-    CVariant v = (*it).second;
-    addText( "sans_norm", color, startX+LENGHT_TXT, startY+(inc*25.), v);
-    inc++;
-  }
-}
-
-void
-FightGUI::readyToStart( const std::string& text, int now)
+UIEngine::buildText(Entity             *e, 
+                    const std::string  &t, 
+                    const std::string  &f,
+                    const CPColor      &c,
+                    const float        x, 
+                    const float        y
+                    )
 {
-  Entity::Id id = mEM.getFirstByTag( HIGHLIGHT_TEXT_01);
-  Entity *ent(NULL);
-  if ( id != NOT_FOUND){
-    mEM.destroyEntity( id);
-  }
-  // Create new 
-  ent = mEM.createEntity();
-  mEM.tagEntity( ent, HIGHLIGHT_TEXT_01);
-  assert( ent);
-  // Properties
-  // A revoir pour plus de souplesse avec les properties de la camera, approx de la police aussi
-  float x = (800./2.-200) - (text.length()*45)/2.;
-  if (x < -400) x = -( 800. - 200.)/2.;
-  addText( "sans_big", CPColor( now%255, 128, 0, now%255), x, -200, text);
-}
-
-// Prepare stats for display
-void 
-FightGUI::addText( const std::string &f, const CPColor &c, const float x, const float y, CVariant &v)
-{
-  // Get Value
-  std::ostringstream out;
-  out.str("");
-  out <<(long)v;
-  // display
-  addText( f, c, x, y, out.str());
-}
-
-// Display stats (adding new entity)
-void 
-FightGUI::addText(  const std::string   &f, 
-                    const CPColor       &c, 
-                    float               x, 
-                    float               y, 
-                    const std::string   &text)
-{
-  // Create entity
-  Entity *ent = mEM.createEntity();
-  assert( ent);
-  mEM.tagEntity( ent, TAG_STATS);
-  
-  BVisual *vt = mRes->makeText( text, f, c);
+  BVisual *vt = mRes->makeText( t, f, c);
   assert( vt);
   vt->setZOrder( 100);
-  
-  ent->addComponent( vt);
-  ent->addComponent( new Transform( x, y));
+  e->addComponent( vt);
+  e->addComponent( new Transform( x, y));
 }
 
-void FightGUI::addImage( const std::string &name, const float x, const float y){
-  // Create entity
-  Entity *ent = mEM.createEntity();
-  assert( ent);
-  
-  BVisual *vi = mRes->makeImage( name);
+void 
+UIEngine::buildImg (Entity             *e, 
+                    const std::string  &i, 
+                    const float        x, 
+                    const float        y
+                    )
+{
+  BVisual *vi = mRes->makeImage( i);
   assert( vi);
   vi->setZOrder( 100);
-  ent->addComponent( vi);
-  ent->addComponent( new Transform( x, y));
+  e->addComponent( vi);
+  e->addComponent( new Transform( x, y));
 }
 
-// Add text for stats
+/**************************************************************/
+/* IUIPart                                                    */
+/**************************************************************/
+// 
+int
+IUIPart::getAlpha( const int def){
+  if ( isTimeShift() ){
+    mTheta += 20;
+    return 255*fabs(cos( (mTheta*2.f*PI)/360.f));
+  }
+  return def;
+}
+
+// Resources
 void 
-FightGUI::getStatsName( const long &id, std::string& name)
+IUIPart::buildResource( Entity *e, UIEngine *eng, const sInfoRs &i)
+{
+  switch( i.sType){
+    case eText:
+      eng->buildText( e, i.sText, i.sResName, i.sColor, i.sX, i.sY);
+      break;
+    case eImage:
+      eng->buildImg( e, i.sResName, i.sX, i.sY);
+      break;
+    default:
+      break;
+  }
+}
+
+/**************************************************************/
+/* UIStats                                                    */
+/**************************************************************/
+// Add label for stats
+void 
+UIStats::getStatsName( const long &id, std::string& name)
 {
   switch( id){
     case HEALTH:
@@ -178,4 +160,248 @@ FightGUI::getStatsName( const long &id, std::string& name)
       name="xxx";
       break;
   }
+}
+
+// Prepare stats to display
+void 
+UIStats::addStatsFighters( const Character *c, const bool isAlly){
+  Stats::TMapVariant    vs = c->getStats().get();
+  Stats::TMapVariantIt  it = vs.begin();
+  float                 inc(0.);
+  std::ostringstream    out;
+  std::string           name;
+  // Loop on stats
+  for ( it; it != vs.end(); it++) {
+    out.str("");
+    getStatsName( (*it).first, name);
+    mStaticRes.push_back( sInfoRs( name, FONT_N, 
+                                  (isAlly)?START_ALLY_X:START_FOE_X, 
+                                  ((isAlly)?START_ALLY_Y:START_FOE_Y)+(inc*25.), 
+                                  HIGH_YELLOW));
+    long v = (long)(*it).second;
+    out << v;
+    mDynamicRes.insert( std::make_pair(c->Name() + name, 
+                                       sInfoRs(out.str(), FONT_N, 
+                                               ((isAlly)?START_ALLY_X:START_FOE_X)+LENGHT_TXT, 
+                                               ((isAlly)?START_ALLY_Y:START_FOE_Y)+(inc*25.), 
+                                               HIGH_YELLOW)
+                                       )
+                       );
+    inc++;
+  }
+  // Round text
+  mStaticRes.push_back( sInfoRs( "Round :", FONT_N, 
+                                (isAlly)?START_ALLY_ROUND_X:START_FOE_ROUND_X, 
+                                (isAlly)?START_ALLY_ROUND_Y:START_FOE_ROUND_Y, 
+                                HIGH_YELLOW));
+  // Name
+  mDynamicRes.insert( std::make_pair(c->Name(), 
+                                     sInfoRs(c->Name(), FONT_N, 
+                                             (isAlly)?START_ALLY_NAME_X:START_FOE_NAME_X, 
+                                             (isAlly)?START_ALLY_NAME_Y:START_FOE_NAME_Y, 
+                                             LIGHT_BROWN)
+                                     )
+                     );
+  // Image
+  mDynamicRes.insert( std::make_pair(TAG_IMG + c->Name(), 
+                                     sInfoRs(c->Name(), 
+                                             (isAlly)?START_ALLY_IMG_X:START_FOE_IMG_X, 
+                                             (isAlly)?START_ALLY_IMG_Y:START_FOE_IMG_Y)
+                                     )
+                     );  
+}
+
+void
+UIStats::updateStats( const Character *c){
+  Stats::TMapVariant    vs = c->getStats().get();
+  Stats::TMapVariantIt  it = vs.begin();
+  std::ostringstream    out;
+  std::string           name;
+  long                  value(0L);
+  // Loop on stats
+  for ( it; it != vs.end(); it++) {
+    getStatsName( (*it).first, name);
+    TMapTagRes::iterator itf = mDynamicRes.find( c->Name() + name);
+    if (itf != mDynamicRes.end()){
+      value = (long)(*it).second;
+      out << ((value<0)?0:value);
+      itf->second.sText = out.str();
+      out.str("");
+    }
+  }
+}
+
+void 
+UIStats::updateRole( const std::string &name, const bool ally){
+  TMapTagRes::iterator it = mDynamicRes.find( name);
+  sInfoRs info(name, FONT_N, 
+               (ally)?START_ALLY_ROUND_X+ROUND_LENGTH:START_FOE_ROUND_X+ROUND_LENGTH, 
+               (ally)?START_ALLY_ROUND_Y:START_FOE_ROUND_Y, 
+               LIGHT_RED);
+  if ( it != mDynamicRes.end()) {
+    it->second = info;
+  }
+  else {
+    mDynamicRes.insert( std::make_pair( name, info));
+  }  
+}
+
+// Info
+void 
+UIStats::infoStats( const std::string& i, const bool left, CPColor c, const bool highlight){
+  // Info 
+  std::string panel = (left)?LEFT_PANEL_TAG:RIGHT_PANEL_TAG;
+  TMapTagRes::iterator it = mDynamicRes.find( panel);
+  sInfoRs info( i, FONT_N, 
+               (left)?START_ALLY_INFO_X:START_FOE_INFO_X, 
+               (left)?START_ALLY_INFO_Y:START_FOE_INFO_Y, 
+               c, highlight);
+  if ( it != mDynamicRes.end()) {
+    it->second = info;
+  }
+  else {
+    mDynamicRes.insert( std::make_pair( panel, info));
+  }
+}
+
+// Display fixed entities
+void 
+UIStats::refreshFixedPart ( EntityManager &em, UIEngine *eng, int now){
+  TVecRes::iterator it = mStaticRes.begin();
+  for (it; it != mStaticRes.end(); it++){
+    Entity *e = em.createEntity();
+    assert( e);
+    em.tagEntity( e, TAG_FIXED);
+    buildResource( e, eng, (*it));
+  }
+}
+
+// Display dynamic entities
+void 
+UIStats::refreshPart( EntityManager &em, UIEngine *eng, int now){
+  // Parse objects
+  TMapTagRes::iterator it = mDynamicRes.begin();
+  while ( it != mDynamicRes.end()) {
+    // Check tag
+    Entity::Id id = em.getFirstByTag( (*it).first);
+    if ( id != NOT_FOUND) {
+      em.destroyEntity( id);
+    }
+    // Highlight 
+    if ( (*it).second.sHighLight) {
+      (*it).second.sColor.a = getAlpha( (*it).second.sColor.a);
+    }
+    // Create new entity
+    Entity *e = em.createEntity();
+    assert( e);
+    em.tagEntity( e, (*it).first, true);
+    buildResource( e, eng, (*it).second);
+    it++; // Next
+  }
+}
+
+/**************************************************************/
+/* GUIConsole                                                 */
+/**************************************************************/
+// New line
+void 
+UIConsole::newLine( const std::string &txt){
+  mLastInserted = mCur = mVLines.size();
+  mVLines.push_back( txt);
+}
+
+//
+void 
+UIConsole::buildDisplayedLine(){
+  TVecTxt::reverse_iterator it = mVLines.rbegin();
+  mDynamicRes.clear();
+  TPos    nb( 0);
+  CPColor c ( 255, 255, 255, 255);
+  while ( it != mVLines.rend() && nb < 16) {
+    if ( nb == 0){
+      c.r = c.g = c.b = 255;
+    }
+    else {
+      c.r = c.g = c.b = 200;
+    }
+
+    //addText
+    sInfoRs info((*it), FONT_S, 
+                 START_CONSOLE_X, 
+                 START_CONSOLE_Y + ( nb * 10), 
+                 c);
+    std::ostringstream    out;
+    out << CONSOLE <<nb;
+    mDynamicRes.insert( mDynamicRes.begin(), std::make_pair( out.str(), info));
+    nb++;
+    it++;
+  }
+}
+
+// Add fixed entity to display
+void 
+UIConsole::refreshFixedPart( EntityManager &em, UIEngine *eng, int now){
+}
+
+// Add dynamic entity to display
+void 
+UIConsole::refreshPart( EntityManager &em, UIEngine *eng, int now){
+  buildDisplayedLine();
+  // Parse objects
+  TMapTagRes::iterator it = mDynamicRes.begin();
+  while ( it != mDynamicRes.end()) {
+    // Check tag
+    Entity::Id id = em.getFirstByTag( (*it).first);
+    if ( id != NOT_FOUND) {
+      em.destroyEntity( id);
+    }
+    // Create new entity
+    Entity *e = em.createEntity();
+    assert( e);
+    em.tagEntity( e, (*it).first, true);
+    buildResource( e, eng, (*it).second);
+    it++; // Next
+  }
+}
+
+/**************************************************************/
+/* UIManager                                                  */
+/**************************************************************/
+// Constructor
+UIManager::UIManager( Resources *res)
+:mRes( res) {
+  assert( res);
+  mUIEngine.setResources( res);
+}
+
+// API
+void 
+UIManager::refreshAll( EntityManager &em, int now){
+  mGUIStats.refresh   ( em, &mUIEngine, now);
+  mGUIConsole.refresh ( em, &mUIEngine, now);
+}
+
+void 
+UIManager::addStats( const Character *c, const bool ally){
+  mGUIStats.addStatsFighters( c, ally);
+}
+
+void 
+UIManager::updateStats( Character *c, const bool ally){
+  mGUIStats.updateStats( c);
+}
+
+void 
+UIManager::displayRole( const std::string &tag, const bool isAlly){
+  mGUIStats.updateRole( tag, isAlly);
+}
+
+void 
+UIManager::displayInfo( const std::string &info, const bool left, CPColor c, const int delta){
+  mGUIStats.infoStats( info, left, c, delta);
+}
+
+void 
+UIManager::consoleInfo( const std::string &line){
+  mGUIConsole.newLine( line);
 }

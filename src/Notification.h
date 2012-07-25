@@ -4,21 +4,20 @@
 #include <vector>
 #include <string>
 #include "Singleton.h"
+#include "System.h"
 
 // Forward
 class Notification;
+class System;
 
-/* Notifier interface */
-class INotifier  {
-public:
-  virtual void apply( const Notification& ) =0;
-  virtual const long getId() const =0;
-};
+// Def callback on notification
+typedef void (*TNotifFunc)( System*);
 
 /* Notification */
 class Notification {
   friend class NotificationCenter;
-  typedef std::vector<INotifier*> TVecNotifier;
+  typedef std::vector<System*>     TVecNotifier;
+  typedef std::map<long, TNotifFunc>  TMapNotifFunc;
 
 public:
   const std::string Name() const { return mName;}
@@ -28,13 +27,14 @@ protected:
   Notification( const std::string &name): mName(name){}
   ~Notification(){}
 
-  void registerNotifier  ( INotifier*);
-  void unregisterNotifier( INotifier*);
+  void registerNotifier  ( System*, TNotifFunc);
+  void unregisterNotifier( System*);
   void Notify();
   
 private:
   std::string   mName;
   TVecNotifier  mVNotifier;
+  TMapNotifFunc mMNotifFunc;
 };
 
 /* Notification management */
@@ -49,13 +49,11 @@ public:
   
   // API
   Notification* createNotification( const std::string&);
-  Notification* getNotification( const long);
   Notification* getNotification( const std::string&);
   
-  void registerNotification   ( INotifier*, Notification*);
-  void registerNotification   ( INotifier*, const std::string&);
-  void unregisterNotification ( INotifier*, Notification*);
-  void unregisterNotification ( INotifier*, const std::string&);
+  void registerNotification ( System*, const std::string&, TNotifFunc);
+  void unregisterNotification ( System*, Notification*);
+  void unregisterNotification ( System*, const std::string&);
   
   void Notify( const std::string&);
   

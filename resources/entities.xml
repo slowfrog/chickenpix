@@ -135,7 +135,7 @@
                        width="600" height="600" />
             <component type="Character" nickname="richard">
                 <stats name="initiative" value="5"/>
-                <stats name="health" value="50"/>
+                <stats name="health" value="30"/>
                 <stats name="armor_class" value="3"/>
                 <stats name="damage" value="1"/>
             </component>
@@ -159,7 +159,7 @@
         </component>
         <component type="Character" nickname="mayor">
           <stats name="initiative" value="4"/>
-          <stats name="health" value="35"/>
+          <stats name="health" value="25"/>
           <stats name="armor_class" value="2"/>
           <stats name="damage" value="1"/>
         </component>

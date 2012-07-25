@@ -19,7 +19,7 @@ FightController::update(
   }
   
   // Manage "continue"
-  if (input.isKeyDown(InputState::C)) {
-    NotificationCenter::get()->Notify( FS_NOTIFIER_KEY_C);
+  if (input.isKeyDown(InputState::A)) {
+    NotificationCenter::get()->Notify( FS_NOTIFIER_SKILL);
   }
 }

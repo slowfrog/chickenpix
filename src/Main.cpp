@@ -8,6 +8,7 @@ void prepareFight( EntityManager &em, CFightSystem *fs)
     return;
   }
   // Prepare round
+  fs->reset();
   CTagEntityMng::TEntityId id = CTagEntityMng::get()->getEntityByTag( "HERO");
   Entity *e = em.getById( id);
   if ( e){
@@ -34,6 +35,9 @@ void prepareFight( EntityManager &em, CFightSystem *fs)
       }
     }
   }
+  
+  // Ready to fight
+  fs->start();
 }
 
 
