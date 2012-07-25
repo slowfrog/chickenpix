@@ -1,7 +1,7 @@
 #include "Notification.h"
 
-/**********************************************
-/* Notification
+/**********************************************/
+/* Notification                               */
 /**********************************************/
 void 
 Notification::registerNotifier( System *n, TNotifFunc f){
@@ -43,8 +43,8 @@ Notification::Notify(){
   }
 }
 
-/**********************************************
-/* NotificationCenter
+/**********************************************/
+/* NotificationCenter                         */
 /**********************************************/
 // Destructor
 NotificationCenter::~NotificationCenter(){

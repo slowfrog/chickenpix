@@ -405,3 +405,4 @@ void
 UIManager::consoleInfo( const std::string &line){
   mGUIConsole.newLine( line);
 }
+

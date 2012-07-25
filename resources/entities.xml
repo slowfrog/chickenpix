@@ -13,7 +13,23 @@
             <component type="Controller" name="ButtonController" />
         </components>
     </entity>
-        
+    <entity>    
+      <tags>
+        <tag name="SCORE"></tag>
+      </tags>
+      <components>
+        <component type="Resources" kind="font" 
+                   gui="true" center="true" z-order="101">
+          <text>Gold: 000</text>
+          <police name="sans_norm"/>
+          <color r="255" g="127" b="0" a="255"/>
+        </component>
+        <component type="Transform">
+          <position x="700" y="360"/>
+        </component>
+      </components>
+    </entity>
+    
     <!-- 
     <entity>
         <components>
@@ -125,6 +141,7 @@
             <component type="Input">
             </component>
             <component type="Controller" name="HeroController" />
+            <component type="Controller" name="ButtonController" />
             <component type="Scriptable">
                 <script name="toto"/>
             </component>

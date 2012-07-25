@@ -19,7 +19,7 @@ private:
   TEntityIdList collisions_;
 
 public:
-  static const Type TYPE = COLLIDER_TYPE;
+  static Type TYPE;
   Collider(bool solid, float size);
   Collider(bool solid, float left, float top, float right, float bottom);
   virtual ~Collider();

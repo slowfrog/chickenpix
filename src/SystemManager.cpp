@@ -84,13 +84,21 @@ CSystemManager::setCurrent( const std::string &name){
     mEMng       = getEM( name);
     mEMng->setSwitch( name);  // avoid "switch" again
   }
+  else if (name == EntityManager::EXIT) {
+    mEMng->setSwitch( name); // ???
+  }
   else{
     throw "Could not access current EntityManager ["+ name + "], not found."; 
   }
 }
 
+bool
+CSystemManager::exitRequested() const {
+  return getByRef().exitRequested();
+}
+
 EntityManager&
-CSystemManager::getByRef(){
+CSystemManager::getByRef() const {
   return *mEMng;
 }
 EntityManager&

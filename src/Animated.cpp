@@ -1,5 +1,9 @@
 #include <sstream>
 #include "Animated.h"
+#include "ComponentRegistry.h"
+
+Component::Type
+Animated::TYPE = ANIMATED_TYPE;
 
 Animated::Animated(string const &name):
   Component(TYPE), name(name), changed(true) {

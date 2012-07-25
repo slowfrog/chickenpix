@@ -67,7 +67,10 @@ SFMLResources::makeText(string const &text, string const &font, CPColor const &c
     cerr << "Cannot find font: " << font << endl;
     assert(!(resFont == NULL));
   }
-  return new SFMLVisualText(text, resFont->get(), sf::Color(color.r, color.g, color.b, color.a));
+  SFMLVisualText *vtext =
+    new SFMLVisualText(text, resFont->get(),
+                       sf::Color(color.r, color.g, color.b, color.a));
+  return vtext;
 }
 
 Audio *

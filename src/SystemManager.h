@@ -27,6 +27,7 @@ public:
   void createEntityManager    ( const std::string&);
   void registerSystem         ( const std::string&, System*);
   void setCurrent             ( const std::string&);
+  bool exitRequested          ( ) const;
   
   void SystemInit   ( EntityManager&);
   void SystemInit   ( );
@@ -37,7 +38,7 @@ public:
   
   // Accessor(s)
   EntityManager     &getByName( const std::string&);
-  EntityManager     &getByRef();
+  EntityManager     &getByRef() const;
   TSystemCollection &getCurrentSystem();
   System            *getCurrentSystemByType( const SystemType);
   

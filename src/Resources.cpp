@@ -1,7 +1,11 @@
 #include "Resources.h"
+#include "ComponentRegistry.h"
 
 CPColor
 CPColor::White(255, 255, 255);
+
+Component::Type
+Resources::TYPE = RESOURCES_TYPE;
 
 Resources::Resources():
   Component(TYPE) {

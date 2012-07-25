@@ -118,9 +118,9 @@ sortByInitiative(const CFighter& a, const CFighter& b){
 
 // Constructor
 CFightSystem::CFightSystem( const std::string &name)
-: System( name), mUI( NULL), endOfFight( false){
+: System( name), mUI( NULL), endOfFight( false), mDead(""){
   // Register event
-  NotificationCenter::get()->registerNotification( this, FS_NOTIFIER_SKILL,       NotifyAttack);
+  NotificationCenter::get()->registerNotification( this, FS_NOTIFIER_SKILL, NotifyAttack);
 }
 
 // Destructor
@@ -173,6 +173,8 @@ void
 CFightSystem::reset(){
   vAlly.clear();
   vFoe.clear();
+  endOfFight  = false; 
+  mDead       = "";
 }
 
 void CFightSystem::start(){
@@ -296,6 +298,7 @@ void
 CFightSystem::nextRound(){
   // Def is dead ?  
   if ( qDef.front().isDead() ){
+    mDead = qDef.front().Name();
     LOG2DBG <<qDef.front().Name()<<" is dead\n";
     getUI()->displayInfo( qDef.front().Name()+ " is dead", !(curFg == STATE_ALLY_FOE), LIGHT_RED);
     vDead.push( qDef.front());
@@ -348,13 +351,11 @@ CFightSystem::finishRound(){
 
 void 
 CFightSystem::updateFighters( EntityManager &em){
-  std::string name = qAtt.front().Name();
-
-  Entity::Id id = em.getFirstByTag( name);
+  /*Entity::Id id = em.getFirstByTag( mDead);
   if ( id != NOT_FOUND) {
     Entity *e = em.getById( id);
     em.tagEntity( e, "ToDelete", true);
-  }
+  }*/
 }
 
 /*
@@ -417,5 +418,3 @@ CFightSystem::toString(){
   }
   return out.str();
 }
-
-

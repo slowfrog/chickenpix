@@ -9,7 +9,7 @@ private:
   bool changed;
   
 public:
-  static const Type TYPE = ANIMATED_TYPE;
+  static Type TYPE;
 
   Animated(string const &name);
   virtual ~Animated();

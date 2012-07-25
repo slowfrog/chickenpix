@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include "ComponentRegistry.h"
 
 using namespace std;
 
@@ -20,9 +19,7 @@ public:
   inline Type getType() const {
     return type_;
   }
-  inline const char *getTypeName() const {
-    return ComponentName[type_];
-  }
+  const char *getTypeName() const;
 
   virtual string toString() const;
 };

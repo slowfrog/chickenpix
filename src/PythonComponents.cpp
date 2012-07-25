@@ -1,6 +1,7 @@
 #include <Python.h>
 #include "log.h"
 #include "PythonComponents.h"
+#include "ComponentRegistry.h"
 #include "WrappedEntity.h"
 #include "Animated.h"
 #include "VisualText.h"
@@ -11,50 +12,46 @@
 #include "Mobile.h"
 #include "Transform.h"
 #include "Collider.h"
+#include "Actionable.h"
 
 
 //
 static PyObject *NO_ARGS = PyTuple_New(0);
 static PyObject *NO_KWDS = PyDict_New();
 
-// Transform wrapper
-typedef PyComponent PyTransform;
-typedef PyComponent PyMobile;
-typedef PyComponent PyAnimated;
-typedef PyComponent PyVisual;
-typedef PyComponent PyAudio;
-typedef PyComponent PyInput;
-typedef PyComponent PyCamera;
-typedef PyComponent PyCollider;
-
-// Transform type and methods ---------------------------------------------------
-static PyTypeObject PyTransformType = {
-  PyObject_HEAD_INIT(NULL)
-  0,
-  "cp.Transform",
-  sizeof(PyTransform),
-};
-
 static
-int Transform_init(PyTransform *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
+int Component_init(PyObject *self, Component *compo) {
+  if (PyComponentType.tp_init(self, NO_ARGS, NO_KWDS) < 0) {
     return -1;
   }
   if (PyErr_Occurred()) {
     PyErr_Clear();
   }
   
+  ((PyComponent *) self)->component = compo;
+  return 0;
+}
+
+// Transform type and methods ---------------------------------------------------
+static PyTypeObject PyTransformType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Transform",
+  sizeof(PyComponent),
+};
+
+static
+int Transform_init(PyObject *self, PyObject *args, PyObject *kwds) {
   float x, y;
   if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
     return -1;
   }
-  self->component = new Transform(x, y);
-  return 0;
+  return Component_init(self, new Transform(x, y));
 }
 
 static
 PyObject *Transform_getx(PyObject *self, void *) {
-  Transform *t = (Transform *) ((PyTransform *) self)->component;
+  Transform *t = (Transform *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(t->getX());
 }
 
@@ -64,14 +61,14 @@ int Transform_setx(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Transform.x must be a number");
     return -1;
   }
-  Transform *t = (Transform *) ((PyTransform *) self)->component;
+  Transform *t = (Transform *) ((PyComponent *) self)->component;
   t->setX((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Transform_gety(PyObject *self, void *) {
-  Transform *t = (Transform *) ((PyTransform *) self)->component;
+  Transform *t = (Transform *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(t->getY());
 }
 
@@ -81,7 +78,7 @@ int Transform_sety(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Transform.y must be a number");
     return -1;
   }
-  Transform *t = (Transform *) ((PyTransform *) self)->component;
+  Transform *t = (Transform *) ((PyComponent *) self)->component;
   t->setY((float) PyFloat_AsDouble(val));
   return 0;
 }
@@ -95,7 +92,7 @@ static PyGetSetDef Transform_getset[] = {
 };
 
 static
-PyObject *Transform_moveTo(PyTransform *self, PyObject *args) {
+PyObject *Transform_moveTo(PyComponent *self, PyObject *args) {
   Transform *t = (Transform *) self->component;
   float x, y;
   if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
@@ -109,7 +106,7 @@ PyObject *Transform_moveTo(PyTransform *self, PyObject *args) {
 }
 
 static
-PyObject *Transform_moveBy(PyTransform *self, PyObject *args) {
+PyObject *Transform_moveBy(PyComponent *self, PyObject *args) {
   Transform *t = (Transform *) self->component;
   float x, y;
   if (!PyArg_ParseTuple(args, "ff", &x, &y)) {
@@ -135,29 +132,21 @@ static PyTypeObject PyMobileType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Mobile",
-  sizeof(PyMobile),
+  sizeof(PyComponent),
 };
 
 static
-int Mobile_init(PyTransform *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
+int Mobile_init(PyObject *self, PyObject *args, PyObject *kwds) {
   float speedX, speedY;
   if (!PyArg_ParseTuple(args, "ff", &speedX, &speedY)) {
     return -1;
   }
-  self->component = new Mobile(speedX, speedY);
-  return 0;
+  return Component_init(self, new Mobile(speedX, speedY));
 }
 
 static
 PyObject *Mobile_getSpeedX(PyObject *self, void *) {
-  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  Mobile *m = (Mobile *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(m->getSpeedX());
 }
 
@@ -167,14 +156,14 @@ int Mobile_setSpeedX(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Mobile.speedX must be a number");
     return -1;
   }
-  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  Mobile *m = (Mobile *) ((PyComponent *) self)->component;
   m->setSpeedX((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Mobile_getSpeedY(PyObject *self, void *) {
-  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  Mobile *m = (Mobile *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(m->getSpeedY());
 }
 
@@ -184,14 +173,14 @@ int Mobile_setSpeedY(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Mobile.speedY must be a number");
     return -1;
   }
-  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  Mobile *m = (Mobile *) ((PyComponent *) self)->component;
   m->setSpeedY((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Mobile_getSpeed(PyObject *self, void *) {
-  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  Mobile *m = (Mobile *) ((PyComponent *) self)->component;
   return PyTuple_Pack(2,
                       PyFloat_FromDouble(m->getSpeedX()),
                       PyFloat_FromDouble(m->getSpeedY()));
@@ -220,7 +209,7 @@ int Mobile_setSpeed(PyObject *self, PyObject *val, void *) {
     return -1;
   }
   
-  Mobile *m = (Mobile *) ((PyMobile *) self)->component;
+  Mobile *m = (Mobile *) ((PyComponent *) self)->component;
   float sx = (float) PyFloat_AsDouble(psx);
   float sy = (float) PyFloat_AsDouble(psy);
   m->setSpeed(sx, sy);
@@ -242,28 +231,19 @@ static PyTypeObject PyVisualType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Visual",
-  sizeof(PyVisual),
+  sizeof(PyComponent),
 };
 
 static
-int Visual_init(PyTransform *self, PyObject *args, PyObject *kwds) {
+int Visual_init(PyObject *self, PyObject *args, PyObject *kwds) {
   // Should not be called...
-  
-  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
-  //self->component = new Mobile(speedX, speedY);
-  return 0;
+  return Component_init(self, NULL);
 }
 
 
 static
 PyObject *Visual_getText(PyObject *self, void *) {
-  BVisual *visual = (BVisual *) ((PyVisual *) self)->component;
+  BVisual *visual = (BVisual *) ((PyComponent *) self)->component;
   if (!visual->isText()) {
     PyErr_SetString(PyExc_TypeError, "Visual is not a text");
     return NULL;
@@ -274,7 +254,7 @@ PyObject *Visual_getText(PyObject *self, void *) {
 
 static
 int Visual_setText(PyObject *self, PyObject *val, void *) {
-  BVisual *visual = (BVisual *) ((PyVisual *) self)->component;
+  BVisual *visual = (BVisual *) ((PyComponent *) self)->component;
   if (!visual->isText()) {
     PyErr_SetString(PyExc_TypeError, "Visual is not a text");
     return -1;
@@ -290,7 +270,7 @@ int Visual_setText(PyObject *self, PyObject *val, void *) {
 
 static
 PyObject *Visual_getColor(PyObject *self, void *) {
-  BVisual *visual = (BVisual *) ((PyVisual *) self)->component;
+  BVisual *visual = (BVisual *) ((PyComponent *) self)->component;
   if (!visual->isText()) {
     PyErr_SetString(PyExc_TypeError, "Visual is not a text");
     return NULL;
@@ -307,7 +287,7 @@ PyObject *Visual_getColor(PyObject *self, void *) {
 
 static
 int Visual_setColor(PyObject *self, PyObject *val, void *) {
-  BVisual *visual = (BVisual *) ((PyVisual *) self)->component;
+  BVisual *visual = (BVisual *) ((PyComponent *) self)->component;
   if (!visual->isText()) {
     PyErr_SetString(PyExc_TypeError, "Visual is not a text");
     return -1;
@@ -341,7 +321,7 @@ static PyGetSetDef Visual_getset[] = {
 };
 
 static PyObject *
-Visual_isText(PyVisual *self) {
+Visual_isText(PyComponent *self) {
   BVisual *visual = (BVisual *) self->component;
   if (visual->isText()) {
     Py_RETURN_TRUE;
@@ -361,29 +341,21 @@ static PyTypeObject PyAnimatedType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Animated",
-  sizeof(PyAnimated),
+  sizeof(PyComponent),
 };
 
 static
-int Animated_init(PyTransform *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
+int Animated_init(PyObject *self, PyObject *args, PyObject *kwds) {
   PyObject *name;
   if (!PyArg_ParseTuple(args, "S", &name)) {
     return -1;
   }
-  self->component = new Animated(PyString_AsString(name));
-  return 0;
+  return Component_init(self, new Animated(PyString_AsString(name)));
 }
 
 static
 PyObject *Animated_getAnimation(PyObject *self, void *) {
-  Animated *a = (Animated *) ((PyAnimated *) self)->component;
+  Animated *a = (Animated *) ((PyComponent *) self)->component;
   return PyString_FromString(a->getAnimation().c_str());
 }
 
@@ -393,7 +365,7 @@ int Animated_setAnimation(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Animated.animation must be a string");
     return -1;
   }
-  Animated *a = (Animated *) ((PyAnimated *) self)->component;
+  Animated *a = (Animated *) ((PyComponent *) self)->component;
   a->setAnimation(PyString_AsString(val));
   return 0;
 }
@@ -409,18 +381,11 @@ static PyTypeObject PyAudioType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Audio",
-  sizeof(PyAudio),
+  sizeof(PyComponent),
 };
 
 static
-int Audio_init(PyTransform *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
+int Audio_init(PyObject *self, PyObject *args, PyObject *kwds) {
   PyObject *name;
   PyObject *loop;
   if (!PyArg_ParseTuple(args, "S|O", &name, &loop)) {
@@ -436,13 +401,12 @@ int Audio_init(PyTransform *self, PyObject *args, PyObject *kwds) {
       looping = (PyObject_IsTrue(loop) != 0);
     }
   }
-  self->component = new Audio(PyString_AsString(name), looping);
-  return 0;
+  return Component_init(self, new Audio(PyString_AsString(name), looping));
 }
 
 static
 PyObject *Audio_getName(PyObject *self, void *) {
-  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  Audio *a = (Audio *) ((PyComponent *) self)->component;
   return PyString_FromString(a->getName().c_str());
 }
 
@@ -452,14 +416,14 @@ int Audio_setName(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Audio.name must be a string");
     return -1;
   }
-  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  Audio *a = (Audio *) ((PyComponent *) self)->component;
   a->setName(PyString_AsString(val));
   return 0;
 }
 
 static
 PyObject *Audio_getLoop(PyObject *self, void *) {
-  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  Audio *a = (Audio *) ((PyComponent *) self)->component;
   if (a->isLooping()) {
     Py_RETURN_TRUE;
   } else {
@@ -473,14 +437,14 @@ int Audio_setLoop(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Audio.loop must be a boolean");
     return -1;
   }
-  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  Audio *a = (Audio *) ((PyComponent *) self)->component;
   a->setLooping(PyObject_IsTrue(val) != 0);
   return 0;
 }
 
 static
 PyObject *Audio_getPlaying(PyObject *self, void *) {
-  Audio *a = (Audio *) ((PyAudio *) self)->component;
+  Audio *a = (Audio *) ((PyComponent *) self)->component;
   if (a->isPlaying()) {
     Py_RETURN_TRUE;
   } else {
@@ -499,7 +463,7 @@ static PyGetSetDef Audio_getset[] = {
 };
 
 static
-PyObject *Audio_stop(PyAudio *audio) {
+PyObject *Audio_stop(PyComponent *audio) {
   Audio *a = (Audio *) audio->component;
   a->stop();
   Py_RETURN_NONE;
@@ -599,25 +563,17 @@ static PyTypeObject PyInputType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Input",
-  sizeof(PyInput),
+  sizeof(PyComponent),
 };
 
 static
-int Input_init(PyTransform *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
-  self->component = new Input();
-  return 0;
+int Input_init(PyObject *self, PyObject *args, PyObject *kwds) {
+  return Component_init(self, new Input());
 }
 
 static
 PyObject *Input_getState(PyObject *self, void *) {
-  Input *input = (Input *) ((PyInput *) self)->component;
+  Input *input = (Input *) ((PyComponent *) self)->component;
   PyInputState *state =
     (PyInputState *) PyInputStateType.tp_alloc(&PyInputStateType, 0);
   state->state = input->getInputState();
@@ -635,30 +591,22 @@ static PyTypeObject PyCameraType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Camera",
-  sizeof(PyCamera),
+  sizeof(PyComponent),
 };
 
 static
-int Camera_init(PyTransform *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
+int Camera_init(PyObject *self, PyObject *args, PyObject *kwds) {
   float offsetX, offsetY;
   unsigned int width, height;
   if (!PyArg_ParseTuple(args, "ffII", &offsetX, &offsetY, &width, &height)) {
     return -1;
   }
-  self->component = new Camera(offsetX, offsetY, width, height);
-  return 0;
+  return Component_init(self, new Camera(offsetX, offsetY, width, height));
 }
 
 static
 PyObject *Camera_getOffsetX(PyObject *self, void *) {
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(c->getOffsetX());
 }
 
@@ -668,14 +616,14 @@ int Camera_setOffsetX(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Camera.offsetX must be a number");
     return -1;
   }
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   c->setOffsetX((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Camera_getOffsetY(PyObject *self, void *) {
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(c->getOffsetY());
 }
 
@@ -685,14 +633,14 @@ int Camera_setOffsetY(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Camera.offsetY must be a number");
     return -1;
   }
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   c->setOffsetY((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Camera_getWidth(PyObject *self, void *) {
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   return PyInt_FromLong(c->getWidth());
 }
 
@@ -702,14 +650,14 @@ int Camera_setWidth(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Camera.width must be a number");
     return -1;
   }
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   c->setWidth((unsigned int) PyInt_AsLong(val));
   return 0;
 }
 
 static
 PyObject *Camera_getHeight(PyObject *self, void *) {
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   return PyInt_FromLong(c->getHeight());
 }
 
@@ -719,7 +667,7 @@ int Camera_setHeight(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Camera.height must be a number");
     return -1;
   }
-  Camera *c = (Camera *) ((PyCamera *) self)->component;
+  Camera *c = (Camera *) ((PyComponent *) self)->component;
   c->setHeight((unsigned int) PyInt_AsLong(val));
   return 0;
 }
@@ -741,18 +689,11 @@ static PyTypeObject PyColliderType = {
   PyObject_HEAD_INIT(NULL)
   0,
   "cp.Collider",
-  sizeof(PyCollider),
+  sizeof(PyComponent),
 };
 
 static
-int Collider_init(PyTransform *self, PyObject *args, PyObject *kwds) {
-  if (PyComponentType.tp_init((PyObject *) self, NO_ARGS, NO_KWDS) < 0) {
-    return -1;
-  }
-  if (PyErr_Occurred()) {
-    PyErr_Clear();
-  }
-  
+int Collider_init(PyObject *self, PyObject *args, PyObject *kwds) {
   PyObject *solidObj;
   PyObject *size;
   if (!PyArg_ParseTuple(args, "Of", &solidObj, &size)) {
@@ -760,13 +701,13 @@ int Collider_init(PyTransform *self, PyObject *args, PyObject *kwds) {
   }
 
   bool solid = (PyObject_IsTrue(solidObj) != 0);
-  self->component = new Collider(solid, (float) PyFloat_AsDouble(size));
-  return 0;
+  return Component_init(self, new Collider(solid,
+                                           (float) PyFloat_AsDouble(size)));
 }
 
 static
 PyObject *Collider_getSolid(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   if (a->isSolid()) {
     Py_RETURN_TRUE;
   } else {
@@ -776,7 +717,7 @@ PyObject *Collider_getSolid(PyObject *self, void *) {
 
 static
 int Collider_setSolid(PyObject *self, PyObject *val, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   a->setSolid(PyObject_IsTrue(val) != 0);
   return 0;
 }
@@ -787,14 +728,14 @@ int Collider_setSize(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Collider.size must be a number");
     return -1;
   }
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   a->setSize((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Collider_getLeft(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(a->getLeft());
 }
 
@@ -804,14 +745,14 @@ int Collider_setLeft(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Collider.left must be a number");
     return -1;
   }
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   a->setLeft((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Collider_getTop(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(a->getTop());
 }
 
@@ -821,14 +762,14 @@ int Collider_setTop(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Collider.top must be a number");
     return -1;
   }
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   a->setTop((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Collider_getRight(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(a->getRight());
 }
 
@@ -838,14 +779,14 @@ int Collider_setRight(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Collider.right must be a number");
     return -1;
   }
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   a->setRight((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Collider_getBottom(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   return PyFloat_FromDouble(a->getBottom());
 }
 
@@ -855,14 +796,14 @@ int Collider_setBottom(PyObject *self, PyObject *val, void *) {
     PyErr_SetString(PyExc_TypeError, "Collider.bottom must be a number");
     return -1;
   }
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   a->setBottom((float) PyFloat_AsDouble(val));
   return 0;
 }
 
 static
 PyObject *Collider_getCollisions(PyObject *self, void *) {
-  Collider *a = (Collider *) ((PyCollider *) self)->component;
+  Collider *a = (Collider *) ((PyComponent *) self)->component;
   const TEntityIdList &entityIds = a->getCollisions();
   int size = entityIds.size();
   PyObject *ret = PyList_New(size);
@@ -894,97 +835,120 @@ static PyGetSetDef Collider_getset[] = {
   { NULL, NULL }
 };
 
+// Actionable type and methods ----------------------------------------------------
+static PyTypeObject PyActionableType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Actionable",
+  sizeof(PyComponent),
+};
+
+static
+int Actionable_init(PyObject *self, PyObject *args, PyObject *kwds) {
+  return Component_init(self, new Actionable());
+}
+
+static
+PyObject *Actionable_getAction(PyObject *self, void *) {
+  Actionable *a = (Actionable *) ((PyComponent *) self)->component;
+  return PyString_FromString(a->getAction().c_str());
+}
+
+static
+int Actionable_setAction(PyObject *self, PyObject *val, void *) {
+  Actionable *a = (Actionable *) ((PyComponent *) self)->component;
+  a->setAction(PyString_AsString(val));
+  return 0;
+}
+
+static PyGetSetDef Actionable_getset[] = {
+  { (char *) "action", Actionable_getAction, Actionable_setAction,
+    (char *) "Triggered action", NULL },
+  { NULL, NULL }
+};
+
+static
+PyObject *Actionable_clearAction(PyObject *self) {
+  Actionable *a = (Actionable *) ((PyComponent *) self)->component;
+  a->clearAction();
+  Py_RETURN_NONE;
+}
+
+static PyMethodDef Actionable_methods[] = {
+  { "clearAction", (PyCFunction) Actionable_clearAction, METH_NOARGS,
+    "Clear current action" },
+  { NULL }
+};
+
 // Real initialization ----------------------------------------------------------
+static map<Component::Type, PyTypeObject *> PythonComponentTypes;
+
+static void
+registerComponentType(PyObject *module,
+                      Component::Type type,
+                      PyTypeObject *pyType,
+                      const char *doc,
+                      PyMethodDef *methods,
+                      initproc init,
+                      PyGetSetDef *getset) {
+  pyType->tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
+  pyType->tp_doc = doc;
+  pyType->tp_methods = methods;
+  pyType->tp_base = &PyComponentType;
+  pyType->tp_init = init;
+  pyType->tp_getset = getset;
+
+  if (PyType_Ready(pyType) < 0) {
+    LOG2 << "Cannot create " << ComponentName[type] << " type\n";
+    return;
+  }
+  Py_INCREF(pyType);
+  PyModule_AddObject(module, ComponentName[type], (PyObject *) pyType);
+  PyObject *typeVal = PyInt_FromLong(type);
+  PyDict_SetItemString(pyType->tp_dict, "TYPE", typeVal);
+  Py_DECREF(typeVal);
+  
+  PythonComponentTypes[type] = pyType;
+}
+
 void
 initComponents(PyObject *module) {
-  PyObject *type;
+  registerComponentType(module, Transform::TYPE, &PyTransformType,
+                        "Type of Transform components",
+                        Transform_methods, Transform_init, Transform_getset);
+
+  registerComponentType(module, Mobile::TYPE, &PyMobileType,
+                        "Type of Mobild components",
+                        NULL, Mobile_init, Mobile_getset);
+
+  registerComponentType(module, BVisual::TYPE, &PyVisualType,
+                        "Type of Visual components",
+                        Visual_methods, Visual_init, Visual_getset);
+
+  registerComponentType(module, Animated::TYPE, &PyAnimatedType,
+                        "Type of Animated components",
+                        NULL, Animated_init, Animated_getset);
+
+  registerComponentType(module, Audio::TYPE, &PyAudioType,
+                        "Type of Audio components",
+                        Audio_methods, Audio_init, Audio_getset);
+
+  registerComponentType(module, Input::TYPE, &PyInputType,
+                        "Type of Input component",
+                        NULL, Input_init, Input_getset);
   
-  // Transform
-  PyTransformType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-  PyTransformType.tp_doc = "Type of Transform components";
-  PyTransformType.tp_methods = Transform_methods;
-  PyTransformType.tp_base = &PyComponentType;
-  PyTransformType.tp_init = (initproc) Transform_init;
-  PyTransformType.tp_getset = Transform_getset;
-  if (PyType_Ready(&PyTransformType) < 0) {
-    LOG2 << "Cannot create Transform type\n";
-    return;
-  }
-  Py_INCREF(&PyTransformType);
-  PyModule_AddObject(module, "Transform", (PyObject *) &PyTransformType);
-  type = PyInt_FromLong(Transform::TYPE);
-  PyDict_SetItemString(PyTransformType.tp_dict, "TYPE", type);
-  Py_DECREF(type);
+  registerComponentType(module, Camera::TYPE, &PyCameraType,
+                        "Type of Camera components",
+                        NULL, Camera_init, Camera_getset);
+  
+  registerComponentType(module, Collider::TYPE, &PyColliderType,
+                        "Type of Collider components",
+                        NULL, Collider_init, Collider_getset);
 
-  // Mobile
-  PyMobileType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-  PyMobileType.tp_doc = "Type of Mobile components";
-  //PyMobileType.tp_methods = XXX
-  PyMobileType.tp_base = &PyComponentType;
-  PyMobileType.tp_init = (initproc) Mobile_init;
-  PyMobileType.tp_getset = Mobile_getset;
-  if (PyType_Ready(&PyMobileType) < 0) {
-    LOG2 << "Cannot create Mobile type\n";
-    return;
-  }
-  Py_INCREF(&PyMobileType);
-  PyModule_AddObject(module, "Mobile", (PyObject *) &PyMobileType);
-  type = PyInt_FromLong(Mobile::TYPE);
-  PyDict_SetItemString(PyMobileType.tp_dict, "TYPE", type);
-  Py_DECREF(type);
-
-  // Visual
-  PyVisualType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-  PyVisualType.tp_doc = "Type of Visual components";
-  //PyVisualType.tp_methods = XXX
-  PyVisualType.tp_base = &PyComponentType;
-  PyVisualType.tp_init = (initproc) Visual_init;
-  PyVisualType.tp_getset = Visual_getset;
-  PyVisualType.tp_methods = Visual_methods;
-  if (PyType_Ready(&PyVisualType) < 0) {
-    LOG2 << "Cannot create Visual type\n";
-    return;
-  }
-  Py_INCREF(&PyVisualType);
-  PyModule_AddObject(module, "Visual", (PyObject *) &PyVisualType);
-  type = PyInt_FromLong(BVisual::TYPE);
-  PyDict_SetItemString(PyVisualType.tp_dict, "TYPE", type);
-  Py_DECREF(type);
-
-  // Animated
-  PyAnimatedType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-  PyAnimatedType.tp_doc = "Type of Animated components";
-  //PyAnimatedType.tp_methods = XXX
-  PyAnimatedType.tp_base = &PyComponentType;
-  PyAnimatedType.tp_init = (initproc) Animated_init;
-  PyAnimatedType.tp_getset = Animated_getset;
-  if (PyType_Ready(&PyAnimatedType) < 0) {
-    LOG2 << "Cannot create Animated type\n";
-    return;
-  }
-  Py_INCREF(&PyAnimatedType);
-  PyModule_AddObject(module, "Animated", (PyObject *) &PyAnimatedType);
-  type = PyInt_FromLong(Animated::TYPE);
-  PyDict_SetItemString(PyAnimatedType.tp_dict, "TYPE", type);
-  Py_DECREF(type);
-
-  // Audio
-  PyAudioType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-  PyAudioType.tp_doc = "Type of Audio components";
-  PyAudioType.tp_methods = Audio_methods;
-  PyAudioType.tp_base = &PyComponentType;
-  PyAudioType.tp_init = (initproc) Audio_init;
-  PyAudioType.tp_getset = Audio_getset;
-  if (PyType_Ready(&PyAudioType) < 0) {
-    LOG2 << "Cannot create Audio type\n";
-    return;
-  }
-  Py_INCREF(&PyAudioType);
-  PyModule_AddObject(module, "Audio", (PyObject *) &PyAudioType);
-  type = PyInt_FromLong(Audio::TYPE);
-  PyDict_SetItemString(PyAudioType.tp_dict, "TYPE", type);
-  Py_DECREF(type);
-
+  registerComponentType(module, Actionable::TYPE, &PyActionableType,
+                        "Type of Actionable components",
+                        Actionable_methods, Actionable_init, Actionable_getset);
+  
   // InputState
   PyInputStateType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
   PyInputStateType.tp_doc = "Type of the input state";
@@ -996,137 +960,16 @@ initComponents(PyObject *module) {
   Py_INCREF(&PyInputStateType);
   PyModule_AddObject(module, "InputState", (PyObject *) &PyInputStateType);
   exposeInputStateConstants();
-  Py_DECREF(type);
   
-  // Input
-  PyInputType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-  PyInputType.tp_doc = "Type of Input components";
-  //PyInputType.tp_methods = XXX
-  PyInputType.tp_base = &PyComponentType;
-  PyInputType.tp_init = (initproc) Input_init;
-  PyInputType.tp_getset = Input_getset;
-  if (PyType_Ready(&PyInputType) < 0) {
-    LOG2 << "Cannot create Input type\n";
-    return;
-  }
-  Py_INCREF(&PyInputType);
-  PyModule_AddObject(module, "Input", (PyObject *) &PyInputType);
-  type = PyInt_FromLong(Input::TYPE);
-  PyDict_SetItemString(PyInputType.tp_dict, "TYPE", type);
-  Py_DECREF(type);
-  
-  // Camera
-  PyCameraType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-  PyCameraType.tp_doc = "Type of Camera components";
-  //PyCameraType.tp_methods = XXX
-  PyCameraType.tp_base = &PyComponentType;
-  PyCameraType.tp_init = (initproc) Camera_init;
-  PyCameraType.tp_getset = Camera_getset;
-  if (PyType_Ready(&PyCameraType) < 0) {
-    LOG2 << "Cannot create Camera type\n";
-    return;
-  }
-  Py_INCREF(&PyCameraType);
-  PyModule_AddObject(module, "Camera", (PyObject *) &PyCameraType);
-  type = PyInt_FromLong(Camera::TYPE);
-  PyDict_SetItemString(PyCameraType.tp_dict, "TYPE", type);
-  Py_DECREF(type);
-  
-  // Collider
-  PyColliderType.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-  PyColliderType.tp_doc = "Type of Collider components";
-  //PyColliderType.tp_methods = XXX
-  PyColliderType.tp_base = &PyComponentType;
-  PyColliderType.tp_init = (initproc) Collider_init;
-  PyColliderType.tp_getset = Collider_getset;
-  if (PyType_Ready(&PyColliderType) < 0) {
-    LOG2 << "Cannot create Collider type\n";
-    return;
-  }
-  Py_INCREF(&PyColliderType);
-  PyModule_AddObject(module, "Collider", (PyObject *) &PyColliderType);
-  type = PyInt_FromLong(Collider::TYPE);
-  PyDict_SetItemString(PyColliderType.tp_dict, "TYPE", type);
-  Py_DECREF(type);
 }
-
-PyObject *
-wrapTransform(Transform *t) {
-  PyTransform *pyt = (PyTransform *) PyTransformType.tp_alloc(&PyTransformType, 0);
-  pyt->component = t;
-  return (PyObject *) pyt;
-}
-
-PyObject *
-wrapMobile(Mobile *c) {
-  PyMobile *pyc = (PyMobile *) PyMobileType.tp_alloc(&PyMobileType, 0);
-  pyc->component = c;
-  return (PyObject *) pyc;
-}
-
-PyObject *
-wrapVisual(BVisual *v) {
-  PyVisual *pyv = (PyVisual *) PyVisualType.tp_alloc(&PyVisualType, 0);
-  pyv->component = v;
-  return (PyObject *) pyv;
-}
-
-PyObject *
-wrapAnimated(Animated *a) {
-  PyAnimated *pya = (PyAnimated *) PyAnimatedType.tp_alloc(&PyAnimatedType, 0);
-  pya->component = a;
-  return (PyObject *) pya;
-}
-
-PyObject *
-wrapAudio(Audio *a) {
-  PyAudio *pya = (PyAudio *) PyAudioType.tp_alloc(&PyAudioType, 0);
-  pya->component = a;
-  return (PyObject *) pya;
-}
-
-PyObject *
-wrapInput(Input *i) {
-  PyInput *pyi = (PyInput *) PyInputType.tp_alloc(&PyInputType, 0);
-  pyi->component = i;
-  return (PyObject *) pyi;
-}
-
-PyObject *
-wrapCamera(Camera *c) {
-  PyCamera *pyc = (PyCamera *) PyCameraType.tp_alloc(&PyCameraType, 0);
-  pyc->component = c;
-  return (PyObject *) pyc;
-}
-
-PyObject *
-wrapCollider(Collider *c) {
-  PyCollider *pyc = (PyCollider *) PyColliderType.tp_alloc(&PyColliderType, 0);
-  pyc->component = c;
-  return (PyObject *) pyc;
-}
-
 
 PyObject *
 wrapRealComponent(Component *c) {
-  switch (c->getType()) {
-  case Transform::TYPE:
-    return wrapTransform((Transform *) c);
-  case Mobile::TYPE:
-    return wrapMobile((Mobile *) c);
-  case BVisual::TYPE:
-    return wrapVisual((BVisual *) c);
-  case Animated::TYPE:
-    return wrapAnimated((Animated *) c);
-  case Audio::TYPE:
-    return wrapAudio((Audio *) c);
-  case Input::TYPE:
-    return wrapInput((Input *) c);
-  case Camera::TYPE:
-    return wrapCamera((Camera *) c);
-  case Collider::TYPE:
-    return wrapCollider((Collider *) c);
-  default:
+  PyTypeObject *type = PythonComponentTypes[c->getType()];
+  if (type == NULL) {
     return NULL;
   }
+  PyComponent *pyc = (PyComponent *) type->tp_alloc(type, 0);
+  pyc->component = c;
+  return (PyObject *) pyc;
 }

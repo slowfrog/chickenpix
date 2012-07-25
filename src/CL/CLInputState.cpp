@@ -44,7 +44,8 @@ static int KEYMAP[] = {
   CL_KEY_W,
   CL_KEY_X,
   CL_KEY_Y,
-  CL_KEY_Z
+  CL_KEY_Z,
+  CL_KEY_ENTER
 };
 
 static int BUTTONMAP[] = {

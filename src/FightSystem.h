@@ -138,6 +138,8 @@ public:
   void reset();
   void next();
   
+  inline const std::string& getDead() const { return mDead;}
+  
   // Display GUI
   void refresh( EntityManager&, int);
   
@@ -191,4 +193,6 @@ private:
   bool                endOfFight;
   // State
   TeState             curFg;
+  // Dead ?
+  std::string         mDead;
 };

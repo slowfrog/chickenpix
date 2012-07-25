@@ -91,7 +91,7 @@ runGame( CSystemFactory* pFac) {
   SysMng.SystemInit   ( SysMng.getByName( "Fight"));
 
   // Set current at starting
-  SysMng.setCurrent( "Main");
+  SysMng.setCurrent( "Menu");
   cout << "Menu "<<SysMng.getByName( "Menu").toString() << endl;
   cout << "Main "<<SysMng.getByName( "Main").toString() << endl;
   std::string NextMode("Main");
@@ -99,13 +99,16 @@ runGame( CSystemFactory* pFac) {
   TimerClass timer;
   int prev = timer.getTime();
 
-  bool justSwitched = false;
+  //bool justSwitched = false;
   // One step
   while (true) {
     int now = timer.getTime();
 
     // Process inputs
     SysMng.SystemUpdate( SysMng.getByRef(), now);
+    if (SysMng.exitRequested()) {
+      break;
+    }
     
     if ( SysMng.getByRef().switchRequired() ){
       LOG2<<"Switch to :"<< SysMng.getByRef().requiredName()<<"\n";
@@ -117,29 +120,26 @@ runGame( CSystemFactory* pFac) {
       // Switch mode
       SysMng.setCurrent( SysMng.getByRef().requiredName());
       
-      // Preapre ficght if needed
+      // Preapre fight if needed
       prepareFight( SysMng.getByRef(), fight);
     }
     
     // hehe c est tres moche mais bon ...
-    Inputs *curInputs = (Inputs*) SysMng.getCurrentSystemByType( INPUTS_TYPE);
-    if (curInputs->isExitRequested()) {
-      break;
-    }
+    // Inputs *curInputs = (Inputs*) SysMng.getCurrentSystemByType( INPUTS_TYPE);
     
-    if (curInputs->getInputState()->isKeyDown(InputState::Tab)) {
-      if (!justSwitched) {
-        justSwitched = true;
-        std::string tmp = SysMng.getName();
-        cout << "Switching from " << tmp << " to " << NextMode <<
-          " (curInputs is " << curInputs->toString() << ")" << endl;
-        SysMng.setCurrent( NextMode);
-        NextMode = tmp;
-        //break;
-      }
-    } else {
-      justSwitched = false;
-    }
+    // if (curInputs->getInputState()->isKeyDown(InputState::Tab)) {
+    //   if (!justSwitched) {
+    //     justSwitched = true;
+    //     std::string tmp = SysMng.getName();
+    //     cout << "Switching from " << tmp << " to " << NextMode <<
+    //       " (curInputs is " << curInputs->toString() << ")" << endl;
+    //     SysMng.setCurrent( NextMode);
+    //     NextMode = tmp;
+    //     //break;
+    //   }
+    // } else {
+    //   justSwitched = false;
+    // }
 
     prev = now;
         
@@ -153,6 +153,7 @@ runGame( CSystemFactory* pFac) {
 
   SysMng.SystemExit( SysMng.getByName( "Menu"));
   SysMng.SystemExit( SysMng.getByName( "Main"));
+  SysMng.SystemExit( SysMng.getByName( "Fight"));
     
   // At this step all pointers still valids
   // delete them

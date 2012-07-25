@@ -3,9 +3,14 @@ import cp
 SELECTED_COLOR = (255, 255, 255, 255)
 NORMAL_COLOR = (255, 255, 0, 128)
 
+ITEM_START = 0
+ITEM_QUIT = 1
+ITEM_CREDITS = 2
+ITEM_TAGS = ["START", "QUIT", "CREDITS"]
+
+
 def init(entity, manager):
-    entity.items = [ manager.getByTag(tag)[0]
-                     for tag in ["START", "QUIT", "CREDITS"] ]
+    entity.items = [ manager.getByTag(tag)[0] for tag in ITEM_TAGS ]
     selection = manager.getByTag("SELECTED")[0]
     pointer = manager.getByTag("POINTER")[0]
     entity.sel = -1
@@ -39,11 +44,24 @@ def change_selection(manager, entity, next):
     nextvis.color = SELECTED_COLOR
     # Record the new selection
     entity.sel = next
+
+def trigger_menu(entity, manager):
+    if entity.sel == ITEM_START:
+        manager.setSwitch("Main")
+        print("Starting...")
+    elif entity.sel == ITEM_QUIT:
+        manager.setSwitch("EXIT")
+        print("Quitting...")
+    elif entity.sel == ITEM_CREDITS:
+        print("Showing credits")
+    else:
+        raise Exception("Unknown selection %d" % entity.sel)
     
-def update(entity, manager):
+def handle_keys(entity, manager):
     input = entity.getComponent(cp.Input.TYPE)
-    if input.state.isKeyDown(cp.InputState.SPACE):
-        print ("Current selection %s" % entity.sel)
+    if (input.state.isKeyDown(cp.InputState.SPACE) or
+        input.state.isKeyDown(cp.InputState.ENTER)):
+        trigger_menu(entity, manager)
         
     if input.state.isKeyDown(cp.InputState.DOWN):
         if not entity.downdown:
@@ -60,6 +78,22 @@ def update(entity, manager):
             entity.updown = True
     else:
         entity.updown = False
+
+def handle_controllers(entity, manager):
+    for actent in manager.getEntities(cp.Actionable.TYPE):
+        next = entity.items.index(actent)
+        if next < 0:
+            continue
+        act = actent.getComponent(cp.Actionable.TYPE)
+        if act.action == "ButtonJustDown":
+            change_selection(manager, entity, next)
+        elif act.action == "ButtonClicked":
+            trigger_menu(entity, manager)
+        
+# Main entry point
+def update(entity, manager):
+    handle_keys(entity, manager)
+    handle_controllers(entity, manager)
 
 def exit(entity, manager):
     pass

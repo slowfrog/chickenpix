@@ -23,4 +23,7 @@ public:
   inline SystemType getType() const { return RENDER_TYPE;}
 
   virtual string toString() const;
+
+private:
+  void applyCameraConstraints(EntityManager &em, Entity *cameraEntity);
 };

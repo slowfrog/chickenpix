@@ -45,5 +45,6 @@ string InputState::KEY_NAMES[] = {
   "X",
   "Y",
   "Z",
+  "ENTER",
   "" // End of list
 };

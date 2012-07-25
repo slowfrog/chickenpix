@@ -46,7 +46,8 @@ sf::Key::Code KEYMAP[] = {
   sf::Key::W,
   sf::Key::X,
   sf::Key::Y,
-  sf::Key::Z
+  sf::Key::Z,
+  sf::Key::Return
 };
 
 static

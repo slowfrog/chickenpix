@@ -7,7 +7,7 @@ private:
   float dy_;
   
 public:
-  static const Type TYPE = MOBILE_TYPE;
+  static Type TYPE;
   
   Mobile();
   Mobile(float dx, float dy);

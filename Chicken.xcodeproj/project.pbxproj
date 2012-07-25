@@ -57,6 +57,9 @@
 		5A4B3FFA15B1DD34004463D1 /* FightGUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B3FF915B1DD34004463D1 /* FightGUI.cpp */; };
 		5A4B423A15B2272D004463D1 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B423915B2272D004463D1 /* Main.cpp */; };
 		5A4DA4B415A64AE300329455 /* Collider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A4DA4B215A64AE300329455 /* Collider.cpp */; };
+		5A645D2215C0A500002C7882 /* Actionable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A645D1C15C0A500002C7882 /* Actionable.cpp */; };
+		5A645D2315C0A500002C7882 /* GUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A645D1E15C0A500002C7882 /* GUI.cpp */; };
+		5A645D2415C0A500002C7882 /* MapInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A645D2015C0A500002C7882 /* MapInfo.cpp */; };
 		5A740E1B15A4D3A0005DF65D /* Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A740E1715A4D3A0005DF65D /* Audio.cpp */; };
 		5A740E1C15A4D3A0005DF65D /* Sounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A740E1915A4D3A0005DF65D /* Sounds.cpp */; };
 		5A740E1F15A4D3B6005DF65D /* SFMLAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A740E1D15A4D3B6005DF65D /* SFMLAudio.cpp */; };
@@ -212,6 +215,12 @@
 		5A4DA4B215A64AE300329455 /* Collider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Collider.cpp; path = src/Collider.cpp; sourceTree = "<group>"; };
 		5A4DA4B315A64AE300329455 /* Collider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Collider.h; path = src/Collider.h; sourceTree = "<group>"; };
 		5A4DA4B515A64AFE00329455 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = src/Types.h; sourceTree = "<group>"; };
+		5A645D1C15C0A500002C7882 /* Actionable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Actionable.cpp; path = src/Actionable.cpp; sourceTree = "<group>"; };
+		5A645D1D15C0A500002C7882 /* Actionable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Actionable.h; path = src/Actionable.h; sourceTree = "<group>"; };
+		5A645D1E15C0A500002C7882 /* GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUI.cpp; path = src/GUI.cpp; sourceTree = "<group>"; };
+		5A645D1F15C0A500002C7882 /* GUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUI.h; path = src/GUI.h; sourceTree = "<group>"; };
+		5A645D2015C0A500002C7882 /* MapInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapInfo.cpp; path = src/MapInfo.cpp; sourceTree = "<group>"; };
+		5A645D2115C0A500002C7882 /* MapInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapInfo.h; path = src/MapInfo.h; sourceTree = "<group>"; };
 		5A740E1715A4D3A0005DF65D /* Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Audio.cpp; path = src/Audio.cpp; sourceTree = "<group>"; };
 		5A740E1815A4D3A0005DF65D /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Audio.h; path = src/Audio.h; sourceTree = "<group>"; };
 		5A740E1915A4D3A0005DF65D /* Sounds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sounds.cpp; path = src/Sounds.cpp; sourceTree = "<group>"; };
@@ -380,6 +389,12 @@
 		5A1394EE15A0B26A009F373F /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5A645D1C15C0A500002C7882 /* Actionable.cpp */,
+				5A645D1D15C0A500002C7882 /* Actionable.h */,
+				5A645D1E15C0A500002C7882 /* GUI.cpp */,
+				5A645D1F15C0A500002C7882 /* GUI.h */,
+				5A645D2015C0A500002C7882 /* MapInfo.cpp */,
+				5A645D2115C0A500002C7882 /* MapInfo.h */,
 				5A4DA4B215A64AE300329455 /* Collider.cpp */,
 				5A4DA4B315A64AE300329455 /* Collider.h */,
 				5A740E1715A4D3A0005DF65D /* Audio.cpp */,
@@ -732,6 +747,9 @@
 				5A4B3FFA15B1DD34004463D1 /* FightGUI.cpp in Sources */,
 				5A4B423A15B2272D004463D1 /* Main.cpp in Sources */,
 				5AF9BD9D15B6CCAF004055E6 /* Notification.cpp in Sources */,
+				5A645D2215C0A500002C7882 /* Actionable.cpp in Sources */,
+				5A645D2315C0A500002C7882 /* GUI.cpp in Sources */,
+				5A645D2415C0A500002C7882 /* MapInfo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

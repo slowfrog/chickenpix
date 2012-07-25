@@ -81,7 +81,7 @@ protected:
   ResBase *getObject(Kind kind, string const &name);
   
 public:
-  static const Type TYPE = RESOURCES_TYPE;
+  static Type TYPE;
 
   Resources();
   virtual ~Resources();

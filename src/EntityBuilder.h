@@ -29,6 +29,7 @@ extern void clbCharacter      ( CEntityBuilder*, TiXmlElement*, Entity*, Resourc
 extern void clbController     ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbAudio          ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 extern void clbCollider       ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
+extern void clbActionable     ( CEntityBuilder*, TiXmlElement*, Entity*, Resources*);
 
 /*
 */
@@ -40,7 +41,6 @@ public:
   ~CEntityBuilder(){}
   
   // API
-  void parseResources ( Loader*, Resources*);
   void parseEntity    ( EntityManager&, Resources*);
   
   // link to Callbacks
@@ -56,28 +56,25 @@ public:
   void buildController     ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildAudio          ( TiXmlElement*, Entity*, Resources* = NULL);
   void buildCollider       ( TiXmlElement*, Entity*, Resources* = NULL);
+  void buildActionable     ( TiXmlElement*, Entity*, Resources* = NULL);
   
 protected:
   void init();
   
-  void buildResourcesByKind( const std::string&, TiXmlElement*, Loader*, Resources*);
-  
   void BuildEntity    ( TiXmlElement*, EntityManager&, Resources* );
   
   void buildComponents( TiXmlElement*, const std::string&, Entity*, Resources* );
-  void buildTags      ( TiXmlElement*, Entity*);
+  static void buildTags      ( TiXmlElement*, Entity*);
   
-  /*void buildResourcesImage ( TiXmlElement*, Loader*, Resources*);
-  void buildResourcesFont  ( TiXmlElement*, Loader*, Resources*);
-  void buildResourcesSprite( TiXmlElement*, Loader*, Resources*);
-  void buildResourcesAudio( TiXmlElement*, Loader*, Resources*);
-  */
-  void buildComponentResourcesByKind( const std::string&, TiXmlElement*,  Entity*, Resources*);
-  void buildComponentResourcesImage ( TiXmlElement*,  Entity*, Resources* );
-  void buildComponentResourcesText  ( TiXmlElement*,  Entity*, Resources*);
-  void buildComponentResourcesAudio ( TiXmlElement*,  Entity*, Resources*);
+  static void buildComponentResourcesByKind( const std::string&, TiXmlElement*,
+                                      Entity*, Resources*);
+  static void addCommonAttributes(TiXmlElement *pNode, Resources *pResources,
+                                  BVisual *visual);
+  static void buildComponentResourcesImage ( TiXmlElement*,  Entity*, Resources* );
+  static void buildComponentResourcesText  ( TiXmlElement*,  Entity*, Resources*);
+  static void buildComponentResourcesAudio ( TiXmlElement*,  Entity*, Resources*);
   
-  void buildStats( Character*, const std::string&, const CVariant&);
+  static void buildStats( Character*, const std::string&, const CVariant&);
   
 private:
   // not allowed

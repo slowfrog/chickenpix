@@ -9,7 +9,7 @@ private:
   bool   played_;
   // ? Volume
 public:
-  static const Type TYPE = AUDIO_TYPE;
+  static Type TYPE;
 
   Audio(const string &name, bool looping = false);
   virtual ~Audio();

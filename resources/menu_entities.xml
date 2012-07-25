@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <entities>
     
-    <!-- Load resources -->
-    <resources>
-        <resource kind="image">
-            <image path="resources/img/richard.png" alias="richard"/>
-        </resource>
-        <resource kind="image">
-            <image path="resources/img/wall.png" alias="wall"/>
-        </resource>
-        
-        <resource kind="font">
-            <image path="resources/fonts/BerkshireSwash-Regular.ttf" alias="sans_big" size="30"/>
-        </resource>
-        <resource kind="font">
-            <image path="resources/fonts/BerkshireSwash-Regular.ttf" alias="sans_small" size="8"/>
-        </resource>
-        
-    </resources>
-    
 	<!-- create entity -->
     <entity>
       <components>
@@ -65,6 +47,7 @@
                 <text>Start Game</text>
                 <police name="sans_big"/>
             </component>
+            <component type="Controller" name="ButtonController" />
         </components>
     </entity>
     <entity>
@@ -80,6 +63,7 @@
                 <police name="sans_big"/>
                 <color r="255" g="255" b="0" a="128"/>
             </component>
+            <component type="Controller" name="ButtonController" />
         </components>
     </entity>
     <entity>
@@ -95,6 +79,7 @@
                 <police name="sans_big"/>
                 <color r="255" g="255" b="0" a="128"/>
             </component>
+            <component type="Controller" name="ButtonController" />
         </components>
     </entity>
     

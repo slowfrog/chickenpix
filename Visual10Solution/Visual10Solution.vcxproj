@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Actionable.cpp" />
     <ClCompile Include="..\src\Animated.cpp" />
     <ClCompile Include="..\src\Animation.cpp" />
     <ClCompile Include="..\src\Audio.cpp" />
@@ -83,6 +84,7 @@
     <ClCompile Include="..\src\EntityBuilder.cpp" />
     <ClCompile Include="..\src\EntityManager.cpp" />
     <ClCompile Include="..\src\FightController.cpp" />
+    <ClCompile Include="..\src\FightGUI.cpp" />
     <ClCompile Include="..\src\FightSystem.cpp" />
     <ClCompile Include="..\src\HandleTransition.cpp" />
     <ClCompile Include="..\src\HeroController.cpp" />
@@ -91,8 +93,11 @@
     <ClCompile Include="..\src\InputState.cpp" />
     <ClCompile Include="..\src\Loader.cpp" />
     <ClCompile Include="..\src\log.cpp" />
+    <ClCompile Include="..\src\Main.cpp" />
+    <ClCompile Include="..\src\MapInfo.cpp" />
     <ClCompile Include="..\src\Mobile.cpp" />
     <ClCompile Include="..\src\Movement.cpp" />
+    <ClCompile Include="..\src\Notification.cpp" />
     <ClCompile Include="..\src\PythonComponents.cpp" />
     <ClCompile Include="..\src\PythonTypes.cpp" />
     <ClCompile Include="..\src\Render.cpp" />
@@ -128,6 +133,7 @@
     <ClCompile Include="..\src\WrappedEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Actionable.h" />
     <ClInclude Include="..\src\Animated.h" />
     <ClInclude Include="..\src\Animation.h" />
     <ClInclude Include="..\src\Audio.h" />
@@ -142,6 +148,7 @@
     <ClInclude Include="..\src\EntityBuilder.h" />
     <ClInclude Include="..\src\EntityManager.h" />
     <ClInclude Include="..\src\FightController.h" />
+    <ClInclude Include="..\src\FightGUI.h" />
     <ClInclude Include="..\src\FightSystem.h" />
     <ClInclude Include="..\src\HandleTransition.h" />
     <ClInclude Include="..\src\HeroController.h" />
@@ -152,8 +159,10 @@
     <ClInclude Include="..\src\Loader.h" />
     <ClInclude Include="..\src\log.h" />
     <ClInclude Include="..\src\Main.h" />
+    <ClInclude Include="..\src\MapInfo.h" />
     <ClInclude Include="..\src\Mobile.h" />
     <ClInclude Include="..\src\Movement.h" />
+    <ClInclude Include="..\src\Notification.h" />
     <ClInclude Include="..\src\PythonComponents.h" />
     <ClInclude Include="..\src\PythonTypes.h" />
     <ClInclude Include="..\src\Render.h" />

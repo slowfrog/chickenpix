@@ -3,59 +3,68 @@
 #include "Stats.h"
 #include "EntityManager.h"
 
+string
+EntityManager::EXIT = "EXIT";
+
 EntityManager::EntityManager(string const &name):
-  _name(name), _entities(1), nameRequired( name) {
+  name_(name), entities_(1), nameRequired_(name) {
 }
 
 EntityManager::~EntityManager() {
-  _entities.clear();
+  entities_.clear();
 }
 
 string
 EntityManager::getName() const {
-  return _name;
+  return name_;
 }
 
 int
 EntityManager::getSize() const {
-  return _entities.size();
+  return entities_.size();
 }
 
 // Gestion temporaire du switch
 void 
-EntityManager::setSwitch( const std::string &name){
-  nameRequired = name;
+EntityManager::setSwitch(const string &name){
+  nameRequired_ = name;
 }
 
 bool 
 EntityManager::switchRequired() const {
-  return (nameRequired != _name);
+  return (nameRequired_ != name_);
 }
+
+bool
+EntityManager::exitRequested() const {
+  return nameRequired_ == EXIT;
+}
+
 // </>
 
 Entity *
 EntityManager::createEntity() {
   unsigned int i;
   Entity *ent;
-  for (i = 1; i < _entities.size(); ++i) {
-    ent = _entities[i];
+  for (i = 1; i < entities_.size(); ++i) {
+    ent = entities_[i];
     if (ent == NULL) {
       ent = new Entity(i);
-      _entities[i] = ent;
+      entities_[i] = ent;
       return ent;
     }
   }
   ent = new Entity(i);
-  _entities.push_back(ent);
+  entities_.push_back(ent);
   return ent;
 }
 
 Entity *
 EntityManager::getById(Entity::Id id) {
   if ( id >= 1) {
-    for( std::size_t i = 1; i<_entities.size(); i++){
-      if ( _entities[i] && id == _entities[i]->getId()) {
-        return _entities[i];
+    for( std::size_t i = 1; i<entities_.size(); i++){
+      if ( entities_[i] && id == entities_[i]->getId()) {
+        return entities_[i];
       }
     }
   }
@@ -64,9 +73,9 @@ EntityManager::getById(Entity::Id id) {
 
 void
 EntityManager::destroyEntity(Entity::Id id) {
-  if ((id > 0) && (id < _entities.size())) {
-    delete _entities[id];
-    _entities[id] = NULL;
+  if ((id > 0) && (id < entities_.size())) {
+    delete entities_[id];
+    entities_[id] = NULL;
   } else {
     throw string("No such entity to destroy");
   }
@@ -80,15 +89,15 @@ EntityManager::destroyEntity(Entity *entity) {
 void
 EntityManager::replaceEntity(Entity::Id id, Entity *replacement) {
   // Could add some asserts to check the replacement is valid (good id, same tags). At least in debug.
-  delete _entities[id];
-  _entities[id] = replacement;
+  delete entities_[id];
+  entities_[id] = replacement;
 }
 
 TEntityList
 EntityManager::getEntities(Component::Type t) {
   TEntityList ret;
-  for (unsigned int i = 1; i < _entities.size(); ++i) {
-    Entity *ent = _entities[i];
+  for (unsigned int i = 1; i < entities_.size(); ++i) {
+    Entity *ent = entities_[i];
     if ((ent != NULL) && (ent->hasComponent(t))) {
       ret.push_back(ent);
     }
@@ -99,8 +108,8 @@ EntityManager::getEntities(Component::Type t) {
 TEntityList
 EntityManager::getEntities() const {
   TEntityList ret;
-  for (unsigned int i = 1; i < _entities.size(); ++i) {
-    Entity *ent = _entities[i];
+  for (unsigned int i = 1; i < entities_.size(); ++i) {
+    Entity *ent = entities_[i];
     if (ent != NULL) {
       ret.push_back(ent);
     }
@@ -111,8 +120,8 @@ EntityManager::getEntities() const {
 TEntityList
 EntityManager::getEntities(Component::Type t1, Component::Type t2) {
   TEntityList ret;
-  for (unsigned int i = 1; i < _entities.size(); ++i) {
-    Entity *ent = _entities[i];
+  for (unsigned int i = 1; i < entities_.size(); ++i) {
+    Entity *ent = entities_[i];
     if ((ent != NULL) && (ent->hasComponents(t1, t2))) {
       ret.push_back(ent);
     }
@@ -122,8 +131,8 @@ EntityManager::getEntities(Component::Type t1, Component::Type t2) {
 
 Entity *
 EntityManager::getFirst(Component::Type t) {
-  for (unsigned int i = 1; i < _entities.size(); ++i) {
-    Entity *ent = _entities[i];
+  for (unsigned int i = 1; i < entities_.size(); ++i) {
+    Entity *ent = entities_[i];
     if ((ent != NULL) && (ent->hasComponent(t))) {
       return ent;
     }
@@ -134,7 +143,7 @@ EntityManager::getFirst(Component::Type t) {
 void EntityManager::addEntity( Entity *e){
   assert(e);
   if ( !getById( e->getId())) {
-    _entities.push_back( e);
+    entities_.push_back( e);
   }
 }
 
@@ -191,11 +200,11 @@ EntityManager::getFirstByTag(string const &tag) {
 string
 EntityManager::toString() const {
   ostringstream out;
-  out << "{EntityManager name=" << _name << ", entities[";
+  out << "{EntityManager name=" << name_ << ", entities[";
   int alive = 0;
   int dead = 0;
-  for (unsigned int i = 1; i < _entities.size(); ++i) {
-    if (_entities[i] != NULL) {
+  for (unsigned int i = 1; i < entities_.size(); ++i) {
+    if (entities_[i] != NULL) {
       ++alive;
     } else {
       ++dead;
@@ -203,8 +212,8 @@ EntityManager::toString() const {
   }
   out << "alive: " << alive << ", dead:" << dead;
   out << "] tags[ ";
-  for (map<string, vector<Entity::Id> >::const_iterator it = _tags.begin();
-       it != _tags.end(); it++) {
+  for (map<string, vector<Entity::Id> >::const_iterator it = tags_.begin();
+       it != tags_.end(); it++) {
     out << it->first << " ";
   }
   out << "]}" << ends;
