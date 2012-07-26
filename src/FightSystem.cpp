@@ -351,11 +351,6 @@ CFightSystem::finishRound(){
 
 void 
 CFightSystem::updateFighters( EntityManager &em){
-  /*Entity::Id id = em.getFirstByTag( mDead);
-  if ( id != NOT_FOUND) {
-    Entity *e = em.getById( id);
-    em.tagEntity( e, "ToDelete", true);
-  }*/
 }
 
 /*

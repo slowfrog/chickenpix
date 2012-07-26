@@ -195,7 +195,7 @@ UIStats::addStatsFighters( const Character *c, const bool isAlly){
                                 (isAlly)?START_ALLY_ROUND_Y:START_FOE_ROUND_Y, 
                                 HIGH_YELLOW));
   // Name
-  mDynamicRes.insert( std::make_pair(c->Name(), 
+  mDynamicRes.insert( std::make_pair(TAG_NAME + c->Name(), 
                                      sInfoRs(c->Name(), FONT_N, 
                                              (isAlly)?START_ALLY_NAME_X:START_FOE_NAME_X, 
                                              (isAlly)?START_ALLY_NAME_Y:START_FOE_NAME_Y, 

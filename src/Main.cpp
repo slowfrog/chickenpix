@@ -40,4 +40,15 @@ void prepareFight( EntityManager &em, CFightSystem *fs)
   fs->start();
 }
 
+void checkFight( EntityManager &em, CFightSystem *fs){
+  // i don' t know how end the game so i check that hero still alive :(
+  if ( fs->getDead() != "Richard" ){ 
+    CTagEntityMng::TEntityId id = CTagEntityMng::get()->getEntityByTag( fs->getDead());
+    Entity *e = em.getById( id);
+    if ( e){
+      em.destroyEntity( id);
+    }
+  }
+}
+
 

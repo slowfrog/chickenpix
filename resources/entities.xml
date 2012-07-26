@@ -152,7 +152,7 @@
                        width="600" height="600" />
             <component type="Character" nickname="richard">
                 <stats name="initiative" value="5"/>
-                <stats name="health" value="30"/>
+                <stats name="health" value="50"/>
                 <stats name="armor_class" value="3"/>
                 <stats name="damage" value="1"/>
             </component>
@@ -163,7 +163,7 @@
     
     <entity>
       <tags>
-        <tag name="Mayor" unique="true"/>
+        <tag name="mayor" unique="true"/>
         <tag name="Foe" unique="true"/>
       </tags>
       

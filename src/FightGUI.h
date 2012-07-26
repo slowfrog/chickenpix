@@ -14,6 +14,7 @@
 #define TAG_FIXED       "Fixed"
 #define TAG_STATS       "StatsFight"
 #define TAG_IMG         "Img"
+#define TAG_NAME        "Name"
 
 #define TAG_ATTACKER    "Attacker"
 #define TAG_DEFENSER    "Defenser"

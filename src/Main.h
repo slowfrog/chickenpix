@@ -10,6 +10,7 @@
 
 // Prepare fight
 void prepareFight( EntityManager&, CFightSystem*);
+void checkFight( EntityManager&, CFightSystem*);
 
 // Template function of the main game loop
 template<class TimerClass>
@@ -116,31 +117,20 @@ runGame( CSystemFactory* pFac) {
       HandleTransition ht;
       std::string nm = SysMng.getByRef().requiredName();
       ht.transit(SysMng.getByRef(), SysMng.getByName( nm), "HERO");
-      ht.transit(SysMng.getByRef(), SysMng.getByName( nm), "FoeInFight");
-      // Switch mode
-      SysMng.setCurrent( SysMng.getByRef().requiredName());
-      
-      // Preapre fight if needed
-      prepareFight( SysMng.getByRef(), fight);
+      if ( SysMng.getByRef().requiredName() == "Fight") {
+        ht.transit(SysMng.getByRef(), SysMng.getByName( nm), "FoeInFight");
+        // Switch mode
+        SysMng.setCurrent( SysMng.getByRef().requiredName());
+        // Preapre fight if needed
+        prepareFight( SysMng.getByRef(), fight);
+      }
+      else{
+        // Switch mode
+        SysMng.setCurrent( SysMng.getByRef().requiredName());
+        checkFight( SysMng.getByRef(), fight); 
+      }
     }
     
-    // hehe c est tres moche mais bon ...
-    // Inputs *curInputs = (Inputs*) SysMng.getCurrentSystemByType( INPUTS_TYPE);
-    
-    // if (curInputs->getInputState()->isKeyDown(InputState::Tab)) {
-    //   if (!justSwitched) {
-    //     justSwitched = true;
-    //     std::string tmp = SysMng.getName();
-    //     cout << "Switching from " << tmp << " to " << NextMode <<
-    //       " (curInputs is " << curInputs->toString() << ")" << endl;
-    //     SysMng.setCurrent( NextMode);
-    //     NextMode = tmp;
-    //     //break;
-    //   }
-    // } else {
-    //   justSwitched = false;
-    // }
-
     prev = now;
         
     // Do ~60FPS
