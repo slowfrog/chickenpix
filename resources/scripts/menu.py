@@ -129,6 +129,7 @@ def show_credits(entity, manager):
               "The Chickenpix Team",
               "~~~~~~~~~~~~~~~~~~~",
               "",
+              "Coder: David Amar",
               "Artist: Manu Etasse",
               "Scenario: Florian Fourure",
               "Coder: Fred Germonneau",
