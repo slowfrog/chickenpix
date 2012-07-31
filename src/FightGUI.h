@@ -94,7 +94,7 @@ private:
 class IUIPart{
 public:
   // Constructor/Destructor
-  IUIPart():mIsFirst( true), mDeltat( 0), mTheta( 0.), mTS( false){}
+  IUIPart():mDeltat( 0), mTheta( 0.), mTS( false), mIsFirst( true) {}
   virtual ~IUIPart(){}
   
   // Accessor

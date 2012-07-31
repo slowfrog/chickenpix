@@ -171,7 +171,7 @@ UIStats::addStatsFighters( const Character *c, const bool isAlly){
   std::ostringstream    out;
   std::string           name;
   // Loop on stats
-  for ( it; it != vs.end(); it++) {
+  for ( ; it != vs.end(); it++) {
     out.str("");
     getStatsName( (*it).first, name);
     mStaticRes.push_back( sInfoRs( name, FONT_N, 
@@ -219,7 +219,7 @@ UIStats::updateStats( const Character *c){
   std::string           name;
   long                  value(0L);
   // Loop on stats
-  for ( it; it != vs.end(); it++) {
+  for ( ; it != vs.end(); it++) {
     getStatsName( (*it).first, name);
     TMapTagRes::iterator itf = mDynamicRes.find( c->Name() + name);
     if (itf != mDynamicRes.end()){
@@ -268,7 +268,7 @@ UIStats::infoStats( const std::string& i, const bool left, CPColor c, const bool
 void 
 UIStats::refreshFixedPart ( EntityManager &em, UIEngine *eng, int now){
   TVecRes::iterator it = mStaticRes.begin();
-  for (it; it != mStaticRes.end(); it++){
+  for (; it != mStaticRes.end(); it++){
     Entity *e = em.createEntity();
     assert( e);
     em.tagEntity( e, TAG_FIXED);
