@@ -13,6 +13,7 @@ def init(entity, manager):
     entity.items = [ manager.getByTag(tag)[0] for tag in ITEM_TAGS ]
     entity.all_menu = [ en.getComponent(cp.Transform.TYPE)
                         for en in manager.getEntities(cp.Visual.TYPE) ]
+    entity.credit_objs = []
     selection = manager.getByTag("SELECTED")[0]
     pointer = manager.getByTag("POINTER")[0]
     entity.sel = -1
@@ -53,24 +54,26 @@ def hide_menu(entity, manager):
         trans.moveBy(1000, 0)
 
 def hide_credits(entity, manager):
-    for entity in manager.getByTag("CREDITS"):
-        manager.destroyEntity(entity)
+    for en in entity.credit_objs:
+        manager.destroyEntity(en)
+    entity.credit_objs = []
     for trans in entity.all_menu:
-        trans.moveBy(1000, 0)
+        trans.moveBy(-1000, 0)
     entity.credits = False
     
-def create_scrolling_text(manager, res, text, y):
+def create_scrolling_text(entity, manager, res, text, y):
     ent = manager.createEntity()
     ent.addComponent(res.makeText(text, "sans_big", (255, 0, 0, 128)))
     ent.addComponent(cp.Transform(400 - 9 * len(text), y))
     ent.addComponent(cp.Mobile(0, -1))
-    manager.tagEntity(ent, "CREDIT")
+    entity.credit_objs.append(ent)
     
-def create_scrolling_image(manager, res, name, x, y):
-    rich = manager.createEntity()
-    rich.addComponent(cp.Transform(x, y))
-    rich.addComponent(res.makeImage(name))
-    rich.addComponent(cp.Mobile(0, -1))
+def create_scrolling_image(entity, manager, res, name, x, y):
+    ent = manager.createEntity()
+    ent.addComponent(cp.Transform(x, y))
+    ent.addComponent(res.makeImage(name))
+    ent.addComponent(cp.Mobile(0, -1))
+    entity.credit_objs.append(ent)
 
 def show_credits(entity, manager):
     if entity.credits:
@@ -109,6 +112,7 @@ def show_credits(entity, manager):
               "Tiled",
               "The GIMP",
               "gcc",
+              "Google Web Fonts",
               "",
               "",
               "",
@@ -125,26 +129,26 @@ def show_credits(entity, manager):
               "The Chickenpix Team",
               "~~~~~~~~~~~~~~~~~~~",
               "",
-              "- Artist: Manu Etasse",
-              "- Scenario: Florian Fourure",
-              "- Coder: Fred Germonneau",
-              "- Tester: Nico Peyrin",
-              "- Coder: Chris Rivier",
-              "- Coder: Laurent Vaucher",
-              "- Coder: Nico Verdeille",
+              "Artist: Manu Etasse",
+              "Scenario: Florian Fourure",
+              "Coder: Fred Germonneau",
+              "Tester: Nico Peyrin",
+              "Coder: Chris Rivier",
+              "Coder: Laurent Vaucher",
+              "Coder: Nico Verdeille",
 
               ]
     y = 600
     for t in texts:
-        create_scrolling_text(manager, res, t, y)
+        create_scrolling_text(entity, manager, res, t, y)
         y += 50
 
-    create_scrolling_image(manager, res, "richard", 40, 700)
-    create_scrolling_image(manager, res, "mayor", 740, 940)
-    create_scrolling_image(manager, res, "wizard", 200, 1450)
-    create_scrolling_image(manager, res, "streetboy", 600, 2050)
-    create_scrolling_image(manager, res, "princess", 400, 2450)
-    create_scrolling_image(manager, res, "pig", 400, 3400)
+    create_scrolling_image(entity, manager, res, "richard", 40, 700)
+    create_scrolling_image(entity, manager, res, "mayor", 740, 940)
+    create_scrolling_image(entity, manager, res, "wizard", 200, 1450)
+    create_scrolling_image(entity, manager, res, "streetboy", 600, 2100)
+    create_scrolling_image(entity, manager, res, "princess", 400, 2500)
+    create_scrolling_image(entity, manager, res, "pig", 400, 3500)
 
 
 def trigger_menu(entity, manager):
