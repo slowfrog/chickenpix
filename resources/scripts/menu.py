@@ -45,15 +45,26 @@ def change_selection(manager, entity, next):
     # Record the new selection
     entity.sel = next
 
+def show_credits(manager):
+    re = manager.getEntities(cp.Resources.TYPE)[0]
+    res = re.getComponent(cp.Resources.TYPE)
+    im = res.makeImage("pig")
+    tr = cp.Transform(50, 50)
+    ent = manager.createEntity()
+    ent.addComponent(tr)
+    ent.addComponent(im)
+    
+    
 def trigger_menu(entity, manager):
     if entity.sel == ITEM_START:
-        manager.setSwitch("Main")
         print("Starting...")
+        manager.setSwitch("Main")
     elif entity.sel == ITEM_QUIT:
-        manager.setSwitch("EXIT")
         print("Quitting...")
+        manager.setSwitch("EXIT")
     elif entity.sel == ITEM_CREDITS:
         print("Showing credits")
+        show_credits(manager)
     else:
         raise Exception("Unknown selection %d" % entity.sel)
     

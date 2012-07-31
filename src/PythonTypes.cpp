@@ -42,6 +42,14 @@ EntityManager_size(PyEntityManager *self) {
   return ret;
 }
 
+static PyObject *
+EntityManager_createEntity(PyEntityManager *self) {
+  EntityManager &em = *(self->em);
+  Entity *entity = em.createEntity();
+  PyObject *pentity = WrappedEntity::wrap(em, entity)->getWrapper();
+  return pentity;
+}
+
 // Utility function
 PyObject *
 wrapEntityList(EntityManager &em, const TEntityList &entities) {
@@ -190,6 +198,8 @@ static PyMethodDef EntityManager_methods[] = {
    "Name of the EntityManager" },
   {"size", (PyCFunction) EntityManager_size, METH_NOARGS,
    "Number of entities" },
+  {"createEntity", (PyCFunction) EntityManager_createEntity, METH_NOARGS,
+   "Create one entity" },
   {"getEntities", (PyCFunction) EntityManager_getEntities, METH_VARARGS,
    "List of all entities" },
   {"getById", (PyCFunction) EntityManager_getById, METH_VARARGS,

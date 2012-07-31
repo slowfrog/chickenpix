@@ -127,6 +127,41 @@ static PyMethodDef Transform_methods[] = {
   {NULL} /* End of list */
 };
 
+// Resources methods ---------------------------------------------------
+static PyTypeObject PyResourcesType = {
+  PyObject_HEAD_INIT(NULL)
+  0,
+  "cp.Resources",
+  sizeof(PyComponent),
+};
+
+static
+int Resources_init(PyObject *self, PyObject *args, PyObject *kwds) {
+  // Should not be called...
+  return Component_init(self, NULL);
+}
+
+static
+PyObject *Resources_makeImage(PyComponent *self, PyObject *args) {
+  Resources *r = (Resources *) self->component;
+  PyObject *name;
+  if (!PyArg_ParseTuple(args, "S", &name)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    return NULL;
+  }
+
+  BVisual *img = r->makeImage(PyString_AsString(name));
+  return wrapRealComponent(img);
+}
+
+static PyMethodDef Resources_methods[] = {
+  {"makeImage", (PyCFunction) Resources_makeImage, METH_VARARGS,
+   "Makes a Visual of type image from the name of a resource"},
+  {NULL} /* End of list */
+};
+
 // Mobile type and methods -----------------------------------------------------
 static PyTypeObject PyMobileType = {
   PyObject_HEAD_INIT(NULL)
@@ -917,6 +952,10 @@ initComponents(PyObject *module) {
                         "Type of Transform components",
                         Transform_methods, Transform_init, Transform_getset);
 
+  registerComponentType(module, Resources::TYPE, &PyResourcesType,
+                        "Type of Resources components",
+                        Resources_methods, Resources_init, NULL);
+  
   registerComponentType(module, Mobile::TYPE, &PyMobileType,
                         "Type of Mobild components",
                         NULL, Mobile_init, Mobile_getset);
