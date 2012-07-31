@@ -116,14 +116,14 @@ Render::update( EntityManager &em, int now) {
         continue; // Off screen: don't draw
       }
       painted++;
-      if (entity->hasComponent(Collider::TYPE)) {
+      /*if (entity->hasComponent(Collider::TYPE)) {
         Collider *coll = entity->getComponent<Collider>();
         v->debugDraw(*vc, x0 - offsetX, y0 - offsetY, delta,
                      coll->getLeft(), coll->getTop(),
                      coll->getRight(), coll->getBottom());
-      } else {
+                     } else {*/
         v->draw(*vc, x0 - offsetX, y0 - offsetY, delta);
-      }
+        //}
       
     } else { // GUI elements are fixed
       painted++;
