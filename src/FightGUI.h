@@ -10,6 +10,7 @@
 // Constants
 #define TAG_HERO        "HERO"
 #define TAG_FOE         "FoeInFight"
+#define TAG_RES_UI      "ResUI"
 
 #define TAG_FIXED       "Fixed"
 #define TAG_STATS       "StatsFight"
@@ -101,6 +102,8 @@ public:
   inline bool isFirstCall() const { return mIsFirst;}
   inline bool isTimeShift() const { return mTS;}
   
+  virtual  void reset() { mIsFirst = true; mTS = false;}
+  
   // API
   virtual void refreshFixedPart ( EntityManager&, UIEngine*, int) =0;
   virtual void refreshPart      ( EntityManager&, UIEngine*, int) =0;
@@ -152,6 +155,8 @@ public:
   void updateStats     ( const Character*);
   void updateRole      ( const std::string&, const bool);
   
+  void reset           ();
+  void resetRes        ( EntityManager&);
   void infoStats       ( const std::string&, const bool, CPColor, const bool);
   
   // Interface
@@ -189,6 +194,9 @@ public:
   virtual void refreshFixedPart ( EntityManager&, UIEngine*, int);
   virtual void refreshPart      ( EntityManager&, UIEngine*, int);
   
+  void reset() {IUIPart::reset(); mVLines.clear(); mDynamicRes.clear();}
+  void resetRes( EntityManager&);
+  
 private:
   TVecTxt     mVLines;
   TMapTagRes  mDynamicRes;
@@ -210,6 +218,8 @@ public:
   
   // API
   void refreshAll( EntityManager&, int);
+  void resetAll( );
+  void resetRes( EntityManager&);
   
   void addStats     ( const Character*, const bool);
   void updateStats  ( Character*, const bool);

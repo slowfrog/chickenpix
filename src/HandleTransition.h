@@ -17,8 +17,11 @@ public:
   ~HandleTransition(){}
   
   // Copy entities with tag "tag"
-  void transit( EntityManager &from, EntityManager &to, const std::string &tag);
+  void transit( EntityManager &from, EntityManager &to, const std::string &tag, const bool =false);
   void transit( EntityManager &from, EntityManager &to, const TTagCollection &vtag);
+  
+protected:
+  void copyComponent( const Entity *src, Entity * dst);
 
 private:
   

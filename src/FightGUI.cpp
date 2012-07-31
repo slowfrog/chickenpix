@@ -272,6 +272,7 @@ UIStats::refreshFixedPart ( EntityManager &em, UIEngine *eng, int now){
     Entity *e = em.createEntity();
     assert( e);
     em.tagEntity( e, TAG_FIXED);
+    em.tagEntity( e, TAG_RES_UI);
     buildResource( e, eng, (*it));
   }
 }
@@ -294,12 +295,20 @@ UIStats::refreshPart( EntityManager &em, UIEngine *eng, int now){
     // Create new entity
     Entity *e = em.createEntity();
     assert( e);
+    em.tagEntity( e, TAG_RES_UI);
     em.tagEntity( e, (*it).first, true);
     buildResource( e, eng, (*it).second);
     it++; // Next
   }
 }
 
+void 
+UIStats::reset() {
+  IUIPart::reset(); 
+  
+  mStaticRes.clear(); 
+  mDynamicRes.clear();
+}
 /**************************************************************/
 /* GUIConsole                                                 */
 /**************************************************************/
@@ -359,6 +368,7 @@ UIConsole::refreshPart( EntityManager &em, UIEngine *eng, int now){
     Entity *e = em.createEntity();
     assert( e);
     em.tagEntity( e, (*it).first, true);
+    em.tagEntity( e, TAG_RES_UI);
     buildResource( e, eng, (*it).second);
     it++; // Next
   }
@@ -379,6 +389,18 @@ void
 UIManager::refreshAll( EntityManager &em, int now){
   mGUIStats.refresh   ( em, &mUIEngine, now);
   mGUIConsole.refresh ( em, &mUIEngine, now);
+}
+
+void 
+UIManager::resetAll(){
+  mGUIStats.reset   ();
+  mGUIConsole.reset ();
+}
+
+void 
+UIManager::resetRes( EntityManager &em){
+  em.destroyEntitiesByTag( TAG_RES_UI);
+  em.destroyEntitiesByTag( TAG_FIXED);
 }
 
 void 

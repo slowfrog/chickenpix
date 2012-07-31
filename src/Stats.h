@@ -75,6 +75,7 @@ public:
   Character(const string &name=DEFAULT_NAME_CH,
             const unsigned long id= DEFAULT_ID_CH,
             long lt=DEFAULT_LIFE_THRESHOLD_CH);
+  Character(const Character&);
   virtual ~Character(){}
   
   inline const unsigned long Id() const {return _id;}

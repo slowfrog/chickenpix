@@ -4,6 +4,7 @@
 #include <cassert>
 #include "Types.h"
 #include "Entity.h"
+#include "TagEntityManager.h"
 
 // Constants
 #define MENU  "Menu"
@@ -20,6 +21,8 @@
 class EntityManager {
 public:
   static string EXIT;
+  CTagEntityMng mTagMng;
+  inline CTagEntityMng& getTagMng() { return mTagMng;}
   
 private:
   /** Name of the manager. Mostly useless. */
@@ -68,8 +71,9 @@ public:
    */
   void tagEntity(Entity *entity, string const &tag, const bool unique=false);
   void untagEntity(Entity *entity, string const &tag);
-  vector<Entity::Id> const &getByTag(const string &tag);
+  vector<Entity::Id> const getByTag(const string &tag);
   Entity::Id getFirstByTag(const string &tag);
+  void destroyEntitiesByTag( const string&);
 
   /**
    * Components access

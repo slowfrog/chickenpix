@@ -68,7 +68,7 @@ Entity::getComponent(Component::Type t) const {
 bool
 Entity::hasComponent(Component::Type t) const {
   for (vector<Component *>::const_iterator it = comp.begin(); it < comp.end(); it++) {
-    if ((*it)->getType() == t) {
+    if ( (*it)->getType() == t) {
       return true;
     }
   }

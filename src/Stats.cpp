@@ -87,6 +87,15 @@ Character::Character(const string &name, const unsigned long id, long lt):
   _stats.addStat( INITIATIVE,     DEFAULT_MIN_STAT);
 }
 
+Character::Character(const Character &ch):
+Component(TYPE), _id( ch._id), _name( ch._name), _lifeThreshold( ch._lifeThreshold)
+{
+  _stats.addStat(HEALTH,      ch.get( HEALTH));
+  _stats.addStat(DAMAGE,      ch.get( DAMAGE));
+  _stats.addStat(ARMOR_CLASS, ch.get( ARMOR_CLASS));
+  _stats.addStat(INITIATIVE,  ch.get( INITIATIVE));
+}
+
 std::string 
 Character::toString() const {
   return _stats.toString();

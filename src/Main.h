@@ -19,7 +19,7 @@ runGame( CSystemFactory* pFac) {
   // init log
   ILog::setLogger( new CLogOutput, LEVEL_DEBUG);
   // Init
-  CTagEntityMng::get()->resetTagCollection();
+  //CTagEntityMng::get()->resetTagCollection();
   
   // Managers (entities)
   CSystemManager  SysMng;
@@ -100,7 +100,6 @@ runGame( CSystemFactory* pFac) {
   TimerClass timer;
   int prev = timer.getTime();
 
-  //bool justSwitched = false;
   // One step
   while (true) {
     int now = timer.getTime();
@@ -116,18 +115,28 @@ runGame( CSystemFactory* pFac) {
       // Prepare switch
       HandleTransition ht;
       std::string nm = SysMng.getByRef().requiredName();
-      ht.transit(SysMng.getByRef(), SysMng.getByName( nm), "HERO");
+      
+      if ( SysMng.getByRef().getName() == "Fight" && SysMng.getByRef().requiredName() == "Main") {
+        fight->updateStats( SysMng.getByName( "Main"), "FoeInFight");
+        fight->updateStats( SysMng.getByName( "Main"), "HERO", true);
+      }
+      
+      ht.transit(SysMng.getByRef(), SysMng.getByName( nm), "HERO", true);
       if ( SysMng.getByRef().requiredName() == "Fight") {
         ht.transit(SysMng.getByRef(), SysMng.getByName( nm), "FoeInFight");
         // Switch mode
         SysMng.setCurrent( SysMng.getByRef().requiredName());
-        // Preapre fight if needed
+        // Prepare fight if needed
         prepareFight( SysMng.getByRef(), fight);
       }
       else{
         // Switch mode
         SysMng.setCurrent( SysMng.getByRef().requiredName());
         checkFight( SysMng.getByRef(), fight); 
+      }
+      
+      if ( SysMng.getByRef().getName() == "Main" ) {
+        SysMng.getByRef().getTagMng().unregisterTag( "FoeInFight");
       }
     }
     

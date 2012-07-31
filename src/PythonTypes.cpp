@@ -185,6 +185,30 @@ EntityManager_setSwitch(PyEntityManager *self, PyObject *args) {
   Py_RETURN_NONE;
 }
 
+static PyObject *
+EntityManager_getTags(PyEntityManager *self, PyObject *args) {
+  EntityManager *em = self->em;
+  
+  PyEntity *entity;
+  if (!PyArg_ParseTuple(args, "O!", &PyEntityType, &entity)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    Py_RETURN_NONE;
+  }
+  vector<string> const &tags = em->getTagMng().getTagsByEntity( entity->wentity->getId());
+  int size = tags.size();
+  PyObject *ret = PyList_New(size);
+  for (int i = 0; i < size; ++i) {
+    string const &tag = tags[i];
+    PyObject *ptag = PyString_FromString(tag.c_str());
+    PyList_SetItem(ret, i, ptag);
+  }
+
+  return ret;
+}
+
+
 static PyMethodDef EntityManager_methods[] = {
   {"name", (PyCFunction) EntityManager_name, METH_NOARGS,
    "Name of the EntityManager" },
@@ -204,6 +228,8 @@ static PyMethodDef EntityManager_methods[] = {
    "Remove tag from existing entity" },
   {"setSwitch", (PyCFunction) EntityManager_setSwitch, METH_VARARGS,
    "Tag an existing entity" },
+  {"getTags", (PyCFunction) EntityManager_getTags, METH_VARARGS,
+    "Get all tags on the entity" },
   {NULL} /* End of list */
 };
 
@@ -278,20 +304,6 @@ Entity_removeComponent(PyEntity *self, PyObject *args) {
 }
 
 static PyObject *
-Entity_getTags(PyEntity *self) {
-  Entity *entity = self->wentity;
-  vector<string> const &tags = CTagEntityMng::get()->getTagsByEntity( entity->getId()); /*entity->getTags();*/
-  int size = tags.size();
-  PyObject *ret = PyList_New(size);
-  for (int i = 0; i < size; ++i) {
-    string const &tag = tags[i];
-    PyObject *ptag = PyString_FromString(tag.c_str());
-    PyList_SetItem(ret, i, ptag);
-  }
-  return ret;
-}
-
-static PyObject *
 Entity_getDict(PyEntity *self) {
   WrappedEntity *wentity = self->wentity;
   PyObject *ret = wentity->getOrCreateDict();
@@ -310,7 +322,7 @@ static PyMethodDef Entity_methods[] = {
   {"getComponent", (PyCFunction) Entity_getComponent, METH_VARARGS, "Get the component with a given type" },
   {"addComponent", (PyCFunction) Entity_addComponent, METH_VARARGS, "Add a component to the entity" },
   {"removeComponent", (PyCFunction) Entity_removeComponent, METH_VARARGS, "Remove a component from the entity" },
-  {"getTags", (PyCFunction) Entity_getTags, METH_NOARGS, "Get all tags on the entity" },
+  //{"getTags", (PyCFunction) Entity_getTags, METH_NOARGS, "Get all tags on the entity" },
   {"getDict", (PyCFunction) Entity_getDict, METH_NOARGS, "Get the dictionary of values associated to the entity" },
   {NULL} /* End of list */
 };
