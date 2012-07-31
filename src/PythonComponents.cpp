@@ -156,9 +156,32 @@ PyObject *Resources_makeImage(PyComponent *self, PyObject *args) {
   return wrapRealComponent(img);
 }
 
+static
+PyObject *Resources_makeText(PyComponent *self, PyObject *args) {
+  Resources *r = (Resources *) self->component;
+  PyObject *text;
+  PyObject *font;
+  PyObject *color;
+  
+  if (!PyArg_ParseTuple(args, "SS|O", &text, &font, &color)) {
+    if (PyErr_Occurred()) {
+      PyErr_Print();
+    }
+    return NULL;
+  }
+  CPColor cpcolor = CPColor::White;
+
+  BVisual *txt = r->makeText(PyString_AsString(text),
+                             PyString_AsString(font),
+                             cpcolor);
+  return wrapRealComponent(txt);
+}
+
 static PyMethodDef Resources_methods[] = {
   {"makeImage", (PyCFunction) Resources_makeImage, METH_VARARGS,
    "Makes a Visual of type image from the name of a resource"},
+  {"makeText", (PyCFunction) Resources_makeText, METH_VARARGS,
+   "Makes a Visual of type text from some text, a font and possibly a color"},
   {NULL} /* End of list */
 };
 

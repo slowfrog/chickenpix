@@ -213,7 +213,7 @@ static PyMethodDef EntityManager_methods[] = {
   {"untagEntity", (PyCFunction) EntityManager_untagEntity, METH_VARARGS,
    "Remove tag from existing entity" },
   {"setSwitch", (PyCFunction) EntityManager_setSwitch, METH_VARARGS,
-   "Tag an existing entity" },
+   "Ask to switch mode" },
   {NULL} /* End of list */
 };
 

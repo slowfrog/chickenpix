@@ -11,6 +11,8 @@ ITEM_TAGS = ["START", "QUIT", "CREDITS"]
 
 def init(entity, manager):
     entity.items = [ manager.getByTag(tag)[0] for tag in ITEM_TAGS ]
+    entity.all_menu = [ en.getComponent(cp.Transform.TYPE)
+                        for en in manager.getEntities(cp.Visual.TYPE) ]
     selection = manager.getByTag("SELECTED")[0]
     pointer = manager.getByTag("POINTER")[0]
     entity.sel = -1
@@ -28,6 +30,7 @@ def init(entity, manager):
 
     entity.downdown = False
     entity.updown = False
+    entity.credits = False
 
 def change_selection(manager, entity, next):
     previtem = entity.items[entity.sel]
@@ -45,16 +48,105 @@ def change_selection(manager, entity, next):
     # Record the new selection
     entity.sel = next
 
-def show_credits(manager):
+def hide_menu(entity, manager):
+    for trans in entity.all_menu:
+        trans.moveBy(1000, 0)
+
+def hide_credits(entity, manager):
+    for entity in manager.getByTag("CREDITS"):
+        manager.destroyEntity(entity)
+    for trans in entity.all_menu:
+        trans.moveBy(1000, 0)
+    entity.credits = False
+    
+def create_scrolling_text(manager, res, text, y):
+    ent = manager.createEntity()
+    ent.addComponent(res.makeText(text, "sans_big", (255, 0, 0, 128)))
+    ent.addComponent(cp.Transform(400 - 9 * len(text), y))
+    ent.addComponent(cp.Mobile(0, -1))
+    manager.tagEntity(ent, "CREDIT")
+    
+def create_scrolling_image(manager, res, name, x, y):
+    rich = manager.createEntity()
+    rich.addComponent(cp.Transform(x, y))
+    rich.addComponent(res.makeImage(name))
+    rich.addComponent(cp.Mobile(0, -1))
+
+def show_credits(entity, manager):
+    if entity.credits:
+        return
+    entity.credits = True
+
+    hide_menu(entity, manager)
+    
     re = manager.getEntities(cp.Resources.TYPE)[0]
     res = re.getComponent(cp.Resources.TYPE)
-    im = res.makeImage("pig")
-    tr = cp.Transform(50, 50)
-    ent = manager.createEntity()
-    ent.addComponent(tr)
-    ent.addComponent(im)
-    
-    
+
+    texts = [ "Thank you for playing Chickenpix",
+              "",
+              "",
+              "This is not much of a game...",
+              "",
+              "... but anyway, it was fun to make.",
+              "",
+              "",
+              "We want to thank all the great",
+              "people who organized this contest",
+              "and all the artists who built assets.",
+              "",
+              "",
+              "We are also grateful for the",
+              "open-source projects and libraries that",
+              "made Chickenpix possible.",
+              "",
+              "",
+              "In no particular order:",
+              "",
+              "ClanLib",
+              "SFML",
+              "tinyxml",
+              "TmxParser",
+              "Tiled",
+              "The GIMP",
+              "gcc",
+              "",
+              "",
+              "",
+              "And some not-so-open-source ones too",
+              "",
+              "VisualStudio Express",
+              "XCode",
+              "Graphics Gale",
+              "",
+              "",
+              "",
+              "See you in the next contest!",
+              "",
+              "The Chickenpix Team",
+              "~~~~~~~~~~~~~~~~~~~",
+              "",
+              "- Artist: Manu Etasse",
+              "- Scenario: Florian Fourure",
+              "- Coder: Fred Germonneau",
+              "- Tester: Nico Peyrin",
+              "- Coder: Chris Rivier",
+              "- Coder: Laurent Vaucher",
+              "- Coder: Nico Verdeille",
+
+              ]
+    y = 600
+    for t in texts:
+        create_scrolling_text(manager, res, t, y)
+        y += 50
+
+    create_scrolling_image(manager, res, "richard", 40, 700)
+    create_scrolling_image(manager, res, "mayor", 740, 940)
+    create_scrolling_image(manager, res, "wizard", 200, 1450)
+    create_scrolling_image(manager, res, "streetboy", 600, 2050)
+    create_scrolling_image(manager, res, "princess", 400, 2450)
+    create_scrolling_image(manager, res, "pig", 400, 3400)
+
+
 def trigger_menu(entity, manager):
     if entity.sel == ITEM_START:
         print("Starting...")
@@ -64,11 +156,22 @@ def trigger_menu(entity, manager):
         manager.setSwitch("EXIT")
     elif entity.sel == ITEM_CREDITS:
         print("Showing credits")
-        show_credits(manager)
+        show_credits(entity, manager)
     else:
         raise Exception("Unknown selection %d" % entity.sel)
     
 def handle_keys(entity, manager):
+    if entity.credits:
+        handle_keys_credits(entity, manager)
+    else:
+        handle_keys_normal(entity, manager)
+
+def handle_keys_credits(entity, manager):
+    input = entity.getComponent(cp.Input.TYPE)
+    if input.state.isKeyDown(cp.InputState.ESCAPE):
+       hide_credits(entity, manager)     
+        
+def handle_keys_normal(entity, manager):
     input = entity.getComponent(cp.Input.TYPE)
     if (input.state.isKeyDown(cp.InputState.SPACE) or
         input.state.isKeyDown(cp.InputState.ENTER)):
