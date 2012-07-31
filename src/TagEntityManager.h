@@ -4,53 +4,58 @@
 #include <vector>
 #include <string>
 
-#include "Singleton.h"
+//#include "Singleton.h"
 #include "Entity.h"
 
 // Contants
 #define NOT_FOUND     999999999
 
 /**/
-class CTagEntityMng : public CSingleton<CTagEntityMng>
+class CTagEntityMng
 {
 public:
-  typedef Entity::Id                          TEntityId;
-  typedef std::string                         TTag;
-  typedef std::vector<TEntityId>              TCollectionIdEntity;
+  typedef Entity::Id              TEntityId;
+  typedef std::vector<TEntityId>  TCollectionIdEntity;
   
-  typedef std::map<TTag, TCollectionIdEntity> TMapTagEntity;
-  typedef TMapTagEntity::iterator             TMapTagEntityIt;
-  typedef TMapTagEntity::const_iterator       TMapTagEntityCIt;
+  // start here
+  typedef Entity::Id              TId;
+  typedef std::vector<TId>        TVId;
   
-  typedef std::map<TTag, TEntityId>           TMapTagUniqEntity;
-  typedef TMapTagUniqEntity::iterator         TMapTagUniqEntityIt;
-  typedef TMapTagUniqEntity::const_iterator   TMapTagUniqEntityCIt;
+  typedef std::string             TTag;
+  typedef std::vector<TTag>       TVTag;
   
-  typedef std::vector<TTag>                   TCollectionTag;
-  typedef std::map<TEntityId, TCollectionTag> TMapEntityTag;
-  typedef TMapEntityTag::iterator             TMapEntityTagIt;
-  typedef TMapEntityTag::const_iterator       TMapEntityTagCIt;
+  typedef std::map<TTag, TId>     TMTagId;
+  typedef std::map<TTag, TVId>    TMTagEntityId;
+  typedef std::map<TId, TVTag>    TMEntityIdTag;
 
 public:
   CTagEntityMng(){}
   
   /* API */
   void resetTagCollection();
-  void registerTag            ( const unsigned long, const std::string&, const bool =false); 
-  void unregisterTag          ( const std::string&);
-  void unregisterTagForEntity ( const unsigned long, const std::string&);
+  void registerTag           ( const TId, const TTag&, bool = false);
+  void unregisterTag         ( const TTag&);
+  void unregisterTagForEntity( const TId, const TTag&);
   
-  const TEntityId            getEntityByTag     ( const std::string&) const;
-  const TCollectionIdEntity& getEntitiesByTag   ( const std::string&) const;
-  const TEntityId            getFirstEntityByTag( const std::string&) const;
+  TId   getFirstEntityByTag( const TTag&);
+  TVTag getTagsByEntity( const TId);    
+  TVId  getEntitiesByTag( const TTag&);
   
-  const TCollectionTag&      getTagsByEntity    ( const unsigned long) const;
-  bool  hasTag( const TEntityId, const TTag&);
+  void toString();
+  
+protected:
+  bool addTag      ( const TId, const TTag&);
+  bool addUniqueTag( const TId, const TTag&);
+  bool addForEntity( const TId, const TTag&);
+  
+  bool dropTag      ( const TTag&);
+  bool dropUniqueTag( const TTag&);
+  bool dropEntityTag( const TTag&);
     
 private:
   // List of entity by tag
-  TMapTagEntity       mTagE;
-  TMapTagUniqEntity   mTagUniqE;
+  TMTagEntityId   mTagE;
+  TMTagId         mTagEU;
   // List of tag by entity
-  TMapEntityTag       mETag;
+  TMEntityIdTag   mETag;
 };

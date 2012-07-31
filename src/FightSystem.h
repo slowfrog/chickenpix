@@ -10,9 +10,8 @@
 #include "Stats.h"
 
 // Constant(s)
-#define FS_NOTIFIER_CONTINUE    "Continue"
+#define FS_NOTIFIER_QUIT        "Quit"
 #define FS_NOTIFIER_SKILL       "SkillAttack"
-#define FS_NOTIFIER_NEXT_ROUND  "NextRound"
 
 // Forward
 class CFightSystem; 
@@ -21,9 +20,8 @@ class CFightSystem;
 typedef Character  CFighter;
 
 // Callbacks def
-void NotifyContinue ( System*);
+void NotifyQuit     ( System*);
 void NotifyAttack   ( System*);
-void NotifyNextRound( System*);
 
 /**
  States for fight round
@@ -33,14 +31,15 @@ void NotifyNextRound( System*);
 /****************************************************************/
 class IRoundState {
 public:
-  virtual IRoundState* addFighter     ( CFightSystem&, const CFighter&, const bool)   { return 0;}
   virtual IRoundState* start          ( CFightSystem&) { return 0; }
+  virtual IRoundState* addFighter     ( CFightSystem&, const CFighter&, const bool)   { return 0;}
   virtual IRoundState* popFighter     ( CFightSystem&) { return 0; }
   virtual IRoundState* chooseTarget   ( CFightSystem&) { return 0; }
   virtual IRoundState* chooseSkill    ( CFightSystem&) { return 0; }
   virtual IRoundState* doFight        ( CFightSystem&) { return 0; }
   virtual IRoundState* next           ( CFightSystem&) { return 0; }
   virtual IRoundState* finish         ( CFightSystem&) { return 0; }
+  virtual IRoundState* quit           ( CFightSystem&);
   
   virtual void update ( EntityManager &, CFightSystem&, int);
   virtual void init   ( EntityManager &){}
@@ -129,14 +128,18 @@ public:
   void exit   ( EntityManager &);
 	
   // API
-  void addFoe (const CFighter&);
-  void addAlly(const CFighter&);
   void start  ();
+  void addFoe ( const CFighter&);
+  void addAlly( const CFighter&);
   void attack ();
-  void updateFighters( EntityManager &);
+  void next   ();
+  void quit   ();
   
+  bool checkExit( EntityManager &);
   void reset();
-  void next();
+  
+  // Transition
+  void updateStats( EntityManager &, const std::string &tag, const bool ally= false);
   
   inline const std::string& getDead() const { return mDead;}
   
@@ -191,6 +194,7 @@ private:
   TQueueFighter       qAttBck;
   TQueueFighter       qDef;
   bool                endOfFight;
+  bool                exitAsked;
   // State
   TeState             curFg;
   // Dead ?

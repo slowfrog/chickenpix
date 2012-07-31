@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entities>
   <!-- create entity -->
-  <entity>    
+  <entity>
+    <tags>
+        <tag name="mandatory"/>
+    </tags>    
     <components>
       <component type="Resources" kind="image"
                  gui="true" center="false" z-order="0">
@@ -17,31 +20,20 @@
     </components>
   </entity>
   
-  
-  <entity>    
+    <entity>
+        <tags>
+            <tag name="mandatory"/>
+        </tags>
         <components>
             <component type="Resources" kind="image"
-                       gui="true" center="false" z-order="50">
+                    gui="true" center="false" z-order="50">
                 <image alias="wall"/>
-            </component>
-            <component type="Transform">
+        </component>
+        <component type="Transform">
                 <position x="600" y="0"/>
-            </component>
-            <component type="Controller" name="ButtonController" />
+        </component>
+        <component type="Controller" name="ButtonController" />
         </components>
     </entity>
-    <!--
-    <entity>
-      <components>
-            <component type="Transform">
-                <position x="-290" y="60"/>
-            </component>
-            <component type="Resources" kind="font" z-order="99">
-                <text>Press [Q] to quit FIGHT mode</text>
-                <police name="sans_small"/>
-            </component>
-        </components>
-    </entity>
-    -->
 </entities>
 

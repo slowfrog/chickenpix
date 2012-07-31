@@ -86,6 +86,15 @@ EntityManager::destroyEntity(Entity *entity) {
   destroyEntity(entity->getId());
 }
 
+void 
+EntityManager::destroyEntitiesByTag( const std::string &tag){
+  CTagEntityMng::TVId lent = getTagMng().getEntitiesByTag( tag);
+  for ( std::size_t ind =0; ind< lent.size(); ind++) {
+    destroyEntity( lent[ind]);
+    getTagMng().unregisterTagForEntity( lent[ind], tag);
+  }
+}
+
 void
 EntityManager::replaceEntity(Entity::Id id, Entity *replacement) {
   // Could add some asserts to check the replacement is valid (good id, same tags). At least in debug.
@@ -149,7 +158,7 @@ void EntityManager::addEntity( Entity *e){
 
 void
 EntityManager::tagEntity(Entity *entity, string const &tag, const bool unique) {
-  CTagEntityMng::get()->registerTag( entity->getId(), tag, unique);
+  mTagMng.registerTag( entity->getId(), tag, unique);
   /*
   if (!entity->hasTag(tag)) {
     _tags[tag].push_back(entity->getId());
@@ -160,7 +169,7 @@ EntityManager::tagEntity(Entity *entity, string const &tag, const bool unique) {
 
 void
 EntityManager::untagEntity(Entity *entity, string const &tag) {
-  CTagEntityMng::get()->unregisterTagForEntity( entity->getId(), tag);
+  mTagMng.unregisterTagForEntity( entity->getId(), tag);
   /*
   if (entity->hasTag(tag)) {
     entity->removeTag(tag);
@@ -174,9 +183,9 @@ EntityManager::untagEntity(Entity *entity, string const &tag) {
   }*/
 }
 
-vector<Entity::Id> const &
+vector<Entity::Id> const
 EntityManager::getByTag(string const &tag) {
-  return CTagEntityMng::get()->getEntitiesByTag( tag);
+  return mTagMng.getEntitiesByTag( tag);
   //return _tags[tag];
 }
 
@@ -184,14 +193,17 @@ Entity::Id
 EntityManager::getFirstByTag(string const &tag) {
   // Search first in the map of unique tag, 
   // if not found look in the other map 
-  Entity::Id l_id = CTagEntityMng::get()->getEntityByTag( tag);
+  return mTagMng.getFirstEntityByTag( tag);
+  
+  /*
+  Entity::Id l_id = mTagMng.getEntityByTag( tag);
   if ( l_id != NOT_FOUND){
     return l_id;
   }
   else {
-    return CTagEntityMng::get()->getFirstEntityByTag( tag);
+    return mTagMng.getFirstEntityByTag( tag);
   }
-  /*
+ 
   vector<Entity::Id> const &allByTag = getByTag(tag);
   return allByTag.empty() ? NULL : allByTag[0];
    */

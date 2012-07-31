@@ -30,63 +30,6 @@
       </components>
     </entity>
     
-    <!-- 
-    <entity>
-        <components>
-            <component type="Resources" kind="image">
-                <image alias="streetboy"/>
-            </component>
-            <component type="Transform">
-                <position x="50" y="350"/>
-            </component>
-        </components>
-    </entity>
-        
-    <entity>
-        <components>
-            <component type="Resources" kind="image">
-                <image alias="mayor"/>
-            </component>
-            <component type="Transform">
-                <position x="90" y="350"/>
-            </component>
-        </components>
-    </entity>
-        
-    <entity>
-        <components>
-            <component type="Resources" kind="image">
-                <image alias="princess"/>
-            </component>
-            <component type="Transform">
-                <position x="130" y="350"/>
-            </component>
-        </components>
-    </entity>
-        
-    <entity>
-        <components>
-            <component type="Resources" kind="image">
-                <image alias="wizard"/>
-            </component>
-            <component type="Transform">
-                <position x="170" y="350"/>
-            </component>
-        </components>
-    </entity>
-        
-    <entity>
-        <components>
-            <component type="Resources" kind="image">
-                <image alias="richard"/>
-            </component>
-            <component type="Transform">
-                <position x="210" y="350"/>
-            </component>
-        </components>
-    </entity>
-    -->
-    
     <entity>
       <components>
         <component type="Transform"><position x="378" y="628"/></component>
@@ -164,7 +107,7 @@
     <entity>
       <tags>
         <tag name="mayor" unique="true"/>
-        <tag name="Foe" unique="true"/>
+        <tag name="Foe"/>
       </tags>
       
       <components>
@@ -175,6 +118,53 @@
           <position x="475" y="800"/>
         </component>
         <component type="Character" nickname="mayor">
+          <stats name="initiative" value="4"/>
+          <stats name="health" value="25"/>
+          <stats name="armor_class" value="2"/>
+          <stats name="damage" value="1"/>
+        </component>
+        <component type="Collider" solid="true"
+                   left="14" top="8" right="14" bottom="28"/>
+      </components>
+    </entity>
+    
+    <entity>
+      <tags>
+        <tag name="wizard" unique="true"/>
+        <tag name="Foe"/>
+      </tags>
+      
+      <components>
+        <component type="Resources" kind="image">
+                <image alias="wizard"/>
+            </component>
+        <component type="Transform">
+          <position x="275" y="1000"/>
+        </component>
+        <component type="Character" nickname="wizard">
+          <stats name="initiative" value="4"/>
+          <stats name="health" value="20"/>
+          <stats name="armor_class" value="2"/>
+          <stats name="damage" value="3"/>
+        </component>
+        <component type="Collider" solid="true"
+                   left="14" top="8" right="14" bottom="28"/>
+      </components>
+    </entity>
+    
+    <entity>
+      <tags>
+        <tag name="princess" unique="true"/>
+      </tags>
+      
+      <components>
+        <component type="Resources" kind="image">
+                <image alias="princess"/>
+            </component>
+        <component type="Transform">
+          <position x="275" y="1200"/>
+        </component>
+        <component type="Character" nickname="princess">
           <stats name="initiative" value="4"/>
           <stats name="health" value="25"/>
           <stats name="armor_class" value="2"/>

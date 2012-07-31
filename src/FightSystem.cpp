@@ -21,12 +21,28 @@ void NotifyAttack( System *arg){
   }
 }
 
+void NotifyQuit( System *arg){
+  CFightSystem *fs = (CFightSystem*) arg;
+  if ( fs){
+    fs->quit();
+  }
+}
+
 /****************************************************************/
 /* IRoundState                                                  */
 /****************************************************************/
+// Quit fight
+IRoundState* 
+IRoundState::quit( CFightSystem &fs){
+  // Prepare to quit fight
+  fs.quit();
+  return this;
+}
+
 void 
 IRoundState::update( EntityManager &em, CFightSystem &fs, int now){
   // Update or draw something
+  //Resources *res = em.getComponent<Resources>();
   fs.refresh( em, now);
 }
 
@@ -96,13 +112,16 @@ CRoundFight::finish( CFightSystem &fs){
 /****************************************************************/
 /* CRoundFinish                                                  */
 /****************************************************************/
+
 void 
 CRoundFinish::update( EntityManager &em, CFightSystem &fs, int now){
   // Update fighters
-  fs.updateFighters( em);
-  // Update or draw something
-  IRoundState::update( em, fs, now);
+  if ( !fs.checkExit( em)){
+    // Update or draw something
+    IRoundState::update( em, fs, now);
+  }
 }
+
 
 /****************************************************************/
 /* CFightEngine: Round fight management                         */
@@ -118,9 +137,10 @@ sortByInitiative(const CFighter& a, const CFighter& b){
 
 // Constructor
 CFightSystem::CFightSystem( const std::string &name)
-: System( name), mUI( NULL), endOfFight( false), mDead(""){
+: System( name), mUI( NULL), endOfFight( false), exitAsked(false), mDead(""){
   // Register event
   NotificationCenter::get()->registerNotification( this, FS_NOTIFIER_SKILL, NotifyAttack);
+  NotificationCenter::get()->registerNotification( this, FS_NOTIFIER_QUIT,  NotifyQuit);
 }
 
 // Destructor
@@ -173,13 +193,21 @@ void
 CFightSystem::reset(){
   vAlly.clear();
   vFoe.clear();
-  endOfFight  = false; 
+  while( !qDef.empty()) qDef.pop();
+  while( !qAtt.empty()) qAtt.pop();
+  while( !qAttBck.empty()) qAttBck.pop();
+  while( !vDead.empty()) vDead.pop();
+  endOfFight  = false;
+  exitAsked   = false;
   mDead       = "";
+  getUI()->resetAll();
 }
 
 void CFightSystem::start(){
   // Start round
-	setState( curState->start( *this));
+  if ( vAlly.size() > 0 && vFoe.size() > 0){ 
+    setState( curState->start( *this));
+  }
 }
 
 bool 
@@ -202,7 +230,7 @@ CFightSystem::startRound(){
     std::for_each( vFoe.begin(),  vFoe.end(),  FillStack( qDef));
     getUI()->displayRole( TAG_ATTACKER, true);
     getUI()->displayRole( TAG_DEFENSER, false);
-    getUI()->displayInfo( "[A] to continue", true, LIGHT_RED);
+    getUI()->displayInfo( "[click] to continue", true, LIGHT_RED);
   }
   else{
     curFg = STATE_FOE_ALLY;
@@ -256,7 +284,7 @@ bool
 CFightSystem::curSkill(){
   // Selection de l attaque pour le tour en cours
   if ( curFg == STATE_ALLY_FOE){
-    getUI()->displayInfo( "[A] to continue", true, LIGHT_RED);
+    getUI()->displayInfo( "[click] to continue", true, LIGHT_RED);
   }
   // Peut fuire
   return true;
@@ -330,7 +358,7 @@ CFightSystem::nextRound(){
   }
   
   if ( curFg != STATE_ALLY_FOE){
-    getUI()->displayInfo( "[A] to continue", true, LIGHT_RED);
+    getUI()->displayInfo( "[click] to continue", true, LIGHT_RED);
   }
 
 }
@@ -343,14 +371,33 @@ void CFightSystem::next(){
 }
 
 void 
+CFightSystem::quit( ){
+  // Exit asked
+  exitAsked = true;
+  // Prepare end of fight
+  endOfFight = true;
+  // finish state
+  setState( new CRoundFinish);
+}
+
+void 
 CFightSystem::finishRound(){
   // Display winner
   getUI()->displayInfo( "Winner is " + qAtt.front().Name(), curFg == STATE_ALLY_FOE, LIGHT_BROWN, true);
   getUI()->consoleInfo( "Press [q] to quit Fight mode");
 }
 
-void 
-CFightSystem::updateFighters( EntityManager &em){
+bool 
+CFightSystem::checkExit( EntityManager &em){
+  //finishRound();
+  if ( exitAsked) {
+    // Set state to Init
+    setState( new CRoundInit);
+    // switch mode
+    em.setSwitch( "Main");
+  }
+  // exit
+  return exitAsked;
 }
 
 /*
@@ -382,7 +429,43 @@ void CFightSystem::init( EntityManager &em){
 
 // Update
 void CFightSystem::update( EntityManager &em, int now){
+  if ( exitAsked) {
+    em.destroyEntitiesByTag( "FoeInFight");
+    getUI()->resetRes( em);
+    em.getTagMng().resetTagCollection();
+  }
+  // Update UI
   curState->update(em, *this, now);
+}
+
+
+void 
+CFightSystem::updateStats( EntityManager &em, const std::string &tag, const bool ally){
+  CTagEntityMng::TEntityId id = em.getFirstByTag( tag);
+  Entity *e = em.getById( id);
+  if ( e) {
+    if ( curFg == STATE_ALLY_FOE) {
+      if ( ally){
+        e->addComponent( new Character( qAtt.front()));
+      }
+      else {
+        if ( !qDef.empty()) {
+        e->addComponent( new Character( qDef.front()));
+        }
+      }
+    }
+    
+    if ( curFg == STATE_FOE_ALLY) {
+      if ( !ally){
+        e->addComponent( new Character( qAtt.front()));
+      }
+      else {
+        if ( !qDef.empty()) {
+          e->addComponent( new Character( qDef.front()));
+        }
+      }
+    }
+  }
 }
 
 // Exit

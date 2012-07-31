@@ -46,23 +46,23 @@ def update(self, manager):
     collider = self.getComponent(cp.Collider.TYPE)
     for coll in collider.collisions:
         collentity = manager.getById(coll)
-        if "GOLD" in collentity.getTags():
+        if "GOLD" in manager.getTags(collentity):
             manager.destroyEntity(collentity)
             self.gold += 10
             self.addComponent(cp.Audio("coin", False))
             score = manager.getByTag("SCORE")[0]
             score.getComponent(cp.Visual.TYPE).text = ("Gold: %03d" % self.gold)
-        if "Foe" in collentity.getTags():
+        if "Foe" in manager.getTags(collentity):
             print("Enemy !!! banzai !!!")
-            manager.setSwitch("Fight")
             manager.tagEntity(collentity, "FoeInFight")
+            manager.setSwitch("Fight")
             
     if self.times == 0:
         print("TOTO: My id is %d and I have %d components: %s" %
               (self.id,
                len(self.components),
                ", ".join(c.typeName() for c in self.components)))
-        print("My tags are [%s]" % ", ".join(self.getTags()))
+        print("My tags are [%s]" % ", ".join(manager.getTags(self)))
         entities = manager.getEntities(cp.Transform.TYPE) #, cp.Visual)
         print("There are %d Transform entities" % len(entities))
         print("dict=%s" % self.getDict())

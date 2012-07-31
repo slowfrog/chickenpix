@@ -36,7 +36,7 @@ Notification::Notify(){
   while( it != mVNotifier.end() ){
     TMapNotifFunc::iterator itf = mMNotifFunc.find( (*it)->getType());
     if ( itf != mMNotifFunc.end() ){
-      TNotifFunc f = itf->second;
+      //TNotifFunc f = itf->second;
       (itf->second)( (*it));
     }
     it++;
