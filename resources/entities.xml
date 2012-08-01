@@ -250,7 +250,7 @@
 		</tags>
         <components>
             <component type="Transform">
-                <position x="290" y="475"/>
+                <position x="235" y="405"/>
             </component>
             <component type="Resources" kind="font" z-order="99">
                 <text>Chickenpix!</text>
