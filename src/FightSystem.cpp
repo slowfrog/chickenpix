@@ -230,7 +230,7 @@ CFightSystem::startRound(){
     std::for_each( vFoe.begin(),  vFoe.end(),  FillStack( qDef));
     getUI()->displayRole( TAG_ATTACKER, true);
     getUI()->displayRole( TAG_DEFENSER, false);
-    getUI()->displayInfo( "[click] to continue", true, LIGHT_RED);
+    getUI()->displayInfo( "choose action", true, LIGHT_RED);
   }
   else{
     curFg = STATE_FOE_ALLY;
@@ -284,7 +284,7 @@ bool
 CFightSystem::curSkill(){
   // Selection de l attaque pour le tour en cours
   if ( curFg == STATE_ALLY_FOE){
-    getUI()->displayInfo( "[click] to continue", true, LIGHT_RED);
+    getUI()->displayInfo( "choose action", true, LIGHT_RED);
   }
   // Peut fuire
   return true;
@@ -358,7 +358,7 @@ CFightSystem::nextRound(){
   }
   
   if ( curFg != STATE_ALLY_FOE){
-    getUI()->displayInfo( "[click] to continue", true, LIGHT_RED);
+    getUI()->displayInfo( "choose action", true, LIGHT_RED);
   }
 
 }

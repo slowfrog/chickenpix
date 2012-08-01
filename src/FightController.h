@@ -1,5 +1,6 @@
 #pragma once
 
+#include "InputState.h"
 #include "ButtonController.h"
 
 // Forwards
@@ -14,9 +15,9 @@ private:
   ~FightController() {};
   
 protected:
-  //void checkPos( const InputState::MousePos&);
-public:
-  
+  static void checkPos( const InputState::MousePos&);
+
+public:  
   static
   void update(EntityManager &em, Entity &entity, const InputState &input,
               int now);

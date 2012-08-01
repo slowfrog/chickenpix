@@ -47,6 +47,9 @@
 #define START_CONSOLE_X     -380
 #define START_CONSOLE_Y     105
 
+#define START_ATTACK_X      -354
+#define START_ATTACK_Y      46
+
 #define LENGHT_TXT          100
 #define DELTA_SKILL         65
 #define ROUND_LENGTH        85
@@ -194,6 +197,18 @@ UIStats::addStatsFighters( const Character *c, const bool isAlly){
                                 (isAlly)?START_ALLY_ROUND_X:START_FOE_ROUND_X, 
                                 (isAlly)?START_ALLY_ROUND_Y:START_FOE_ROUND_Y, 
                                 HIGH_YELLOW));
+  
+  // Icons fight
+  mStaticRes.push_back( sInfoRs( "attack", 
+                                START_ATTACK_X, 
+                                START_ATTACK_Y
+                                ));
+  
+  mStaticRes.push_back( sInfoRs( "quit", 
+                                START_ATTACK_X+70, 
+                                START_ATTACK_Y
+                                ));
+  
   // Name
   mDynamicRes.insert( std::make_pair(TAG_NAME + c->Name(), 
                                      sInfoRs(c->Name(), FONT_N, 

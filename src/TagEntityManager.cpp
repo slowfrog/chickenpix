@@ -205,29 +205,29 @@ CTagEntityMng::toString(){
   // List of entity by tag (non unique)
   TMTagEntityId::iterator it = mTagE.begin();
   while( it != mTagE.end()){
-    std::cout<<"Tag ["<<(*it).first<<"] : list of entities ";
+    LOG2<<"Tag ["<<(*it).first<<"] : list of entities ";
     for( std::size_t ind=0; ind<(*it).second.size(); ind++)
-      std::cout<<"["<<(*it).second[ind]<<"], ";
-    std::cout<<std::endl;
+      LOG2<<"["<<(*it).second[ind]<<"], ";
+    LOG2<<"\n";
     it++;
   }
   
   // Unique tag by entity
   TMTagId::iterator itu = mTagEU.begin();
   while( itu != mTagEU.end()){
-    std::cout<<"TagU ["<<(*itu).first<<"] ="<<"{"<<(*itu).second<<"}"<<std::endl;
+    LOG2<<"TagU ["<<(*itu).first<<"] ="<<"{"<<(*itu).second<<"}\n";
     itu++;
   }
   
   // List of tag by entity    
   TMEntityIdTag::iterator itt = mETag.begin();
   while( itt != mETag.end()){
-    std::cout<<"Entity ["<<(*itt).first<<"] : list of tag ";
+    LOG2<<"Entity ["<<(*itt).first<<"] : list of tag ";
     for( std::size_t ind=0; ind<(*itt).second.size(); ind++)
-      std::cout<<"["<<(*itt).second[ind]<<"], ";
-    std::cout<<std::endl;
+      LOG2<<"["<<(*itt).second[ind]<<"], ";
+    LOG2<<"\n";
     itt++;
   }
-  std::cout<<std::endl;
+  LOG2<<"\n";
 }
 

@@ -38,6 +38,8 @@
       <image name="richard"><image file="img/richard.png" /></image>
       <image name="wall"><image file="img/wall.png" /></image>
       <image name="FightMap"><image file="img/FightMap.png"/></image>
+      <image name="attack"><image file="img/attack.png"/></image>
+      <image name="quit"><image file="img/quit.png"/></image>
     </section>
     
     <!-- Sprites -->
