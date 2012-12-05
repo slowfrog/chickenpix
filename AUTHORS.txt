@@ -13,6 +13,7 @@ Asset attribution
 Assets were authored by the following people:
 
 Emmanuel Etasse
+~~~~~~~~~~~~~~~
  - cochon.png
  - garcon_des_rues.png
  - magicien.png
@@ -22,6 +23,18 @@ Emmanuel Etasse
  - richard_walkcycle.png
  - wall.png
 
+Laurent Vaucher (with the help of sfxr)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ - coin.wav
+ 
+LPC Participant: Brandon
+~~~~~~~~~~~~~~~~~~~~~~~~
+ - CalmTown.ogg
+
+Astigmatic (on Google Web Fonts)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ - BerkshireSwash-Regular.ttf
+ 
 
  Base assets provided by
 -----------------------
