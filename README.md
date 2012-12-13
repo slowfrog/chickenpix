@@ -26,15 +26,19 @@ other using SFML. If you only want one version of the game, you can run
 either,
 
 for the SFML version:
+
     $ make smain
 
 for the ClanLib version:
+
     $ make clmain
 
 Run the SFML version from the chickenpix directory with:
+
     $ ./smain
 
 Run the ClanLib version from the chickenpix directory with:
+
     $ ./clmain
 
 
